@@ -1,0 +1,214 @@
+---
+title: "Evaluación de modelos y regularización"
+lang: es
+---
+
+# Evaluación de modelos
+
+Hemos visto cómo entrenar una red neuronal para que aprenda a predecir. Ahora vamos a repasar cómo evaluar el rendimiento de una red neuronal. Usaremos las mismas técnicas que vimos para evaluar el rendimiento de cualquier modelo de aprendizaje supervisado. Sin embargo, las redes neuronales tienen un par de particularidades, como el llamado "descenso doble" (double descent).
+
+Luego veremos cómo regularizar las redes neuronales para evitar el sobreajuste y mejorar su generalización. De nuevo empezaremos con un repaso de lo visto para cualquier modelo de aprendizaje supervisado. En el sentido estricto, la regularización se refiere a métodos para restringir el espacio de búsqueda de modelos, es decir, para limitar la complejidad del modelo. Sin embargo, en la práctica, la regularización suele referirse a métodos que reducen el error de generalización. Veremos algunos de esos métodos al final de estas notas.
+
+## Repaso de varianza, sesgo y error irreducible
+
+Recordemos que el error de generalización consiste en el error que comete un modelo entrenado con un conjunto de datos al intentar predecir el valor de una nueva observación. Este error viene de tres fuentes:
+
+1. **Varianza**: Mide la variabilidad del modelo.
+2. **Sesgo**: Mide el error sistemático del modelo.
+3. **Error irreducible**: Mide el error que no puede ser reducido por el modelo.
+
+### Intuición
+
+Primero repasemos de manera intuitiva cada una de estas fuentes de error.
+
+- **Varianza**: Mide la variabilidad del modelo. Es decir, cuánto cambia la predicción del modelo al cambiar el conjunto de datos de entrenamiento. Un modelo con alta varianza es poco fiable: El hecho que la predicción cambie mucho al cambiar el conjunto de datos de entrenamiento indica que el modelo está ajustando demasiado a las particularidades de esos datos. No nos esperamos que haga una buena predicción en un dato no visto.
+
+- **Sesgo**: Mide el error sistemático del modelo. Es decir, cuánto se desvía la predicción del modelo de la verdadera relación entre las variables. Un modelo con alto sesgo subestima o sobreestima sistemáticamente el valor de las predicciones. Usualmente ocurre cuando el modelo es demasiado simple para el problema que estamos modelando. De nuevo, un modelo con alto sesgo es poco fiable: Si el modelo es demasiado simple, no puede capturar la verdadera relación entre las variables, y por lo tanto no es capaz de hacer predicciones precisas.
+
+- **Error irreducible**: Mide el error que no puede ser reducido por el modelo. Es decir, el error que existiría incluso si tuviéramos acceso a un conjunto de datos infinito. Este error es intrínseco al problema que estamos modelando. Este puede venir por errores en las mediciones de las variables, o porque la respuesta que queremos predecir depende de variables no observadas, o tiene una naturaleza estocástica.
+
+### Formulación matemática
+
+
+Veamos matemáticamente cómo aparecen estas tres fuentes de error.
+Supongamos que tenemos un conjunto de datos de entrenamiento $D = \{(x_i, y_i)\}_{i=1}^n$, donde $x_i$ es un vector de características y $y_i$ es la respuesta que queremos predecir. Supongamos que la respuesta $y$ sigue una distribución de probabilidad $P(y|x)$ con media $\mu(x)$ y varianza fija $\sigma^2$. Calculemos la pérdida de error cuadrático medio (MSE) de un modelo $h$ que intenta predecir $y$ a partir de $x$. La predicción del modelo $f(x;\theta)$ es una función de los parámetros $\theta$ del modelo.
+
+$$
+\begin{multline}
+\langle\mathcal{J}(h)\rangle_{y|x} = \langle(f(x;\theta) - y)^2\rangle_{y|x} = \langle(f(x;\theta) - \mu(x))^2 + 2(f(x;\theta) - \mu(x))(y - \mu(x)) + (y - \mu(x))^2\rangle_{y|x} \\ = \langle(f(x;\theta) - \mu(x))^2\rangle_{y|x} + \sigma^2\,.
+\end{multline}
+$$
+
+Aquí hemos logrado separar el error en dos términos: La diferencia cuadrática media entre la predicción y la media, más una varianza en los datos. Esta varianza de los datos es intrínseca al problema, y no puede ser reducida por el modelo. Podemos intentar reducir el primer término, ya que podemos mejorar nuestra predicción $f(x;\theta)$ para que se acerque más a la media $\mu(x)$. Note que para simplificar el álgebra, hemos tomado el valor esperado teniendo los datos de entrenamiento fijos, tal que sólo $y$ varía de acuerdo a la distribución $P(y|x)$.
+
+Ese error reducible se puede descomponer adicionalmente 
+
+$$
+\langle\mathcal{J}(h)\rangle = \langle(f(x;\theta) - \langle f(x;\theta)\rangle)^2\rangle + \langle(\langle f(x;\theta)\rangle - \mu(x))^2\rangle + \sigma^2\,.
+$$
+
+El primer término representa la fluctuación de la predicción del modelo alrededor de su valor esperado. Es decir, mide la varianza del modelo o cuánto cambia la predicción del modelo al cambiar el conjunto de datos de entrenamiento. El segundo término representa el error sistemático del modelo, es decir, cuánto se desvía la predicción del modelo de la verdadera relación entre las variables. Este representa el sesgo del modelo.
+
+### Tensión entre sesgo y varianza
+
+Podemos intentar reducir el error debido al sesgo y la varianza. Para obtener un mejor sesgo, podemos usar un modelo más complejo. Sin embargo, un modelo más complejo tiende a ajustarse a las particularidades del conjunto de datos de entrenamiento, lo que aumenta la varianza. La manera de resolver este problema es mediante el uso de modelos más sencillos que no sobreajusten, o mediante el uso de técnicas de regularización que amortigüen el efecto de los muchos parámetros libres de los modelos más complejos. 
+
+Una alternativa que reduce la varianza es aumentar el conjunto de datos de entrenamiento. Esto mejora los resultados ya que la varianza se reduce con más datos.
+
+Recientemente se ha observado un fenómeno conocido como "descenso doble" (double descent), en el cual el modelo tiene un menor error de generalización para algunos modelos extremadamente complejos. Se cree que esto se debe a una regularización implícita, como discutimos en la siguiente sección.
+
+## Descenso doble (Double descent)
+
+Para las redes neuronales, la tensión entre sesgo y varianza tiene un aspecto interesante. Lo que dice el aprendizaje automático clásico es que al aumentar el número de parámetros del modelo, éste se ajusta más al ruido y por lo tanto el error de generalización aumenta. Esto podría ser un problema para las redes neuronales que tienen un número enorme de parámetros, a veces mucho mayor que el número de observaciones de entrenamiento. 
+
+Sin embargo, se ha observado que para ciertos modelos, el error de generalización puede disminuir con el aumento del número de parámetros. Esto se llama "descenso doble" (double descent). Es decir, el error de generalización tiene tres regiones:
+
+- Cuando la red tiene muy pocos parámetros, el error de generalización es alto debido a que el modelo no tiene suficiente libertad para ajustarse a los datos. El modelo tiene un alto sesgo. A medida que se aumentan el número de parámetros, el sesgo baja y el error de generalización disminuye hasta un mínimo. 
+
+- Si se sigue aumentando el número de parámetros, el error de generalización aumenta. Esto se debe a que el modelo se ajusta más al ruido y por lo tanto el error de generalización aumenta. El modelo tiene una alta varianza. Esto ocurre hasta un punto en el que el número de parámetros es comparable al número de datos.
+
+- Si se sigue aumentando el número de parámetros, ¡el error de generalización disminuye de nuevo!. Puede incluso alcanzar valores menores que el mínimo encontrado en la primera región. Esto es lo que se llama **descenso doble** (double descent).
+
+El origen de este fenómeno no se entiende del todo bien. Se cree que es una mezcla entre una regularización implícita y la alta dimensionalidad de los datos.
+
+**Alta dimensionalidad**: En algunos problemas, el número de dimensiones de los datos es alto. Los espacios de alta dimensionalidad tienen propiedades poco intuitivas. Por ejemplo, la mayoría del volumen de una hiperesfera de alta dimensión está cerca de la superficie (la mayoría del jugo de una hipernaranja viene de cerca de la cáscara). Si lanzamos puntos de forma aleatoria en un espacio de alta dimensionalidad, sus vectores de posición son casi ortogonales. Además, la distancia entre dos puntos típicos crece exponencialmente con el número de dimensiones. Entonces, si ajustamos un modelo con muchos parámetros a muchos datos, sigue siendo verdad que el modelo se ajustará al ruido. Sin embargo, si tomamos un nuevo dato, este estará lejos de todos los datos de entrenamiento. Por lo tanto, el modelo deberá interpolar para el nuevo dato.
+
+**Regularización implícita**: Cuando el número de parámetros es muy grande, las redes neuronales tienden a producir funciones suaves en las regiones donde los datos son escasos. Arriba dijimos que cuando la dimensión es alta la red se ve obligada a interpolar ya que un dato típico está lejos de todos los datos de entrenamiento. Por lo tanto, la interpolación para un nuevo dato será en una región donde el modelo da una función suave con poca varianza. Por esto el error de generalización es menor de lo esperado. Aún no se sabe del todo bien por qué las redes neuronales tienden a producir funciones suaves en las regiones de interpolación.
+
+La figura 8.10 del libro ilustra el fenómeno de descenso doble.
+
+## Búsqueda de hiperparámetros
+
+Las redes neuronales que hemos visto tienen varios hiperparámetros: Número de capas escondidas, número de neuronas por cada capa, tasa de aprendizaje y otros dependiendo del algoritmo de descenso de gradiente. Además veremos muchas otras arquitecturas que pueden ser usadas para diferentes problemas. Entonces necesitamos alguna manera de escoger la arquitectura y los hiperparámetros adecuados para cada caso. 
+
+El problema es que el espacio de parámetros es de una dimensión muy alta y además algunos de estos no son continuos (no podemos tener 3.58 capas escondidas). Esto hace que no podamos usar algo como descenso de gradiente en dicho espacio.
+
+Una manera de hacerlo es estimar la distribución de probabilidad del error de generalización como función de los parámetros. Es decir, asumimos que dado un conjunto de hiperparámetros $p$, el error de generalización es una variable aleatoria dada por una distribución. Si tuviéramos una manera de estimarla, podríamos escoger los que maximizan esa probabilidad. Lamentablemente, esto es un problema extremadamente difícil. 
+
+Lo mejor que podemos hacer es ajustar el modelo para una serie de datos, medir el desempeño en estos y usar esto para ajustar un modelo de esa distribución. Luego se escogen nuevos hiperparámetros a partir de esa distribución estimada y se itera. Esto se hace bien sea con estrategias bayesianas, árboles de deisión, entre otros.
+
+Otra forma de explorar el espacio de parámetros es el *hiberbanda*. En este, ajustamos muchos modelos por muy pocas épocas. Luego se escogen la fracción $\eta$ de los mejores entre ellos y se aumenta el número de epocas por $1/\eta$, y se itera.
+
+Existen librerías que implementan ambos métodos.
+
+# Regularización
+
+Cuando estudiamos la regresión lineal, vimos que podemos restringir los valores de los parámetros usando un término de regularización en la función de pérdida. Esto tiene el efecto de disminuir la libertad del modelo a pesar de tener un número grande de hiperparámetros. Eso reduce el sobreajuste.
+
+Podemos aplicar la misma estrategia a las redes neuronales. Resulta que además se ha demostrado que estas ya están regularizadas de forma natural, lo que se llama regularización implícita. El término regularización se ha ampliado para incluír varias estrategias que reducen el sobreajuste.
+
+## Regularización explícita
+
+La regularización explícita consiste en agregarle términos a la función de pérdida que penalicen los parámetros que se salen de un cierto rango. Por ejemplo, vimos la regularización L2. En redes neuronales, es frecuente usar la pérdida modificadoa
+$$
+\mathcal{J} + \lambda \sum_{ij} W_{ij}^2\,.
+$$
+Esto hace que la red prefiera pesos pequeños. Es decir, el modelo tiene un rango restringido para los pesos. Al reducir su libertad, ayudamos a que no haga sobreajuste.
+
+Matemáticamente la regularización se puede ver como una probabilidad previa para los parámetros. Es decir, nuestra verosimilitud ahora consiste en $e^{-\mathcal{J}}P(W)$, donde $P(W)$ es la distribución previa de los pesos (gaussiana en el caso de L2).
+
+
+## Regularización implícita
+
+Para las redes neuronales se cree que además hay una regularización implícita. Es decir, la red aprende a regularizar los pesos en el sentido discutido en la sección de doble descenso. Además, el método de descenso de gradiente también contribuye a esta regularización.
+
+### Regularización por descenso de gradiente
+
+Recordemos que el descenso de gradiente consiste en seguir la dirección de máximo descenso en el espacio de parámetros. Estrictamente esto es resolver la ecuación diferencial 
+$$
+\frac{d \theta_i}{dt} = -\nabla_i \mathcal{J}\,,
+$$
+donde $\theta_i$ son los parámetros. Esto se aproxima actualizando los parámetros haciendo $\theta_{i+1} = \theta_i - \eta\nabla_i \mathcal{J}$ (corresponde al método de Euler). Pero resulta que esa aproximación tiene un error tal que no se sigue la trayectoria exactamente. Demostramos más abajo que la trayectoria minimiza la pérdida modificada 
+$$
+\tilde{\mathcal{J}} = \mathcal{J} + \frac{\eta}{4}\left|\nabla_\theta \mathcal{J}\right|^2 + \frac{\eta}{4B}\sum_{i=1}^B\left|\nabla_\theta\mathcal{J}_b - \nabla_\theta\mathcal{J}\right|^2\,,
+$$ {#eq-perdida-modificada}
+donde $B$ es el número de lotes, y $\mathcal{J}_b$ es la pérdida para el lote $b$. Entonces la trayectoria verdadera se aleja de las regiones con gradiente grande, prefiriendo trayectorias más planas. Además va a preferir parámetros **estables**, que dan pérdidas similares para los diferentes lotes (es decir sobre conjuntos distintos de datos), reduciendo la varianza.
+
+También aprendemos que a mayor tasa de aprendizaje, mayor esta regularización. Así mismo, para números pequeños de elementos por lote mayor la regularización. Esto se ha observado empíricamente: Cuando la memoria aumentó mucho, aumentar el número de elementos por mini-lote no aportaba la ganancia esperada tal vez porque se perdía esta regularización.
+
+::: {.callout-note collapse=true}
+
+## Deducción de la @eq-perdida-modificada
+
+Asumamos que realizamos el descenso de gradiente sin mini-lotes. El descenso de gradiente es sólo la aproximación de Euler de la trayectoria que sigue el gradiente. Busquemos la ecuación diferencial que describe la trayectoria seguida por el descenso de gradiente aproximado. Es decir, escribimos
+
+$$
+\frac{d}{dt} \boldsymbol{\theta} = -\nabla_\boldsymbol{\theta}\mathcal{J} + \eta \boldsymbol{g}\,
+$$
+
+donde $\boldsymbol{g}$ es un vector tal que la trayectoria seguida por esta ecuación es igual a la aproximación discreta de Euler, y $\eta$ es el tamaño de paso que controla el error de aproximación. Ahora usamos la aproximación de Taylor para calcular
+
+$$
+\boldsymbol{\theta}(t+\eta) = \boldsymbol{\theta}(t) + \eta \frac{d}{dt}\boldsymbol{\theta}(t) + \frac{1}{2}\eta^2 \frac{d^2}{dt^2}\boldsymbol{\theta}(t) + \mathcal{O}(\eta^3)\,.
+$$
+
+Ahora reemplazamos la ecuación diferencial en la ecuación anterior:
+
+$$
+\boldsymbol{\theta}(t+\eta) = \boldsymbol{\theta}(t) + \eta \left(-\nabla_\boldsymbol{\theta}\mathcal{J} + \eta\boldsymbol{g}\right) + \frac{1}{2}\eta^2 \frac{d}{dt}\left(-\nabla_\boldsymbol{\theta}\mathcal{J} + \eta\boldsymbol{g}\right) + \mathcal{O}(\eta^3)\,.
+$$
+
+Desarrollando el término de segundo orden:
+
+$$
+\boldsymbol{\theta}(t+\eta) = \boldsymbol{\theta}(t) - \eta \nabla_\boldsymbol{\theta}\mathcal{J} + \eta^2 \left(- \frac{1}{2} \frac{d}{dt}\nabla_\boldsymbol{\theta}\mathcal{J} + \boldsymbol{g}\right) + \mathcal{O}(\eta^3)\,.
+$$
+
+Desarrollando la derivada temporal del gradiente de la pérdida:
+
+$$
+\begin{align}
+\boldsymbol{\theta}(t+\eta) &= \boldsymbol{\theta}(t) - \eta \nabla_\boldsymbol{\theta}\mathcal{J} + \eta^2 \left(- \frac{1}{2} \frac{d}{dt}\boldsymbol{\theta}\cdot\nabla_\boldsymbol{\theta}\left(\nabla_\boldsymbol{\theta}\mathcal{J}\right) + \boldsymbol{g}\right) + \mathcal{O}(\eta^3) \\
+&= \boldsymbol{\theta}(t) - \eta \nabla_\boldsymbol{\theta}\mathcal{J} + \eta^2 \left(\frac{1}{2} \nabla_{\boldsymbol{\theta}}\mathcal{J}\cdot\nabla_\boldsymbol{\theta}\left(\nabla_\boldsymbol{\theta}\mathcal{J}\right) + \boldsymbol{g}\right) + \mathcal{O}(\eta^3)\,,
+\end{align}
+$$
+
+Note que los primeros dos términos son iguales a la aproximación usada para el descenso de gradiente. Entonces, para que la trayectoria seguida por la ecuación diferencial sea la misma que la trayectoria seguida por el descenso de gradiente, debemos tener 
+
+$$
+\boldsymbol{g} = -\frac{1}{2}\nabla_\boldsymbol{\theta}\mathcal{J}\cdot\nabla_\boldsymbol{\theta}\left(\nabla_{\boldsymbol{\theta}}\mathcal{J}\right)\,.
+$$
+
+Entonces la trayectoria del descenso de gradiente está bien descrita por la ecuación diferencial
+
+$$
+\frac{d}{dt}\boldsymbol{\theta} = -\nabla_\boldsymbol{\theta}\mathcal{J} - \frac{\eta}{2}\nabla_\boldsymbol{\theta}\mathcal{J}\cdot\nabla_\boldsymbol{\theta}\left(\nabla_{\boldsymbol{\theta}}\mathcal{J}\right) = -\nabla_\boldsymbol{\theta}\left[\mathcal{J} + \frac{\eta}{4}\left|\nabla_\boldsymbol{\theta}\mathcal{J}\right|^2\right]\,.
+$$
+
+Es decir, la verdadera trayectoria del descenso de gradiente aproximado de forma discreta (por pasos) es la trayectoria que minimiza la pérdida modificada por el segundo término dentro del paréntesis cuadrado, que aparece en la @eq-perdida-modificada.
+
+Finalmente, si entrenamos usando mini-lotes, esto introducirá una varianza en la estimación del gradiente de la pérdida. Podemos aproximar esa varianza por medio del último término de la @eq-perdida-modificada.
+
+:::
+
+## Métodos para reducir el error de generalización
+
+El término regularización se ha extendido para referirse a técnicas que reducen el error de generalización. Algunas de las más usadas son:
+
+**Parado temprano (early stopping)** 
+
+Este método consiste en detener el entrenamiento antes de que el modelo comience a sobreajustarse. Podemos usar un conjunto de validación para monitorear el rendimiento del modelo, es decir, medimos la pérdida en el conjunto de validación como aproximación al error de generalización. La pérdida sobre el conjunto de entrenamiento seguirá disminuyendo durante el entrenamiento, mientras que la pérdida sobre el conjunto de validación comenzará a aumentar cuando el modelo comienza a sobreajustarse o permanecerá constante cuando el modelo no está ganando más información. Para evitar ese sobreajuste, podemos detener el entrenamiento cuando observamos que la pérdida sobre el conjunto de validación comienza a aumentar o deja de mejorar.
+
+**Ensamblado**
+
+Esta técnica implica combinar múltiples modelos para hacer predicciones. Cada modelo se entrena de manera independiente y luego sus predicciones se combinan, generalmente mediante promedio o votación. Esto reduce la varianza y mejora la generalización, ya que los errores de los modelos individuales tienden a cancelarse entre sí. Esto lo vimos cuando estudiamo árboles de decisión. Como se discutió [en esa clase](9_arboles_bosques_boosting.qmd), las principales técnicas son bagging y boosting.
+
+**Aumentación de datos**
+
+Este método consiste en aumentar artificialmente el tamaño del conjunto de entrenamiento mediante la creación de nuevas muestras a partir de las existentes. Un ejemplo de esto en el caso de clasificación de imágenes es aplicando transformaciones a las imágenes del conjunto de entrenamiento que preservan la etiqueta, como rotaciones, traslaciones o cambios de escala. Ayuda a reducir el sobreajuste al exponer el modelo a una mayor variedad de ejemplos.
+
+**Dropout**
+
+Esta técnica consiste en desactivar aleatoriamente un cierto porcentaje de neuronas durante cada iteración del entrenamiento. Esto fuerza a la red a aprender características más robustas que no dependan de neuronas específicas, reduciendo así el sobreajuste y mejorando la generalización. Es decir, durante cada época, un porcentaje de las neuronas se desactivan aleatoriamente. El conjunto que se desactiva cambia de una época a otra. Esto hace que el modelo aprenda características que son robustas y por lo tanto reduce la varianza. Intutitivamente es como promediar sobre muchos modelos.
+
+**Agregar ruido a los pesos**
+
+Este método implica añadir pequeñas perturbaciones aleatorias a los pesos de la red durante el entrenamiento. Esto puede ayudar a que el modelo sea más robusto en el sentido que un pequeño cambio en los pesos no afecte mucho la predicción. Esto reduce la varianza y por ende el sobreajuste.
+
+**Transfer learning y multi-task learning**
+
+El transfer learning consiste en utilizar un modelo pre-entrenado en una tarea similar y ajustarlo para la tarea específica, aprovechando así el conocimiento adquirido previamente. El multi-task learning implica entrenar un modelo para realizar múltiples tareas simultáneamente, lo que puede mejorar la generalización al forzar al modelo a aprender representaciones más generales y robustas. Veremos ejemplos de esto en clases posteriores.
+
+# Ejercicios sugeridos
+
+8.3, 8.4, 8.5, 9.1, 9.5

@@ -1,0 +1,185 @@
+---
+title: "Transformadores y el mecanismo de atención"
+lang: es
+---
+
+Los transformadores son una arquitectura de red neuronal que ha demostrado ser muy efectiva en el procesamiento del lenguaje natural y en la clasificación de imágenes. Están detrás de los chatbots que han catapultado este campo a la primera página de los periódicos. 
+
+# Procesamiento de datos textuales
+
+Consideremos un texto sencillo, como: "El perro no quiere jugar, pero el niño sí. Le dijimos que vaya a jugar a otra parte." Vemos inmediatamente tres características:
+
+- El texto tiene una longitud variable. Esto sugiere usar una arquitectura tal que se compartan parámetros entre las diferentes posiciones del texto. (Algo similar a lo hecho con redes convolucionales.)
+- Incluso esta frase sencilla representa un problema de alta dimensionalidad. Si codificamos cada palabra en un vector de $1024$ dimensiones, el texto tiene $18$ palabras, entonces tenemos $18 \times 1024 = 18432$ parámetros. 
+- La palabra "le" se refiere a uno de los sujetos de la frase anterior. Esto sugiere que para decodificar su significado, debe prestarle "atención" a otra parte del texto.
+
+# Auto-atención
+
+El mecanismo de atención permite a la red prestarle "atención" a diferentes partes del texto. Para lograrlo, primero queremos darle un poco de libertad al modelo, tomando combinaciones de las variables
+
+$$
+\boldsymbol{v} = \boldsymbol{W}_v\boldsymbol{x} + \boldsymbol{\beta}_v\,,
+$$
+
+que son llamados los "valores". Los usamos en vez de usar directamente $\boldsymbol{x}$ para que el modelo pueda aprender cuáles combinaciones de variables son útiles para predecir la respuesta. Si la variable $\boldsymbol{x}$ tiene dimensión $D$, la matriz $\boldsymbol{W}_v$ tiene dimensión $D \times D_v$ y el vector $\boldsymbol{\beta}_v$ tiene dimensión $D_v$. Esto nos da un total de $D \times D_v + D_v = D(D_v + 1)$ parámetros.
+
+Luego la *auto-atención* está dada por
+
+$$
+\boldsymbol{a}_n[\boldsymbol{x}_1, ..., \boldsymbol{x}_N] = \sum_{m=1}^N a(\boldsymbol{x}_m, \boldsymbol{x}_n)\boldsymbol{v}_m\,,
+$$
+
+y $a(\boldsymbol{x}_m, \boldsymbol{x}_n)$ son los "pesos de atención" y representan la importancia de la posición $m$ para la posición $n$. 
+
+Esto se ilustra en la figura 12.1 del libro.
+
+## Calculando los pesos de atención
+
+Para calcular estos pesos de atención, primero definimos dos nuevas combinaciones de variables llamadas "queries" $\boldsymbol{q}$ y "keys" $\boldsymbol{k}$ (en español se podrían llamar "consultas" y "claves", y tienen estos nombres por razones históricas) dadas por
+
+$$
+\boldsymbol{q}_n = \boldsymbol{W}_q\boldsymbol{x}_n + \boldsymbol{\beta}_q\,,
+$$
+
+y
+
+$$
+\boldsymbol{k}_m = \boldsymbol{W}_k\boldsymbol{x}_m + \boldsymbol{\beta}_k\,,
+$$
+
+respectivamente. En principio, los vectores $\boldsymbol{q}$ y $\boldsymbol{k}$ tienen dimensión $D_q$ que puede ser diferente de la dimensión $D$ de los vectores $\boldsymbol{x}$. Entonces estas combinaciones introducen otros $2D_q (D + 1)$ parámetros.
+
+Luego, en la llada "atención de producto punto" calculamos el producto punto entre $\boldsymbol{q}_m$ y $\boldsymbol{k}_n$ y lo ponemos en una función softmax
+
+$$
+a(\boldsymbol{x}_m, \boldsymbol{x}_n) = \text{softmax}\left(\boldsymbol{k}_m^T\boldsymbol{q}_n\right) = \frac{\exp\left(\boldsymbol{k}_m^T\boldsymbol{q}_n\right)}{\sum_{m=1}^N \exp\left(\boldsymbol{k}_m^T\boldsymbol{q}_n\right)}\,.
+$$
+
+Recordemos que la función softmax es una función que regresa un valor entre $0$ y $1$ que suma $1$ cuando se suman todos los valores. Entonces la atención nos da el peso de cada posición $m$ para la posición $n$, siendo $1$ cuando la posición $m$ es la más relevante para la posición $n$ y $0$ cuando no es relevante.
+
+Note que los coeficientes de atención $a(\boldsymbol{x}_m, \boldsymbol{x}_n)$ forman una matriz $N \times N$. 
+
+El cálculo de los pesos de atención se ilustra en la figura 12.3 del libro.
+
+Usando notación matricial, podemos escribir los datos $N$ datos $\boldsymbol{x}$ como una matriz $D \times N$, donde cada columna es un dato, tal que los valores, llaves y consultas son
+$$
+\boldsymbol{V} = \boldsymbol{W}_v\boldsymbol{X} + \boldsymbol{\beta}_v\boldsymbol{1}_{N}^T\,,
+$$
+$$
+\boldsymbol{K} = \boldsymbol{W}_k\boldsymbol{X} + \boldsymbol{\beta}_k\boldsymbol{1}_{N}^T\,,
+$$
+y
+$$
+\boldsymbol{Q} = \boldsymbol{W}_q\boldsymbol{X} + \boldsymbol{\beta}_q\boldsymbol{1}_{N}^T\,,
+$$
+
+donde $\boldsymbol{1}_{N}$ es un vector de $N$ unos y los productos son productos matriciales. Ahora los valores son matrices $D \times N$, y las llaves y consultas son vectores $D_q \times N$. La atención se puede representar como
+
+$$
+\boldsymbol{a} = \text{softmax}_\text{rows}\left(\boldsymbol{K}^T\boldsymbol{Q}\right)^T\boldsymbol{V}\,.
+$$
+
+Aquí la función softmax se aplica por filas, es decir, para cada fila $n$ de la matriz $\boldsymbol{K}^T\boldsymbol{Q}$, se aplica la función softmax para obtener la fila $n$ de la matriz $\text{softmax}_\text{rows}(\boldsymbol{K}^T\boldsymbol{Q})$.
+
+Esta versión matricial se ilustra en la figura 12.4 del libro.
+
+# Detalles adicionales importantes
+
+Para el uso del mecanismo de atención, necesitamos tomar en cuenta tres detalles importantes
+
+## Escalado de la atención
+
+En la práctica, el producto punto entre las llaves y las consultas puede volverse muy grande, lo que puede hacer que la softmax tenga problemas numéricos. Por lo tanto, se escala el producto punto entre las llaves y las consultas por la raíz cuadrada de la dimensión de las llaves. Es decir,
+
+$$
+a(\boldsymbol{x}_m, \boldsymbol{x}_n) = \text{softmax}\left(\frac{\boldsymbol{k}_m^T\boldsymbol{q}_n}{\sqrt{D_q}}\right)\,.
+$$
+
+## Codificación posicional (positional encoding)
+
+Como se ha implementado arriba, la atención es equivariante bajo intercambio de las posiciones en la frase. Sin embargo, sabemos que las posiciones de las palabras pueden cambiar el significado de la frase. Por ejemplo la frase "el perro mordió al niño" es diferente a la frase "el niño mordió al perro". Por lo tanto, para darle a la red información sobre la posición de las palabras, se le da una codificación posicional adicional. En su versión más sencilla esta codificación es una matriz $D \times N$ que se suma a la matriz $\boldsymbol{X}$.
+
+Cuando se tienen pocos datos, esta matriz se puede fijar tal que cada columna sea una función distinta de la posición. Se usan con frecuencia matrices explotando las propiedades de las funciones trigonométricas para que la codificación posicional sea periódica, tal que se tiene información sobre la distancia relativa entre dos posiciones.
+
+Para los grandes modelos de lenguaje, la codificación posicional es un conjunto de parámetros adicionales que el modelo aprende.
+
+Una matriz posicional se muestra en la figura 12.5 del libro.
+
+## Atención con múltiples cabezas
+
+Una manera de hacer más robusta la atención es usar múltiples cabezas de atención. Es decir, en lugar de usar una sola matriz de valores, llaves y consultas, se usan $h$ matrices de valores, llaves y consultas para producir $h$ resultados de atención. Esto hace que el modelo sea más robusto en el sentido que cada cabeza puede codificar diferentes aspectos de la información, lo que puede ser útil para diferentes tareas. 
+
+Esto hace el modelo más robusto a la variación de los datos y puede mejorar el rendimiento en tareas donde la información es dispersa.
+
+En la práctica, cuando se usan $h$ cabezas, se escoge la dimensión $D_q$ tal que $D_q = \frac{D}{h}$. Esto además reduce la complejidad del modelo, ya que al calcular el producto punto entre las llaves y las consultas $\boldsymbol{k}_m^T\boldsymbol{q}_n$, se reduce el número de parámetros y multiplicaciones.
+
+Un ejemplo de atención con múltiples cabezas se muestra en la figura 12.6 del libro.
+
+# El transformador
+
+El transformador consiste en una capa que incorpora:
+
+1. Una capa de atención con conexión residual.
+2. Una capa de normalización por capa (layer normalization), explicada más abajo.
+3. Una capa de feedforward con conexión residual.
+4. Otra capa de normalización por capa.
+
+Podemos ver la arquitectura del transformador en la figura 12.7 del libro.
+
+Lo que hace la capa de normalización por capa es similar a BatchNorm que vimos antes, pero en lugar de normalizar por el valor promedio y la desviación estándar de los datos en un mini-lote, normaliza por el valor promedio y la desviación estándar para cada dato a lo largo de las $D$ dimensiones de entrada. Esto se hace porque se observa que los valores por mini-lote pueden variar mucho y desestabilizan el entrenamiento.
+
+# Tokens
+
+Antes de aplicar el transformador a un problema de lenguaje, debemos convertir el texto en una secuencia de números $\boldsymbol{x}$. Esto involucra dos pasos: Primero debemos partir el texto en sus componentes básicas, llamadas tokens.
+
+Una manera de hacerlo es partir el texto en las palabras que lo componen. Pero esto pone varios problemas:
+
+- Algunas palabras a la hora de usar el modelo pueden no estar en el conjunto de entrenamiento y aún así tener significado claro. Por ejemplo palabras compuestas.
+- Necesitamos tomar en cuenta la puntuación, que puede cambiar el significado del texto. Esto es crucial por ejemplo si queremos que el modelo sea capaz de entender código.
+- En varios lenguajes los prefijos y sufijos cambian el significado de las palabras.
+- Si cada palabra es un token, el número de tokens es enorme (corresponde a todo el diccionario).
+
+Una alternativa es que cada letra sea un token. Pero al hacer esto perdemos la información sobre la posición de las palabras.
+
+Por lo tanto, se usan técnicas más sofisticadas para convertir el texto en tokens. Por ejemplo, se pueden usar técnicas de tokenización que consideren la gramática del lenguaje, como el tokenizador de BPE (Byte Pair Encoding) o WordPiece.
+
+Para entender BPE, consideremos el texto "tres tristes tigres tragan trigo en un trigal". Procedemos por pasos
+
+- Primero, se dividen las palabras en secuencias de letras. Por ejemplo, la palabra "tres" se divide en "t", "r", "e", "s". A este paso cada token es una letra.
+- Se escogen las secuencias de dos letras más comunes en el texto. Por ejemplo, la secuencia "tr" es una secuencia común en el texto. Ahora cada token es una letra o la secuencia "tr".
+- Se busca de nuevo la secuencia de dos tokens más común. En nuestro ejemplo esto nos dice que debemos tratar "tri" como un nuevo token.
+- Se procede hasta llegar a un número fijo total de tokens.
+
+Normalmente, este proceso se entrena sobre un gran conjunto de textos para buscar los tokens óptimos, antes de entrenar el modelo en sí.
+
+Esto nos produce un *vocabulario* $\mathcal{V}$ de $|\mathcal{V}|$ tokens.
+
+# Embebimientos (Embeddings)
+
+Finalmente, nos falta discutir cómo transformar los tokens en vectores numéricos que es lo que usamos para los transformadores.
+
+En el caso más sencillo, cada token es un entero que se codifica en un vector de $D$ dimensiones. Por ejemplo, si $|\mathcal{V}| = 10000$, entonces cada token es un entero entre $0$ y $9999$. Entonces cada token se codifica en un vector de $D$ dimensiones tal que la entrada $i$ es $1$ si el token es el $i$-ésimo token del vocabulario y $0$ en otro caso. Esto se llama *one-hot encoding*. 
+
+Con one-hot encoding producimos una matriz $T$ de dimensión $|\mathcal{V}| \times N$ donde $N$ es el número de tokens. Cada columna es un token codificado en one-hot encoding.  Esto es altamente ineficiente ya que tenemos vectores enormes llenos de unos y ceros. Nuestras matrices serán enormes y el entrenamiento requerirá mucha memoria.
+
+Si lo pensamos, un vector de números reales contiene mucha información. Potencialmente infinita ya que cada número real puede tener una infinita cantidad de decimales. Obviamente el computador tiene precisión finita en cada número de punto flotante, pero aún así podemos combinar varios números de punto flotante para codificar un token. 
+
+Para lograrlo, tomamos la matriz $T$ y la multiplicamos por una *matriz de embebimiento* (embedding) $M$ de dimensión $D \times |\mathcal{V}|$. Esto nos da una matriz $D \times N$ que es la representación en $D$ dimensiones de los $N$ tokens. ¿Cuál matriz usamos? No sabemos a priori si no que dejamos sus elementos como parámetros libres que se ajustarán durante el entrenamiento.
+
+Esta matriz de embebimiento luego se alimenta a una serie de transformadores apilados uno sobre otro.
+
+Las matrices de embebimiento usadas en los modelos grandes de lenguaje tienen propiedades interesantes. Parece que los vectores que producen codifican de alguna forma el significado de los tokens. Un ejemplo famoso es que el vector que representa la palabra "rey" menos el vector que representa la palabra "hombre" más el vector para "mujer" es cercano al vector para "reina". 
+
+# Entrenamiento de transformadores
+
+No describiremos aquí en detalle las estrategias ni arquitecturas específicas para entrenar los transformadores. El lector puede consultar el libro.
+
+Brevemente, lo que se hace es que se entrenan los tokenizers en un conjunto grande de textos como descrito arriba. Luego esto se alimenta a un modelo que consiste de un embebimiento, matrices posicionales y muchos transformadores multicapa apilados. 
+
+Para lograr el entrenamiento, primero se usa un pre-entrenamiento no supervisado. Es decir, se diseña un objetivo que no requiera etiquetamiento de los textos de entrada. Por ejemplo predecir la palabra faltante en una frase (se puede remover aleatoriamente y saber cuál era sin que un humano la etiquete). Esto se hace en simultánea para varias tareas lo que hace más robusto el modelo.
+
+Luego se termina de entrenar en varias tareas de lenguaje supervisadas. Por ejemplo, clasificar los textos según su género, o respuestas a preguntas contenidas en el texto.
+
+# Ejercicios Sugeridos
+
+12.1, 12.3, 12.4, 12.5

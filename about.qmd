@@ -1,0 +1,14 @@
+---
+title: "Acerca de"
+---
+
+*Versión 0.1.2.2*
+
+Este sitio y su contenido fueron escritos por **Jorge Noreña** del  
+[Instituto de Física, Pontificia Universidad Católica de Valparaíso](https://fis.ucv.cl).
+
+Si tienes preguntas o comentarios, no dudes en ponerte en contacto.
+
+El contenido es principalmente un resumen y traducción de los libros y recursos listados en la sección de [Referencias](index.qmd#referencias).
+
+Parte del contenido fue hecho con la ayuda de herramientas de IA, como [Cursor](https://www.cursor.com/), [Windsurf](https://windsurf.ai/), [Ollama](https://ollama.com/) y [ChatGPT](https://chatgpt.com/). Las partes generadas por dichos modelos fueron editadas, revisadas y extensamente mejoradas por el autor.

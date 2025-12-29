@@ -1,0 +1,83 @@
+---
+title: "Probabilidad"
+---
+
+## El dato
+
+Para nosotros en este curso, un dato será una medición de algún sistema. Los datos pueden ser números reales, en cuyo caso los reportamos con una barra de error. Por ejemplo
+$$
+9.1300 \pm 0.0001\,.
+$$
+Note que reportamos el resultado con un número de cifras decimales compatibles con el error.
+
+¿Pero qué es el error? En realidad al número reportado arriba también le falta información. Necesitamos especificar la confianza a la cual corresponde ese error. Por ejemplo podemos decir que tiene una confianza del $95\%$. Eso quiere decir que hay una probabilidad del $95\%$ asociada con ese error. El sentido de esto lo haremos más preciso cuando hablemos de probabilidad.
+
+También son importantes los datos que se representan como números enteros o categorías. Por ejemplo, cada pixel de una imagen son tres números enteros que representan los colores rojo, verde y azul.
+
+Para su descripción, decimos que los posibles resultados residen en un conjunto $S$. Un subconjunto de $S$ lo llamamos un *evento*. 
+
+## Visualización de los datos
+
+Cuando la medición nos da un solo número real, una manera útil de graficarla es mediante un *histograma*. Es decir, dividimos el intervalo de valores de la variable en un cierto número de subintervalos. El histograma nos dice cuántas veces obtuvimos una medición en el intervalo
+
+``` {python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+mediciones = np.random.normal(loc=5, scale=1, size=1000)
+
+plt.hist(mediciones)
+plt.show()
+```
+
+En este gráfico cada barra es el número de datos que cae en el subintervalo. El gráfico nos da una idea de cómo se distribuyen los datos.
+
+Veamos qué pasa si variamos la cantidad de subintervalos
+
+``` {python}
+# Número de subintervalos para el histograma 
+bin_counts = [2, 5, 20, 50]
+
+# Crear subfiguras
+fig, axes = plt.subplots(2, 2, figsize=(6, 6))
+
+# Graficar cada histograma 
+for ax, bins in zip(axes.flatten(), bin_counts):
+    ax.hist(mediciones, bins=bins)
+    ax.set_title(f'Histograma con {bins} subintervalos')
+    ax.set_xlabel('$x$')
+    ax.set_ylabel('Frequencia')
+
+plt.tight_layout()
+plt.show()
+```
+
+Si aumentamos la cantidad de subintervalos usados, el gráfico se hace ruidoso, varía mucho el valor de cada intervalo. Si tenemos pocos subintervalos, es difícil intuir la distribución.
+
+En varias dimensiones, es común describir los datos mediante gráficos de dispersión (scatterplots). Estos nos pueden decir dónde se concentran los resultados y si hay correlación entre variables.
+
+``` {python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Gaussiana 2d con correlacion
+x1_pure = np.random.normal(loc=0, scale=1, size=1000)
+x2_pure = np.random.normal(loc=0, scale=1, size=1000)
+x3 = np.random.normal(loc=0, scale=1, size=1000)
+x1 = 0.3 * x1_pure + 0.7 * x2_pure
+x2 = 0.5 * x1_pure + 0.5 * x2_pure
+
+fig, axes = plt.subplots(2, 2, figsize=(6, 3))
+axes[0].scatter(x1, x2)
+axes[0].set_xlabel('$x_1$')
+axes[0].set_ylabel('$x_2$')
+axes[1].scatter(x1, x3)
+axes[1].set_xlabel('$x_1$')
+axes[1].set_ylabel('$x_3$')
+axes[2].scatter(x2, x3)
+axes[2].set_xlabel('$x_2$')
+axes[2].set_ylabel('$x_3$')
+plt.tight_layout()
+plt.show()
+```
+

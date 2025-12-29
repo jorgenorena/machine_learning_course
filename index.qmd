@@ -1,0 +1,95 @@
+---
+title: "Aprendizaje Automático para Física"
+---
+
+# Bienvenidos
+
+Este curso está diseñado específicamente para estudiantes de física que desean comprender y aplicar técnicas de aprendizaje automático en su investigación. Nuestro enfoque se centra en construir una comprensión intuitiva y profunda de los fundamentos.
+
+## Estructura del Curso
+
+El curso se divide en cuatro partes principales, las escritas hasta ahora son:
+
+- Fundamentos de Probabilidad y Estadística
+    - Teoría de probabilidad (en construcción)
+    - Distribuciones de probabilidad y estimación
+    - Verosimilitud y métodos de inferencia
+    - Mínimos cuadrados e intervalos de confianza
+    - Testeo de hipótesis y teoría de la información
+
+- Bases del Aprendizaje Automático
+    - Regresión lineal y no lineal
+    - Métodos de clasificación
+    - Selección y validación de modelos
+    - Árboles de decisión y métodos de ensemble
+    - Máquinas de vectores de soporte y aprendizaje no supervisado
+
+- Redes Neuronales
+    - El perceptrón multicapa
+    - Descenso de gradiente y diferenciación automática
+    - Evaluación de modelos y regularización de redes neuronales
+    - Redes convolucionales
+    - Redes Residuales
+    - Transformadores y el mecanismo de atención
+
+## Objetivos del Curso
+
+Al finalizar este curso, los estudiantes serán capaces de:
+
+1. Comprender los fundamentos matemáticos detrás de los métodos de machine learning
+2. Identificar qué técnicas son apropiadas para diferentes problemas en física
+3. Implementar y adaptar algoritmos de aprendizaje automático para aplicaciones específicas
+4. Evaluar críticamente los resultados y limitaciones de diferentes métodos
+5. Comprender los principios fundamentales de las redes neuronales y su aplicación en problemas físicos
+
+## Metodología
+
+El curso combina teoría rigurosa con ejemplos prácticos de física. Cada tema incluye:
+
+- Fundamentos matemáticos
+- Implementación en Python
+- Ejemplos y aplicaciones en física
+- Ejercicios prácticos
+
+## Próximos Temas
+
+Estas notas están en constante actualización. En el futuro, exploraremos temas avanzados como:
+
+- Inferencia basada en simulaciones
+- Redes neuronales con restricciones físicas (Physics-Informed Neural Networks)
+
+## Requisitos
+
+- Cálculo multivariable
+- Álgebra lineal básica
+- Programación básica en Python
+- Física universitaria general
+
+¡Esperamos que este curso les proporcione las herramientas necesarias para aplicar el aprendizaje automático en sus investigaciones en física!
+
+# Referencias
+
+Estas notas son más que nada un resumen de los siguientes libros:
+
+- "Statistics for Physical Sciences", B.R. Martin, Elsevier (2012). (Probabilidad y Estadística)
+
+- "An Introduction to Statistical Learning", James, Witten, Hastie, Tibshirani, Taylor, Springer (2023). Disponible libremente en [https://www.statlearning.com/](Aprendizaje Automático)
+
+- "Understanding Deep Learning", J.D. Prince, MIT Press (2023). Disponible libremente en [https://udlbook.github.io/udlbook/](Redes Neuronales)
+
+- "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow", Géron, O'Reilly (2022).
+
+## Ejercicios
+
+Al final de cada clase hay ejercicios sugeridos. Los números se refieren al libro correspondiente en cada unidad. Por ejemplo, si se escribe 1.1 en una de las clases de la unidad de Probabilidad y Estadística, se refiere al ejercicio 1.1 del libro "Statistics for Physical Sciences".
+
+## Otros libros recomendados
+
+- "Deep Learning", I. Goodfellow, Y. Bengio, A. Courville, MIT Press (2016). 
+
+- "Dive into Deep Learning", A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en https://d2l.ai/
+
+## Otros recursos
+
+- [Stanford Statistical Learning with Python](https://youtu.be/LvySJGj-88U?si=XOb-BjjBMxpg-ovf)
+- [Videos basados en "Understanding Deep Learning" por T. Elsayed](https://www.youtube.com/playlist?list=PLRdABJkXXytCz19PsZ1PCQBKoZGV069k3)

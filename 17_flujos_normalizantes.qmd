@@ -1,0 +1,157 @@
+---
+lang: es
+title: Flujos Normalizantes
+---
+
+Esta clase se basa en el capítulo 16 del libro "Understanding Deep Learning".
+
+Los flujos normalizantes son una técnica para transformar una distribución de probabilidad sencilla $\rho(z)$ en otra más compleja $\rho(x)$ a través de un cambio de variables $x(z)$. Esto puede ser muy útil en varios casos: Por ejemplo si queremos deducir la distribución de probabilidad de las observaciones podemos buscar el flujo normalizante que maximiza la verosimilitud de los datos. Otra aplicación es si tenemos una distribución de probabilidad $\rho(x)$ de la cual es difícil tomar muestras aleatorias, pero que es fácil de evaluar, podemos buscar el flujo normalizante que transforma $\rho(x)$ en una distribución de probabilidad sencilla $\rho(z)$.
+
+# Flujos normalizantes en una dimensión
+
+Para ver cómo funciona, empezamos con un ejemplo en una dimensión. Queremos convertir la distribución de probabilidad $\rho(z)$ que es sencilla (por ejemplo una gaussiana o una distribución uniforme) en la distribución de probabilidad $\rho(x)$ que es más compleja. Para lograrlo hacemos un cambio de variables $x = f_\Phi(z)$ tal que 
+$$
+\rho(x) = \rho(z) \left|\frac{d f_\Phi(z)}{d z}\right|^{-1}.
+$$ 
+
+Para obtener la función $f_\Phi$ usaremos una red neuronal, pero no cualquiera. Como $\rho(x)$ depende de los parámetros $\Phi$ escogidos para la transformación, debemos escribirla más correctamente $\rho(x|\Phi)$. 
+
+Aquí hemos usado la manera como el cambio de variables transforma la probabilidad de una variable aleatoria. Esta fórmula se puede entender de manera intuitiva: Si tenemos una cierta probabilidad de encontrar la variable $x$ en un intervalo infinitesimal $dx$, entonces la probabilidad de encontrarla en el intervalo $dz$ se estrecha o se agranda según la derivada $dz/dx$. Ver figura 16.2 del libro.
+
+## Aprendizaje
+
+Nuestra transformación de variables depende de parámetros $\Phi$ que debemos aprender. 
+
+Para hacerlo, consideremos primero el caso en el cual queremos aprender la distribución de probabilidad de los datos. Lo que queremos hacer es encontrar la distribución de probabilidad que maximiza la verosimilitud de los datos. 
+
+Recordemos que la verosimilitud es lanprobabilidad de los datos dados los parámetros
+$$
+\Phi = \underset{\Phi}{\operatorname{argmax}} \left[\prod_{i=1}^N \rho(x_i|\Phi)\right] = -\underset{\Phi}{\operatorname{argmin}} \left[\sum_{i=1}^N \log \rho(x_i|\Phi)\right] = \underset{\Phi}{\operatorname{argmin}} \left[\sum_{i=1}^N \left(\log \left|\frac{\partial f_\Phi(z)}{\partial z}\right| - \log\rho(z_i)\right)\right]
+$$
+
+Entonces para entrenar necesitamos minimizar la pérdida dentro de los paréntesis cuadrados de la última igualdad. Vemos que esta pérdida depende de $z$, pero para cada dato conocemos sólo $x$. Para obtener $z$ a partir de $x$ podemos usar la función inversa $z = f^{-1}_\Phi(x)$. *Pero no todas las funciones son invertibles*. En particular, *no todas las redes neuronales se pueden invertir* y debemos buscar arquitecturas para las cuales sí se pueda.
+
+# Caso General
+
+En general los datos son multidimensionales $\boldsymbol{x} \in \mathbb{R}^d$. También sabemos que podemos lograr modelos con mayor capacidad de representación si usamos una red profunda compuesta por muchas capas. 
+
+Partimos de una distribución de probabilidad en $d$ dimensiones $\rho(\boldsymbol{z})$ y usaremos una transformación de coordenadas compuesta para transformarla en la distribución deseada
+$$
+\boldsymbol{x} = f^{(K)}_{\Phi_K}\left(f^{(K-1)}_{\Phi_{K-1}}\left(...f^{(2)}_{\Phi_2}\left(f^{(1)}_{\Phi_1}(\boldsymbol{z})\right)...\right)\right)\,,
+$$
+donde las funciones $f^{(i)}_{\Phi}$ son de $\mathbb{R}^d$ en $\mathbb{R}^d$. Tal que 
+$$
+\rho(\boldsymbol{x}) = \rho(\boldsymbol{z}) \left|\frac{\partial \boldsymbol{z}}{\partial \boldsymbol{x}}\right|,
+$$ 
+donde las barras verticales indican el determinante de la matriz jacobiana.
+
+Para calcular el jacobiano, usamos la regla de la cadena y autodifetenciación
+$$
+\frac{\partial\boldsymbol{x}}{\partial\boldsymbol{z}} = \frac{\partial\boldsymbol{f}^{(K)}_{\Phi_K}}{\partial\boldsymbol{f}^{(K-1)}_{\Phi_{K-1}}}\frac{\partial\boldsymbol{f}^{(K-1)}_{\Phi_{K-1}}}{\partial\boldsymbol{f}^{(K-2)}_{\Phi_{K-2}}}...\frac{\partial\boldsymbol{f}^{(2)}_{\Phi_2}}{\partial\boldsymbol{f}^{(1)}_{\Phi_1}}\frac{\partial\boldsymbol{f}^{(1)}_{\Phi_1}}{\partial\boldsymbol{z}}
+$$
+
+El determinante de esta matriz es simplemente la multiplicación de los determinantes.
+
+En cuanto a la pérdida, es una generalización directa del caso en una dimensión
+$$
+\mathcal{J} = \sum_{i=1}^N \left(\log \left|\frac{\partial\boldsymbol{x}}{\partial\boldsymbol{z}}\right| - \log\rho(\boldsymbol{z}_i)\right).
+$$
+
+## Requisitos de una capa para un flujo normalizante
+
+Para poder usar una función $f_{\Phi}$ para nuestros propósitos necesitamos que cumpla lo siguiente
+
+- Expresividad: Debe tener la suficiente libertad para poder obtener cualquier distribución de probabilidad.
+- Invertible: Labpérdida depende de $\boldsymbol{z}_i$ que obtenemos invirtiendo la transformación.
+- Debe ser fácil (es decir numéricamente eficiente) calcular esa inversa. Idem para el determinante.
+
+# Capas invertibles
+
+## Flujos lineales
+
+La transformación invertible más sencilla es una transformación lineal dada por $\boldsymbol{f}(\boldsymbol{h}) = \Omega\boldsymbol{h} + \boldsymbol{\beta}$ con $\Omega$ una matriz $d\times d$ invertible.
+
+En general, la inversa y el determinante de la matriz $\Omega$ requiere $\mathcal{O}(d^3)$ operaciones lo que no es particularmente eficiente. Sin embargo, existe la llamada factorización PLU que lo reduce a $\mathcal{O}(d^2)$.
+
+El problema de las transformaciones lineales es que no son suficientemenete expresivas. Por ejemplo la transformación lineal de una distribución gaussiana es de nuevo una gaussiana, aunque podemos convertir una gaussiana sin correlaciones en una con. Además la composición de varias transformaciones lineales es de nuevo una transformación lineal. 
+
+## Transformaciones elemento por elemento
+
+Otro tipo sencillo de transformación es una que aplica la misma función a cada elemento de un vector, es decir 
+
+$$
+\boldsymbol{f}(h_1, ..., h_d) = (f(h_1), ..., f(h_d))
+$$
+
+Esta transformación es fácil de inviertir si $f$ es invertible $\boldsymbol{f}^{-1}(x_1, ..., x_d) = f^{-1}(x_1) ... f^{-1}(x_d)$, y el determinante también es fácil de calcular
+
+$$
+\left|\frac{\partial\boldsymbol{f}}{\partial\boldsymbol{h}}\right| = \prod_{i=1}^d \left|\frac{d f(h_i)}{d h_i}\right|
+$$
+
+El problema de esta transformación es que no genera correlaciones entre elementos diferentes del vector. En este sentido tampoco es suficientemente expresiva. 
+
+Uno puede crear un flujo normalizante alternando capas lineales con capas elemento por elemento. Las lineales generan correlaciones y las elemento por elemento generan no-linealidades.
+
+## Flujos autoregresivos
+
+Los flujos autoregresivos consisten en
+$$
+f_i(\boldsymbol{h}) = g\left[h_i, \Phi(h_1, ..., h_{i-1})\right]\,.
+$$
+
+Donde $g$ es una función que toma como entrada el valor de la variable $h_i$ y los parámetros $\Phi$ que dependen de las variables anteriores $h_1, ..., h_{i-1}$. 
+
+Tiene esta forma porque es fácil de invertir. Veámoslo en un ejemplo con cuatro componentes
+$$
+f_1 = g\left[h_1, \Phi\right]\,,
+$$
+$$
+f_2 = g\left[h_2, \Phi(h_1)\right]\,,
+$$
+$$
+f_3 = g\left[h_3, \Phi(h_1, h_2)\right]\,,
+$$
+$$
+f_4 = g\left[h_4, \Phi(h_1, h_2, h_3)\right]\,.
+$$
+
+Las inversas son fáciles si $g$ es invertible
+$$
+h_1 = g^{-1}\left[f_1, \Phi\right]\,,
+$$
+Teniendo $h_1$ podemos obtener $h_2$
+$$
+h_2 = g^{-1}\left[f_2, \Phi(h_1)\right]\,,
+$$
+y así sucesivamente
+$$
+h_3 = g^{-1}\left[f_3, \Phi(h_1, h_2)\right]\,,
+$$
+$$
+h_4 = g^{-1}\left[f_4, \Phi(h_1, h_2, h_3)\right]\,.
+$$
+Ver figura 16.7 del libro.
+
+## Flujos residuales
+
+Vimos que las redes residuales ayudan a obtener arquitecturas muy profundas con un gran número de capas. Podemos lograr redes residuales con flujos normalizantes. Toman una forma un poco rara para lograr ser invertibles. Supongamos que tenemos dos dimensiones por simplicidad
+$$
+f_1 = h_1 + g_1(h_2, \Phi_1)\,.
+$$
+Teniendo $f_1$ podemos obtener $h_2$
+$$
+f_2 = h_2 + g_2(f_1, \Phi_2)\,.
+$$
+
+Esta transformación es fácil de invertir. Primero calculamos $h_2$ a partir de $f_1$ y $f_2$
+$$
+h_2 = f_2 - g_2(f_1, \Phi_2)\,.
+$$
+Y luego teniendo $h_2$ calculamos $h_1$
+$$
+h_1 = f_1 - g_1(h_2, \Phi_1)\,.
+$$
+Ver la figura 16.8 del libro.
+
+Esto da un sabor del tipo de trucos que hay que jugar para lograr redes invertibles. Existen más en la literatura y dado que este es un campo en rápido crecimiento, existirán muchos más en el futuro cercano.

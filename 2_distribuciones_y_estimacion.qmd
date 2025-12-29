@@ -1,0 +1,312 @@
+---
+title: "Distribuciones de Probabilidad y Estimación"
+---
+
+# Distribuciones de Probabilidad
+
+Hablamos de **variables aleatorias** como variables que pueden tomar un valor aleatorio dentro de un cierto conjunto. Cada valor prosible tiene una cierta probabilidad. Esto lo haremos más preciso en esta sección.
+
+## Una variable aleatoria 
+
+### Distribuciones de probabilidad 
+
+Consideremos primero una variable discreta. Decimos que la variable $x$ tiene una probabilidad $P[x_k]$ de tomar el valor $x_k$. Este valor está dado por una **distribución de probabilidad**. Es decir una función $f$ tal que
+$$
+P[x_k] = f(x_k)\,.
+$$
+Esta cumple
+
+- $f$ es univaluada y $f(x) \geq 0$.
+- La probabilidad total es $1$, es decir $\sum_i f(x_i) = 1$.
+
+Definimos también la **distribución cumulativa de probabilidad** 
+$$
+F(x) = \sum_{x_k \leq x} f(x_k)\,.
+$$
+Es decir, es la probabilidad de obtener un valor menor a $x$.
+
+Para variables que toman valores continuos, la probabilidad de un valor dado tiende a cero (como hay infinitos valores, la probabilidad de cada uno debe ser minúscula para que su suma sea $1$). Por ese motivo no hablamos de una distribución de probabilidad sino de una **función de densidad de probabilidad** $f(x)$ tal que la probabilidad de obtener un resultado en el intervalo $[a,b]$ es
+$$
+P[a \leq x \leq b] = \int_a^bdx\,f(x)\,.
+$$
+Esta cumple
+
+- $f$ es univaluada y $f(x) \geq 0$.
+- La probabilidad total es $1$, es decir $\int_{-\infty}^\infty dx\,f(x) = 1$.
+
+Análogamente definimos la distribución cumulativa de probabilidad
+$$
+F(x) = \int_{-\infty}^x dx'\,f(x')\,.
+$$
+
+### Valores esperados
+
+Definimos el **valor esperado** de una variable discreta como
+$$
+\langle x\rangle \equiv \sum_x xf(x)\,.
+$$
+Para una variable continua
+$$
+\langle x\rangle \equiv \int_{-\infty}^\infty dx\,xf(x)\,.
+$$
+
+De esta manera los **momentos** son
+$$
+\mu'_n \equiv \langle x^n \rangle\,,
+$$
+y los **momentos centrales**
+$$
+\mu_n \equiv \left\langle (x - \langle x\rangle)^n\right\rangle\,.
+$$
+
+De la definición de valor esperado se puede demostrar para una constante $c$
+$$
+\langle cx\rangle = c\langle x\rangle\,,\quad \langle x_1 + x_2 + ... + x_n\rangle = \langle x_1\rangle + \langle x_2 \rangle + ... + \langle x_n\rangle\,.
+$$
+Además si las variables $x_1, ..., x_n$ son independientes
+$$
+\langle x_1 ... x_n\rangle = \langle x_1\rangle ...\langle x_n\rangle\,.
+$$
+
+### Función generatriz y característica
+
+Definimos la **función generatriz**
+$$
+M_x(t) \equiv \langle e^{xt} \rangle\,.
+$$
+Expandiendo en Taylor tenemos que 
+$$
+M_x(t) = \left\langle1 + xt + \frac{1}{2}(xt)^2 + ...\right\rangle = \sum_{n=0}^\infty \frac{1}{n!}\mu'_n t^n\,.
+$$
+De esta expresión vemos que 
+$$
+\mu'_n = \left.\frac{\partial^n}{\partial t^n}M_x(t)\right|_{t=0}\,.
+$$
+Entonces decimos que podemos *generar los momentos* de la distribución.
+
+En la mayoría de los casos, si dos distribuciones tienen la misma función generatriz, entonces son la misma distribución. Para algunas distribuciones la suma no converge, tal que se usa en cambio la **función característica**
+$$
+\phi_x(t) \equiv \langle e^{itx}\rangle\,.
+$$
+
+También es útil definir la **función generatriz conexa**
+$$
+\ln M_x(t) \equiv \kappa_1 t + \frac{1}{2}\kappa_2 t^2 + ...\,,
+$$
+donde $\kappa$ son los **cumulantes**. Cuando dos distribuciones tienen los mismos cumulantes son iguales (si estos existen para ambas). El primer cumulante corresponde a la media $\kappa_1 = \mu$ y el segundo a la varianza $\kappa_2 = \sigma^2$.
+
+## Varias variables 
+
+### Distribución de probabilidad conjunta
+
+Si tenemos varias variables aleatorias, las definiciones son muy análogas. Por ejemplo, la **distribución de probabilidad conjunta**
+$$
+P[a_1\leq x_1 \leq b_1, ..., a_n \leq x_n \leq b_n] \equiv \int_{a_n}^{b_n}...\int_{a_1}^{b_1}\prod_{i=1}^n dx_i\, f(x_1, ..., x_n)\,.
+$$
+
+### Distribución marginal y condicional
+
+Si nos preguntamos cuál es el valor de una variable, independientemente del valor que tomen todas las demás, sólo tenemos que sumar sobre todos los valores de las demás variables. Esta se llama la **distribución marginal**
+$$
+f^M(x_1) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=2}^n dx_i\,f(x_1, x_2, ..., x_n)\,.
+$$
+Análogamente, si queremos la probabilidad conjunta para algunas variables, marginalizamos sobre todas las demás 
+$$
+f^M(x_1, ..., x_m) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=m+1}^n dx_i\,f(x_1, x_2, ..., x_n)\,.
+$$
+
+Una pregunta distinta, es si *fijamos* el valor de las demás variables y nos preguntamos por la probabilidad de las restantes. Esta es la **distribución condicional**
+$$
+f^C(x_1, ..., x_m| x_{m+1}, ..., x_n) \equiv \frac{f(x_1, ..., x_n)}{f^M(x_{m+1}, ..., x_n)}\,.
+$$
+
+Esto nos permite escribir por ejemplo la siguiente relación
+$$
+f^C(x|y) = \frac{f^C(y|x)f^M(x)}{f^M(y)}\,,
+$$
+o también 
+$$
+f(x, y) = f^C(x|y)f^M(y)\,.
+$$
+Decimos que dos variables son **independientes** si
+$$
+f(x, y) = f^M(x)f^M(y)\,.
+$$
+
+### Momentos y valores esperados 
+
+Se definen de forma análoga a una variable. Por ejemplo, definimos la covarianza como el segundo momento central 
+$$
+\text{cov}(x_i, x_j) \equiv \sigma_{ij} \equiv \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=1}^n dx_i\, (x_i - \mu_i)(x_j - \mu_j) f(x_1, ..., x_n)\,.
+$$
+La condición $\sigma_{ij} = 0$ es necesaria (pero no suficiente) para que dos variables sean independientes.
+
+## Funciones de una variable aleatoria 
+
+Supongamos que la cantidad $y$ es una función de la variable aleatoria $x$. Podemos calcular su distribución de probabilidad haciendo un simple cambio de variable
+$$
+f(y) = \sum_{x}f(x)\left|\frac{dx}{dy}\right|\,.
+$$
+Donde la suma es sobre todos los puntos tal que $y = y(x)$.
+
+Cuando hay varias variables, usamos el Jacobiano.
+
+# Algunas distribuciones de probabilidad 
+
+## Uniforme
+
+Si la probabilidad es la misma en todas partes dentro de un intervalo
+$$
+f(x) \equiv u(x; a, b) = \begin{cases}
+\frac{1}{b - a}\quad a\leq x \leq b\,
+0\quad \text{de otra manera}
+\end{cases}\,.
+$$
+Esta probabilidad es útil por ejemplo para generar números aleatorios. Cualquier variable se puede convertir en una variable con distribución uniforme mediante $u = F[x]$.
+
+## Normal (Gaussiana)
+
+Ubicua en física por motivos que discutiremos en unos minutos. La famosa distribución a campana
+$$
+f(x) \equiv n(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\,.
+$$
+Con función generatriz 
+$$
+M_x(t) = \langle e^{xt}\rangle = e^{t\mu + \sigma^2 t^2/2}\,.
+$$
+Podemos tomar el logaritmo para obtener los cumulantes 
+$$
+\ln M_x(t) = t\mu + \frac{1}{2}t^2\sigma^2\,.
+$$
+De aquí se puede deducir que $\kappa_1 = \mu$ y $\kappa_2 = \sigma^2$ por lo que la varianza es $\sigma^2$. La función característica es análoga
+$$
+\phi(t) = e^{it\mu - t^2\sigma^2/2}\,.
+$$
+
+La utilidad de la gaussiana es que por motivos que vermos representa los errores de muchas cantidades medidas. Entonces es útil saber las probabilidades de obtener un resultado a un cierto número de desviaciones estándar de la media 
+
+- $1\sigma$ es $68.3\%$.
+- $2\sigma$ es $95.4\%$.
+- $3\sigma$ es $99.7\%$.
+
+Para varias variables es similar
+$$
+f(\mathbf{x}) = \frac{1}{(2\pi)^{n/2}|V|^{1/2}}\exp\left[-\frac{1}{2}(\mathbf{x} - \mathbf{\mu})^T V^{-1} (\mathbf{x} - \mathbf{\mu})\right]\,.
+$$
+La covarianza es fácil de calcular y es $\sigma_{ij} = V_{ij}$.
+
+Integrando, se puede demostrar que la distribución marginal también es una gaussiana.
+
+## Binomial
+
+La distribución binomial es para una variable discreta. Representa intentar muchas veces un experimento con probabilidad de éxito $p$. Esta distribución es la probabilidad de obtener $r$ éxitos en $n$ intentos
+$$
+f(r; p, n) = \frac{n!}{r!(n - r)!}p^r (1 - p)^{n - r}\,.
+$$
+No usaremos mucho esta distribución. Esta y otras se pueden encontrar descritas en el libro.
+
+## Poisson
+
+Es muy importante en física. Representa la probabilidad de obtener $r$ éxitos cuando $n$ tiende a ser un número grande y $p$ tiende a ser pequeño tal que $pn \equiv \lambda$ permanece constante
+$$
+\lim_{n\rightarrow \infty} \frac{1}{r!}\frac{n!}{(n-r)!}\left(\frac{\lambda}{n}\right)^r\left(1 - \frac{\lambda}{n}\right)^{n - r} = \lim_{n\rightarrow \infty}\frac{1}{r!}n^r\frac{\lambda^r}{n^r}\left(1 - \frac{\lambda}{n}\right)^n = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
+$$
+Entonces definimos la **distribución de Poisson**
+$$
+f(r; \lambda) = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
+$$
+La función generatriz es 
+$$
+M_r(t) = e^{-\lambda}\sum_{r = 0}^\infty \frac{1}{k!}(\lambda e^t)^k = e^{-\lambda}\exp(\lambda e^t)\,.
+$$
+Expandiendo, vemos que todos los cumulantes de la distribución de Poisson son iguales
+$$
+\ln M_r(t) = \lambda e^t - \lambda = \sum_{n=1}^\infty \frac{1}{n!}t^n\lambda\,.
+$$
+es decir $\kappa_i = \lambda$. Es decir que su media es $\lambda$ y su varianza es $\lambda$.
+
+# Estimación y Muestreo
+
+## Muestras aleatorias y estimadores
+
+Definimos variables **independientes e idénticamente distribuídas (i.i.d.)** como aquellas variables que provienen de una misma distribución de probabilidad y que además son independientes.
+
+Para nosotros una **muestra aleatoria** será un conjunto de variables i.i.d. Esto modela el repetir un experimento u observación muchas veces. Como son i.i.d. su distribución conjunta se escribe 
+$$
+f(x_1, ..., x_n) = f(x_1)...f(x_n)\,,
+$$
+para alguna distribución $f(x)$.
+
+## Propiedades de estimadores
+
+Muchas veces desconocemos la forma exacta de $f(x)$ pero tenemos un modelo para producirla. Ese modelo puede depender de unos parámetros libres (masas de partículas, varianzas, algún parámetro experimental, ...) $\mathbf{\theta} = (\theta_1, ..., \theta_m)$. Queremos sacar el valor de esos parámetros a partir de los datos. Nuestra aproximación a ese valor usando los datos se llama un **estimador** $\hat{\theta}_n$, que depende del número de datos tomados $n$.
+
+Puede haber muchos estimadores diferentes, dependiendo del método usado. Discutamos cómo podemos evaluar si un estimador es bueno y en qué sentido lo puede ser.
+
+Una propiedad importante de un estimador es que sea **consistente**. Es decir, para todo $\epsilon > 0$
+$$
+\lim_{n\rightarrow \infty} P(|\hat{\theta}_n - \theta| > \epsilon) = 0\,.
+$$
+En lenguaje más cristiano, un estimador consistente es aquel que tiende al verdadero valor del parámetro si tenemos infinitos datos.
+
+Que un estimador sea consistente no quiere decir que para una cantidad finita de datos nos de una buena aproximación al verdadero valor. Para caracterizar cuándo es buena la aproximación definimos otro par de propiedades.
+
+Definimos el **sesgo** (muchas veces llamado por su nombre inglés **bias**)
+$$
+b \equiv \langle \hat{\theta}_n\rangle - \theta\,.
+$$
+Un estimador **no sesgado** si $b = 0$. En general nos van a interesar muchos estimadores sesgados, pero queremos tratar de mantener el sesgo bajo control.
+
+Además de un sesgo, un estimador tiene una varianza. Como es una cantidad que se obtiene operando sobre $n$ variables aleatorias, el mismo estimador es una variable aleatoria. Por lo tanto tiene una distribución de probabilidad y una varianza. Si la varianza es muy grande, el estimador puede ser problemático porque al medir obtenemos sólo un valor, y este puede estar muy lejos del valor verdadero porque la distribución es muy esparcida. 
+
+Decimos que un estimador es **eficiente** si la varianza cae rápidamente a medida que aumentamos $n$. 
+
+Lo que nos interesa acotar en realidad es la diferencia entre el valor verdadero y el estimado. Este se relaciona con el sesgo y la varianza
+$$
+\left\langle(\hat{\theta}_n - \theta)^2\right\rangle = \left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle+ b)^2\right\rangle = \left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle)^2\right\rangle +2b\left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle)\right\rangle + b^2 = \sigma^2_{\hat{\theta}} + b^2\,.
+$$
+Entonces la varianza del error cometido es la suma de la varianza del estimador y el cuadrado del sesgo. Es decir que idealmente queremos reducir ambos para tener errores pequeños.
+
+Veremos que en muchos métodos al aumentar el sesgo disminuye la varianza y vice versa, tal que debemos buscar un equilibrio entre ambos.
+
+## Estimadores de la media y la varianza 
+
+Para dar un ejemplo, supongamos que queremos encontrar la media y la varianza de una distribución a partir de una muestra. Existen estimadores no sesgados para ambos.
+
+Para la media, el estimador es el promedio sobre la muestra 
+$$
+\hat{\mu} = \frac{1}{n}\sum_{i = 1}^n x_i \equiv \bar{x}\,.
+$$
+Veamos que es no sesgado recordando que todos vienen de la misma distribución con media $\mu$
+$$
+\langle \hat{\mu}\rangle = \frac{1}{n}\sum_{i=1}^n \langle x_i\rangle = \frac{1}{n}\sum_{i=1}^n \mu = \mu\,.
+$$
+
+Para la varianza es un poco más sutil. Queremos escribir una expresión que dependa sólo de los datos. Para obtener un estimador no sesgado necesitamos escribir 
+$$
+\hat{\sigma}^2 = \frac{1}{n - 1}\sum_{i=1}^n(x_i - \bar{x})^2\,.
+$$
+Ese denominador no es lo que uno esperaría ingenuamente. Si yo no conociera este tema, habría dicho que el estimador debería ser el promedio sobre las desviaciones al cuadrado, pero el denominador no corresponde a esa intuición. Para ver de dónde viene demostremos que no es sesgado 
+$$
+\begin{align}
+\langle \hat{\sigma}^2\rangle &= \frac{1}{n - 1}\sum_{i = 1}^n \left\langle(x_i - \bar{x})^2\right\rangle\\
+&= \frac{1}{n - 1}\sum_{i = 1}^n \left\langle\left(x_i - \frac{1}{n}\sum_{j=1}^n x_j\right)^2\right\rangle\\
+&= \frac{n}{n - 1} \left\langle\left(x_1 - \frac{1}{n}\sum_{j=1}^n x_j\right)^2\right\rangle\\
+&= \frac{n}{n - 1} \left(\langle x_1^2\rangle - \frac{2}{n}\sum_{j=1}^n \langle x_1 x_j\rangle + \frac{1}{n^2}\sum_{j,k=1}^n \langle x_j x_k\rangle \right)\\
+&= \frac{n}{n - 1} \left(\langle x_1^2\rangle - \frac{1}{n}\sum_{j=1}^n \langle x_1 x_j\rangle\right)\\
+&= \frac{n}{n - 1} \left(\left(1 - \frac{1}{n}\right)\langle x_1^2\rangle - \frac{1}{n}\sum_{j=2}^n \langle x_1 x_j\rangle\right)\\
+&= \frac{n}{n - 1} \left(\left(1 - \frac{1}{n}\right)\langle x_1^2\rangle - \frac{1}{n}\sum_{j=2}^n \langle x_1\rangle\langle x_j\rangle\right)\\
+&= \frac{n}{n - 1} \left(\frac{n - 1}{n}\langle x_1^2\rangle - \frac{n - 1}{n}\mu^2\right) = \langle x^2\rangle - \mu^2 = \sigma^2\,.
+\end{align}
+$$
+Para ir de la segunda a la tercera igualdad hemos usado el hecho que todos los términos de la suma deben dar el mismo resultado ya que las variables son idénticamente distribuídas. Para ir de la cuarta a la quinta hemos usado ese mismo truco. Para ir de la sexta a la séptima hemos usado el hecho que las variables son independientes tal que $\langle x_1 x_j\rangle = \langle x_1\rangle\langle x_j\rangle$ para $j\neq 1$.
+
+# Ejercicios sugeridos para estudiar para la prueba
+
+3.4, 3.5, 4.2, 4.7, 5.1
+
+Si conocemos la media $\mu$ de una distribución, escriba un estimador para la varianza 
+$$
+\hat{\sigma}^2 = \alpha \sum_{i=1}^n (x_i - \mu)^2\,.
+$$
+Encuentre la constante $\alpha$ para que el estimador sea no sesgado. Bonus: ¿Tiene este estimador una varianza menor a la del estimador visto en clase?

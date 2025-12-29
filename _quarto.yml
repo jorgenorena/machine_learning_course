@@ -1,0 +1,124 @@
+project:
+  type: website
+  output-dir: _site
+
+execute: 
+  cache: true
+
+website:
+  title: "Aprendizaje Automático para Físicos"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - text: "Clases"
+        menu:
+          - text: "Probabilidad y Estadística"
+          - text: "1. Probabilidad"
+            href: 1_probabilidad.qmd
+          - text: "2. Distribuciones y Estimación"
+            href: 2_distribuciones_y_estimacion.qmd
+          - text: "3. Verosimilitud"
+            href: 3_verosimilitud.qmd
+          - text: "4. Mínimos Cuadrados e Intervalos"
+            href: 4_minimos_cuadrados_intervalos.qmd
+          - text: "5. Testeo de Hipótesis y Entropía"
+            href: 5_testeo_de_hipotesis_entropia.qmd
+          - text: "------"
+          - text: "Aprendizaje Automático"
+          - text: "6. Aprendizaje Automático y Regresión Lineal"
+            href: 6_aprendizaje_automatico_regresion_lineal.qmd
+          - text: "7. Clasificación"
+            href: 7_clasificacion.qmd
+          - text: "8. Selección de Modelos"
+            href: 8_seleccion_de_modelos.qmd
+          - text: "9. Árboles, Bosques y Boosting"
+            href: 9_arboles_bosques_boosting.qmd
+          - text: "10. SVM y Aprendizaje No Supervisado"
+            href: 10_svm_y_no_supervisado.qmd
+          - text: "------"
+          - text: "Redes Neuronales"
+          - text: "11. Perceptrón y Redes Conexas y Pérdidas"
+            href: 11_perceptron_y_redes_conexas.qmd
+          - text: "12. Descenso de Gradiente y Auto-diferenciación"
+            href: 12_gradient_descent_and_autodiff.qmd
+          - text: "13. Evaluación y Regularización de redes neuronales"
+            href: 13_evaluacion_y_regularizacion_de_nn.qmd
+          - text: "14. Redes Convolucionales"
+            href: 14_redes_convolucionales.qmd
+          - text: "15. Redes Residuales"
+            href: 15_redes_residuales.qmd
+          - text: "16. Transformadores y el mecanismo de atención"
+            href: 16_transformadores.qmd
+          - text: "------"
+          - text: "Algunas aplicaciones"
+          - text: "17. Flujos Normalizantes"
+            href: "17_flujos_normalizantes.qmd"
+          - text: "18. Redes Neuronales Informadas por la Física (PINNs)"
+            href: 18_PINNs.qmd
+          - text: "19. Operadores Neuronales"
+            href: 19_Operador_Neural.qmd
+      - href: about.qmd
+        text: "Acerca de"
+  sidebar:
+    style: docked
+    contents:
+      - section: "Probabilidad y Estadística"
+        contents:
+          - text: "1. Probabilidad"
+            href: 1_probabilidad.qmd
+          - text: "2. Distribuciones y Estimación"
+            href: 2_distribuciones_y_estimacion.qmd
+          - text: "3. Verosimilitud"
+            href: 3_verosimilitud.qmd
+          - text: "4. Mínimos Cuadrados e Intervalos"
+            href: 4_minimos_cuadrados_intervalos.qmd
+          - text: "5. Testeo de Hipótesis y Entropía"
+            href: 5_testeo_de_hipotesis_entropia.qmd
+      - section: "Aprendizaje Automático"
+        contents:
+          - text: "6. Aprendizaje Automático y Regresión Lineal"
+            href: 6_aprendizaje_automatico_regresion_lineal.qmd
+          - text: "7. Clasificación"
+            href: 7_clasificacion.qmd
+          - text: "8. Selección de Modelos"
+            href: 8_seleccion_de_modelos.qmd
+          - text: "9. Árboles, Bosques y Boosting"
+            href: 9_arboles_bosques_boosting.qmd
+          - text: "10. SVM y Aprendizaje No Supervisado"
+            href: 10_svm_y_no_supervisado.qmd
+      - section: "Redes Neuronales"
+        contents:
+          - text: "11. Perceptrón, Redes Conexas y Pérdidas"
+            href: 11_perceptron_y_redes_conexas.qmd
+          - text: "12. Descenso de Gradiente y Auto-diferenciación"
+            href: 12_gradient_descent_and_autodiff.qmd
+          - text: "13. Evaluación y Regularización de redes neuronales"
+            href: 13_evaluacion_y_regularizacion_de_nn.qmd
+          - text: "14. Redes Convolucionales"
+            href: 14_redes_convolucionales.qmd
+          - text: "15. Redes Residuales"
+            href: 15_redes_residuales.qmd
+          - text: "16. Transformadores y el mecanismo de atención"
+            href: 16_transformadores.qmd
+      - section: "Algunas aplicaciones"
+        contents:
+          - text: "17. Flujos Normalizantes"
+            href: "17_flujos_normalizantes.qmd"
+          - text: "18. Redes Neuronales Informadas por la Física (PINNs)"
+            href: 18_PINNs.qmd
+          - text: "19. Operadores Neuronales"
+            href: 19_Operador_Neural.qmd
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+    sidebar:
+      style: floating
+      collapse-level: 2
+
+
+

@@ -1,0 +1,220 @@
+---
+title: "Operador Neuronal"
+lang: es
+---
+
+# Introducción
+
+Hasta ahora hemos estudiado redes neuronales que toman un vector de entrada $\boldsymbol{x}$ y producen un vector de salida $\boldsymbol{y}$, es decir, $f: \mathbb{R}^n \to \mathbb{R}^m$. En contraste, los operadores neuronales son una clase de modelos de aprendizaje profundo diseñados para aprender **mapeos entre espacios de funciones**, en lugar de solo vectores de dimensión finita. Es decir, los operadores neuronales aprenden un **operador** $\mathcal{G}$ que toma una *función de entrada* y produce una *función de salida*. Formalmente, uno puede pensar en $\mathcal{G}: X \to Y$, donde $X$ y $Y$ son espacios de dimensión infinita (por ejemplo, espacios de Banach) de funciones.
+
+Arquitectónicamente, se asemejan a las redes que hemos visto, pero con capas definidas por transformadas integrales en vez de transformaciones lineales elemento por elemento. Una capa de operador neuronal puede escribirse como:
+
+$$
+v_{j+1}(x) = \sigma\!\Big( W\, v_j(x) \;+\; \int_D K_\Theta(x,y)\, v_j(y)\,dy \Big),
+$$
+
+donde $v_j(x)$ es una función intermedia (comenzando con $v_0$ como la función de entrada), $W$ es una transformación lineal aprendida, $K_\Theta(x,y)$ es un kernel aprendido para un operador integral, y $\sigma$ es una activación no lineal (aplicada elemento por elemento). Al componer varias de estas capas, los operadores neuronales pueden representar operadores no lineales muy generales. De hecho, existen teoremas de aproximación universal que aseguran que los operadores neuronales pueden aproximar cualquier operador continuo (en conjuntos compactos) con precisión arbitraria. Esto extiende el clásico teorema de aproximación universal de redes neuronales de dimensión finita al caso de mapeos de operadores de dimensión infinita.
+
+Una característica clave de los operadores neuronales es que, con la formulación adecuada, *el mismo modelo aprendido puede aplicarse a diferentes discretizaciones* o puntos de evaluación de las funciones de entrada/salida. A diferencia de una red neuronal estándar que está atada a un tamaño de entrada fijo, los operadores neuronales pueden recibir funciones muestreadas en cualquier malla (o incluso como coeficientes en una base) y producir salidas en cualquier conjunto de puntos deseado. En cierto sentido, así como ocurría en las PINNs, son ya operadores interpolados.
+
+Se han desarrollado varias arquitecturas especializadas de operadores neuronales como DeepONet, FNO, etc.
+
+La motivación principal de los operadores neuronales es crear sustitutos rápidos y generalizables para problemas de física computacional. Muchos sistemas físicos se modelan mediante ecuaciones diferenciales parciales u otras ecuaciones donde un conjunto de funciones de entrada (por ejemplo, condiciones iniciales, de frontera o coeficientes que varían espacialmente) se mapea a una función de salida (la solución). Los métodos estándar deben recomputar la solución *desde cero para cada nueva entrada* (por ejemplo para cada nueva condición inicial) y pueden ser extremadamente costosos para sistemas grandes. Los operadores neuronales ofrecen un enfoque de aprender una vez, reutilizar muchas veces: *Entrenamos* un modelo con muchas parejas de entrada-salida (usando datos de un solucionador de alta fidelidad o experimentos) y luego *predecimos nuevas soluciones en una sola pasada hacia adelante*. 
+
+Los operadores neuronales se han aplicado en áreas como modelado de flujo turbulento, modelado climático/meteorológico, mecánica estructural y flujo en medios porosos. En estos dominios, obtener soluciones en tiempo real o muchas consultas es crítico (para control, optimización, cuantificación de incertidumbre, etc.), y los operadores neuronales sirven como sustitutos eficientes.
+
+En general, a los métodos usados para aproximar el resultado de una simulación se los llama *emuladores*. Los emuladores se usan extensivamente en cosmología para explorar espacioes de parámetros de alta dimensión (tirando muchos puntos) sin necesidad de correr una simulación nueva cada vez.
+
+# Ejemplo: La Ecuación de Onda 1D
+
+Para concretar estos conceptos, consideremos un ejemplo físico sencillo: la ecuación de onda unidimensional. La ecuación de onda (en un dominio 1D, digamos $x\in [0,1]$ con condiciones de frontera apropiadas) es
+
+$u_{tt}(t,x) = c^2\,u_{xx}(t,x),$
+
+con condiciones iniciales $u(0,x) = f(x)$ y $u_t(0,x) = g(x)$. Aquí, $f(x)$ es el desplazamiento inicial de la cuerda (o campo de onda) y $g(x)$ es la velocidad inicial. Podemos pensar en el *operador de solución* $\mathcal{G}_T$ que mapea las condiciones iniciales al estado de la onda en el tiempo $T$
+
+$\mathcal{G}_T:\; (f, g) \mapsto u(T,\cdot),$
+
+el cual es a su vez una función de $x$. En este ejemplo, para simplificar, tomaremos $g(x)=0$ (velocidad inicial nula), de modo que la onda parte desde el reposo y $f(x)$ determina completamente el movimiento. La ecuación de onda es lineal y se puede escribir su solución explícitamente usando la *fórmula de d’Alembert*. En particular, en un dominio 1D infinito o periódico, la solución en el tiempo $t$ está dada por el promedio de una onda que se mueve a la derecha y otra a la izquierda originadas en $f$
+
+$$
+u(t,x) = \frac{1}{2}\Big[\,f(x - c\,t) + f(x + c\,t)\Big] + 
+\frac{1}{2c}\int_{x-ct}^{x+ct} g(s)\,ds \,.
+$$
+
+Para $g=0$, la fórmula se simplifica a $u(t,x) = \frac{1}{2}\left[f(x-ct) + f(x+ct)\right]$. Esto describe dos ondas de media amplitud viajando en sentidos opuestos, cuya superposición da la solución. Por ejemplo, si $c=1$ y $t=0.25$ (con las unidades apropiadas) en un dominio periódico de longitud $1$, entonces $u(0.25,x) = \tfrac{1}{2}\left[f(x-0.25)+f(x+0.25)\right]$. Geométricamente, esto es la forma inicial $f(x)$ dividida en dos mitades que se han desplazado una distancia 0.25 a izquierda y derecha y se superponen.
+
+Podemos ver a $\mathcal{G}_{0.25}$ (tiempo $T=0.25$) como un operador que toma la función inicial $f(x)$ y produce una nueva función $u(0.25,x)$. Este operador es lineal (de hecho es un operador de convolución/desplazamiento en este caso). Pero imaginemos que no conocemos la fórmula. Podríamos recolectar datos eligiendo muchas funciones iniciales diferentes $f(x)$, resolviendo la ecuación de onda para cada una y registrando la solución en $t=0.25$. El objetivo de un operador neuronal sería aprender el mapeo $f \mapsto u(0.25,\cdot)$ a partir de muchos ejemplos (formas distintas de $f$), y luego generalizar a nuevas condiciones iniciales rápidamente sin volver a resolver la ecuación explícitamente.
+
+Esta solución obtenida por el operador aprendido será una interpolación entre las soluciones vistas, pero puede ser una buena aproximación si la función $f$ se asemeja a alguna en el conunto de entrenamiento.
+
+# Aprendiendo el Operador de Solución de la Ecuación de Onda
+
+Para demostrar cómo implementar un operador neuronal, construiremos un ejemplo simple en PyTorch. Generaremos datos sintéticos resolviendo la ecuación de onda 1D para desplazamientos iniciales aleatorios, y luego entrenaremos una red neuronal para aprender el mapeo de la condición inicial a la solución. Para simplificar, discretizamos el dominio espacial en una cuadrícula de $N$ puntos y representamos las funciones como vectores de longitud $N$ (esto convierte el aprendizaje del operador en un problema de aprendizaje de función de dimensión finita, pero que puede aproximar el operador verdadero si $N$ es grande o si las funciones viven en un subespacio adecuado).
+
+## 1. Generación de Datos
+
+Primero, establecemos los parámetros del problema y creamos un conjunto de datos. Elegimos una cuadrícula espacial de tamaño $N=100$ (puntos en $[0,1]$), consideramos $c=1$ y un tiempo final $T=0.25$. Generamos funciones de desplazamiento inicial aleatorio $f(x)$ superponiendo algunos modos de Fourier aleatorios para obtener funciones suaves y periódicas. Luego calculamos el correspondiente $u(T,x)$ usando la solución analítica. Esto nos da pares $(f, u_T)$ para entrenamiento.
+
+```{python}
+import numpy as np
+
+# Parametros
+N = 100                 # numero de puntos espaciales
+dominio = np.linspace(0, 1, N, endpoint=False)
+c = 1.0
+T = 0.25                # tiempo final
+desplazamiento = int(c * T * N)  # desplazamiento en puntos de la cuadrícula
+
+# Funcion para generar un desplazamiento inicial aleatorio f(x)
+def funcion_inicial_aleatoria(x, num_modos=5):
+    f = np.zeros_like(x)
+    # superponer modos de Fourier aleatorios
+    for k in range(1, num_modos+1):
+        A = np.random.uniform(-1, 1)        # amplitud aleatoria
+        phi = np.random.uniform(0, 2*np.pi) # fase aleatoria
+        f += A * np.cos(2*np.pi * k * x + phi)
+    return f
+
+# Crear conjuntos de entrenamiento y prueba
+n_entrenamiento = 1000
+n_prueba  = 200
+entrenamiento_x = np.zeros((n_entrenamiento, N))
+entrenamiento_y = np.zeros((n_entrenamiento, N))
+for i in range(n_entrenamiento):
+    f = funcion_inicial_aleatoria(dominio)
+    # Solucion en T: u(T,x) = 0.5[f(x - cT) + f(x + cT)]
+    u_T = 0.5 * (np.roll(f, desplazamiento) + np.roll(f, -desplazamiento))
+    entrenamiento_x[i, :] = f
+    entrenamiento_y[i, :] = u_T
+
+# De forma similar para el conjunto de prueba
+prueba_x = np.zeros((n_prueba, N))
+prueba_y = np.zeros((n_prueba, N))
+for j in range(n_prueba):
+    f = funcion_inicial_aleatoria(dominio)
+    u_T = 0.5 * (np.roll(f, desplazamiento) + np.roll(f, -desplazamiento))
+    prueba_x[j, :] = f
+    prueba_y[j, :] = u_T
+
+# Convertir los datos a tensores de PyTorch
+import torch
+entrenamiento_x_t = torch.tensor(entrenamiento_x, dtype=torch.float32)
+entrenamiento_y_t = torch.tensor(entrenamiento_y, dtype=torch.float32)
+prueba_x_t  = torch.tensor(prueba_x, dtype=torch.float32)
+prueba_y_t  = torch.tensor(prueba_y, dtype=torch.float32)
+```
+
+En el código anterior, `np.roll(f, desplazamiento)` desplaza el arreglo `f` una cantidad de puntos (con envoltura periódica), evaluando efectivamente $f(x - T)$ o $f(x + T)$ en la cuadrícula discreta. Al promediar obtenemos la solución en el tiempo $T$. Finalmente, convertimos los arrays de NumPy a tensores de PyTorch para entrenamiento.
+
+## 2. Definición del Modelo de Operador Neuronal
+
+Usaremos una *red neuronal totalmente conectada*. Esta red toma un vector de longitud $N$ (la condición inicial discretizada $f$) y produce un vector de longitud $N$ (la solución predicha $u_T$). Aunque es esencialmente una red estándar (sin imponer estructura especial de operador), aún puede aprender el mapeo de $f$ a $u_T$ dada suficiente capacidad y datos. Modelos más sofisticados podrían usar convoluciones o compartir pesos para aprovechar simetrías, pero aquí usamos este enfoque básico por claridad.
+
+```{python}
+import torch.nn as nn
+
+class OperadorNeuronal1D(nn.Module):
+    def __init__(self, N):
+        super().__init__()
+        self.red = nn.Sequential(
+            nn.Linear(N, 128), nn.ReLU(),
+            nn.Linear(128, 128), nn.ReLU(),
+            nn.Linear(128, N)
+        )
+    def forward(self, x):
+        return self.red(x)
+
+# Instanciar el modelo
+modelo = OperadorNeuronal1D(N)
+```
+
+Esto define un perceptrón de 3 capas (dos ocultas de tamaño 128 con activaciones ReLU). No hay capas convolucionales ni de Fourier; la entrada se trata como vector plano.
+
+## 3. Entrenamiento del Modelo
+
+Entrenamos el operador neuronal usando el error cuadrático medio (MSE) entre la salida de la red y la solución verdadera $u_T(x)$, mediante descenso de gradiente (optimizador Adam). En cada época hacemos una pasada completa sobre los datos (por simplicidad, no usamos minibatches aquí, pero podría hacerse).
+
+```{python}
+import torch.optim as optim
+
+# Funcion de perdida y optimizador
+criterio = nn.MSELoss()
+optimizador = optim.Adam(modelo.parameters(), lr=1e-3)
+
+# Ciclo de entrenamiento
+num_epocas = 500
+for epoca in range(num_epocas):
+    # Paso hacia adelante con todos los datos de entrenamiento
+    prediccion = modelo(entrenamiento_x_t)            # forma: (n_entrenamiento, N)
+    perdida = criterio(prediccion, entrenamiento_y_t)
+    # Retropropagacion y actualizacion de pesos
+    optimizador.zero_grad()
+    perdida.backward()
+    optimizador.step()
+    # Imprimir progreso ocasionalmente
+    if epoca % 100 == 0:
+        print(f"Epoca {epoca}: perdida de entrenamiento = {perdida.item():.6f}")
+```
+
+Corremos, por ejemplo, 500 épocas. Cada 100 épocas imprimimos la pérdida para monitorear el avance. 
+
+## 4. Prueba del Operador Aprendido
+
+Tras entrenar, evaluamos el modelo sobre condiciones iniciales de prueba no vistas. Calculamos el error relativo para ver cuán bien se aprendió el operador y comparamos visualmente para un ejemplo.
+
+```{python}
+# Evaluar en datos de prueba
+modelo.eval()  # modo evaluacion
+with torch.no_grad():
+    # elegir un indice del conjunto de prueba
+    k = 0
+    f0 = prueba_x_t[k]         # condicion inicial
+    solucion_verdadera = prueba_y_t[k]    # solucion exacta en T
+    prediccion_u = modelo(f0.unsqueeze(0)).squeeze(0)  # agregar dimension batch
+    # Calcular error relativo L2
+    error = torch.norm(prediccion_u - solucion_verdadera) / torch.norm(solucion_verdadera)
+    print(f"Error relativo L2 en muestra de prueba {k}: {error.item():.4f}")
+```
+
+En este ejemplo 1D, el problema era fácil – el operador era un promedio de desplazamientos lineales, y la red lo aprende rápidamente. En escenarios más complejos (EDPs no lineales, más dimensiones, etc.), se requerirían arquitecturas más avanzadas y conjuntos de datos más grandes, pero el flujo de trabajo sería análogo: simular muchas instancias del sistema, entrenar una red para mapear entradas a salidas, y luego usar el modelo entrenado para predicciones rápidas.
+
+# Comparación con Métodos Numéricos Tradicionales
+
+¿Cómo se comparan los operadores neuronales con los solucionadores numéricos clásicos como diferencias finitas o elementos finitos? Existen diferencias importantes:
+
+- **Resolución explícita vs. modelo sustituto aprendido:** Los métodos tradicionales requieren resolver la EDP desde cero para cada nueva entrada (condición inicial/de frontera o parámetro). Esto suele involucrar algoritmos iterativos, resolución en malla, etc., lo cual puede ser computacionalmente costoso. Los operadores neuronales tienen un alto costo inicial (la fase de entrenamiento), pero después de eso, pueden interpolar para nuevas entradas. Por eso se pueden usar en situaciones en las cuales necesitamos rsolver muchas veces como en cadenas monte carlo.
+
+- **Precisión y convergencia:** Los solucionadores tradicionales tienen formas sistemáticas de mejorar la precisión (por ejemplo, refinar la malla o aumentar el orden polinomial en métodos de elementos finitos) y suelen contar con cotas teóricas de error. Los operadores neuronales, al ser impulsados por datos, no garantizan convergencia en el mismo sentido. Su precisión depende de haber visto entradas similares durante el entrenamiento y de la capacidad de la red. Un operador neuronal bien entrenado puede ser muy preciso dentro de la distribución de datos vista en entrenamiento (a menudo igualando el error de discretización numérica del solucionador que generó los datos). Sin embargo, si se le pide a un operador neuronal que extrapole muy lejos de lo que vio en entrenamiento (por ejemplo, un tipo de función de entrada completamente diferente), podría dar resultados pobres o no físicos.
+
+- **Generalidad:** Un solo operador neuronal puede *manejar un rango de parámetros o entradas* sin modificación, aprendiendo esencialmente el mapeo general de solución de una EDP paramétrica. Los solucionadores clásicos también pueden resolver EDPs paramétricas, pero lo hacen volviendo a resolver cada vez. Se puede ver a un operador neuronal como una especie de *solucionador generalizado* que ha visto muchas instancias y puede interpolar entre ellas.
+
+- **Interpretabilidad y garantías:** Las soluciones numéricas tradicionales obedecen las leyes físicas conocidas por construcción (por ejemplo, las leyes de conservación de energía o principios de máximo se cumplirán si el solucionador está bien diseñado). Los operadores neuronales, salvo que se les impongan restricciones explícitamente, podrían violar estos principios físicos porque aprenden ajustando datos. Por ejemplo, un operador neuronal para flujo de fluidos podría no conservar exactamente la masa salvo que esa propiedad se refuerce o emerja de los datos. En cuanto a estabilidad, los esquemas numéricos se analizan para garantizar estabilidad bajo refinamiento, mientras que la estabilidad de una red neuronal (por ejemplo, cómo se amplifican los errores en entradas no vistas) es más difícil de evaluar. Dicho esto, los operadores neuronales *pueden* incorporar cierta estructura física (por ejemplo, una arquitectura convolucional respeta la invariancia por traslación, y una capa de Fourier impone una estructura periódica global).
+
+- **Datos y costo de entrenamiento:** Una desventaja importante del enfoque de operador neuronal es la necesidad de un *gran conjunto de datos de soluciones*. Generar estos datos a menudo requiere ejecutar muchas veces un solucionador tradicional (o hacer experimentos) para producir soluciones de alta fidelidad para entrenar. Esto puede ser extremadamente costoso en EDPs 3D complejas: esencialmente se traslada la carga computacional al inicio. Los solucionadores clásicos no requieren precomputación: resuelven directamente las ecuaciones para el caso de interés. En escenarios donde los datos son escasos o costosos de obtener, un operador puramente impulsado por datos puede ser impráctico. 
+
+En resumen, los solucionadores tradicionales son fiables, generales y precisos para cada resolución pero pueden ser lentos si se repiten muchas veces; los operadores neuronales sacrifican parte de la precisión y generalidad garantizadas a cambio de velocidad y la capacidad de aprender de datos a través de muchas instancias. En la práctica, se pueden usar operadores neuronales como sustitutos para acelerar tareas como optimización o cuantificación de incertidumbre, mientras que los solucionadores clásicos sirven para verificación o para escenarios fuera del régimen entrenado.
+
+# Operadores Neuronales vs. Redes Neuronales Informadas por la Física (PINNs)
+
+Las Redes Neuronales Informadas por la Física (PINNs) son otro enfoque neuronal popular para problemas de EDPs, pero su caso de uso es fundamentalmente diferente al de los operadores neuronales. Es útil comparar y contrastar ambos métodos:
+
+- Las PINNs entrenan una red neuronal *para que satisfaga una EDP dada* (y condiciones de frontera/iniciales) *para un problema específico*. La función de pérdida de la PINN incluye el residuo de la EDP: la red aprende una solución $u_\theta(x,t)$ que hace que $u_{tt} - c^2 u_{xx} \approx 0$ (por ejemplo) y además satisface los datos iniciales y de frontera. Los operadores neuronales, en cambio, no codifican la EDP directamente en la pérdida; tratan el problema como una caja negra y aprenden a partir de *datos de soluciones precomputadas*. En resumen, las PINNs se entrenan de forma *no supervisada* (guiadas por la física) para un solo problema a la vez, mientras que los operadores neuronales se entrenan de forma *supervisada* (guiados por datos) sobre muchos problemas a la vez.
+
+- Una PINN se usa típicamente como *solucionador alternativo* para un escenario concreto  Por ejemplo, se entrena una PINN para resolver las ecuaciones de Navier–Stokes en una configuración de flujo específica, en vez de usar software clásico. Un operador neuronal se usa como *modelo sustituto*: se entrena sobre una clase de problemas para que pueda producir soluciones instantáneamente para nuevos casos de esa clase. Por ejemplo, se puede entrenar un operador neuronal en Navier–Stokes para distintas condiciones de contorno o forzamientos, y luego usarlo para predecir el flujo para una nueva condición rápidamente.
+
+- Las PINNs son atractivas porque *no requieren datos de solución*, la ley física es la señal de entrenamiento. Esto es útil si no se tienen ejemplos de la solución o si se confía más en la ecuación que en datos ruidosos. Los operadores neuronales *sí requieren datos*. Si se dispone de datos de alta fidelidad (de simulaciones o experimentos), los operadores neuronales pueden aprovecharlos para lograr precisión. Existen enfoques híbridos (aprendizaje de operadores informado por la física) que usan tanto datos como residuos de la EDP para entrenar, pero son áreas activas de investigación.
+
+- Es importante notar que la distinción entre PINNs y operadores neuronales no es absoluta. Existen métodos para entrenar operadores neuronales con restricciones físicas (para reducir la cantidad de datos requeridos o forzar leyes físicas), y, a la inversa, se puede ver una PINN con entradas paramétricas como un aprendiz de operador rudimentario. La biblioteca SciML de Julia, por ejemplo, ofrece tanto solucionadores PINN (NeuralPDE.jl) como herramientas de aprendizaje de operadores, reconociendo ambos como métodos complementarios. En general, se puede preferir una PINN cuando hay pocos datos pero una EDP bien definida (especialmente si es difícil para los métodos clásicos, como una EDP fraccionaria o de alta dimensión), mientras que los operadores neuronales destacan cuando se puede costear el entrenamiento previo sobre una familia de problemas para habilitar *inferencias rápidas* después.
+
+# Fuentes:
+
+1. Kovachki, N. et al. *Neural Operator: Learning Maps Between Function Spaces*. J. Mach. Learn. Res. 24(1): 4061-4157, 2023.
+
+2. Wikipedia: “Neural operators.” *Wikipedia, The Free Encyclopedia*, 2024.
+
+3. Lu, L., Jin, P., Karniadakis, G. *DeepONet: Learning nonlinear operators for identifying differential equations based on the universal approximation theorem of operators*. **arXiv:1910.03193** (2019).
+
+4. Li, Z. et al. *Fourier Neural Operator for Parametric Partial Differential Equations*. NeurIPS 2020. (See also **arXiv:2010.08895**).
+
+5. SciML Julia Library Documentation – Sections on PINNs and Neural Operators.
