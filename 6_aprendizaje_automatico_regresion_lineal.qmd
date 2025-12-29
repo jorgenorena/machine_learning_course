@@ -70,7 +70,7 @@ import matplotlib.pyplot as plt
 Importamos los datos 
 
 ```{python}
-datos_publicidad = pd.read_csv("../data/Advertising.csv", index_col=0)
+datos_publicidad = pd.read_csv("data/Advertising.csv", index_col=0)
 datos_publicidad.describe()
 ```
 

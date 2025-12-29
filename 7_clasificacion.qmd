@@ -576,7 +576,7 @@ Usemos los diferentes clasificadores para estudiar el siguiente problema. Tenemo
 ```{python}
 import pandas as pd
 
-default = pd.read_csv("../data/default.csv")
+default = pd.read_csv("data/default.csv")
 default.head()
 ```
 
