@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Transformadores y el mecanismo de atención – Aprendizaje Automático para Físicos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Aprendizaje Automático para Físicos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-clases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Clases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-clases">    
+        <li class="dropdown-header">Probabilidad y Estadística</li>
+        <li>
+    <a class="dropdown-item" href="./1_probabilidad.html">
+ <span class="dropdown-text">1. Probabilidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_distribuciones_y_estimacion.html">
+ <span class="dropdown-text">2. Distribuciones y Estimación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_verosimilitud.html">
+ <span class="dropdown-text">3. Verosimilitud</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_minimos_cuadrados_intervalos.html">
+ <span class="dropdown-text">4. Mínimos Cuadrados e Intervalos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
+ <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Aprendizaje Automático</li>
+        <li>
+    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_clasificacion.html">
+ <span class="dropdown-text">7. Clasificación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
+ <span class="dropdown-text">8. Selección de Modelos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
+ <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
+ <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Redes Neuronales</li>
+        <li>
+    <a class="dropdown-item" href="./11_perceptron_y_redes_conexas.html">
+ <span class="dropdown-text">11. Perceptrón y Redes Conexas y Pérdidas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_gradient_descent_and_autodiff.html">
+ <span class="dropdown-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_evaluacion_y_regularizacion_de_nn.html">
+ <span class="dropdown-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_redes_convolucionales.html">
+ <span class="dropdown-text">14. Redes Convolucionales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_redes_residuales.html">
+ <span class="dropdown-text">15. Redes Residuales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_transformadores.html">
+ <span class="dropdown-text">16. Transformadores y el mecanismo de atención</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Algunas aplicaciones</li>
+        <li>
+    <a class="dropdown-item" href="./17_flujos_normalizantes.html">
+ <span class="dropdown-text">17. Flujos Normalizantes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_PINNs.html">
+ <span class="dropdown-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_Operador_Neural.html">
+ <span class="dropdown-text">19. Operadores Neuronales</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11_perceptron_y_redes_conexas.html">Redes Neuronales</a></li><li class="breadcrumb-item"><a href="./16_transformadores.html">16. Transformadores y el mecanismo de atención</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Probabilidad y Estadística</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_probabilidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Probabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_distribuciones_y_estimacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Distribuciones y Estimación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Verosimilitud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_minimos_cuadrados_intervalos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Mínimos Cuadrados e Intervalos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Aprendizaje Automático</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Clasificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Selección de Modelos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Redes Neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_perceptron_y_redes_conexas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Perceptrón, Redes Conexas y Pérdidas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_gradient_descent_and_autodiff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_evaluacion_y_regularizacion_de_nn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_redes_convolucionales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14. Redes Convolucionales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_redes_residuales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15. Redes Residuales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_transformadores.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">16. Transformadores y el mecanismo de atención</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Algunas aplicaciones</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17_flujos_normalizantes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">17. Flujos Normalizantes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18_PINNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19_Operador_Neural.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">19. Operadores Neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#procesamiento-de-datos-textuales" id="toc-procesamiento-de-datos-textuales" class="nav-link active" data-scroll-target="#procesamiento-de-datos-textuales">Procesamiento de datos textuales</a></li>
+  <li><a href="#auto-atención" id="toc-auto-atención" class="nav-link" data-scroll-target="#auto-atención">Auto-atención</a>
+  <ul class="collapse">
+  <li><a href="#calculando-los-pesos-de-atención" id="toc-calculando-los-pesos-de-atención" class="nav-link" data-scroll-target="#calculando-los-pesos-de-atención">Calculando los pesos de atención</a></li>
+  </ul></li>
+  <li><a href="#detalles-adicionales-importantes" id="toc-detalles-adicionales-importantes" class="nav-link" data-scroll-target="#detalles-adicionales-importantes">Detalles adicionales importantes</a>
+  <ul class="collapse">
+  <li><a href="#escalado-de-la-atención" id="toc-escalado-de-la-atención" class="nav-link" data-scroll-target="#escalado-de-la-atención">Escalado de la atención</a></li>
+  <li><a href="#codificación-posicional-positional-encoding" id="toc-codificación-posicional-positional-encoding" class="nav-link" data-scroll-target="#codificación-posicional-positional-encoding">Codificación posicional (positional encoding)</a></li>
+  <li><a href="#atención-con-múltiples-cabezas" id="toc-atención-con-múltiples-cabezas" class="nav-link" data-scroll-target="#atención-con-múltiples-cabezas">Atención con múltiples cabezas</a></li>
+  </ul></li>
+  <li><a href="#el-transformador" id="toc-el-transformador" class="nav-link" data-scroll-target="#el-transformador">El transformador</a></li>
+  <li><a href="#tokens" id="toc-tokens" class="nav-link" data-scroll-target="#tokens">Tokens</a></li>
+  <li><a href="#embebimientos-embeddings" id="toc-embebimientos-embeddings" class="nav-link" data-scroll-target="#embebimientos-embeddings">Embebimientos (Embeddings)</a></li>
+  <li><a href="#entrenamiento-de-transformadores" id="toc-entrenamiento-de-transformadores" class="nav-link" data-scroll-target="#entrenamiento-de-transformadores">Entrenamiento de transformadores</a></li>
+  <li><a href="#ejercicios-sugeridos" id="toc-ejercicios-sugeridos" class="nav-link" data-scroll-target="#ejercicios-sugeridos">Ejercicios Sugeridos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11_perceptron_y_redes_conexas.html">Redes Neuronales</a></li><li class="breadcrumb-item"><a href="./16_transformadores.html">16. Transformadores y el mecanismo de atención</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Transformadores y el mecanismo de atención</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Los transformadores son una arquitectura de red neuronal que ha demostrado ser muy efectiva en el procesamiento del lenguaje natural y en la clasificación de imágenes. Están detrás de los chatbots que han catapultado este campo a la primera página de los periódicos.</p>
+<section id="procesamiento-de-datos-textuales" class="level1">
+<h1>Procesamiento de datos textuales</h1>
+<p>Consideremos un texto sencillo, como: “El perro no quiere jugar, pero el niño sí. Le dijimos que vaya a jugar a otra parte.” Vemos inmediatamente tres características:</p>
+<ul>
+<li>El texto tiene una longitud variable. Esto sugiere usar una arquitectura tal que se compartan parámetros entre las diferentes posiciones del texto. (Algo similar a lo hecho con redes convolucionales.)</li>
+<li>Incluso esta frase sencilla representa un problema de alta dimensionalidad. Si codificamos cada palabra en un vector de <span class="math inline">\(1024\)</span> dimensiones, el texto tiene <span class="math inline">\(18\)</span> palabras, entonces tenemos <span class="math inline">\(18 \times 1024 = 18432\)</span> parámetros.</li>
+<li>La palabra “le” se refiere a uno de los sujetos de la frase anterior. Esto sugiere que para decodificar su significado, debe prestarle “atención” a otra parte del texto.</li>
+</ul>
+</section>
+<section id="auto-atención" class="level1">
+<h1>Auto-atención</h1>
+<p>El mecanismo de atención permite a la red prestarle “atención” a diferentes partes del texto. Para lograrlo, primero queremos darle un poco de libertad al modelo, tomando combinaciones de las variables</p>
+<p><span class="math display">\[
+\boldsymbol{v} = \boldsymbol{W}_v\boldsymbol{x} + \boldsymbol{\beta}_v\,,
+\]</span></p>
+<p>que son llamados los “valores”. Los usamos en vez de usar directamente <span class="math inline">\(\boldsymbol{x}\)</span> para que el modelo pueda aprender cuáles combinaciones de variables son útiles para predecir la respuesta. Si la variable <span class="math inline">\(\boldsymbol{x}\)</span> tiene dimensión <span class="math inline">\(D\)</span>, la matriz <span class="math inline">\(\boldsymbol{W}_v\)</span> tiene dimensión <span class="math inline">\(D \times D_v\)</span> y el vector <span class="math inline">\(\boldsymbol{\beta}_v\)</span> tiene dimensión <span class="math inline">\(D_v\)</span>. Esto nos da un total de <span class="math inline">\(D \times D_v + D_v = D(D_v + 1)\)</span> parámetros.</p>
+<p>Luego la <em>auto-atención</em> está dada por</p>
+<p><span class="math display">\[
+\boldsymbol{a}_n[\boldsymbol{x}_1, ..., \boldsymbol{x}_N] = \sum_{m=1}^N a(\boldsymbol{x}_m, \boldsymbol{x}_n)\boldsymbol{v}_m\,,
+\]</span></p>
+<p>y <span class="math inline">\(a(\boldsymbol{x}_m, \boldsymbol{x}_n)\)</span> son los “pesos de atención” y representan la importancia de la posición <span class="math inline">\(m\)</span> para la posición <span class="math inline">\(n\)</span>.</p>
+<p>Esto se ilustra en la figura 12.1 del libro.</p>
+<section id="calculando-los-pesos-de-atención" class="level2">
+<h2 class="anchored" data-anchor-id="calculando-los-pesos-de-atención">Calculando los pesos de atención</h2>
+<p>Para calcular estos pesos de atención, primero definimos dos nuevas combinaciones de variables llamadas “queries” <span class="math inline">\(\boldsymbol{q}\)</span> y “keys” <span class="math inline">\(\boldsymbol{k}\)</span> (en español se podrían llamar “consultas” y “claves”, y tienen estos nombres por razones históricas) dadas por</p>
+<p><span class="math display">\[
+\boldsymbol{q}_n = \boldsymbol{W}_q\boldsymbol{x}_n + \boldsymbol{\beta}_q\,,
+\]</span></p>
+<p>y</p>
+<p><span class="math display">\[
+\boldsymbol{k}_m = \boldsymbol{W}_k\boldsymbol{x}_m + \boldsymbol{\beta}_k\,,
+\]</span></p>
+<p>respectivamente. En principio, los vectores <span class="math inline">\(\boldsymbol{q}\)</span> y <span class="math inline">\(\boldsymbol{k}\)</span> tienen dimensión <span class="math inline">\(D_q\)</span> que puede ser diferente de la dimensión <span class="math inline">\(D\)</span> de los vectores <span class="math inline">\(\boldsymbol{x}\)</span>. Entonces estas combinaciones introducen otros <span class="math inline">\(2D_q (D + 1)\)</span> parámetros.</p>
+<p>Luego, en la llada “atención de producto punto” calculamos el producto punto entre <span class="math inline">\(\boldsymbol{q}_m\)</span> y <span class="math inline">\(\boldsymbol{k}_n\)</span> y lo ponemos en una función softmax</p>
+<p><span class="math display">\[
+a(\boldsymbol{x}_m, \boldsymbol{x}_n) = \text{softmax}\left(\boldsymbol{k}_m^T\boldsymbol{q}_n\right) = \frac{\exp\left(\boldsymbol{k}_m^T\boldsymbol{q}_n\right)}{\sum_{m=1}^N \exp\left(\boldsymbol{k}_m^T\boldsymbol{q}_n\right)}\,.
+\]</span></p>
+<p>Recordemos que la función softmax es una función que regresa un valor entre <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> que suma <span class="math inline">\(1\)</span> cuando se suman todos los valores. Entonces la atención nos da el peso de cada posición <span class="math inline">\(m\)</span> para la posición <span class="math inline">\(n\)</span>, siendo <span class="math inline">\(1\)</span> cuando la posición <span class="math inline">\(m\)</span> es la más relevante para la posición <span class="math inline">\(n\)</span> y <span class="math inline">\(0\)</span> cuando no es relevante.</p>
+<p>Note que los coeficientes de atención <span class="math inline">\(a(\boldsymbol{x}_m, \boldsymbol{x}_n)\)</span> forman una matriz <span class="math inline">\(N \times N\)</span>.</p>
+<p>El cálculo de los pesos de atención se ilustra en la figura 12.3 del libro.</p>
+<p>Usando notación matricial, podemos escribir los datos <span class="math inline">\(N\)</span> datos <span class="math inline">\(\boldsymbol{x}\)</span> como una matriz <span class="math inline">\(D \times N\)</span>, donde cada columna es un dato, tal que los valores, llaves y consultas son <span class="math display">\[
+\boldsymbol{V} = \boldsymbol{W}_v\boldsymbol{X} + \boldsymbol{\beta}_v\boldsymbol{1}_{N}^T\,,
+\]</span> <span class="math display">\[
+\boldsymbol{K} = \boldsymbol{W}_k\boldsymbol{X} + \boldsymbol{\beta}_k\boldsymbol{1}_{N}^T\,,
+\]</span> y <span class="math display">\[
+\boldsymbol{Q} = \boldsymbol{W}_q\boldsymbol{X} + \boldsymbol{\beta}_q\boldsymbol{1}_{N}^T\,,
+\]</span></p>
+<p>donde <span class="math inline">\(\boldsymbol{1}_{N}\)</span> es un vector de <span class="math inline">\(N\)</span> unos y los productos son productos matriciales. Ahora los valores son matrices <span class="math inline">\(D \times N\)</span>, y las llaves y consultas son vectores <span class="math inline">\(D_q \times N\)</span>. La atención se puede representar como</p>
+<p><span class="math display">\[
+\boldsymbol{a} = \text{softmax}_\text{rows}\left(\boldsymbol{K}^T\boldsymbol{Q}\right)^T\boldsymbol{V}\,.
+\]</span></p>
+<p>Aquí la función softmax se aplica por filas, es decir, para cada fila <span class="math inline">\(n\)</span> de la matriz <span class="math inline">\(\boldsymbol{K}^T\boldsymbol{Q}\)</span>, se aplica la función softmax para obtener la fila <span class="math inline">\(n\)</span> de la matriz <span class="math inline">\(\text{softmax}_\text{rows}(\boldsymbol{K}^T\boldsymbol{Q})\)</span>.</p>
+<p>Esta versión matricial se ilustra en la figura 12.4 del libro.</p>
+</section>
+</section>
+<section id="detalles-adicionales-importantes" class="level1">
+<h1>Detalles adicionales importantes</h1>
+<p>Para el uso del mecanismo de atención, necesitamos tomar en cuenta tres detalles importantes</p>
+<section id="escalado-de-la-atención" class="level2">
+<h2 class="anchored" data-anchor-id="escalado-de-la-atención">Escalado de la atención</h2>
+<p>En la práctica, el producto punto entre las llaves y las consultas puede volverse muy grande, lo que puede hacer que la softmax tenga problemas numéricos. Por lo tanto, se escala el producto punto entre las llaves y las consultas por la raíz cuadrada de la dimensión de las llaves. Es decir,</p>
+<p><span class="math display">\[
+a(\boldsymbol{x}_m, \boldsymbol{x}_n) = \text{softmax}\left(\frac{\boldsymbol{k}_m^T\boldsymbol{q}_n}{\sqrt{D_q}}\right)\,.
+\]</span></p>
+</section>
+<section id="codificación-posicional-positional-encoding" class="level2">
+<h2 class="anchored" data-anchor-id="codificación-posicional-positional-encoding">Codificación posicional (positional encoding)</h2>
+<p>Como se ha implementado arriba, la atención es equivariante bajo intercambio de las posiciones en la frase. Sin embargo, sabemos que las posiciones de las palabras pueden cambiar el significado de la frase. Por ejemplo la frase “el perro mordió al niño” es diferente a la frase “el niño mordió al perro”. Por lo tanto, para darle a la red información sobre la posición de las palabras, se le da una codificación posicional adicional. En su versión más sencilla esta codificación es una matriz <span class="math inline">\(D \times N\)</span> que se suma a la matriz <span class="math inline">\(\boldsymbol{X}\)</span>.</p>
+<p>Cuando se tienen pocos datos, esta matriz se puede fijar tal que cada columna sea una función distinta de la posición. Se usan con frecuencia matrices explotando las propiedades de las funciones trigonométricas para que la codificación posicional sea periódica, tal que se tiene información sobre la distancia relativa entre dos posiciones.</p>
+<p>Para los grandes modelos de lenguaje, la codificación posicional es un conjunto de parámetros adicionales que el modelo aprende.</p>
+<p>Una matriz posicional se muestra en la figura 12.5 del libro.</p>
+</section>
+<section id="atención-con-múltiples-cabezas" class="level2">
+<h2 class="anchored" data-anchor-id="atención-con-múltiples-cabezas">Atención con múltiples cabezas</h2>
+<p>Una manera de hacer más robusta la atención es usar múltiples cabezas de atención. Es decir, en lugar de usar una sola matriz de valores, llaves y consultas, se usan <span class="math inline">\(h\)</span> matrices de valores, llaves y consultas para producir <span class="math inline">\(h\)</span> resultados de atención. Esto hace que el modelo sea más robusto en el sentido que cada cabeza puede codificar diferentes aspectos de la información, lo que puede ser útil para diferentes tareas.</p>
+<p>Esto hace el modelo más robusto a la variación de los datos y puede mejorar el rendimiento en tareas donde la información es dispersa.</p>
+<p>En la práctica, cuando se usan <span class="math inline">\(h\)</span> cabezas, se escoge la dimensión <span class="math inline">\(D_q\)</span> tal que <span class="math inline">\(D_q = \frac{D}{h}\)</span>. Esto además reduce la complejidad del modelo, ya que al calcular el producto punto entre las llaves y las consultas <span class="math inline">\(\boldsymbol{k}_m^T\boldsymbol{q}_n\)</span>, se reduce el número de parámetros y multiplicaciones.</p>
+<p>Un ejemplo de atención con múltiples cabezas se muestra en la figura 12.6 del libro.</p>
+</section>
+</section>
+<section id="el-transformador" class="level1">
+<h1>El transformador</h1>
+<p>El transformador consiste en una capa que incorpora:</p>
+<ol type="1">
+<li>Una capa de atención con conexión residual.</li>
+<li>Una capa de normalización por capa (layer normalization), explicada más abajo.</li>
+<li>Una capa de feedforward con conexión residual.</li>
+<li>Otra capa de normalización por capa.</li>
+</ol>
+<p>Podemos ver la arquitectura del transformador en la figura 12.7 del libro.</p>
+<p>Lo que hace la capa de normalización por capa es similar a BatchNorm que vimos antes, pero en lugar de normalizar por el valor promedio y la desviación estándar de los datos en un mini-lote, normaliza por el valor promedio y la desviación estándar para cada dato a lo largo de las <span class="math inline">\(D\)</span> dimensiones de entrada. Esto se hace porque se observa que los valores por mini-lote pueden variar mucho y desestabilizan el entrenamiento.</p>
+</section>
+<section id="tokens" class="level1">
+<h1>Tokens</h1>
+<p>Antes de aplicar el transformador a un problema de lenguaje, debemos convertir el texto en una secuencia de números <span class="math inline">\(\boldsymbol{x}\)</span>. Esto involucra dos pasos: Primero debemos partir el texto en sus componentes básicas, llamadas tokens.</p>
+<p>Una manera de hacerlo es partir el texto en las palabras que lo componen. Pero esto pone varios problemas:</p>
+<ul>
+<li>Algunas palabras a la hora de usar el modelo pueden no estar en el conjunto de entrenamiento y aún así tener significado claro. Por ejemplo palabras compuestas.</li>
+<li>Necesitamos tomar en cuenta la puntuación, que puede cambiar el significado del texto. Esto es crucial por ejemplo si queremos que el modelo sea capaz de entender código.</li>
+<li>En varios lenguajes los prefijos y sufijos cambian el significado de las palabras.</li>
+<li>Si cada palabra es un token, el número de tokens es enorme (corresponde a todo el diccionario).</li>
+</ul>
+<p>Una alternativa es que cada letra sea un token. Pero al hacer esto perdemos la información sobre la posición de las palabras.</p>
+<p>Por lo tanto, se usan técnicas más sofisticadas para convertir el texto en tokens. Por ejemplo, se pueden usar técnicas de tokenización que consideren la gramática del lenguaje, como el tokenizador de BPE (Byte Pair Encoding) o WordPiece.</p>
+<p>Para entender BPE, consideremos el texto “tres tristes tigres tragan trigo en un trigal”. Procedemos por pasos</p>
+<ul>
+<li>Primero, se dividen las palabras en secuencias de letras. Por ejemplo, la palabra “tres” se divide en “t”, “r”, “e”, “s”. A este paso cada token es una letra.</li>
+<li>Se escogen las secuencias de dos letras más comunes en el texto. Por ejemplo, la secuencia “tr” es una secuencia común en el texto. Ahora cada token es una letra o la secuencia “tr”.</li>
+<li>Se busca de nuevo la secuencia de dos tokens más común. En nuestro ejemplo esto nos dice que debemos tratar “tri” como un nuevo token.</li>
+<li>Se procede hasta llegar a un número fijo total de tokens.</li>
+</ul>
+<p>Normalmente, este proceso se entrena sobre un gran conjunto de textos para buscar los tokens óptimos, antes de entrenar el modelo en sí.</p>
+<p>Esto nos produce un <em>vocabulario</em> <span class="math inline">\(\mathcal{V}\)</span> de <span class="math inline">\(|\mathcal{V}|\)</span> tokens.</p>
+</section>
+<section id="embebimientos-embeddings" class="level1">
+<h1>Embebimientos (Embeddings)</h1>
+<p>Finalmente, nos falta discutir cómo transformar los tokens en vectores numéricos que es lo que usamos para los transformadores.</p>
+<p>En el caso más sencillo, cada token es un entero que se codifica en un vector de <span class="math inline">\(D\)</span> dimensiones. Por ejemplo, si <span class="math inline">\(|\mathcal{V}| = 10000\)</span>, entonces cada token es un entero entre <span class="math inline">\(0\)</span> y <span class="math inline">\(9999\)</span>. Entonces cada token se codifica en un vector de <span class="math inline">\(D\)</span> dimensiones tal que la entrada <span class="math inline">\(i\)</span> es <span class="math inline">\(1\)</span> si el token es el <span class="math inline">\(i\)</span>-ésimo token del vocabulario y <span class="math inline">\(0\)</span> en otro caso. Esto se llama <em>one-hot encoding</em>.</p>
+<p>Con one-hot encoding producimos una matriz <span class="math inline">\(T\)</span> de dimensión <span class="math inline">\(|\mathcal{V}| \times N\)</span> donde <span class="math inline">\(N\)</span> es el número de tokens. Cada columna es un token codificado en one-hot encoding. Esto es altamente ineficiente ya que tenemos vectores enormes llenos de unos y ceros. Nuestras matrices serán enormes y el entrenamiento requerirá mucha memoria.</p>
+<p>Si lo pensamos, un vector de números reales contiene mucha información. Potencialmente infinita ya que cada número real puede tener una infinita cantidad de decimales. Obviamente el computador tiene precisión finita en cada número de punto flotante, pero aún así podemos combinar varios números de punto flotante para codificar un token.</p>
+<p>Para lograrlo, tomamos la matriz <span class="math inline">\(T\)</span> y la multiplicamos por una <em>matriz de embebimiento</em> (embedding) <span class="math inline">\(M\)</span> de dimensión <span class="math inline">\(D \times |\mathcal{V}|\)</span>. Esto nos da una matriz <span class="math inline">\(D \times N\)</span> que es la representación en <span class="math inline">\(D\)</span> dimensiones de los <span class="math inline">\(N\)</span> tokens. ¿Cuál matriz usamos? No sabemos a priori si no que dejamos sus elementos como parámetros libres que se ajustarán durante el entrenamiento.</p>
+<p>Esta matriz de embebimiento luego se alimenta a una serie de transformadores apilados uno sobre otro.</p>
+<p>Las matrices de embebimiento usadas en los modelos grandes de lenguaje tienen propiedades interesantes. Parece que los vectores que producen codifican de alguna forma el significado de los tokens. Un ejemplo famoso es que el vector que representa la palabra “rey” menos el vector que representa la palabra “hombre” más el vector para “mujer” es cercano al vector para “reina”.</p>
+</section>
+<section id="entrenamiento-de-transformadores" class="level1">
+<h1>Entrenamiento de transformadores</h1>
+<p>No describiremos aquí en detalle las estrategias ni arquitecturas específicas para entrenar los transformadores. El lector puede consultar el libro.</p>
+<p>Brevemente, lo que se hace es que se entrenan los tokenizers en un conjunto grande de textos como descrito arriba. Luego esto se alimenta a un modelo que consiste de un embebimiento, matrices posicionales y muchos transformadores multicapa apilados.</p>
+<p>Para lograr el entrenamiento, primero se usa un pre-entrenamiento no supervisado. Es decir, se diseña un objetivo que no requiera etiquetamiento de los textos de entrada. Por ejemplo predecir la palabra faltante en una frase (se puede remover aleatoriamente y saber cuál era sin que un humano la etiquete). Esto se hace en simultánea para varias tareas lo que hace más robusto el modelo.</p>
+<p>Luego se termina de entrenar en varias tareas de lenguaje supervisadas. Por ejemplo, clasificar los textos según su género, o respuestas a preguntas contenidas en el texto.</p>
+</section>
+<section id="ejercicios-sugeridos" class="level1">
+<h1>Ejercicios Sugeridos</h1>
+<p>12.1, 12.3, 12.4, 12.5</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

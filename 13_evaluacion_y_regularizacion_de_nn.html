@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Evaluación de modelos y regularización – Aprendizaje Automático para Físicos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Aprendizaje Automático para Físicos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-clases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Clases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-clases">    
+        <li class="dropdown-header">Probabilidad y Estadística</li>
+        <li>
+    <a class="dropdown-item" href="./1_probabilidad.html">
+ <span class="dropdown-text">1. Probabilidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_distribuciones_y_estimacion.html">
+ <span class="dropdown-text">2. Distribuciones y Estimación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_verosimilitud.html">
+ <span class="dropdown-text">3. Verosimilitud</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_minimos_cuadrados_intervalos.html">
+ <span class="dropdown-text">4. Mínimos Cuadrados e Intervalos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
+ <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Aprendizaje Automático</li>
+        <li>
+    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_clasificacion.html">
+ <span class="dropdown-text">7. Clasificación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
+ <span class="dropdown-text">8. Selección de Modelos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
+ <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
+ <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Redes Neuronales</li>
+        <li>
+    <a class="dropdown-item" href="./11_perceptron_y_redes_conexas.html">
+ <span class="dropdown-text">11. Perceptrón y Redes Conexas y Pérdidas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_gradient_descent_and_autodiff.html">
+ <span class="dropdown-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_evaluacion_y_regularizacion_de_nn.html">
+ <span class="dropdown-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_redes_convolucionales.html">
+ <span class="dropdown-text">14. Redes Convolucionales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_redes_residuales.html">
+ <span class="dropdown-text">15. Redes Residuales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_transformadores.html">
+ <span class="dropdown-text">16. Transformadores y el mecanismo de atención</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Algunas aplicaciones</li>
+        <li>
+    <a class="dropdown-item" href="./17_flujos_normalizantes.html">
+ <span class="dropdown-text">17. Flujos Normalizantes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_PINNs.html">
+ <span class="dropdown-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_Operador_Neural.html">
+ <span class="dropdown-text">19. Operadores Neuronales</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11_perceptron_y_redes_conexas.html">Redes Neuronales</a></li><li class="breadcrumb-item"><a href="./13_evaluacion_y_regularizacion_de_nn.html">13. Evaluación y Regularización de redes neuronales</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Probabilidad y Estadística</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_probabilidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Probabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_distribuciones_y_estimacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Distribuciones y Estimación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Verosimilitud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_minimos_cuadrados_intervalos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Mínimos Cuadrados e Intervalos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Aprendizaje Automático</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Clasificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Selección de Modelos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Redes Neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_perceptron_y_redes_conexas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Perceptrón, Redes Conexas y Pérdidas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_gradient_descent_and_autodiff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_evaluacion_y_regularizacion_de_nn.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_redes_convolucionales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14. Redes Convolucionales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_redes_residuales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15. Redes Residuales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_transformadores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16. Transformadores y el mecanismo de atención</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Algunas aplicaciones</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17_flujos_normalizantes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">17. Flujos Normalizantes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18_PINNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19_Operador_Neural.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">19. Operadores Neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#evaluación-de-modelos" id="toc-evaluación-de-modelos" class="nav-link active" data-scroll-target="#evaluación-de-modelos">Evaluación de modelos</a>
+  <ul class="collapse">
+  <li><a href="#repaso-de-varianza-sesgo-y-error-irreducible" id="toc-repaso-de-varianza-sesgo-y-error-irreducible" class="nav-link" data-scroll-target="#repaso-de-varianza-sesgo-y-error-irreducible">Repaso de varianza, sesgo y error irreducible</a>
+  <ul class="collapse">
+  <li><a href="#intuición" id="toc-intuición" class="nav-link" data-scroll-target="#intuición">Intuición</a></li>
+  <li><a href="#formulación-matemática" id="toc-formulación-matemática" class="nav-link" data-scroll-target="#formulación-matemática">Formulación matemática</a></li>
+  <li><a href="#tensión-entre-sesgo-y-varianza" id="toc-tensión-entre-sesgo-y-varianza" class="nav-link" data-scroll-target="#tensión-entre-sesgo-y-varianza">Tensión entre sesgo y varianza</a></li>
+  </ul></li>
+  <li><a href="#descenso-doble-double-descent" id="toc-descenso-doble-double-descent" class="nav-link" data-scroll-target="#descenso-doble-double-descent">Descenso doble (Double descent)</a></li>
+  <li><a href="#búsqueda-de-hiperparámetros" id="toc-búsqueda-de-hiperparámetros" class="nav-link" data-scroll-target="#búsqueda-de-hiperparámetros">Búsqueda de hiperparámetros</a></li>
+  </ul></li>
+  <li><a href="#regularización" id="toc-regularización" class="nav-link" data-scroll-target="#regularización">Regularización</a>
+  <ul class="collapse">
+  <li><a href="#regularización-explícita" id="toc-regularización-explícita" class="nav-link" data-scroll-target="#regularización-explícita">Regularización explícita</a></li>
+  <li><a href="#regularización-implícita" id="toc-regularización-implícita" class="nav-link" data-scroll-target="#regularización-implícita">Regularización implícita</a>
+  <ul class="collapse">
+  <li><a href="#regularización-por-descenso-de-gradiente" id="toc-regularización-por-descenso-de-gradiente" class="nav-link" data-scroll-target="#regularización-por-descenso-de-gradiente">Regularización por descenso de gradiente</a></li>
+  </ul></li>
+  <li><a href="#métodos-para-reducir-el-error-de-generalización" id="toc-métodos-para-reducir-el-error-de-generalización" class="nav-link" data-scroll-target="#métodos-para-reducir-el-error-de-generalización">Métodos para reducir el error de generalización</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-sugeridos" id="toc-ejercicios-sugeridos" class="nav-link" data-scroll-target="#ejercicios-sugeridos">Ejercicios sugeridos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11_perceptron_y_redes_conexas.html">Redes Neuronales</a></li><li class="breadcrumb-item"><a href="./13_evaluacion_y_regularizacion_de_nn.html">13. Evaluación y Regularización de redes neuronales</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Evaluación de modelos y regularización</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="evaluación-de-modelos" class="level1">
+<h1>Evaluación de modelos</h1>
+<p>Hemos visto cómo entrenar una red neuronal para que aprenda a predecir. Ahora vamos a repasar cómo evaluar el rendimiento de una red neuronal. Usaremos las mismas técnicas que vimos para evaluar el rendimiento de cualquier modelo de aprendizaje supervisado. Sin embargo, las redes neuronales tienen un par de particularidades, como el llamado “descenso doble” (double descent).</p>
+<p>Luego veremos cómo regularizar las redes neuronales para evitar el sobreajuste y mejorar su generalización. De nuevo empezaremos con un repaso de lo visto para cualquier modelo de aprendizaje supervisado. En el sentido estricto, la regularización se refiere a métodos para restringir el espacio de búsqueda de modelos, es decir, para limitar la complejidad del modelo. Sin embargo, en la práctica, la regularización suele referirse a métodos que reducen el error de generalización. Veremos algunos de esos métodos al final de estas notas.</p>
+<section id="repaso-de-varianza-sesgo-y-error-irreducible" class="level2">
+<h2 class="anchored" data-anchor-id="repaso-de-varianza-sesgo-y-error-irreducible">Repaso de varianza, sesgo y error irreducible</h2>
+<p>Recordemos que el error de generalización consiste en el error que comete un modelo entrenado con un conjunto de datos al intentar predecir el valor de una nueva observación. Este error viene de tres fuentes:</p>
+<ol type="1">
+<li><strong>Varianza</strong>: Mide la variabilidad del modelo.</li>
+<li><strong>Sesgo</strong>: Mide el error sistemático del modelo.</li>
+<li><strong>Error irreducible</strong>: Mide el error que no puede ser reducido por el modelo.</li>
+</ol>
+<section id="intuición" class="level3">
+<h3 class="anchored" data-anchor-id="intuición">Intuición</h3>
+<p>Primero repasemos de manera intuitiva cada una de estas fuentes de error.</p>
+<ul>
+<li><p><strong>Varianza</strong>: Mide la variabilidad del modelo. Es decir, cuánto cambia la predicción del modelo al cambiar el conjunto de datos de entrenamiento. Un modelo con alta varianza es poco fiable: El hecho que la predicción cambie mucho al cambiar el conjunto de datos de entrenamiento indica que el modelo está ajustando demasiado a las particularidades de esos datos. No nos esperamos que haga una buena predicción en un dato no visto.</p></li>
+<li><p><strong>Sesgo</strong>: Mide el error sistemático del modelo. Es decir, cuánto se desvía la predicción del modelo de la verdadera relación entre las variables. Un modelo con alto sesgo subestima o sobreestima sistemáticamente el valor de las predicciones. Usualmente ocurre cuando el modelo es demasiado simple para el problema que estamos modelando. De nuevo, un modelo con alto sesgo es poco fiable: Si el modelo es demasiado simple, no puede capturar la verdadera relación entre las variables, y por lo tanto no es capaz de hacer predicciones precisas.</p></li>
+<li><p><strong>Error irreducible</strong>: Mide el error que no puede ser reducido por el modelo. Es decir, el error que existiría incluso si tuviéramos acceso a un conjunto de datos infinito. Este error es intrínseco al problema que estamos modelando. Este puede venir por errores en las mediciones de las variables, o porque la respuesta que queremos predecir depende de variables no observadas, o tiene una naturaleza estocástica.</p></li>
+</ul>
+</section>
+<section id="formulación-matemática" class="level3">
+<h3 class="anchored" data-anchor-id="formulación-matemática">Formulación matemática</h3>
+<p>Veamos matemáticamente cómo aparecen estas tres fuentes de error. Supongamos que tenemos un conjunto de datos de entrenamiento <span class="math inline">\(D = \{(x_i, y_i)\}_{i=1}^n\)</span>, donde <span class="math inline">\(x_i\)</span> es un vector de características y <span class="math inline">\(y_i\)</span> es la respuesta que queremos predecir. Supongamos que la respuesta <span class="math inline">\(y\)</span> sigue una distribución de probabilidad <span class="math inline">\(P(y|x)\)</span> con media <span class="math inline">\(\mu(x)\)</span> y varianza fija <span class="math inline">\(\sigma^2\)</span>. Calculemos la pérdida de error cuadrático medio (MSE) de un modelo <span class="math inline">\(h\)</span> que intenta predecir <span class="math inline">\(y\)</span> a partir de <span class="math inline">\(x\)</span>. La predicción del modelo <span class="math inline">\(f(x;\theta)\)</span> es una función de los parámetros <span class="math inline">\(\theta\)</span> del modelo.</p>
+<p><span class="math display">\[
+\begin{multline}
+\langle\mathcal{J}(h)\rangle_{y|x} = \langle(f(x;\theta) - y)^2\rangle_{y|x} = \langle(f(x;\theta) - \mu(x))^2 + 2(f(x;\theta) - \mu(x))(y - \mu(x)) + (y - \mu(x))^2\rangle_{y|x} \\ = \langle(f(x;\theta) - \mu(x))^2\rangle_{y|x} + \sigma^2\,.
+\end{multline}
+\]</span></p>
+<p>Aquí hemos logrado separar el error en dos términos: La diferencia cuadrática media entre la predicción y la media, más una varianza en los datos. Esta varianza de los datos es intrínseca al problema, y no puede ser reducida por el modelo. Podemos intentar reducir el primer término, ya que podemos mejorar nuestra predicción <span class="math inline">\(f(x;\theta)\)</span> para que se acerque más a la media <span class="math inline">\(\mu(x)\)</span>. Note que para simplificar el álgebra, hemos tomado el valor esperado teniendo los datos de entrenamiento fijos, tal que sólo <span class="math inline">\(y\)</span> varía de acuerdo a la distribución <span class="math inline">\(P(y|x)\)</span>.</p>
+<p>Ese error reducible se puede descomponer adicionalmente</p>
+<p><span class="math display">\[
+\langle\mathcal{J}(h)\rangle = \langle(f(x;\theta) - \langle f(x;\theta)\rangle)^2\rangle + \langle(\langle f(x;\theta)\rangle - \mu(x))^2\rangle + \sigma^2\,.
+\]</span></p>
+<p>El primer término representa la fluctuación de la predicción del modelo alrededor de su valor esperado. Es decir, mide la varianza del modelo o cuánto cambia la predicción del modelo al cambiar el conjunto de datos de entrenamiento. El segundo término representa el error sistemático del modelo, es decir, cuánto se desvía la predicción del modelo de la verdadera relación entre las variables. Este representa el sesgo del modelo.</p>
+</section>
+<section id="tensión-entre-sesgo-y-varianza" class="level3">
+<h3 class="anchored" data-anchor-id="tensión-entre-sesgo-y-varianza">Tensión entre sesgo y varianza</h3>
+<p>Podemos intentar reducir el error debido al sesgo y la varianza. Para obtener un mejor sesgo, podemos usar un modelo más complejo. Sin embargo, un modelo más complejo tiende a ajustarse a las particularidades del conjunto de datos de entrenamiento, lo que aumenta la varianza. La manera de resolver este problema es mediante el uso de modelos más sencillos que no sobreajusten, o mediante el uso de técnicas de regularización que amortigüen el efecto de los muchos parámetros libres de los modelos más complejos.</p>
+<p>Una alternativa que reduce la varianza es aumentar el conjunto de datos de entrenamiento. Esto mejora los resultados ya que la varianza se reduce con más datos.</p>
+<p>Recientemente se ha observado un fenómeno conocido como “descenso doble” (double descent), en el cual el modelo tiene un menor error de generalización para algunos modelos extremadamente complejos. Se cree que esto se debe a una regularización implícita, como discutimos en la siguiente sección.</p>
+</section>
+</section>
+<section id="descenso-doble-double-descent" class="level2">
+<h2 class="anchored" data-anchor-id="descenso-doble-double-descent">Descenso doble (Double descent)</h2>
+<p>Para las redes neuronales, la tensión entre sesgo y varianza tiene un aspecto interesante. Lo que dice el aprendizaje automático clásico es que al aumentar el número de parámetros del modelo, éste se ajusta más al ruido y por lo tanto el error de generalización aumenta. Esto podría ser un problema para las redes neuronales que tienen un número enorme de parámetros, a veces mucho mayor que el número de observaciones de entrenamiento.</p>
+<p>Sin embargo, se ha observado que para ciertos modelos, el error de generalización puede disminuir con el aumento del número de parámetros. Esto se llama “descenso doble” (double descent). Es decir, el error de generalización tiene tres regiones:</p>
+<ul>
+<li><p>Cuando la red tiene muy pocos parámetros, el error de generalización es alto debido a que el modelo no tiene suficiente libertad para ajustarse a los datos. El modelo tiene un alto sesgo. A medida que se aumentan el número de parámetros, el sesgo baja y el error de generalización disminuye hasta un mínimo.</p></li>
+<li><p>Si se sigue aumentando el número de parámetros, el error de generalización aumenta. Esto se debe a que el modelo se ajusta más al ruido y por lo tanto el error de generalización aumenta. El modelo tiene una alta varianza. Esto ocurre hasta un punto en el que el número de parámetros es comparable al número de datos.</p></li>
+<li><p>Si se sigue aumentando el número de parámetros, ¡el error de generalización disminuye de nuevo!. Puede incluso alcanzar valores menores que el mínimo encontrado en la primera región. Esto es lo que se llama <strong>descenso doble</strong> (double descent).</p></li>
+</ul>
+<p>El origen de este fenómeno no se entiende del todo bien. Se cree que es una mezcla entre una regularización implícita y la alta dimensionalidad de los datos.</p>
+<p><strong>Alta dimensionalidad</strong>: En algunos problemas, el número de dimensiones de los datos es alto. Los espacios de alta dimensionalidad tienen propiedades poco intuitivas. Por ejemplo, la mayoría del volumen de una hiperesfera de alta dimensión está cerca de la superficie (la mayoría del jugo de una hipernaranja viene de cerca de la cáscara). Si lanzamos puntos de forma aleatoria en un espacio de alta dimensionalidad, sus vectores de posición son casi ortogonales. Además, la distancia entre dos puntos típicos crece exponencialmente con el número de dimensiones. Entonces, si ajustamos un modelo con muchos parámetros a muchos datos, sigue siendo verdad que el modelo se ajustará al ruido. Sin embargo, si tomamos un nuevo dato, este estará lejos de todos los datos de entrenamiento. Por lo tanto, el modelo deberá interpolar para el nuevo dato.</p>
+<p><strong>Regularización implícita</strong>: Cuando el número de parámetros es muy grande, las redes neuronales tienden a producir funciones suaves en las regiones donde los datos son escasos. Arriba dijimos que cuando la dimensión es alta la red se ve obligada a interpolar ya que un dato típico está lejos de todos los datos de entrenamiento. Por lo tanto, la interpolación para un nuevo dato será en una región donde el modelo da una función suave con poca varianza. Por esto el error de generalización es menor de lo esperado. Aún no se sabe del todo bien por qué las redes neuronales tienden a producir funciones suaves en las regiones de interpolación.</p>
+<p>La figura 8.10 del libro ilustra el fenómeno de descenso doble.</p>
+</section>
+<section id="búsqueda-de-hiperparámetros" class="level2">
+<h2 class="anchored" data-anchor-id="búsqueda-de-hiperparámetros">Búsqueda de hiperparámetros</h2>
+<p>Las redes neuronales que hemos visto tienen varios hiperparámetros: Número de capas escondidas, número de neuronas por cada capa, tasa de aprendizaje y otros dependiendo del algoritmo de descenso de gradiente. Además veremos muchas otras arquitecturas que pueden ser usadas para diferentes problemas. Entonces necesitamos alguna manera de escoger la arquitectura y los hiperparámetros adecuados para cada caso.</p>
+<p>El problema es que el espacio de parámetros es de una dimensión muy alta y además algunos de estos no son continuos (no podemos tener 3.58 capas escondidas). Esto hace que no podamos usar algo como descenso de gradiente en dicho espacio.</p>
+<p>Una manera de hacerlo es estimar la distribución de probabilidad del error de generalización como función de los parámetros. Es decir, asumimos que dado un conjunto de hiperparámetros <span class="math inline">\(p\)</span>, el error de generalización es una variable aleatoria dada por una distribución. Si tuviéramos una manera de estimarla, podríamos escoger los que maximizan esa probabilidad. Lamentablemente, esto es un problema extremadamente difícil.</p>
+<p>Lo mejor que podemos hacer es ajustar el modelo para una serie de datos, medir el desempeño en estos y usar esto para ajustar un modelo de esa distribución. Luego se escogen nuevos hiperparámetros a partir de esa distribución estimada y se itera. Esto se hace bien sea con estrategias bayesianas, árboles de deisión, entre otros.</p>
+<p>Otra forma de explorar el espacio de parámetros es el <em>hiberbanda</em>. En este, ajustamos muchos modelos por muy pocas épocas. Luego se escogen la fracción <span class="math inline">\(\eta\)</span> de los mejores entre ellos y se aumenta el número de epocas por <span class="math inline">\(1/\eta\)</span>, y se itera.</p>
+<p>Existen librerías que implementan ambos métodos.</p>
+</section>
+</section>
+<section id="regularización" class="level1">
+<h1>Regularización</h1>
+<p>Cuando estudiamos la regresión lineal, vimos que podemos restringir los valores de los parámetros usando un término de regularización en la función de pérdida. Esto tiene el efecto de disminuir la libertad del modelo a pesar de tener un número grande de hiperparámetros. Eso reduce el sobreajuste.</p>
+<p>Podemos aplicar la misma estrategia a las redes neuronales. Resulta que además se ha demostrado que estas ya están regularizadas de forma natural, lo que se llama regularización implícita. El término regularización se ha ampliado para incluír varias estrategias que reducen el sobreajuste.</p>
+<section id="regularización-explícita" class="level2">
+<h2 class="anchored" data-anchor-id="regularización-explícita">Regularización explícita</h2>
+<p>La regularización explícita consiste en agregarle términos a la función de pérdida que penalicen los parámetros que se salen de un cierto rango. Por ejemplo, vimos la regularización L2. En redes neuronales, es frecuente usar la pérdida modificadoa <span class="math display">\[
+\mathcal{J} + \lambda \sum_{ij} W_{ij}^2\,.
+\]</span> Esto hace que la red prefiera pesos pequeños. Es decir, el modelo tiene un rango restringido para los pesos. Al reducir su libertad, ayudamos a que no haga sobreajuste.</p>
+<p>Matemáticamente la regularización se puede ver como una probabilidad previa para los parámetros. Es decir, nuestra verosimilitud ahora consiste en <span class="math inline">\(e^{-\mathcal{J}}P(W)\)</span>, donde <span class="math inline">\(P(W)\)</span> es la distribución previa de los pesos (gaussiana en el caso de L2).</p>
+</section>
+<section id="regularización-implícita" class="level2">
+<h2 class="anchored" data-anchor-id="regularización-implícita">Regularización implícita</h2>
+<p>Para las redes neuronales se cree que además hay una regularización implícita. Es decir, la red aprende a regularizar los pesos en el sentido discutido en la sección de doble descenso. Además, el método de descenso de gradiente también contribuye a esta regularización.</p>
+<section id="regularización-por-descenso-de-gradiente" class="level3">
+<h3 class="anchored" data-anchor-id="regularización-por-descenso-de-gradiente">Regularización por descenso de gradiente</h3>
+<p>Recordemos que el descenso de gradiente consiste en seguir la dirección de máximo descenso en el espacio de parámetros. Estrictamente esto es resolver la ecuación diferencial <span class="math display">\[
+\frac{d \theta_i}{dt} = -\nabla_i \mathcal{J}\,,
+\]</span> donde <span class="math inline">\(\theta_i\)</span> son los parámetros. Esto se aproxima actualizando los parámetros haciendo <span class="math inline">\(\theta_{i+1} = \theta_i - \eta\nabla_i \mathcal{J}\)</span> (corresponde al método de Euler). Pero resulta que esa aproximación tiene un error tal que no se sigue la trayectoria exactamente. Demostramos más abajo que la trayectoria minimiza la pérdida modificada <span id="eq-perdida-modificada"><span class="math display">\[
+\tilde{\mathcal{J}} = \mathcal{J} + \frac{\eta}{4}\left|\nabla_\theta \mathcal{J}\right|^2 + \frac{\eta}{4B}\sum_{i=1}^B\left|\nabla_\theta\mathcal{J}_b - \nabla_\theta\mathcal{J}\right|^2\,,
+\tag{1}\]</span></span> donde <span class="math inline">\(B\)</span> es el número de lotes, y <span class="math inline">\(\mathcal{J}_b\)</span> es la pérdida para el lote <span class="math inline">\(b\)</span>. Entonces la trayectoria verdadera se aleja de las regiones con gradiente grande, prefiriendo trayectorias más planas. Además va a preferir parámetros <strong>estables</strong>, que dan pérdidas similares para los diferentes lotes (es decir sobre conjuntos distintos de datos), reduciendo la varianza.</p>
+<p>También aprendemos que a mayor tasa de aprendizaje, mayor esta regularización. Así mismo, para números pequeños de elementos por lote mayor la regularización. Esto se ha observado empíricamente: Cuando la memoria aumentó mucho, aumentar el número de elementos por mini-lote no aportaba la ganancia esperada tal vez porque se perdía esta regularización.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Deducción de la <a href="#eq-perdida-modificada" class="quarto-xref">Ecuación&nbsp;1</a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Asumamos que realizamos el descenso de gradiente sin mini-lotes. El descenso de gradiente es sólo la aproximación de Euler de la trayectoria que sigue el gradiente. Busquemos la ecuación diferencial que describe la trayectoria seguida por el descenso de gradiente aproximado. Es decir, escribimos</p>
+<p><span class="math display">\[
+\frac{d}{dt} \boldsymbol{\theta} = -\nabla_\boldsymbol{\theta}\mathcal{J} + \eta \boldsymbol{g}\,
+\]</span></p>
+<p>donde <span class="math inline">\(\boldsymbol{g}\)</span> es un vector tal que la trayectoria seguida por esta ecuación es igual a la aproximación discreta de Euler, y <span class="math inline">\(\eta\)</span> es el tamaño de paso que controla el error de aproximación. Ahora usamos la aproximación de Taylor para calcular</p>
+<p><span class="math display">\[
+\boldsymbol{\theta}(t+\eta) = \boldsymbol{\theta}(t) + \eta \frac{d}{dt}\boldsymbol{\theta}(t) + \frac{1}{2}\eta^2 \frac{d^2}{dt^2}\boldsymbol{\theta}(t) + \mathcal{O}(\eta^3)\,.
+\]</span></p>
+<p>Ahora reemplazamos la ecuación diferencial en la ecuación anterior:</p>
+<p><span class="math display">\[
+\boldsymbol{\theta}(t+\eta) = \boldsymbol{\theta}(t) + \eta \left(-\nabla_\boldsymbol{\theta}\mathcal{J} + \eta\boldsymbol{g}\right) + \frac{1}{2}\eta^2 \frac{d}{dt}\left(-\nabla_\boldsymbol{\theta}\mathcal{J} + \eta\boldsymbol{g}\right) + \mathcal{O}(\eta^3)\,.
+\]</span></p>
+<p>Desarrollando el término de segundo orden:</p>
+<p><span class="math display">\[
+\boldsymbol{\theta}(t+\eta) = \boldsymbol{\theta}(t) - \eta \nabla_\boldsymbol{\theta}\mathcal{J} + \eta^2 \left(- \frac{1}{2} \frac{d}{dt}\nabla_\boldsymbol{\theta}\mathcal{J} + \boldsymbol{g}\right) + \mathcal{O}(\eta^3)\,.
+\]</span></p>
+<p>Desarrollando la derivada temporal del gradiente de la pérdida:</p>
+<p><span class="math display">\[
+\begin{align}
+\boldsymbol{\theta}(t+\eta) &amp;= \boldsymbol{\theta}(t) - \eta \nabla_\boldsymbol{\theta}\mathcal{J} + \eta^2 \left(- \frac{1}{2} \frac{d}{dt}\boldsymbol{\theta}\cdot\nabla_\boldsymbol{\theta}\left(\nabla_\boldsymbol{\theta}\mathcal{J}\right) + \boldsymbol{g}\right) + \mathcal{O}(\eta^3) \\
+&amp;= \boldsymbol{\theta}(t) - \eta \nabla_\boldsymbol{\theta}\mathcal{J} + \eta^2 \left(\frac{1}{2} \nabla_{\boldsymbol{\theta}}\mathcal{J}\cdot\nabla_\boldsymbol{\theta}\left(\nabla_\boldsymbol{\theta}\mathcal{J}\right) + \boldsymbol{g}\right) + \mathcal{O}(\eta^3)\,,
+\end{align}
+\]</span></p>
+<p>Note que los primeros dos términos son iguales a la aproximación usada para el descenso de gradiente. Entonces, para que la trayectoria seguida por la ecuación diferencial sea la misma que la trayectoria seguida por el descenso de gradiente, debemos tener</p>
+<p><span class="math display">\[
+\boldsymbol{g} = -\frac{1}{2}\nabla_\boldsymbol{\theta}\mathcal{J}\cdot\nabla_\boldsymbol{\theta}\left(\nabla_{\boldsymbol{\theta}}\mathcal{J}\right)\,.
+\]</span></p>
+<p>Entonces la trayectoria del descenso de gradiente está bien descrita por la ecuación diferencial</p>
+<p><span class="math display">\[
+\frac{d}{dt}\boldsymbol{\theta} = -\nabla_\boldsymbol{\theta}\mathcal{J} - \frac{\eta}{2}\nabla_\boldsymbol{\theta}\mathcal{J}\cdot\nabla_\boldsymbol{\theta}\left(\nabla_{\boldsymbol{\theta}}\mathcal{J}\right) = -\nabla_\boldsymbol{\theta}\left[\mathcal{J} + \frac{\eta}{4}\left|\nabla_\boldsymbol{\theta}\mathcal{J}\right|^2\right]\,.
+\]</span></p>
+<p>Es decir, la verdadera trayectoria del descenso de gradiente aproximado de forma discreta (por pasos) es la trayectoria que minimiza la pérdida modificada por el segundo término dentro del paréntesis cuadrado, que aparece en la <a href="#eq-perdida-modificada" class="quarto-xref">Ecuación&nbsp;1</a>.</p>
+<p>Finalmente, si entrenamos usando mini-lotes, esto introducirá una varianza en la estimación del gradiente de la pérdida. Podemos aproximar esa varianza por medio del último término de la <a href="#eq-perdida-modificada" class="quarto-xref">Ecuación&nbsp;1</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="métodos-para-reducir-el-error-de-generalización" class="level2">
+<h2 class="anchored" data-anchor-id="métodos-para-reducir-el-error-de-generalización">Métodos para reducir el error de generalización</h2>
+<p>El término regularización se ha extendido para referirse a técnicas que reducen el error de generalización. Algunas de las más usadas son:</p>
+<p><strong>Parado temprano (early stopping)</strong></p>
+<p>Este método consiste en detener el entrenamiento antes de que el modelo comience a sobreajustarse. Podemos usar un conjunto de validación para monitorear el rendimiento del modelo, es decir, medimos la pérdida en el conjunto de validación como aproximación al error de generalización. La pérdida sobre el conjunto de entrenamiento seguirá disminuyendo durante el entrenamiento, mientras que la pérdida sobre el conjunto de validación comenzará a aumentar cuando el modelo comienza a sobreajustarse o permanecerá constante cuando el modelo no está ganando más información. Para evitar ese sobreajuste, podemos detener el entrenamiento cuando observamos que la pérdida sobre el conjunto de validación comienza a aumentar o deja de mejorar.</p>
+<p><strong>Ensamblado</strong></p>
+<p>Esta técnica implica combinar múltiples modelos para hacer predicciones. Cada modelo se entrena de manera independiente y luego sus predicciones se combinan, generalmente mediante promedio o votación. Esto reduce la varianza y mejora la generalización, ya que los errores de los modelos individuales tienden a cancelarse entre sí. Esto lo vimos cuando estudiamo árboles de decisión. Como se discutió <a href="./9_arboles_bosques_boosting.html">en esa clase</a>, las principales técnicas son bagging y boosting.</p>
+<p><strong>Aumentación de datos</strong></p>
+<p>Este método consiste en aumentar artificialmente el tamaño del conjunto de entrenamiento mediante la creación de nuevas muestras a partir de las existentes. Un ejemplo de esto en el caso de clasificación de imágenes es aplicando transformaciones a las imágenes del conjunto de entrenamiento que preservan la etiqueta, como rotaciones, traslaciones o cambios de escala. Ayuda a reducir el sobreajuste al exponer el modelo a una mayor variedad de ejemplos.</p>
+<p><strong>Dropout</strong></p>
+<p>Esta técnica consiste en desactivar aleatoriamente un cierto porcentaje de neuronas durante cada iteración del entrenamiento. Esto fuerza a la red a aprender características más robustas que no dependan de neuronas específicas, reduciendo así el sobreajuste y mejorando la generalización. Es decir, durante cada época, un porcentaje de las neuronas se desactivan aleatoriamente. El conjunto que se desactiva cambia de una época a otra. Esto hace que el modelo aprenda características que son robustas y por lo tanto reduce la varianza. Intutitivamente es como promediar sobre muchos modelos.</p>
+<p><strong>Agregar ruido a los pesos</strong></p>
+<p>Este método implica añadir pequeñas perturbaciones aleatorias a los pesos de la red durante el entrenamiento. Esto puede ayudar a que el modelo sea más robusto en el sentido que un pequeño cambio en los pesos no afecte mucho la predicción. Esto reduce la varianza y por ende el sobreajuste.</p>
+<p><strong>Transfer learning y multi-task learning</strong></p>
+<p>El transfer learning consiste en utilizar un modelo pre-entrenado en una tarea similar y ajustarlo para la tarea específica, aprovechando así el conocimiento adquirido previamente. El multi-task learning implica entrenar un modelo para realizar múltiples tareas simultáneamente, lo que puede mejorar la generalización al forzar al modelo a aprender representaciones más generales y robustas. Veremos ejemplos de esto en clases posteriores.</p>
+</section>
+</section>
+<section id="ejercicios-sugeridos" class="level1">
+<h1>Ejercicios sugeridos</h1>
+<p>8.3, 8.4, 8.5, 9.1, 9.5</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

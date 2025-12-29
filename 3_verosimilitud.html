@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Más Sobre la Normal y la Función de Verosimilitud – Aprendizaje Automático para Físicos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Aprendizaje Automático para Físicos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-clases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Clases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-clases">    
+        <li class="dropdown-header">Probabilidad y Estadística</li>
+        <li>
+    <a class="dropdown-item" href="./1_probabilidad.html">
+ <span class="dropdown-text">1. Probabilidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_distribuciones_y_estimacion.html">
+ <span class="dropdown-text">2. Distribuciones y Estimación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_verosimilitud.html">
+ <span class="dropdown-text">3. Verosimilitud</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_minimos_cuadrados_intervalos.html">
+ <span class="dropdown-text">4. Mínimos Cuadrados e Intervalos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
+ <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Aprendizaje Automático</li>
+        <li>
+    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_clasificacion.html">
+ <span class="dropdown-text">7. Clasificación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
+ <span class="dropdown-text">8. Selección de Modelos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
+ <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
+ <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Redes Neuronales</li>
+        <li>
+    <a class="dropdown-item" href="./11_perceptron_y_redes_conexas.html">
+ <span class="dropdown-text">11. Perceptrón y Redes Conexas y Pérdidas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_gradient_descent_and_autodiff.html">
+ <span class="dropdown-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_evaluacion_y_regularizacion_de_nn.html">
+ <span class="dropdown-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_redes_convolucionales.html">
+ <span class="dropdown-text">14. Redes Convolucionales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_redes_residuales.html">
+ <span class="dropdown-text">15. Redes Residuales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_transformadores.html">
+ <span class="dropdown-text">16. Transformadores y el mecanismo de atención</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Algunas aplicaciones</li>
+        <li>
+    <a class="dropdown-item" href="./17_flujos_normalizantes.html">
+ <span class="dropdown-text">17. Flujos Normalizantes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_PINNs.html">
+ <span class="dropdown-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_Operador_Neural.html">
+ <span class="dropdown-text">19. Operadores Neuronales</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./3_verosimilitud.html">3. Verosimilitud</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Probabilidad y Estadística</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_probabilidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Probabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_distribuciones_y_estimacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Distribuciones y Estimación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">3. Verosimilitud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_minimos_cuadrados_intervalos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Mínimos Cuadrados e Intervalos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Aprendizaje Automático</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Clasificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Selección de Modelos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Redes Neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_perceptron_y_redes_conexas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Perceptrón, Redes Conexas y Pérdidas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_gradient_descent_and_autodiff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_evaluacion_y_regularizacion_de_nn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_redes_convolucionales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14. Redes Convolucionales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_redes_residuales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15. Redes Residuales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_transformadores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16. Transformadores y el mecanismo de atención</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Algunas aplicaciones</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17_flujos_normalizantes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">17. Flujos Normalizantes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18_PINNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19_Operador_Neural.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">19. Operadores Neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#el-teorema-central-del-límite" id="toc-el-teorema-central-del-límite" class="nav-link active" data-scroll-target="#el-teorema-central-del-límite">El Teorema Central del Límite</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo">Ejemplo</a></li>
+  </ul></li>
+  <li><a href="#algunas-distribuciones-derivadas-de-la-gaussiana" id="toc-algunas-distribuciones-derivadas-de-la-gaussiana" class="nav-link" data-scroll-target="#algunas-distribuciones-derivadas-de-la-gaussiana">Algunas Distribuciones Derivadas de la Gaussiana</a>
+  <ul class="collapse">
+  <li><a href="#la-distribución-chi2" id="toc-la-distribución-chi2" class="nav-link" data-scroll-target="#la-distribución-chi2">La distribución <span class="math inline">\(\chi^2\)</span></a></li>
+  <li><a href="#la-distribución-t-de-student" id="toc-la-distribución-t-de-student" class="nav-link" data-scroll-target="#la-distribución-t-de-student">La distribución <span class="math inline">\(t\)</span> de Student</a></li>
+  </ul></li>
+  <li><a href="#la-función-de-verosimilitud" id="toc-la-función-de-verosimilitud" class="nav-link" data-scroll-target="#la-función-de-verosimilitud">La Función de Verosimilitud</a>
+  <ul class="collapse">
+  <li><a href="#cota-de-mínima-varianza" id="toc-cota-de-mínima-varianza" class="nav-link" data-scroll-target="#cota-de-mínima-varianza">Cota de mínima varianza</a></li>
+  <li><a href="#estimación-de-un-parámetro-con-máxima-verosimilitud" id="toc-estimación-de-un-parámetro-con-máxima-verosimilitud" class="nav-link" data-scroll-target="#estimación-de-un-parámetro-con-máxima-verosimilitud">Estimación de un parámetro con máxima verosimilitud</a></li>
+  <li><a href="#invarianza-de-estimadores-de-máxima-verosimilitud" id="toc-invarianza-de-estimadores-de-máxima-verosimilitud" class="nav-link" data-scroll-target="#invarianza-de-estimadores-de-máxima-verosimilitud">Invarianza de estimadores de máxima verosimilitud</a></li>
+  <li><a href="#cota-de-mínima-varianza-del-estimador-de-máxima-verosimilitud" id="toc-cota-de-mínima-varianza-del-estimador-de-máxima-verosimilitud" class="nav-link" data-scroll-target="#cota-de-mínima-varianza-del-estimador-de-máxima-verosimilitud">Cota de mínima varianza del estimador de máxima verosimilitud</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-sugeridos" id="toc-ejercicios-sugeridos" class="nav-link" data-scroll-target="#ejercicios-sugeridos">Ejercicios sugeridos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./3_verosimilitud.html">3. Verosimilitud</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Más Sobre la Normal y la Función de Verosimilitud</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Antes de empezar a hablar de verosimilitud, hablemos un poco sobre uno de los resultados más importantes de la estadística: El teorema central del límite.</p>
+<section id="el-teorema-central-del-límite" class="level1">
+<h1>El Teorema Central del Límite</h1>
+<p>Se dice que los físicos creen en este resultado porque es un teorema matemático y los matemáticos creen en este resultado porque funciona en experimentos. En cualquier caso, este resultado provee la justificación para lo que vimos en el ejemplo de arriba.</p>
+<p>Consideremos <span class="math inline">\(N\)</span> variables aleatorias independientes y provenientes de la misma distribución de probabilidad <span class="math inline">\(x_1, ..., x_N\)</span>. Nos interesa calcular la distribución de probabilidad de la suma <span class="math inline">\(X = \sum_i^N x_i\)</span>. Para hacerlo es más fácil trabajar con la función característica <span class="math display">\[
+\tilde{p}_X(k) = \left\langle e^{-ikX} \right\rangle =  \left\langle e^{-ik\sum_i x_i} \right\rangle = \tilde{p}(k_1 = k, ..., k_N = k)\,.
+\]</span> De aquí podemos escribir <span class="math display">\[
+\ln\tilde{p}_X(k) = -i k \sum_i \langle x_i \rangle_c - \frac{1}{2}k^2\sum_{i,j}\langle x_i x_j\rangle_c + ...\,.
+\]</span> Si las variables son todas independientes entonces los cumulantes que involucran variables diferentes son todos cero <span class="math display">\[
+\ln\tilde{p}_X(k) = -i k \sum_i \langle x_i \rangle_c - \frac{1}{2}k^2 \sum_i \langle x_i^2\rangle_c + ...\,,
+\]</span> y si además todas vienen de una misma distribución (tal que sus cumulantes son todos iguales) <span class="math display">\[
+\ln\tilde{p}_X(k) = -i k N \langle x_1 \rangle_c - \frac{1}{2}k^2 N \langle x_1^2\rangle_c + ...\,.
+\]</span> Finalmente, definimos la variable <span class="math inline">\(y \equiv \left(\frac{X - N\langle x_1 \rangle_c}{\sqrt{N}}\right)\)</span>. Entonces la distribución de esta variable será dada por <span class="math display">\[
+\langle y \rangle_c = 0\,,\quad \langle y^2 \rangle_c = \langle x_1^2\rangle_c = \sigma^2\,,\quad \langle y^n\rangle_c \propto N^{1 - n/2}\,.
+\]</span> Por lo tanto, cuando <span class="math inline">\(N \rightarrow \infty\)</span> todos los cumulantes de <span class="math inline">\(y\)</span> desaparecen excepto el segundo tal que <span class="math display">\[
+\ln\tilde{p}_y(k) \sim -\frac{1}{2}k^2 \sigma^2\,,
+\]</span> por lo tanto <span class="math display">\[
+p(y) = \frac{1}{\sqrt{2\pi}\sigma}e^{-y^2/2\sigma^2}\,.
+\]</span></p>
+<p>Podemos relajar las condiciones de que las variables sean independientes e idénticamente distribuidas. Lo que necesitamos en realidad es que todos los cumulantes caigan lo suficientemente rápido <span class="math display">\[
+\sum_{i_1,...,i_m = 1}^N \langle x_{i_1} ... x_{i_m}\rangle_c \ll \mathcal{O}(N^{m/2})\,.
+\]</span> Si esto se cumple, entonces podemos enunciar la versión más general del teorema:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Teorema central del límite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere la suma <span class="math inline">\(X = \sum_{i = 1}^N x_i\)</span> de <span class="math inline">\(N\)</span> variables aleatorias independientes <span class="math inline">\(x_i\)</span>, cada una tomada de una distribución con media <span class="math inline">\(\mu_i\)</span> y varianza <span class="math inline">\(\sigma_i^2\)</span>. La distribución de <span class="math inline">\(X\)</span> cumple:</p>
+<ul>
+<li><p>Tiene valor esperado <span class="math inline">\(\langle X \rangle = \sum_i \mu_i\)</span>.</p></li>
+<li><p>Tiene varianza <span class="math inline">\(\sigma^2(X) = \sum_i \sigma_i^2\)</span>.</p></li>
+<li><p>Tiende a una gaussiana a medida que <span class="math inline">\(N \rightarrow \infty\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<section id="ejemplo" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo">Ejemplo</h2>
+<div id="244788c6" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma_aleatorios(num):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">sum</span>([np.random.rand(<span class="dv">1000</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num)])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">11</span>), dpi<span class="op">=</span> <span class="dv">100</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>ax4 <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ax1.hist(suma_aleatorios(<span class="dv">1</span>), bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ax2.hist(suma_aleatorios(<span class="dv">2</span>), bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>ax3.hist(suma_aleatorios(<span class="dv">20</span>), bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>ax4.hist(suma_aleatorios(<span class="dv">200</span>), bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'$n = 1$'</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'$n = 2$'</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax3.set_title(<span class="st">'$n = 20$'</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>ax4.set_title(<span class="st">'$n = 200$'</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>fig.tight_layout(pad<span class="op">=</span><span class="fl">2.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_verosimilitud_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ahora estudiaremos algunas pdf’s derivadas de la Gaussiana que se usan mucho para sacar conclusiones estadídsticas.</p>
+</section>
+</section>
+<section id="algunas-distribuciones-derivadas-de-la-gaussiana" class="level1">
+<h1>Algunas Distribuciones Derivadas de la Gaussiana</h1>
+<section id="la-distribución-chi2" class="level2">
+<h2 class="anchored" data-anchor-id="la-distribución-chi2">La distribución <span class="math inline">\(\chi^2\)</span></h2>
+<p>La variable <span class="math inline">\(\chi^2\)</span> se define <span class="math display">\[
+\chi^2 \equiv \sum_i \frac{(y_i - g(x_i))^2}{\sigma^2}
+\]</span> Si todos los errores son gaussianos, la probabilidad de obtener un cierto valor de <span class="math inline">\(\chi^2\)</span> es proporcional a <span class="math inline">\(e^{-\chi^2/2}\)</span> y además hay que integrar sobre todos los puntos que tienen un mismo valor de <span class="math inline">\(\chi\)</span> que forman una esfera, lo que nos da algo proporcional a <span class="math inline">\(\chi^{N - 1}e^{-\chi^2/2}\)</span>, donde <span class="math inline">\(N\)</span> es el número de datos. Pero además necesitamos la probabilidad de <span class="math inline">\(\chi^2\)</span> tal que <span class="math display">\[
+P(\chi^2) \propto P(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
+\]</span> Sin embargo al ajustar <span class="math inline">\(m\)</span> parámetros imponemos <span class="math inline">\(m\)</span> condiciones sobre la región considerada, una por cada derivada parcial que fijamos a cero, tal que <span class="math inline">\(N\)</span> debe ser en realidad el <em>número de grados de libertad</em> dado por <strong>el número de datos menos el número de parámetros</strong>.</p>
+<p>Nos falta solo una normalización para que la integral sea uno. Los expertos reconocerán la función gama.</p>
+<div id="a1fd4926" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chi2(x, n):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">**</span>(<span class="op">-</span>n<span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>x<span class="op">**</span>((n<span class="op">-</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>np.exp(<span class="op">-</span>x<span class="op">/</span><span class="dv">2</span>)<span class="op">/</span>gamma(n<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">23</span>, <span class="dv">100</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>]:</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, chi2(x, n), label <span class="op">=</span> <span class="st">'$n = $ </span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>(n))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r'$\chi^2$'</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="vs">r'$P(\chi^2)$'</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_verosimilitud_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="la-distribución-t-de-student" class="level2">
+<h2 class="anchored" data-anchor-id="la-distribución-t-de-student">La distribución <span class="math inline">\(t\)</span> de Student</h2>
+<p>Student es el pseudónimo de la persona que inventó esta distribución.</p>
+<p>Según el teorema central del límite, el promedio <span class="math inline">\(\bar{x}\)</span> tiene una distribución Gaussiana con media <span class="math inline">\(\mu\)</span> y varianza <span class="math inline">\(\sigma_n = \sigma/\sqrt{n}\)</span>. Esto lo podemos usar para estimar el error cometido al realizar una medición. Por ejemplo, podemos usar <span class="math inline">\(\sigma\)</span> para estimar el error y sabemos que tenemos una probabilidad de aproximadamente <span class="math inline">\(68\%\)</span> de estar a <span class="math inline">\(1\sigma\)</span> de la media, <span class="math inline">\(95\%\)</span> de estar a <span class="math inline">\(2\sigma\)</span>, y <span class="math inline">\(99\%\)</span> de estar a <span class="math inline">\(3\sigma\)</span>.</p>
+<p>Sin embargo no conocemos <span class="math inline">\(\sigma\)</span> en muchos casos. Entonces debemos usar algún estimador <span class="math inline">\(\hat{\sigma}\)</span> calculado usando los mismos datos.</p>
+<p>Este reemplazo sigue produciendo una distribución Gaussiana cuando tenemos muchos datos. Pero si tenemos pocos (en la práctica aproximadamente menos de <span class="math inline">\(30\)</span> datos) debemos tener cuidado.</p>
+<p>Consideremos la variable <span class="math display">\[
+u = \frac{\bar{x} - \mu}{\sigma}\,,
+\]</span> esta sigue una distribución Gaussiana con media cero y varianza uno. Si estimamos la varianza, escribimos <span class="math display">\[
+t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{n}}\,.
+\]</span> Para <span class="math inline">\(n\)</span> grande, <span class="math inline">\(t\)</span> resulta que también sigue una Gaussiana. Pero para <span class="math inline">\(n\)</span> pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.</p>
+<div id="da8f969b" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Código producido por ChatGPT 4o con el siguiente prompt:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "Produce una serie de gráficos en python usando la distribución t de Student </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y comparándola con la distribución normal. Comentarios y nombres de variables</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># y funciones en español."</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Código revisado para garantizar que sea correcto</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir grados de libertad para la distribución t de Student</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>grados_libertad <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>]  <span class="co"># Diferentes grados de libertad</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1000</span>)  <span class="co"># Valores de X</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear la figura y los ejes</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>figura, ejes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="bu">len</span>(grados_libertad), figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">10</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar para cada grado de libertad</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> eje, gl <span class="kw">in</span> <span class="bu">zip</span>(ejes, grados_libertad):</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Distribución t de Student</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    t_pdf <span class="op">=</span> stats.t.pdf(x, gl)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    eje.plot(x, t_pdf, label<span class="op">=</span><span class="ss">f"Distribución t (gl=</span><span class="sc">{</span>gl<span class="sc">}</span><span class="ss">)"</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Distribución normal para comparación</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    normal_pdf <span class="op">=</span> stats.norm.pdf(x)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    eje.plot(x, normal_pdf, label<span class="op">=</span><span class="st">"Distribución normal"</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    eje.legend()</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    eje.set_ylabel(<span class="st">"Densidad"</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    eje.set_title(<span class="ss">f"Distribución t vs Normal (gl=</span><span class="sc">{</span>gl<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Establecer etiqueta común en el eje x</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>ejes[<span class="op">-</span><span class="dv">1</span>].set_xlabel(<span class="st">"x"</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar el diseño</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_verosimilitud_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="la-función-de-verosimilitud" class="level1">
+<h1>La Función de Verosimilitud</h1>
+<p>Supongamos que la distribución <span class="math inline">\(f(x;\theta)\)</span> de una medición depende de un solo parámetro <span class="math inline">\(\theta\)</span>. La función de verosimilitud la habíamos definido como la probabilidad de obtener las observaciones <span class="math inline">\(x_1,...,x_n\)</span> dado un valor de <span class="math inline">\(\theta\)</span> <span class="math display">\[
+L(\theta) = f(x_1,...,x_n|\theta) = \prod_{i=1}^n f(x_i;\theta)\,,
+\]</span> donde hemos usado el hecho que las muestra es independiente.</p>
+<section id="cota-de-mínima-varianza" class="level2">
+<h2 class="anchored" data-anchor-id="cota-de-mínima-varianza">Cota de mínima varianza</h2>
+<p>Antes de seguir, supongamos que el valor esperado del estimador es igual al verdadero valor. Esto ocurre si el estimador es no sesgado o para muestras grandes si es consistente. Es decir, suponemos <span id="eq-expectation-unbiased"><span class="math display">\[
+\langle\hat{\theta}\rangle = \int d^n x\,\hat{\theta}L = \theta\,.
+\tag{1}\]</span></span> Demostraremos que hay una mínima varianza posible.</p>
+<p>Primero tomamos la derivada de la ecuación (<a href="#eq-expectation-unbiased" class="quarto-xref">1</a>) para obtener <span id="eq-derivative-of-expectation"><span class="math display">\[
+\int d^nx\, \hat{\theta}\frac{\partial \ln L}{\partial\theta} L = \int d^nx\,\hat{\theta}\frac{\partial L}{\partial\theta} = 1\,.
+\tag{2}\]</span></span> Luego tomamos la misma derivada de <span class="math inline">\(\int d^nx\,L = 1\)</span> que nos da <span id="eq-derivative-of-normalization"><span class="math display">\[
+\int d^nx\,\frac{\partial\ln L}{\partial\theta}L = 0\,,
+\tag{3}\]</span></span> que también se puede escribir <span id="eq-valor-esperado-derivada-logL"><span class="math display">\[
+\left\langle\frac{\partial\ln L}{\partial\theta}\right\rangle = 0\,.
+\tag{4}\]</span></span> Multiplicando la ecuación (<a href="#eq-derivative-of-normalization" class="quarto-xref">3</a>) por <span class="math inline">\(\theta\)</span> y restando la ecuación (<a href="#eq-derivative-of-expectation" class="quarto-xref">2</a>) obtenemos <span class="math display">\[
+\int d^nx\,(\hat{\theta} - \theta)\frac{\partial\ln L}{\partial\theta}L = 1\,.
+\]</span> Ahora invocamos la siguiente identidad <span class="math display">\[
+\int d^nx\,u \int d^nx\,v \geq \left(\int d^nx uv\right)^2\,,
+\]</span> para obtener <span class="math display">\[
+\left(\int d^nx (\hat{\theta} - \theta)^2 L\right)\left(\int d^nx\,(d\ln L/d\theta)^2 L\right) \geq 1\,.
+\]</span> Esto lo reescribimos de la siguiente manera:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Cota de mínima varianza
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para todo estimador cuyo valor esperado es igual al verdadero valor <span id="eq-cota-minima-varianza"><span class="math display">\[
+\left\langle(\hat{\theta} - \theta)^2\right\rangle \geq \frac{1}{\left\langle(d\ln L/d\theta)^2\right\rangle}\,.
+\tag{5}\]</span></span></p>
+</div>
+</div>
+</section>
+<section id="estimación-de-un-parámetro-con-máxima-verosimilitud" class="level2">
+<h2 class="anchored" data-anchor-id="estimación-de-un-parámetro-con-máxima-verosimilitud">Estimación de un parámetro con máxima verosimilitud</h2>
+<p>Uno de los estimadores más usados en estadística es el de <em>máxima verosimilitud</em>. Es decir <span class="math display">\[
+\hat{\theta} = \underset{\theta}{\operatorname{argmax}} L(\theta)\,.
+\]</span> En otras palabras buscamos un punto tal que <span class="math display">\[
+\left.\frac{\partial L}{\partial\theta}\right|_{\hat{\theta}} = 0\,,\quad \left.\frac{\partial^2 L}{\partial\theta^2}\right|_{\hat{\theta}} &lt; 0\,.
+\]</span> Normalmente es más cómodo trabajar con el logaritmo, y la primera condición se puede escribir <span class="math display">\[
+\left.\frac{\partial \ln L}{\partial \theta}\right|_{\hat{\theta}} = \frac{1}{L}\left.\frac{\partial L}{\partial \theta}\right|_{\hat{\theta}} = 0\,.
+\]</span></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ejemplo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suponga que usted hace un experimento en el cual quiere medir el tiempo de vida medio de un elemento radioactivo <span class="math inline">\(\tau\)</span>. Usted observa los tiempos de decaimiento <span class="math inline">\(\{t_i\}\)</span>.</p>
+<p>Sabemos que la probabilidad de decaer en un tiempo <span class="math inline">\(t\)</span> es <span class="math inline">\(\frac{1}{\tau}e^{-t_i/\tau}\)</span>, por lo tanto la verosimilitud es <span class="math display">\[
+L(\tau) = \frac{1}{\tau^n}\prod_i e^{-t_i/\tau}\,.
+\]</span> Como dijimos, es más fácil trabajar con el logaritmo porque convierte las multiplicaciones en sumas y cancela los exponenciales que aparecen en muchas distribuciones <span class="math display">\[
+\ln L(\tau) = -\sum_i \frac{t_i}{\tau} - n\ln\tau\,.
+\]</span> Podemos calcular su derivada <span class="math display">\[
+\frac{\partial \ln L}{\partial \tau} = \sum_i \frac{t_i}{\tau^2} - n\frac{1}{\tau}\,.
+\]</span> Igualando a cero obtenemos <span class="math display">\[
+\hat{\tau} = \frac{1}{N}\sum_i t_i\,.
+\]</span></p>
+</div>
+</div>
+<p>En general los estimadores de máxima verosimilitud son sesgados como veremos con un ejemplo.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ejemplo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consideremos una distribución gaussiana de la cual deconocemos la media y la varianza. Es decir <span class="math display">\[
+f(x_i; \mu, \theta) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x_i - \mu)^2/2\sigma^2}\,.
+\]</span> Busquemos el estimador de máxima verosimilitud para <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span> a partir de una muestra <span class="math inline">\(\{x_i\}\)</span>.</p>
+<p>La verosimilitud es fácil de escribir <span class="math display">\[
+\ln L = -n\ln(\sqrt{2\pi}\sigma) - \sum_i\frac{(x_i - \mu)}{2\sigma^2}\,.
+\]</span> Tomando derivadas e igualando a cero se obtiene el sistema <span class="math display">\[
+\sum_i(x_i - \hat{\mu}) = 0\,,\quad \sum_i\frac{(x_i - \hat{\mu})^2}{\hat{\sigma}^3} - \frac{n}{\hat{\sigma}} = 0\,.
+\]</span> La solución a la primera ecuación es fácil <span class="math display">\[
+\hat{\mu} = \frac{1}{n}\sum_i x_i = \bar{x}\,.
+\]</span> Este es el mismo estimador no sesgado estudiado anteriormente. Reemplazamos esto en la segunda ecuación, que también se hace fácil de resolver <span class="math display">\[
+\hat{\sigma}^2 = \frac{1}{n}\sum_i(x_i - \bar{x})^2\,.
+\]</span> Este <em>no es el estimador no sesgado</em>. La máxima verosimilitud no nos da un estimador con esta propiedad.</p>
+</div>
+</div>
+<p>Para grandes muestras esto no es un problema ya que <span class="math inline">\((n - 1) \approx n\)</span>.</p>
+<p>Entonces, ¿por qué usar estimadores de máxima verosimilitud? Es porque tienen dos propiedades útiles.</p>
+</section>
+<section id="invarianza-de-estimadores-de-máxima-verosimilitud" class="level2">
+<h2 class="anchored" data-anchor-id="invarianza-de-estimadores-de-máxima-verosimilitud">Invarianza de estimadores de máxima verosimilitud</h2>
+<p>Supongamos que tenemos un estimador para <span class="math inline">\(\theta\)</span>, pero para el problema que queremos resolver nos interesa más una función <span class="math inline">\(F(\theta)\)</span>. En general <span class="math inline">\(\hat{F}(\theta) \neq F(\hat{\theta})\)</span> tal que tenemos que calcular el estimador de la función.</p>
+<p>Esto sí se cumple cuando usamos el estimador de máxima verosimilitud, ya que el punto donde <span class="math inline">\(L\)</span> es máximo es el mismo independientemente de si lo escribimos en función de <span class="math inline">\(\theta\)</span> o de <span class="math inline">\(F(\theta)\)</span>.</p>
+</section>
+<section id="cota-de-mínima-varianza-del-estimador-de-máxima-verosimilitud" class="level2">
+<h2 class="anchored" data-anchor-id="cota-de-mínima-varianza-del-estimador-de-máxima-verosimilitud">Cota de mínima varianza del estimador de máxima verosimilitud</h2>
+<p>Resulta que para una muestra grande el estimador de máxima verosimilitud satura la cota de mínima varianza. Es decir, que es un estimador con el error más pequeño posible. La demostración la haremos ahora aunque es un poco larga.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+¡Cuidado!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nosotros habíamos llamado la varianza del estimador <span class="math inline">\(\left\langle (\hat{\theta} - \langle\hat{\theta}\rangle)^2 \right\rangle\)</span>. Esta corresponde a la varianza alrededor de su valor esperado.</p>
+<p>La cota de mínima varianza en cambio se refiere a <span class="math inline">\(\left\langle(\hat{\theta} - \theta)^2\right\rangle\)</span>, es decir la varianza alrededor del verdadero valor, que también recibe contribuciones del sesgo. Recuerde que habíamos demostrado:</p>
+<p><span class="math display">\[
+\left\langle(\hat{\theta} - \theta)^2\right\rangle = \left\langle (\hat{\theta} - \langle\hat{\theta}\rangle)^2 \right\rangle + \left(\left\langle \langle\hat{\theta}\rangle - \theta\right\rangle\right)^2\,.
+\]</span></p>
+</div>
+</div>
+<p>Supongamos que tenemos una muestra grande, tal que el estimador de máxima verosimilitud <span class="math inline">\(\hat{\theta}\)</span> tiende al veradero valor <span class="math inline">\(\theta_*\)</span>. Nuestro estimador satisface <span class="math display">\[
+\left.\frac{\partial \ln L}{\partial\theta}\right|_{\theta = \hat{\theta}} = 0\,.
+\]</span> Como nos esperamos estar cerca del verdadero valor para une muestra grande, podemos aproximar el lado izquierdo con una expansión de Taylor <span class="math display">\[
+\left.\frac{\partial \ln L}{\partial \theta}\right|_{\theta = \theta_*} + (\hat{\theta} - \theta_*)\left.\frac{\partial^2 \ln L}{\partial\theta^2}\right|_{\theta = \theta_*} = 0\,.
+\]</span></p>
+<p>Ahora bien, de la ecuación (<a href="#eq-valor-esperado-derivada-logL" class="quarto-xref">4</a>) sabemos que el valor esperado de <span class="math inline">\(\partial \ln L/\partial \theta\)</span> es cero evaluado en <span class="math inline">\(\theta_*\)</span>. Edemás, esta cantidad es la suma de <span class="math inline">\(n\)</span> valores independientes para cada <span class="math inline">\(x_i\)</span>, y por el teorema central del límite sabemos que esas sumas van a estar descritas por una gaussiana, con varianza <span class="math display">\[\begin{align}
+\left\langle\left(\frac{\partial \ln L}{\partial a}\right)^2\right\rangle &amp;= \int d^n x \left(\frac{\partial \ln L}{\partial \theta}\right)^2 L = \int d^nx \frac{\partial \ln L}{\partial \theta} \frac{\partial L}{\partial\theta} \\
+&amp;= -\int d^nx \frac{\partial^2\ln L}{\partial\theta^2} L = \left\langle-\frac{\partial^2 \ln L}{\partial\theta^2}\right\rangle\,.
+\end{align}\]</span></p>
+<p>Como <span class="math inline">\((\hat{\theta} - \theta)\)</span> es proporcional a <span class="math inline">\(\partial \ln L/\partial\theta\)</span>, su distribución también estará descrita por una gaussiana con varianza <span class="math display">\[
+\left\langle(\hat{\theta} - \theta)^2\right\rangle = -\left.\left\langle\frac{\partial^2\ln L}{\partial \theta^2}\right\rangle\right/\left(\left.\frac{\partial^2 \ln L}{\partial\theta^2}\right|_{\theta=\theta_*}\right)^2
+\]</span> Además para <span class="math inline">\(n\)</span> grande el valor esperado tiende al verdadero valor tal que el numerador cancela una potencia del denominador. Por lo tanto tenemos <span class="math display">\[
+\left\langle(\hat{\theta} - \theta)^2\right\rangle = -\frac{1}{\left\langle\frac{\partial^2 \ln L}{\partial\theta^2}\right\rangle}
+\]</span> Pero esta es el mínimo valor posible según la ecuación (<a href="#eq-cota-minima-varianza" class="quarto-xref">5</a>).</p>
+</section>
+</section>
+<section id="ejercicios-sugeridos" class="level1">
+<h1>Ejercicios sugeridos</h1>
+<p>7.3, 7.5, 6.1, 6.3</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

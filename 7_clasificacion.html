@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Clasificación – Aprendizaje Automático para Físicos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Aprendizaje Automático para Físicos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-clases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Clases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-clases">    
+        <li class="dropdown-header">Probabilidad y Estadística</li>
+        <li>
+    <a class="dropdown-item" href="./1_probabilidad.html">
+ <span class="dropdown-text">1. Probabilidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_distribuciones_y_estimacion.html">
+ <span class="dropdown-text">2. Distribuciones y Estimación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_verosimilitud.html">
+ <span class="dropdown-text">3. Verosimilitud</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_minimos_cuadrados_intervalos.html">
+ <span class="dropdown-text">4. Mínimos Cuadrados e Intervalos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
+ <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Aprendizaje Automático</li>
+        <li>
+    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_clasificacion.html">
+ <span class="dropdown-text">7. Clasificación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
+ <span class="dropdown-text">8. Selección de Modelos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
+ <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
+ <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Redes Neuronales</li>
+        <li>
+    <a class="dropdown-item" href="./11_perceptron_y_redes_conexas.html">
+ <span class="dropdown-text">11. Perceptrón y Redes Conexas y Pérdidas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_gradient_descent_and_autodiff.html">
+ <span class="dropdown-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_evaluacion_y_regularizacion_de_nn.html">
+ <span class="dropdown-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_redes_convolucionales.html">
+ <span class="dropdown-text">14. Redes Convolucionales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_redes_residuales.html">
+ <span class="dropdown-text">15. Redes Residuales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_transformadores.html">
+ <span class="dropdown-text">16. Transformadores y el mecanismo de atención</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Algunas aplicaciones</li>
+        <li>
+    <a class="dropdown-item" href="./17_flujos_normalizantes.html">
+ <span class="dropdown-text">17. Flujos Normalizantes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_PINNs.html">
+ <span class="dropdown-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_Operador_Neural.html">
+ <span class="dropdown-text">19. Operadores Neuronales</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./6_aprendizaje_automatico_regresion_lineal.html">Aprendizaje Automático</a></li><li class="breadcrumb-item"><a href="./7_clasificacion.html">7. Clasificación</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Probabilidad y Estadística</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_probabilidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Probabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_distribuciones_y_estimacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Distribuciones y Estimación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Verosimilitud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_minimos_cuadrados_intervalos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Mínimos Cuadrados e Intervalos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Aprendizaje Automático</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">7. Clasificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Selección de Modelos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Redes Neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_perceptron_y_redes_conexas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Perceptrón, Redes Conexas y Pérdidas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_gradient_descent_and_autodiff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_evaluacion_y_regularizacion_de_nn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_redes_convolucionales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14. Redes Convolucionales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_redes_residuales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15. Redes Residuales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_transformadores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16. Transformadores y el mecanismo de atención</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Algunas aplicaciones</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17_flujos_normalizantes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">17. Flujos Normalizantes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18_PINNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19_Operador_Neural.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">19. Operadores Neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#variables-categóricas" id="toc-variables-categóricas" class="nav-link active" data-scroll-target="#variables-categóricas">Variables Categóricas</a></li>
+  <li><a href="#clasificador-de-bayes" id="toc-clasificador-de-bayes" class="nav-link" data-scroll-target="#clasificador-de-bayes">Clasificador de Bayes</a></li>
+  <li><a href="#clasificador-de-los-k-vecinos-más-cercanos" id="toc-clasificador-de-los-k-vecinos-más-cercanos" class="nav-link" data-scroll-target="#clasificador-de-los-k-vecinos-más-cercanos">Clasificador de los <span class="math inline">\(k\)</span> Vecinos Más Cercanos</a></li>
+  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística">Regresión logística</a></li>
+  <li><a href="#análisis-discriminante" id="toc-análisis-discriminante" class="nav-link" data-scroll-target="#análisis-discriminante">Análisis Discriminante</a>
+  <ul class="collapse">
+  <li><a href="#discriminante-lineal" id="toc-discriminante-lineal" class="nav-link" data-scroll-target="#discriminante-lineal">Discriminante lineal</a></li>
+  <li><a href="#discriminante-cuadrático" id="toc-discriminante-cuadrático" class="nav-link" data-scroll-target="#discriminante-cuadrático">Discriminante cuadrático</a></li>
+  <li><a href="#bayes-ingenuo" id="toc-bayes-ingenuo" class="nav-link" data-scroll-target="#bayes-ingenuo">Bayes ingenuo</a></li>
+  </ul></li>
+  <li><a href="#un-ejemplo" id="toc-un-ejemplo" class="nav-link" data-scroll-target="#un-ejemplo">Un Ejemplo</a>
+  <ul class="collapse">
+  <li><a href="#regresión-logística-1" id="toc-regresión-logística-1" class="nav-link" data-scroll-target="#regresión-logística-1">Regresión logística</a></li>
+  <li><a href="#discriminante-lineal-1" id="toc-discriminante-lineal-1" class="nav-link" data-scroll-target="#discriminante-lineal-1">Discriminante lineal</a></li>
+  <li><a href="#discriminante-cuadrático-1" id="toc-discriminante-cuadrático-1" class="nav-link" data-scroll-target="#discriminante-cuadrático-1">Discriminante cuadrático</a></li>
+  <li><a href="#bayes-ingenuo-1" id="toc-bayes-ingenuo-1" class="nav-link" data-scroll-target="#bayes-ingenuo-1">Bayes ingenuo</a></li>
+  <li><a href="#k-vecinos-más-cercanos" id="toc-k-vecinos-más-cercanos" class="nav-link" data-scroll-target="#k-vecinos-más-cercanos"><span class="math inline">\(k\)</span> vecinos más cercanos</a>
+  <ul class="collapse">
+  <li><a href="#k-1" id="toc-k-1" class="nav-link" data-scroll-target="#k-1"><span class="math inline">\(k = 1\)</span></a></li>
+  <li><a href="#k-30" id="toc-k-30" class="nav-link" data-scroll-target="#k-30"><span class="math inline">\(k = 30\)</span></a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#ejercicios-sugeridos-para-la-prueba" id="toc-ejercicios-sugeridos-para-la-prueba" class="nav-link" data-scroll-target="#ejercicios-sugeridos-para-la-prueba">Ejercicios Sugeridos Para la Prueba</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./6_aprendizaje_automatico_regresion_lineal.html">Aprendizaje Automático</a></li><li class="breadcrumb-item"><a href="./7_clasificacion.html">7. Clasificación</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Clasificación</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>La clase pasada estudiamos problemas de regresión, en los cuales tratamos de predecir una variable numérica <span class="math inline">\(Y\)</span> a partir de un conjunto de predictores <span class="math inline">\(X\)</span>. Ahora nos enfocamos en el caso en el cual <span class="math inline">\(Y\)</span> es una serie de categorías. En física esto puede surgir cuando queremos clasificar imágenes. Por ejemplo determinar el tipo de una galaxia en una imágen. Otro ejemplo es clasificar eventos en un detector de partículas en la categoría de señal o ruido.</p>
+<section id="variables-categóricas" class="level1">
+<h1>Variables Categóricas</h1>
+<p>¿Cómo podemos describir una variable que no toma valores numéricos? Podemos intentar usar un número entero para cada categoría. Si son dos categorías, estas las podemos marcar <span class="math inline">\(0\)</span> o <span class="math inline">\(1\)</span>. Para <span class="math inline">\(n\)</span> categrorías podemos usar <span class="math inline">\(1, ..., n\)</span>.</p>
+<p>Si <span class="math inline">\(Y\)</span> es categórica podemos intentar usar una regresión lineal para predecirla a partir de los valores de <span class="math inline">\(X\)</span>. Esto nos dará un número real y podemos tomar el entero más cercano para determinar la categoría.</p>
+<p>Esto funciona parcialmente pero tiene algunos problemas: En muchos casos las categorías no tienen un orden definido. Si queremos clasificar galaxias en elípticas, barradas y espirales, podemos asignar <span class="math inline">\(0\)</span>, <span class="math inline">\(1\)</span> y <span class="math inline">\(2\)</span> respectivamente. Pero en ningún sentido son las galaxias espirales mayores que las barradas y las elípticas. Esto complica la interpretación. Además no tenemos un modelo que corresponde al sistema que describe, lo que generalmente aumenta el sesgo.</p>
+<p>Cuando hay varias categorías podemos evitar asignarles un orden con una técnica llamada “<strong>one-hot encoding</strong>”. Consiste en crear una variable ficticia para cada categoría. Cada una de esas variables vale <span class="math inline">\(1\)</span> cuando el dato pertenece a esa categoría o <span class="math inline">\(0\)</span> de otra manera.</p>
+<p>Estas mismas estrategias se pueden usar cuando alguno de los <span class="math inline">\(X\)</span> es categórico.</p>
+</section>
+<section id="clasificador-de-bayes" class="level1">
+<h1>Clasificador de Bayes</h1>
+<p>Para describir el problema de clasificación imaginamos que dados los valores de <span class="math inline">\(X\)</span>, tenemos una cierta probabilidad de pertenecer a la categoría <span class="math inline">\(j\)</span>. Es decir, tenemos <span class="math display">\[
+P(Y=j|X)\,.
+\]</span> Esto es porque en general el valor de <span class="math inline">\(X\)</span> no determina completamente la categoría. Siempre hay un pequeño error. Cuando conocemos esta probabilidad podemos asignar cada dato a la categoría más probable. Este se llama el <strong>clasificador de Bayes</strong>.</p>
+<p>Los modelos de clasificación consisten en intentar estimar <span class="math inline">\(P(Y=j|X)\)</span> de alguna manera.</p>
+<div id="cell-fig-bayes-boundary" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> multivariate_normal</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir los componentes Gaussianos</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>distribuciones <span class="op">=</span> [</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">3</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="fl">0.2</span>], [<span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">3</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>], [<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">2</span>, <span class="fl">1.5</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> []</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> []</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    muestras <span class="op">=</span> np.random.multivariate_normal(dist[<span class="st">"media"</span>], dist[<span class="st">"cov"</span>], size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    puntos.append(muestras)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    etiquetas.extend([dist[<span class="st">"etiqueta"</span>]] <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> np.vstack(puntos)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> np.array(etiquetas)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una malla para calcular la frontera de decisión</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>), np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>rejilla <span class="op">=</span> np.column_stack([x1.ravel(), x2.ravel()])</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar las probabilidades posteriores</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>prob_0 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>prob_1 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Supongamos priori uniforme y pesos iguales para cada Gaussiana dentro de su categoría</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    gaussiana <span class="op">=</span> multivariate_normal(mean<span class="op">=</span>dist[<span class="st">"media"</span>], cov<span class="op">=</span>dist[<span class="st">"cov"</span>])</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dist[<span class="st">"etiqueta"</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        prob_0 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        prob_1 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular la diferencia de probabilidades para trazar la frontera</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> prob_0 <span class="op">-</span> prob_1</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> diferencia_posterior.reshape(x1.shape)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar los puntos</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'Categoría 0'</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'Categoría 1'</span>)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar la frontera de decisión de Bayes (donde la diferencia posterior es cero)</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, diferencia_posterior, levels<span class="op">=</span>[<span class="dv">0</span>], colors<span class="op">=</span><span class="st">'black'</span>, linewidths<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Frontera de Decisión de Bayes"</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x_1$"</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$x_2$"</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-bayes-boundary" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bayes-boundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-bayes-boundary-output-1.png" id="fig-bayes-boundary" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bayes-boundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>En la <a href="#fig-bayes-boundary" class="quarto-xref">Figura&nbsp;1</a> graficamos un caso típico de clasificación. Los puntos están mezclados cerca de la frontera que separa las dos regiones. Esa frontera es la frontera de Bayes. La frontera de Bayes es la que obtiene el error menor, en el sentido que es la que clasifica erróneamente el menor número de puntos.</p>
+</section>
+<section id="clasificador-de-los-k-vecinos-más-cercanos" class="level1">
+<h1>Clasificador de los <span class="math inline">\(k\)</span> Vecinos Más Cercanos</h1>
+<p>Una manera de estimar la categoría más probable es promediar en una región. Es decir, para cada punto miramos los <span class="math inline">\(k\)</span> datos más cercanos y le asignamos la categoría mayoritaria entre esos. El valor de <span class="math inline">\(k\)</span> lo fijamos antes de calcular. Este método se llama de los <span class="math inline">\(k\)</span> vecinos más cercanos (kNN).</p>
+<p>Este es el primer ejemplo que vemos de un método no paramétrico. La probabilidad estimada no depende de ningún parámetro para <span class="math inline">\(k\)</span> fijo. El valor de <span class="math inline">\(k\)</span> se llama un <strong>hiperparámetro</strong> de este método. Para tener una intuición de cómo escogerlo repitamos nuestro ejemplo para varios valores de <span class="math inline">\(k\)</span>.</p>
+<div id="cell-fig-k-1-boundary" class="cell" data-caption="Frontera de decisión para kNN con $k = 1$." data-execution_count="3">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> multivariate_normal</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir componentes Gaussianos</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>distribuciones <span class="op">=</span> [</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">3</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="fl">0.2</span>], [<span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">3</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>], [<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">2</span>, <span class="fl">1.5</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> []</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> []</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    muestras <span class="op">=</span> np.random.multivariate_normal(dist[<span class="st">"media"</span>], dist[<span class="st">"cov"</span>], size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    puntos.append(muestras)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    etiquetas.extend([dist[<span class="st">"etiqueta"</span>]] <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> np.vstack(puntos)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> np.array(etiquetas)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear rejilla de puntos</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>), np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>))</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>rejilla <span class="op">=</span> np.column_stack([x1.ravel(), x2.ravel()])</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Clasificador K-NN</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>clasificador_knn <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span>k)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>clasificador_knn.fit(puntos, etiquetas)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>etiquetas_rejilla_knn <span class="op">=</span> clasificador_knn.predict(rejilla)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>etiquetas_rejilla_knn <span class="op">=</span> etiquetas_rejilla_knn.reshape(x1.shape)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular frontera de Bayes (como antes)</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>prob_0 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>prob_1 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    gaussiana <span class="op">=</span> multivariate_normal(mean<span class="op">=</span>dist[<span class="st">"media"</span>], cov<span class="op">=</span>dist[<span class="st">"cov"</span>])</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dist[<span class="st">"etiqueta"</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        prob_0 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        prob_1 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> prob_0 <span class="op">-</span> prob_1</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> diferencia_posterior.reshape(x1.shape)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Fondo de la rejilla coloreado por K-NN</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>plt.scatter(rejilla[:, <span class="dv">0</span>], rejilla[:, <span class="dv">1</span>], c<span class="op">=</span>clasificador_knn.predict(rejilla), cmap<span class="op">=</span><span class="st">'coolwarm'</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, s<span class="op">=</span><span class="dv">1</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontera de Bayes (menos visible)</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, diferencia_posterior, levels<span class="op">=</span>[<span class="dv">0</span>], colors<span class="op">=</span><span class="st">'gray'</span>, linewidths<span class="op">=</span><span class="dv">1</span>, linestyles<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontera de K-NN</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, etiquetas_rejilla_knn, levels<span class="op">=</span>[<span class="fl">0.5</span>], colors<span class="op">=</span><span class="st">'black'</span>, linewidths<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos originales</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">'Categoría 0'</span>)</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">'Categoría 1'</span>)</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Fronteras de Decisión: K-NN con $k=1$"</span>)</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x_1$"</span>)</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$x_2$"</span>)</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-k-1-boundary" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-k-1-boundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-k-1-boundary-output-1.png" id="fig-k-1-boundary" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-k-1-boundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>En la <a href="#fig-k-1-boundary" class="quarto-xref">Figura&nbsp;2</a> vemos que la frontera de decisión no comete ningún error. Clasifica correctamente todos los puntos del conjunto de datos usado para entrenarla. En este sentido la frontera no tiene sesgo.</p>
+<p>Sin embargo, esa frontera se ajusta demasiado a estos datos. Si la entrenamos con datos distintos, será una frontera diferente. Veamos el resultado en la <a href="#fig-k-1-boundary-new-data" class="quarto-xref">Figura&nbsp;3</a>.</p>
+<div id="cell-fig-k-1-boundary-new-data" class="cell" data-caption="Frontera de decisión para kNN con $k = 1$. Nuevos datos." data-execution_count="4">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> multivariate_normal</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">10</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir componentes Gaussianos</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>distribuciones <span class="op">=</span> [</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">3</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="fl">0.2</span>], [<span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">3</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>], [<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"media"</span>: [<span class="dv">2</span>, <span class="fl">1.5</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> []</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> []</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  muestras <span class="op">=</span> np.random.multivariate_normal(dist[<span class="st">"media"</span>], dist[<span class="st">"cov"</span>], size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  puntos.append(muestras)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  etiquetas.extend([dist[<span class="st">"etiqueta"</span>]] <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> np.vstack(puntos)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> np.array(etiquetas)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear rejilla de puntos</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>), np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>))</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>rejilla <span class="op">=</span> np.column_stack([x1.ravel(), x2.ravel()])</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Clasificador K-NN</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>clasificador_knn <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span>k)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>clasificador_knn.fit(puntos, etiquetas)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>etiquetas_rejilla_knn <span class="op">=</span> clasificador_knn.predict(rejilla)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>etiquetas_rejilla_knn <span class="op">=</span> etiquetas_rejilla_knn.reshape(x1.shape)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular frontera de Bayes (como antes)</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>prob_0 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>prob_1 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  gaussiana <span class="op">=</span> multivariate_normal(mean<span class="op">=</span>dist[<span class="st">"media"</span>], cov<span class="op">=</span>dist[<span class="st">"cov"</span>])</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> dist[<span class="st">"etiqueta"</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>      prob_0 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>      prob_1 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> prob_0 <span class="op">-</span> prob_1</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> diferencia_posterior.reshape(x1.shape)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Fondo de la rejilla coloreado por K-NN</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>plt.scatter(rejilla[:, <span class="dv">0</span>], rejilla[:, <span class="dv">1</span>], c<span class="op">=</span>clasificador_knn.predict(rejilla), cmap<span class="op">=</span><span class="st">'coolwarm'</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, s<span class="op">=</span><span class="dv">1</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontera de Bayes (menos visible)</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, diferencia_posterior, levels<span class="op">=</span>[<span class="dv">0</span>], colors<span class="op">=</span><span class="st">'gray'</span>, linewidths<span class="op">=</span><span class="dv">1</span>, linestyles<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontera de K-NN</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, etiquetas_rejilla_knn, levels<span class="op">=</span>[<span class="fl">0.5</span>], colors<span class="op">=</span><span class="st">'black'</span>, linewidths<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos originales</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">'Categoría 0'</span>)</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">'Categoría 1'</span>)</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Fronteras de Decisión: K-NN con $k=1$"</span>)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x_1$"</span>)</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$x_2$"</span>)</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-k-1-boundary-new-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-k-1-boundary-new-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-k-1-boundary-new-data-output-1.png" id="fig-k-1-boundary-new-data" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-k-1-boundary-new-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>En este sentido la frontera tiene una gran varianza. Este es un ejemplo del balance entre sesgo y varianza. El problema de tener una varianza grande es que el modelo no funcionará bien con datos nuevos ya que la clasificación se ajustó a los datos de entrenamiento.</p>
+<p>En la <a href="#fig-k-1-boundary" class="quarto-xref">Figura&nbsp;2</a> vemos que el error en el conjunto de entrenamiento es cero. Pero sabemos que el error será mayor en datos nuevos. ¿Cómo podemos evaluar el modelo para saber si será bueno a la hora de predecir? Ese es el tema de la próxima clase.</p>
+<div id="cell-fig-k-10-boundary" class="cell" data-caption="Frontera de decisión para kNN con $k = 10$." data-execution_count="5">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> multivariate_normal</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir componentes Gaussianos</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>distribuciones <span class="op">=</span> [</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  {<span class="st">"media"</span>: [<span class="dv">3</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="fl">0.2</span>], [<span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">3</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>], [<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  {<span class="st">"media"</span>: [<span class="dv">2</span>, <span class="fl">1.5</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> []</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> []</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  muestras <span class="op">=</span> np.random.multivariate_normal(dist[<span class="st">"media"</span>], dist[<span class="st">"cov"</span>], size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  puntos.append(muestras)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  etiquetas.extend([dist[<span class="st">"etiqueta"</span>]] <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> np.vstack(puntos)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> np.array(etiquetas)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear rejilla de puntos</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>), np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>))</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>rejilla <span class="op">=</span> np.column_stack([x1.ravel(), x2.ravel()])</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Clasificador K-NN</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>clasificador_knn <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span>k)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>clasificador_knn.fit(puntos, etiquetas)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>etiquetas_rejilla_knn <span class="op">=</span> clasificador_knn.predict(rejilla)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>etiquetas_rejilla_knn <span class="op">=</span> etiquetas_rejilla_knn.reshape(x1.shape)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular frontera de Bayes (como antes)</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>prob_0 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>prob_1 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  gaussiana <span class="op">=</span> multivariate_normal(mean<span class="op">=</span>dist[<span class="st">"media"</span>], cov<span class="op">=</span>dist[<span class="st">"cov"</span>])</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> dist[<span class="st">"etiqueta"</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>      prob_0 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>      prob_1 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> prob_0 <span class="op">-</span> prob_1</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> diferencia_posterior.reshape(x1.shape)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Fondo de la rejilla coloreado por K-NN</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>plt.scatter(rejilla[:, <span class="dv">0</span>], rejilla[:, <span class="dv">1</span>], c<span class="op">=</span>clasificador_knn.predict(rejilla), cmap<span class="op">=</span><span class="st">'coolwarm'</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, s<span class="op">=</span><span class="dv">1</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontera de Bayes (menos visible)</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, diferencia_posterior, levels<span class="op">=</span>[<span class="dv">0</span>], colors<span class="op">=</span><span class="st">'gray'</span>, linewidths<span class="op">=</span><span class="dv">1</span>, linestyles<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontera de K-NN</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, etiquetas_rejilla_knn, levels<span class="op">=</span>[<span class="fl">0.5</span>], colors<span class="op">=</span><span class="st">'black'</span>, linewidths<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos originales</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">'Categoría 0'</span>)</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">'Categoría 1'</span>)</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Fronteras de Decisión: K-NN con $k=10$"</span>)</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x_1$"</span>)</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$x_2$"</span>)</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-k-10-boundary" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-k-10-boundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-k-10-boundary-output-1.png" id="fig-k-10-boundary" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-k-10-boundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-fig-k-30-boundary" class="cell" data-caption="Frontera de decisión para kNN con $k = 30$." data-execution_count="6">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> multivariate_normal</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir componentes Gaussianos</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>distribuciones <span class="op">=</span> [</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  {<span class="st">"media"</span>: [<span class="dv">3</span>, <span class="dv">0</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="fl">0.2</span>], [<span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">0</span>},</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  {<span class="st">"media"</span>: [<span class="dv">0</span>, <span class="dv">3</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>], [<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  {<span class="st">"media"</span>: [<span class="dv">2</span>, <span class="fl">1.5</span>], <span class="st">"cov"</span>: [[<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="fl">0.5</span>]], <span class="st">"etiqueta"</span>: <span class="dv">1</span>},</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> []</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> []</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  muestras <span class="op">=</span> np.random.multivariate_normal(dist[<span class="st">"media"</span>], dist[<span class="st">"cov"</span>], size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  puntos.append(muestras)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  etiquetas.extend([dist[<span class="st">"etiqueta"</span>]] <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>puntos <span class="op">=</span> np.vstack(puntos)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="op">=</span> np.array(etiquetas)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear rejilla de puntos</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>), np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">300</span>))</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>rejilla <span class="op">=</span> np.column_stack([x1.ravel(), x2.ravel()])</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Clasificador K-NN</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>clasificador_knn <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span>k)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>clasificador_knn.fit(puntos, etiquetas)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>etiquetas_rejilla_knn <span class="op">=</span> clasificador_knn.predict(rejilla)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>etiquetas_rejilla_knn <span class="op">=</span> etiquetas_rejilla_knn.reshape(x1.shape)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular frontera de Bayes (como antes)</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>prob_0 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>prob_1 <span class="op">=</span> np.zeros(<span class="bu">len</span>(rejilla))</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dist <span class="kw">in</span> distribuciones:</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  gaussiana <span class="op">=</span> multivariate_normal(mean<span class="op">=</span>dist[<span class="st">"media"</span>], cov<span class="op">=</span>dist[<span class="st">"cov"</span>])</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> dist[<span class="st">"etiqueta"</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>      prob_0 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>      prob_1 <span class="op">+=</span> gaussiana.pdf(rejilla)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> prob_0 <span class="op">-</span> prob_1</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>diferencia_posterior <span class="op">=</span> diferencia_posterior.reshape(x1.shape)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Fondo de la rejilla coloreado por K-NN</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>plt.scatter(rejilla[:, <span class="dv">0</span>], rejilla[:, <span class="dv">1</span>], c<span class="op">=</span>clasificador_knn.predict(rejilla), cmap<span class="op">=</span><span class="st">'coolwarm'</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, s<span class="op">=</span><span class="dv">1</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontera de Bayes (menos visible)</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, diferencia_posterior, levels<span class="op">=</span>[<span class="dv">0</span>], colors<span class="op">=</span><span class="st">'gray'</span>, linewidths<span class="op">=</span><span class="dv">1</span>, linestyles<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontera de K-NN</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>plt.contour(x1, x2, etiquetas_rejilla_knn, levels<span class="op">=</span>[<span class="fl">0.5</span>], colors<span class="op">=</span><span class="st">'black'</span>, linewidths<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos originales</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">'Categoría 0'</span>)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>plt.scatter(puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">0</span>], puntos[etiquetas <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">1</span>], alpha<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">'Categoría 1'</span>)</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Fronteras de Decisión: K-NN con $k=30$"</span>)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x_1$"</span>)</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$x_2$"</span>)</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>])</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-k-30-boundary" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-k-30-boundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-k-30-boundary-output-1.png" id="fig-k-30-boundary" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-k-30-boundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La frontera ahora es más suave y podemos esperar que tenga menos varianza. Pero al mismo tiempo tiene un poco de sesgo al clasificar erróneamente algunos puntos (respecto a la frontera de Bayes).</p>
+</section>
+<section id="regresión-logística" class="level1">
+<h1>Regresión logística</h1>
+<p>Una alternativa es usar un modelo paramétrico para aproximar la probabilidad. La ventaja de los métodos paramétricos es que son más interpretables y necesitan menos datos para su entrenamiento. La desventaja es que debemos conocer o suponer algo sobre el sistema para poder parametrizar la probabilidad.</p>
+<p>Una manera sencilla de aproximar la probabilidad es usar la regresión lineal. Sin embargo, no podemos interpretar <span class="math inline">\(P = \beta_1 X + \beta_0\)</span> como una probabilidad ya que puede tomar valores fuera del rango <span class="math inline">\([0,1]\)</span>.</p>
+<p>Lo que hacemos es escribir la <strong>función logística</strong> <span class="math display">\[
+\sigma(x) = \frac{e^{x}}{1 + e^{x}}\,.
+\]</span> Esta funcіón tiende a <span class="math inline">\(0\)</span> cuando <span class="math inline">\(x\rightarrow -\infty\)</span> ya que el numerador se anula, y tiende a <span class="math inline">\(1\)</span> cuando <span class="math inline">\(x\rightarrow \infty\)</span> ya que el exponencial domina en el denominador. Por lo tanto podría representar una probabilidad.</p>
+<div id="6c1603c8" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la función sigmoide</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoide(x):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>x))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un rango de valores para x</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">400</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular la salida de la función sigmoide</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sigmoide(x)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, label<span class="op">=</span><span class="st">"Función sigmoide"</span>, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Gráfica de la función sigmoide"</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"sigmoide(x)"</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>plt.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="7_clasificacion_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Entonces el modelo de <strong>regresión logística</strong> toma <span class="math inline">\(p(x) \equiv P(X|Y=1) = \sigma(\beta_0 + \beta_1 X)\)</span>, <span class="math inline">\(P(X|Y=0) = 1 - P(X|Y=1)\)</span>. En otras palabras <span class="math display">\[
+\log\left(\frac{p(X)}{1 - p(X)}\right) = \beta_0 + \beta_1 X\,.
+\]</span> A la función del lado izquierdo a veces se lo llama el <strong>logit</strong>.</p>
+<p>Para encontrar los valores de <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span> se aplica el principio de máxima verosimilitud.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ajuste de los coeficientes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Para encontrar los coeficientes de la regresión logística, escribimos primero la verosimilitud <span class="math display">\[
+L(\beta) = \prod_i P(x_i|y_i)\,.
+\]</span> Como siempre, es más fácil trabajar con el logaritmo <span class="math display">\[
+\begin{multline*}
+\ln L(\beta) = \sum_i \ln P(x_i|y_i) = \sum_i \left(y_i\ln p(x_i) + (1 - y_i)\ln(1 - p(x_i))\right) \\= \sum_i \left(y_i(\beta_0 + \beta_1 x_i) - \ln(1 + e^{\beta_0 + \beta_1 x_i})\right)\,.
+\end{multline*}
+\]</span> Para encontrar el mínimo buscamos la derivada y la igualamos a cero. La ecuación resultante es no lineal y debemos resolverla numéricamente. Para hacerlo es usual usar el método de Newton ya que la segunda derivada también es fácil de calcular.</p>
+</div>
+</div>
+</div>
+<p>La generalización a múltiples variables es directa. En este caso escribimos <span class="math display">\[
+\log\left(\frac{p(X)}{1 - p(X)}\right) = \beta_0 + \beta_1 X_1 + ... + \beta_q X_q\,.
+\]</span></p>
+<p>Cuando tenemos <span class="math inline">\(K &gt; 2\)</span> categorías también es fácil generalizarlo. Para cada categoría escribimos para <span class="math inline">\(k \neq K\)</span> <span class="math display">\[
+P(X|Y=k) = \frac{e^{\beta_{k0} + \beta_{k1}x_1 + ... + \beta_{kq}x_q}}{1 + \sum_{i = 1}^{K-1}e^{\beta_{i0} + \beta_{i1}x_1 + ... + \beta_{in}x_n}}\,.
+\]</span> Donde escogemos la categoría <span class="math inline">\(K\)</span> como la de referencia y <span class="math display">\[
+P(X|Y=K) = \frac{1}{1 + \sum_{i = 1}^{K-1}e^{\beta_{i0} + \beta_{i1}x_1 + ... + \beta_{in}x_n}}
+\]</span></p>
+</section>
+<section id="análisis-discriminante" class="level1">
+<h1>Análisis Discriminante</h1>
+<p>Una alternativa adicional es usar el teorema de Bayes para encontrar la probabilidad posterior <span class="math inline">\(P(Y=j|X) \equiv p_j(x) = P(X|Y=j)P(Y=j)/\sum_i P(X|Y=i)P(Y=i)\)</span>.</p>
+<p>Para estimar <span class="math inline">\(P(Y=j) \equiv \pi_j\)</span> podemos aproximarla como la fracción del total de los datos que pertenecen a la categoría <span class="math inline">\(j\)</span>. Estimar <span class="math inline">\(P(X|Y=j) = f_j(X)\)</span> puede hacerse de varias maneras.</p>
+<section id="discriminante-lineal" class="level2">
+<h2 class="anchored" data-anchor-id="discriminante-lineal">Discriminante lineal</h2>
+<p>En este caso aproximamos <span class="math inline">\(f_j(X)\)</span> con una gaussiana donde la covarianza es la misma para todo <span class="math inline">\(j\)</span> <span class="math display">\[
+f_k(x) = \frac{1}{\sqrt{2\pi}|\sigma|^{1/2}}\exp\left(-\frac{1}{2}(\boldsymbol{x} - \boldsymbol{\mu}_k)^T \Sigma^{-1}(\boldsymbol{x} - \boldsymbol{\mu}_k)\right)\,.
+\]</span> La media <span class="math inline">\(\mu_j\)</span> es la media de los <span class="math inline">\(x\)</span> de cada categoría y la covarianza <span class="math inline">\(\Sigma\)</span> es la covarianza entre las variables <span class="math inline">\(X\)</span> estimada a partir de los datos de todas las categorías.</p>
+<p>Asignamos la categoría más probable a cada dato a partir de su probabilidad. Como siempre, es más fácil trabajar con el logaritmo <span class="math display">\[
+\ln p_k(x) = \ln{\pi_k} + \boldsymbol{x}^T\Sigma^{-1}\boldsymbol{\mu}_k - \frac{1}{2}\boldsymbol{\mu}_k^T\Sigma^{-1}\boldsymbol{\mu}_k + ...
+\]</span> donde los puntos contienen un montón de términos que son iguales para todas las categorías. Entonces basta calcular los términos que sí escribimos y escoger la categoría que los maximiza. Como esta combinación es lineal, se llama discriminante lineal.</p>
+</section>
+<section id="discriminante-cuadrático" class="level2">
+<h2 class="anchored" data-anchor-id="discriminante-cuadrático">Discriminante cuadrático</h2>
+<p>Si no asumimos que todas las categorías tienen la misma covarianza, tenemos que <span class="math display">\[
+\ln p_k(x) = \ln{\pi_k} + \frac{1}{2}\boldsymbol{x}^T\Sigma_k^{-1}\boldsymbol{x} + \boldsymbol{x}^T\Sigma_k^{-1}\boldsymbol{\mu}_k - \frac{1}{2}\boldsymbol{\mu}_k^T\Sigma_k^{-1}\boldsymbol{\mu}_k + ...
+\]</span> Ahora la ecuación es cuadrática. Esto es más general que el caso anterior, pero requiere estimar el término cuadrático. Este término contiene la matriz <span class="math inline">\(\Sigma^{-1}\)</span> que contiene <span class="math inline">\(q(q - 1)/2\)</span> elementos por cada clase. Esto quiere decir que necesitamos más datos en general para que funcione bien.</p>
+</section>
+<section id="bayes-ingenuo" class="level2">
+<h2 class="anchored" data-anchor-id="bayes-ingenuo">Bayes ingenuo</h2>
+<p>El último método que estudiaremos basado en el análisis discriminante es el <strong>método ingenuo de Bayes</strong> (naive Bayes). Consiste en asumir que todas las clases tienen una varianza diferente, pero que todas las variables <span class="math inline">\(X_i\)</span> son independientes. Esto lo hace simultáneamente más general y más restringido que el discriminante lineal. Como las variables son independientes, escribimos <span class="math display">\[
+f_k(\boldsymbol{x}) = f_{1k}(x_1)...f_{qk}(x_q)\,.
+\]</span> Si <span class="math inline">\(X_j\)</span> es cuantitativa podemos usar una gaussiana para <span class="math inline">\(f_{jk}\)</span>. Si es cualitativa, podemos usar la proporción de los datos en la clase <span class="math inline">\(k\)</span> que caen en cada categoría.</p>
+</section>
+</section>
+<section id="un-ejemplo" class="level1">
+<h1>Un Ejemplo</h1>
+<p>Usemos los diferentes clasificadores para estudiar el siguiente problema. Tenemos una serie de datos de una compañía de tarjetas de crédito. Queremos poder predecir si un dado cliente será incapaz de cubrir su deuda. Los datos consisten en el crédito usado, el sueldo y si el cliente es un estudiante o no.</p>
+<div id="91b2bd11" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>default <span class="op">=</span> pd.read_csv(<span class="st">"data/default.csv"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>default.head()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">default</th>
+<th data-quarto-table-cell-role="th">student</th>
+<th data-quarto-table-cell-role="th">balance</th>
+<th data-quarto-table-cell-role="th">income</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>1</td>
+<td>729.526495</td>
+<td>44361.625074</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>2</td>
+<td>817.180407</td>
+<td>12106.134700</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>1</td>
+<td>1073.549164</td>
+<td>31767.138947</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>1</td>
+<td>529.250605</td>
+<td>35704.493935</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>1</td>
+<td>785.655883</td>
+<td>38463.495879</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="9d4f5dae" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>default.describe()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">default</th>
+<th data-quarto-table-cell-role="th">student</th>
+<th data-quarto-table-cell-role="th">balance</th>
+<th data-quarto-table-cell-role="th">income</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>10000.000000</td>
+<td>10000.000000</td>
+<td>10000.000000</td>
+<td>10000.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>1.033300</td>
+<td>1.294400</td>
+<td>835.374886</td>
+<td>33516.981876</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>0.179428</td>
+<td>0.455795</td>
+<td>483.714985</td>
+<td>13336.639563</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>0.000000</td>
+<td>771.967729</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>481.731105</td>
+<td>21340.462903</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>1.000000</td>
+<td>1.000000</td>
+<td>823.636973</td>
+<td>34552.644802</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>1.000000</td>
+<td>2.000000</td>
+<td>1166.308386</td>
+<td>43807.729272</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>2.000000</td>
+<td>2.000000</td>
+<td>2654.322576</td>
+<td>73554.233495</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="regresión-logística-1" class="level2">
+<h2 class="anchored" data-anchor-id="regresión-logística-1">Regresión logística</h2>
+<div id="72f9fcb5" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> default.drop([<span class="st">'default'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> default[<span class="st">'default'</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>logit <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, solver<span class="op">=</span><span class="st">'liblinear'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> logit.fit(X, Y)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Para evaluar los modelos escribiremos una <strong>matriz de confusión</strong> a partir del siguiente código</p>
+<div id="027bff5c" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> matriz_confusion_binaria(y_real, y_pred, levels<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">1</span>]):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Calcula y muestra la matriz de confusión en formato tabla Markdown usando Quarto.</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Parámetros:</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - etiquetas_reales: lista o array de etiquetas verdaderas (0 o 1)</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - predicciones: lista o array de etiquetas predichas (0 o 1)</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    VP <span class="op">=</span> VN <span class="op">=</span> FP <span class="op">=</span> FN <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> real, pred <span class="kw">in</span> <span class="bu">zip</span>(y_real, y_pred):</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> real <span class="op">==</span> levels[<span class="dv">1</span>] <span class="kw">and</span> pred <span class="op">==</span> levels[<span class="dv">1</span>]:</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>            VP <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> real <span class="op">==</span> levels[<span class="dv">0</span>] <span class="kw">and</span> pred <span class="op">==</span> levels[<span class="dv">0</span>]:</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>            VN <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> real <span class="op">==</span> levels[<span class="dv">0</span>] <span class="kw">and</span> pred <span class="op">==</span> levels[<span class="dv">1</span>]:</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>            FP <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> real <span class="op">==</span> levels[<span class="dv">1</span>] <span class="kw">and</span> pred <span class="op">==</span> levels[<span class="dv">0</span>]:</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>            FN <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear tabla en formato lista de listas</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    tabla <span class="op">=</span> [</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        [<span class="st">""</span>, <span class="st">"Predicción: -"</span>, <span class="st">"Predicción: +"</span>],</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Real: -"</span>, VN, FP],</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Real: +"</span>, FN, VP]</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mostrar como tabla Markdown</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Markdown(tabulate(tabla, headers<span class="op">=</span><span class="st">"firstrow"</span>, tablefmt<span class="op">=</span><span class="st">"github"</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> results.predict(X)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(Y, y_pred, levels<span class="op">=</span>[<span class="dv">1</span>,<span class="dv">2</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-logistic-confusion" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="12">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-logistic-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;1: Matriz de confusión para la regresión logística.
+</figcaption>
+<div aria-describedby="tbl-logistic-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="11">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción: -</th>
+<th>Predicción: +</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Real: -</td>
+<td>9659</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>Real: +</td>
+<td>318</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Como vemos, tenemos <span class="math inline">\(8\)</span> falsos positivos y <span class="math inline">\(318\)</span> falsos negativos. Si esto es bueno o malo depende de los requerimientos del problema. Para la compañía puede ser muy costoso que <span class="math inline">\(318\)</span> personas que se creía podían pagar el crédito luego no lo hagan. Para resolver esto, podemos cambiar el nivel en el cual un cliente se marca como un problema posible. Por ejemplo, lo podemos marcar como problemático si tiene una probabilidad de <span class="math inline">\(20\%\)</span> de no pagar.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>y_pred_proba <span class="op">=</span> results.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> (y_pred_proba <span class="op">&gt;</span> <span class="fl">0.2</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>y_verdad <span class="op">=</span> (Y <span class="op">==</span> <span class="dv">2</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(y_verdad, y_pred)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-logistic-confusion-different-level" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="13">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-logistic-confusion-different-level-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;2: Matriz de confusión para la regresión logística.Con un nivel de 0.2.
+</figcaption>
+<div aria-describedby="tbl-logistic-confusion-different-level-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="12">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción: -</th>
+<th>Predicción: +</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Real: -</td>
+<td>9414</td>
+<td>253</td>
+</tr>
+<tr class="even">
+<td>Real: +</td>
+<td>193</td>
+<td>140</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Al cambiar el nivel, el número de falsos positivos y negativos cambiará. Mientras mayor el nivel, mayor el número de falsos positivos y menor el de falsos negativos. Esto se puede ver en la llamada <strong>curva ROC</strong></p>
+<div id="0e37fde1" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> graficar_curva_roc(y_real, y_pred_proba):</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Genera y muestra la curva ROC a partir de las etiquetas reales y las probabilidades predichas.</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Parámetros:</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">    - y_real: array de etiquetas verdaderas (0 o 1)</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - y_pred_proba: array de probabilidades predichas para la clase 1</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular valores para la curva ROC</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    fpr, tpr, umbrales <span class="op">=</span> roc_curve(y_real, y_pred_proba)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    auc_roc <span class="op">=</span> auc(fpr, tpr)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Graficar</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    plt.plot(fpr, tpr, label<span class="op">=</span><span class="ss">f"Curva ROC (AUC = </span><span class="sc">{</span>auc_roc<span class="sc">:.2f}</span><span class="ss">)"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'gray'</span>, label<span class="op">=</span><span class="st">"Aleatorio"</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Tasa de Falsos Positivos (FPR)"</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Tasa de Verdaderos Positivos (TPR)"</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Curva ROC"</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc<span class="op">=</span><span class="st">"lower right"</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-roc-logistic-regression" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>graficar_curva_roc(y_verdad, y_pred_proba)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-roc-logistic-regression" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-roc-logistic-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-roc-logistic-regression-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-roc-logistic-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6: Curva ROC para la regresión logística. Se muestra también el área bajo la curva AUC. Mientras más cercana a 1 esta cantidad, mejor funciona el modelo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="discriminante-lineal-1" class="level2">
+<h2 class="anchored" data-anchor-id="discriminante-lineal-1">Discriminante lineal</h2>
+<p>Este método en general tendrá resultados parecidos a los de la regresión logística ya que ambos son lineales. En general será un método muy potente cuando se cumple la suposición de que todas las clases tienen la misma covarianza.</p>
+<div id="873abef9" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.discriminant_analysis <span class="im">import</span> LinearDiscriminantAnalysis <span class="im">as</span> LDA</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>lda <span class="op">=</span> LDA()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> lda.fit(X, Y)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>y_pred_proba <span class="op">=</span> results.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> (y_pred_proba <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(y_verdad, y_pred)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-lda-confusion" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="17">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-lda-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;3: Matriz de confusión para el análisis discriminante lineal.
+</figcaption>
+<div aria-describedby="tbl-lda-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción: -</th>
+<th>Predicción: +</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Real: -</td>
+<td>9645</td>
+<td>22</td>
+</tr>
+<tr class="even">
+<td>Real: +</td>
+<td>254</td>
+<td>79</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div id="cell-fig-roc-lda" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>graficar_curva_roc(y_verdad, y_pred_proba)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-roc-lda" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-roc-lda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-roc-lda-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-roc-lda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7: Curva ROC para el análisis discriminante lineal.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="discriminante-cuadrático-1" class="level2">
+<h2 class="anchored" data-anchor-id="discriminante-cuadrático-1">Discriminante cuadrático</h2>
+<p>Este método es más general que el discriminante lineal. Funciona mejor cuando las diferentes categorías tienen covarianzas diferentes. Sin embargo necesita más datos para reducir la varianza de las predicciones.</p>
+<div id="b80b9aba" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.discriminant_analysis <span class="im">import</span> QuadraticDiscriminantAnalysis <span class="im">as</span> QDA</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>qda <span class="op">=</span> QDA()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> qda.fit(X, Y)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>y_pred_proba <span class="op">=</span> results.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> (y_pred_proba <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(y_verdad, y_pred)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-qda-confusion" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="20">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-qda-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;4: Matriz de confusión para el análisis discriminante cuadrático.
+</figcaption>
+<div aria-describedby="tbl-qda-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="19">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción: -</th>
+<th>Predicción: +</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Real: -</td>
+<td>9636</td>
+<td>31</td>
+</tr>
+<tr class="even">
+<td>Real: +</td>
+<td>239</td>
+<td>94</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div id="cell-fig-roc-qda" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>graficar_curva_roc(y_verdad, y_pred_proba)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-roc-qda" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-roc-qda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-roc-qda-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-roc-qda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8: Curva ROC para el análisis discriminante cuadrático.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bayes-ingenuo-1" class="level2">
+<h2 class="anchored" data-anchor-id="bayes-ingenuo-1">Bayes ingenuo</h2>
+<p>Este método funciona bien cuando se cumple la suposición de que no hay correlación entre los <span class="math inline">\(X\)</span>. Tiene un costo computacional y de datos similar al del discriminante lineal, pero puede ser mejor si se cumple esta suposición ya que admite una varianza diferente en cada clase.</p>
+<div id="23d51538" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> GaussianNB</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>nb <span class="op">=</span> GaussianNB()</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> nb.fit(X, Y)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>y_pred_proba <span class="op">=</span> results.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> (y_pred_proba <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(y_verdad, y_pred)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-nb-confusion" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="23">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nb-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;5: Matriz de confusión para el método de Bayes ingenuo.
+</figcaption>
+<div aria-describedby="tbl-nb-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="22">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción: -</th>
+<th>Predicción: +</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Real: -</td>
+<td>9620</td>
+<td>47</td>
+</tr>
+<tr class="even">
+<td>Real: +</td>
+<td>246</td>
+<td>87</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div id="cell-fig-nb-qda" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>graficar_curva_roc(y_verdad, y_pred_proba)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-nb-qda" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nb-qda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-nb-qda-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nb-qda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9: Curva ROC para el método de Bayes ingenuo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="k-vecinos-más-cercanos" class="level2">
+<h2 class="anchored" data-anchor-id="k-vecinos-más-cercanos"><span class="math inline">\(k\)</span> vecinos más cercanos</h2>
+<p>Este es un método no paramétrico. Esto implica que no dependerá de lo que supongamos sobre los datos y variables. Sin embargo los resultados dependen del hiperparámetro <span class="math inline">\(k\)</span> y serán en general peores que los métodos paramétricos cuando las suposiciones que esos hacen se cumplen.</p>
+<p>Un detalle de estos modelos es que dependen de la distancia entre puntos. Esta distancia en general depende de las unidades en las que se mide. Por ejemplo si una columna de datos de propiedades está en centímetros cuadrados y otra en millones de pesos, el modelo creerá que una diferencia de diez mil centímetros cuadrados (un metro cuadrado) es igual de importante que una diferencia de diez mil millones de pesos. Por eso se acostumbra reescalar todos los valores a que tengan un valor en el rango <span class="math inline">\([0,1]\)</span> antes de entrenar el modelo.</p>
+<section id="k-1" class="level3">
+<h3 class="anchored" data-anchor-id="k-1"><span class="math inline">\(k = 1\)</span></h3>
+<div id="5d645242" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> scaler.fit_transform(X)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>knn1 <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> knn1.fit(X_scaled, Y)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>y_pred_proba <span class="op">=</span> results.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> (y_pred_proba <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(y_verdad, y_pred)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/jnorena/machine_learning_course/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2684: UserWarning: X has feature names, but KNeighborsClassifier was fitted without feature names
+  warnings.warn(</code></pre>
+</div>
+<div id="tbl-knn1-confusion" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="26">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-knn1-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;6: Matriz de confusión para el método de los <span class="math inline">\(k\)</span> vecinos más cercanos con <span class="math inline">\(k=1\)</span>.
+</figcaption>
+<div aria-describedby="tbl-knn1-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="25">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción: -</th>
+<th>Predicción: +</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Real: -</td>
+<td>9666</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Real: +</td>
+<td>333</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div id="cell-fig-knn1-qda" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>graficar_curva_roc(y_verdad, y_pred_proba)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-knn1-qda" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-knn1-qda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-knn1-qda-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-knn1-qda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10: Curva ROC para el método de los <span class="math inline">\(k\)</span> vecinos más cercanos con <span class="math inline">\(k=1\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="k-30" class="level3">
+<h3 class="anchored" data-anchor-id="k-30"><span class="math inline">\(k = 30\)</span></h3>
+<div id="6edaf869" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> scaler.fit_transform(X)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>knn1 <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> knn1.fit(X_scaled, Y)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>y_pred_proba <span class="op">=</span> results.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> (y_pred_proba <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(y_verdad, y_pred)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/jnorena/machine_learning_course/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2684: UserWarning: X has feature names, but KNeighborsClassifier was fitted without feature names
+  warnings.warn(</code></pre>
+</div>
+<div id="tbl-knn30-confusion" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="29">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-knn30-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;7: Matriz de confusión para el método de los <span class="math inline">\(k\)</span> vecinos más cercanos con <span class="math inline">\(k=30\)</span>.
+</figcaption>
+<div aria-describedby="tbl-knn30-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="28">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción: -</th>
+<th>Predicción: +</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Real: -</td>
+<td>9666</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Real: +</td>
+<td>333</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div id="cell-fig-knn30-qda" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>graficar_curva_roc(y_verdad, y_pred_proba)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-knn30-qda" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-knn30-qda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7_clasificacion_files/figure-html/fig-knn30-qda-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-knn30-qda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;11: Curva ROC para el método de los <span class="math inline">\(k\)</span> vecinos más cercanos con <span class="math inline">\(k=30\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Lo que está ocurriendo aquí es que hay una variable categórica (<code>student</code>) que pone un poco de problemas con las distancias.</p>
+</section>
+</section>
+</section>
+<section id="ejercicios-sugeridos-para-la-prueba" class="level1">
+<h1>Ejercicios Sugeridos Para la Prueba</h1>
+<p>4.2, 4.3, 4.5, 4.7, 4.8</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
