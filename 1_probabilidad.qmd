@@ -81,3 +81,72 @@ plt.tight_layout()
 plt.show()
 ```
 
+## Estadísticas sencillas
+
+Si queremos tener una idea del valor típico de lis datos, podemis tomar el *promedio* o *media aritmética* que denotamos con una barra sobre la cantidad
+
+$$
+\bar{x} = \frac{1}{N}\sum_{i=1}^N x_i\,,
+$$
+
+donde $N$ es el número de puntos de datos.
+
+Si en cambio queremos saber cuánto están dispersos respecto a este valor, calculamos la varianza
+
+$$
+\sigma^2 = \frac{1}{N}\sum_{i=1}^N (x_i - \bar{x})^2\,.
+$$
+
+la *desviación estándar* $\sigma$ es la raíz cuadrada de la varianza, y como lo dice su nombre nos dice cuánto se desvía típicamente un dato. 
+
+A veces cada dato contiene más de una variable. Por ejemplo cuando medimos temperatura y presión de un sistema termodinámico. Una manera de medir la relación entre las variables es mediante su *covarianza*
+
+$$
+\text{cov}\,(x,y) = \frac{1}{N}\sum_{i=1}^N(x_i - \bar{x})(y_i - \bar{y})\,.
+$$
+
+Ilustremos esto mediante una figura
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(0)
+N = 3000
+
+def scatter_with_cov(x, y, title):
+    cov = np.cov(x, y, ddof=1)[0, 1]
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.scatter(x, y, s=6, alpha=0.35)
+    ax.set_title(f"{title}\nSample cov(x,y) = {cov:.3f}")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_aspect("equal", adjustable="box")
+    ax.grid(True, alpha=0.2)
+    plt.show()
+
+# 1) Zero covariance (independent Gaussian)
+x1 = rng.normal(size=N)
+y1 = rng.normal(size=N)
+scatter_with_cov(x1, y1, "1) Zero covariance (independent)")
+
+# 2) Positive covariance (correlated Gaussian)
+mean = [0, 0]
+Sigma_pos = np.array([[1.0, 0.8],
+                      [0.8, 1.0]])
+xy2 = rng.multivariate_normal(mean, Sigma_pos, size=N)
+scatter_with_cov(xy2[:, 0], xy2[:, 1], "2) Positive covariance")
+
+# 3) Negative covariance (anti-correlated Gaussian)
+Sigma_neg = np.array([[1.0, -0.8],
+                      [-0.8, 1.0]])
+xy3 = rng.multivariate_normal(mean, Sigma_neg, size=N)
+scatter_with_cov(xy3[:, 0], xy3[:, 1], "3) Negative covariance")
+
+# 4) ~Zero covariance despite strong non-linear relation (noisy ring)
+t = rng.uniform(0, 2*np.pi, size=N)
+r = 1.0 + 0.07 * rng.normal(size=N)  # small radial noise
+x4 = r * np.cos(t)
+y4 = r * np.sin(t)
+scatter_with_cov(x4, y4, "4) ~Zero covariance, but non-linear dependence (ring)")
+```
