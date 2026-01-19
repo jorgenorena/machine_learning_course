@@ -323,42 +323,56 @@
     "href": "index.html",
     "title": "Aprendizaje Automático para Física",
     "section": "",
-    "text": "Este curso está diseñado específicamente para estudiantes de física que desean comprender y aplicar técnicas de aprendizaje automático en su investigación. Nuestro enfoque se centra en construir una comprensión intuitiva y profunda de los fundamentos.\n\n\nEl curso se divide en cuatro partes principales, las escritas hasta ahora son:\n\nFundamentos de Probabilidad y Estadística\n\nTeoría de probabilidad (en construcción)\nDistribuciones de probabilidad y estimación\nVerosimilitud y métodos de inferencia\nMínimos cuadrados e intervalos de confianza\nTesteo de hipótesis y teoría de la información\n\nBases del Aprendizaje Automático\n\nRegresión lineal y no lineal\nMétodos de clasificación\nSelección y validación de modelos\nÁrboles de decisión y métodos de ensemble\nMáquinas de vectores de soporte y aprendizaje no supervisado\n\nRedes Neuronales\n\nEl perceptrón multicapa\nDescenso de gradiente y diferenciación automática\nEvaluación de modelos y regularización de redes neuronales\nRedes convolucionales\nRedes Residuales\nTransformadores y el mecanismo de atención\n\n\n\n\n\nAl finalizar este curso, los estudiantes serán capaces de:\n\nComprender los fundamentos matemáticos detrás de los métodos de machine learning\nIdentificar qué técnicas son apropiadas para diferentes problemas en física\nImplementar y adaptar algoritmos de aprendizaje automático para aplicaciones específicas\nEvaluar críticamente los resultados y limitaciones de diferentes métodos\nComprender los principios fundamentales de las redes neuronales y su aplicación en problemas físicos\n\n\n\n\nEl curso combina teoría rigurosa con ejemplos prácticos de física. Cada tema incluye:\n\nFundamentos matemáticos\nImplementación en Python\nEjemplos y aplicaciones en física\nEjercicios prácticos\n\n\n\n\nEstas notas están en constante actualización. En el futuro, exploraremos temas avanzados como:\n\nInferencia basada en simulaciones\nRedes neuronales con restricciones físicas (Physics-Informed Neural Networks)\n\n\n\n\n\nCálculo multivariable\nÁlgebra lineal básica\nProgramación básica en Python\nFísica universitaria general\n\n¡Esperamos que este curso les proporcione las herramientas necesarias para aplicar el aprendizaje automático en sus investigaciones en física!"
+    "text": "Este curso está diseñado específicamente para estudiantes de física que desean comprender y aplicar técnicas de aprendizaje automático en su investigación. Nuestro enfoque se centra en construir una comprensión intuitiva y profunda de los fundamentos. No se asume una base sólida en estadística."
+  },
+  {
+    "objectID": "index.html#bienvenidos",
+    "href": "index.html#bienvenidos",
+    "title": "Aprendizaje Automático para Física",
+    "section": "",
+    "text": "Este curso está diseñado específicamente para estudiantes de física que desean comprender y aplicar técnicas de aprendizaje automático en su investigación. Nuestro enfoque se centra en construir una comprensión intuitiva y profunda de los fundamentos. No se asume una base sólida en estadística."
   },
   {
     "objectID": "index.html#estructura-del-curso",
     "href": "index.html#estructura-del-curso",
     "title": "Aprendizaje Automático para Física",
-    "section": "",
-    "text": "El curso se divide en cuatro partes principales, las escritas hasta ahora son:\n\nFundamentos de Probabilidad y Estadística\n\nTeoría de probabilidad (en construcción)\nDistribuciones de probabilidad y estimación\nVerosimilitud y métodos de inferencia\nMínimos cuadrados e intervalos de confianza\nTesteo de hipótesis y teoría de la información\n\nBases del Aprendizaje Automático\n\nRegresión lineal y no lineal\nMétodos de clasificación\nSelección y validación de modelos\nÁrboles de decisión y métodos de ensemble\nMáquinas de vectores de soporte y aprendizaje no supervisado\n\nRedes Neuronales\n\nEl perceptrón multicapa\nDescenso de gradiente y diferenciación automática\nEvaluación de modelos y regularización de redes neuronales\nRedes convolucionales\nRedes Residuales\nTransformadores y el mecanismo de atención"
+    "section": "Estructura del Curso",
+    "text": "Estructura del Curso\nEl curso se divide en tres partes principales:\n\nUnidad 1: Fundamentos de Probabilidad y Estadística\n\nNociones básicas: eventos, probabilidad, independencia\nDistribuciones de probabilidad\nFunción generatriz, momentos, teorema central del límite.\nVerosimilitud y estimación\nMínimos cuadrados e intervalos de confianza\nTesteo de hipótesis\nIntroducción a la teoría de la información\n\nUnidad 2: Aprendizaje Automático Clásico\n\nRegresión lineal, no lineal, y regularización.\nClasificación: Regresión logística y métricas.\nSelección de modelos: entrenamiento/validación/prueba, validación cruzada.\nÁrboles de decisión, random forests y boosting\nOtros métodos: Máquinas de vectores de soporte y aprendizaje no supervisado\n\nUnidad 3: Redes Neuronales\n\nEl perceptrón multicapa\nEntrenamiento: Descenso de gradiente (objetivo) y diferenciación automática (herramienta)\nEvaluación de modelos y regularización de redes neuronales\nRedes convolucionales\nRedes Residuales\nTransformadores y el mecanismo de atención"
   },
   {
     "objectID": "index.html#objetivos-del-curso",
     "href": "index.html#objetivos-del-curso",
     "title": "Aprendizaje Automático para Física",
-    "section": "",
-    "text": "Al finalizar este curso, los estudiantes serán capaces de:\n\nComprender los fundamentos matemáticos detrás de los métodos de machine learning\nIdentificar qué técnicas son apropiadas para diferentes problemas en física\nImplementar y adaptar algoritmos de aprendizaje automático para aplicaciones específicas\nEvaluar críticamente los resultados y limitaciones de diferentes métodos\nComprender los principios fundamentales de las redes neuronales y su aplicación en problemas físicos"
+    "section": "Objetivos del Curso",
+    "text": "Objetivos del Curso\nAl finalizar este curso, los estudiantes serán capaces de:\n\nComprender los fundamentos matemáticos detrás de los métodos de machine learning y su interpretación en provlemas de datos\nIdentificar qué técnicas son apropiadas para diferentes problemas en física\nImplementar y adaptar algoritmos de aprendizaje automático para aplicaciones específicas\nEvaluar críticamente los resultados y limitaciones de diferentes métodos\nComprender los principios fundamentales de las redes neuronales y su aplicación en problemas físicos sin tratarlas como cajas negras"
   },
   {
     "objectID": "index.html#metodología",
     "href": "index.html#metodología",
     "title": "Aprendizaje Automático para Física",
-    "section": "",
-    "text": "El curso combina teoría rigurosa con ejemplos prácticos de física. Cada tema incluye:\n\nFundamentos matemáticos\nImplementación en Python\nEjemplos y aplicaciones en física\nEjercicios prácticos"
-  },
-  {
-    "objectID": "index.html#próximos-temas",
-    "href": "index.html#próximos-temas",
-    "title": "Aprendizaje Automático para Física",
-    "section": "",
-    "text": "Estas notas están en constante actualización. En el futuro, exploraremos temas avanzados como:\n\nInferencia basada en simulaciones\nRedes neuronales con restricciones físicas (Physics-Informed Neural Networks)"
+    "section": "Metodología",
+    "text": "Metodología\nEl curso combina teoría rigurosa con ejemplos prácticos de física. Cada tema incluye:\n\nFundamentos matemáticos\nImplementación en Python\nEjemplos y aplicaciones en física\nEjercicios prácticos"
   },
   {
     "objectID": "index.html#requisitos",
     "href": "index.html#requisitos",
     "title": "Aprendizaje Automático para Física",
-    "section": "",
-    "text": "Cálculo multivariable\nÁlgebra lineal básica\nProgramación básica en Python\nFísica universitaria general\n\n¡Esperamos que este curso les proporcione las herramientas necesarias para aplicar el aprendizaje automático en sus investigaciones en física!"
+    "section": "Requisitos",
+    "text": "Requisitos\n\nCálculo multivariable\nÁlgebra lineal básica\nProgramación básica en Python\nFísica universitaria general\n\nNo se requiere una base sólida en estadística. Esta se enseña durante el curso.\nEsperamos que este curso les proporcione las herramientas necesarias para aplicar el aprendizaje automático en sus investigaciones en física."
+  },
+  {
+    "objectID": "index.html#referencias",
+    "href": "index.html#referencias",
+    "title": "Aprendizaje Automático para Física",
+    "section": "Referencias",
+    "text": "Referencias\nEstas notas son más que nada un resumen de los siguientes libros:\n\n“Statistics for Physical Sciences”, B.R. Martin, Elsevier (2012). (Probabilidad y estadística)\n“Statistics: A Guide to the Use of Statistical Methods in the Physical Sciences”, Barlow, Wiley (1989).\n“An Introduction to Statistical Learning”, James, Witten, Hastie, Tibshirani, Taylor, Springer (2023). Disponible libremente en Aprendizaje Automático (Aprendizaje automático)\n“Understanding Deep Learning”, J.D. Prince, MIT Press (2023). Disponible libremente en Redes Neuronales (Redes neronales)\n“Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow”, Géron, O’Reilly (2022)."
+  },
+  {
+    "objectID": "index.html#evaluación",
+    "href": "index.html#evaluación",
+    "title": "Aprendizaje Automático para Física",
+    "section": "Evaluación",
+    "text": "Evaluación\nAl final de la primera unidad se realizará una prueba escrita.\nAl final de la segunda unidad se presentará un proyecto sobre aprendizaje automático.\nAl final de la tercera unidad se presentará un proyecto sobre redes neuronales con alguna aplicación a la física.\nCada uno vale un tercio de la nota final."
   },
   {
     "objectID": "index.html#ejercicios",
@@ -368,11 +382,11 @@
     "text": "Ejercicios\nAl final de cada clase hay ejercicios sugeridos. Los números se refieren al libro correspondiente en cada unidad. Por ejemplo, si se escribe 1.1 en una de las clases de la unidad de Probabilidad y Estadística, se refiere al ejercicio 1.1 del libro “Statistics for Physical Sciences”."
   },
   {
-    "objectID": "index.html#otros-libros-recomendados",
-    "href": "index.html#otros-libros-recomendados",
+    "objectID": "index.html#otros-libros",
+    "href": "index.html#otros-libros",
     "title": "Aprendizaje Automático para Física",
-    "section": "Otros libros recomendados",
-    "text": "Otros libros recomendados\n\n“Deep Learning”, I. Goodfellow, Y. Bengio, A. Courville, MIT Press (2016).\n“Dive into Deep Learning”, A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en https://d2l.ai/"
+    "section": "Otros libros",
+    "text": "Otros libros\n\n“Deep Learning”, I. Goodfellow, Y. Bengio, A. Courville, MIT Press (2016).\n“Dive into Deep Learning”, A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en [https://d2l.ai/]"
   },
   {
     "objectID": "index.html#otros-recursos",
@@ -951,6 +965,42 @@
     "title": "Probabilidad",
     "section": "Visualización de los datos",
     "text": "Visualización de los datos\nCuando la medición nos da un solo número real, una manera útil de graficarla es mediante un histograma. Es decir, dividimos el intervalo de valores de la variable en un cierto número de subintervalos. El histograma nos dice cuántas veces obtuvimos una medición en el intervalo\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nmediciones = np.random.normal(loc=5, scale=1, size=1000)\n\nplt.hist(mediciones)\nplt.show()\n\n\n\n\n\n\n\n\nEn este gráfico cada barra es el número de datos que cae en el subintervalo. El gráfico nos da una idea de cómo se distribuyen los datos.\nVeamos qué pasa si variamos la cantidad de subintervalos\n\n# Número de subintervalos para el histograma \nbin_counts = [2, 5, 20, 50]\n\n# Crear subfiguras\nfig, axes = plt.subplots(2, 2, figsize=(6, 6))\n\n# Graficar cada histograma \nfor ax, bins in zip(axes.flatten(), bin_counts):\n    ax.hist(mediciones, bins=bins)\n    ax.set_title(f'Histograma con {bins} subintervalos')\n    ax.set_xlabel('$x$')\n    ax.set_ylabel('Frequencia')\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\nSi aumentamos la cantidad de subintervalos usados, el gráfico se hace ruidoso, varía mucho el valor de cada intervalo. Si tenemos pocos subintervalos, es difícil intuir la distribución.\nEn varias dimensiones, es común describir los datos mediante gráficos de dispersión (scatterplots). Estos nos pueden decir dónde se concentran los resultados y si hay correlación entre variables.\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Gaussiana 2d con correlacion\nx1_pure = np.random.normal(loc=0, scale=1, size=1000)\nx2_pure = np.random.normal(loc=0, scale=1, size=1000)\nx3 = np.random.normal(loc=0, scale=1, size=1000)\nx1 = 0.3 * x1_pure + 0.7 * x2_pure\nx2 = 0.5 * x1_pure + 0.5 * x2_pure\n\nfig, axes = plt.subplots(2, 2, figsize=(6, 3))\naxes[0,0].scatter(x1, x2)\naxes[0,0].set_xlabel('$x_1$')\naxes[0,0].set_ylabel('$x_2$')\naxes[0,1].scatter(x1, x3)\naxes[0,1].set_xlabel('$x_1$')\naxes[0,1].set_ylabel('$x_3$')\naxes[1,0].scatter(x2, x3)\naxes[1,0].set_xlabel('$x_2$')\naxes[1,0].set_ylabel('$x_3$')\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Home",
+      "Probabilidad y Estadística",
+      "1. Probabilidad"
+    ]
+  },
+  {
+    "objectID": "1_probabilidad.html#estadísticas-sencillas",
+    "href": "1_probabilidad.html#estadísticas-sencillas",
+    "title": "Probabilidad",
+    "section": "Estadísticas sencillas",
+    "text": "Estadísticas sencillas\nSi queremos tener una idea del valor típico de los datos, podemos tomar el promedio o media aritmética que denotamos con una barra sobre la cantidad\n\\[\n\\bar{x} = \\frac{1}{N}\\sum_{i=1}^N x_i\\,,\n\\]\ndonde \\(N\\) es el número de puntos de datos.\nSi en cambio queremos saber cuánto están dispersos respecto a este valor, calculamos la varianza\n\\[\n\\sigma^2 = \\frac{1}{N}\\sum_{i=1}^N (x_i - \\bar{x})^2\\,.\n\\]\nla desviación estándar \\(\\sigma\\) es la raíz cuadrada de la varianza, y como lo dice su nombre nos dice cuánto se desvía típicamente un dato.\nA veces cada dato contiene más de una variable. Por ejemplo cuando medimos temperatura y presión de un sistema termodinámico. Una manera de medir la relación entre las variables es mediante su covarianza\n\\[\n\\text{cov}\\,(x,y) = \\frac{1}{N}\\sum_{i=1}^N(x_i - \\bar{x})(y_i - \\bar{y})\\,.\n\\]\nIlustremos esto mediante una figura\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(0)\nN = 3000\n\ndef scatter_with_cov(x, y, title):\n    cov = np.cov(x, y, ddof=1)[0, 1]\n    fig, ax = plt.subplots(figsize=(5, 5))\n    ax.scatter(x, y, s=6, alpha=0.35)\n    ax.set_title(f\"{title}\\nSample cov(x,y) = {cov:.3f}\")\n    ax.set_xlabel(\"x\")\n    ax.set_ylabel(\"y\")\n    ax.set_aspect(\"equal\", adjustable=\"box\")\n    ax.grid(True, alpha=0.2)\n    plt.show()\n\n# 1) Zero covariance (independent Gaussian)\nx1 = rng.normal(size=N)\ny1 = rng.normal(size=N)\nscatter_with_cov(x1, y1, \"Sin covarianza\")\n\n# 2) Positive covariance (correlated Gaussian)\nmean = [0, 0]\nSigma_pos = np.array([[1.0, 0.8],\n                      [0.8, 1.0]])\nxy2 = rng.multivariate_normal(mean, Sigma_pos, size=N)\nscatter_with_cov(xy2[:, 0], xy2[:, 1], \"Covarianza positiva\")\n\n# 3) Negative covariance (anti-correlated Gaussian)\nSigma_neg = np.array([[1.0, -0.8],\n                      [-0.8, 1.0]])\nxy3 = rng.multivariate_normal(mean, Sigma_neg, size=N)\nscatter_with_cov(xy3[:, 0], xy3[:, 1], \"Covarianza negativa\")\n\n# 4) ~Zero covariance despite strong non-linear relation (noisy ring)\nt = rng.uniform(0, 2*np.pi, size=N)\nr = 1.0 + 0.07 * rng.normal(size=N)  # small radial noise\nx4 = r * np.cos(t)\ny4 = r * np.sin(t)\nscatter_with_cov(x4, y4, \"Covarianza cero con relación no lineal\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nComo vemos, la covarianza captura solo relaciones lineales entre pares de variables.",
+    "crumbs": [
+      "Home",
+      "Probabilidad y Estadística",
+      "1. Probabilidad"
+    ]
+  },
+  {
+    "objectID": "1_probabilidad.html#probabilidad",
+    "href": "1_probabilidad.html#probabilidad",
+    "title": "Probabilidad",
+    "section": "Probabilidad",
+    "text": "Probabilidad\nPara discutir los datos es inevitable hablar de probabilidad.\nMatemáticamente, la probabilidad es una función que le asigna un número entre cero y uno a cada subconjunto de un conjunto \\(S\\). A dicho subconjunto le llamamos un evento. Pedimos que la probabilidad del conjunto vacío \\(P(\\emptyset) = 0\\) y que la probabilidad de \\(S\\) es \\(P(S) = 1\\). Además pedimos que la probabilidad de la unión de dos subconjuntos disjuntos \\(P(A \\cup B) = P(A) + P(B)\\).\nHay varias imterpretaciones de la probabilidad. Las dos más populares son:\n\nLa probabilidad de un evento es la frecuencia con la cual se produce ese evento. Es decir, si realizo un experimento \\(N\\) veces, cuento el número de veces \\(n\\) que ocurre el evento y la probabilidad es \\(P = \\lim_{N \\to \\infty} \\frac{n}{N}\\).\nLa probabilidad es el grado de certeza de que ocurra un evento. Es decir, dada la información disponible, le asigno a cada evento un número entre cero y uno que indica mi mejor estima de mi confianza que ese evento ocurrirá.\n\nNo discutiremos ulteriormente estos puntos por simple falta de espacio. Simplemente usaremos ambas interpretacione indiferentemente para obtener una intuición en cada caso.\n\nPropiedades de la probabilidad\nLa probabilidad asociada a la diferencia de dos conjuntos \\(A - B\\) es fácil de obtener. Primero notemos que \\(A = (A - B) \\cup (A \\cap B)\\), que son disjuntos. Por lo tanto\n\\[\nP(A) = P(A - B) + P(A \\cap B)\\,.\n\\]\nDe aquí\n\nTeorema 1 \\[\nP(A - B) = P(A) - P(A \\cap B)\\,.\n\\]\n\nCuando dos eventos \\(A\\) y \\(B\\) no son disjuntos, podemos separar su unión en dos conjuntos disjuntos\n\\[\nA \\cup B = (A - B) \\cup B\\,.\n\\]\nEsto nos permite obtener la siguiente propiedad\n\nTeorema 2 \\[\nP(A \\cup B) = P(A - B) + P(B) = P(A) + P(B) - P(A \\cap B)\\,.\n\\]\n\nNos gustaría poder decir algo sobre \\(P(A \\cap B)\\). En general no podemos decir nada porque las asignaciones de probabilidad son arbitrarias.\nDefinimos la probabilidad condicional de \\(A\\) dado \\(B\\) como\n\\[\nP(A | B) = \\frac{P(A \\cap B)}{P(B)}\\,.\n\\]\nIntuitivamente, esta probabilidad consiste en restringir el universo de posibles eventos a aquellos que ocurren junto con el evento \\(B\\). Es decir, nos dice cuánto es probable que \\(A\\) ocurra dado que \\(B\\) ocurrió. En general \\(P(A | B) \\neq P(B | A)\\).\nDe la definición de la probabilidad condicional tenemos que \\(P(A \\cap B) = P(A | B) P(B)\\). Decimos que dos eventos son independientes si \\(P(A | B) = P(A)\\) y \\(P(B | A) = P(B)\\). En ese caso podemos decir que \\(P(A \\cap B) = P(A) P(B)\\).\n\n\nTeorema de Bayes\nTal vez el teorema más sencillo entre los que han tenido mayor impacto. Este teorema nos permite relacionar \\(P(A | B)\\) con \\(P(B | A)\\). Para lograrlo notemos que podemos escribir \\(P(A \\cap B)\\) de dos maneras iguales\n\\[\nP(A \\cap B) = P(A | B) P(B) = P(B | A) P(A)\\,.\n\\]\nDe donde\n\nTeorema 3 (Teorema de Bayes) \\[\nP(A | B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{P(B | A) P(A)}{P(B)}\\,.\n\\]",
+    "crumbs": [
+      "Home",
+      "Probabilidad y Estadística",
+      "1. Probabilidad"
+    ]
+  },
+  {
+    "objectID": "1_probabilidad.html#ejercicios-sugeridos",
+    "href": "1_probabilidad.html#ejercicios-sugeridos",
+    "title": "Probabilidad",
+    "section": "Ejercicios sugeridos",
+    "text": "Ejercicios sugeridos\n\nInvestigue sobre el problema de Monty Hall y la aplicación a este del teorema de Bayes.\n\n2.1, 2.3, 2.5, 2.7",
     "crumbs": [
       "Home",
       "Probabilidad y Estadística",

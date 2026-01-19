@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Curso para estudiantes de física: probabilidad desde cero, modelos lineales, clasificación, validación y redes neuronales (incluyendo convolucionales y transformadores).">
 
 <title>Aprendizaje Automático para Física – Aprendizaje Automático para Físicos</title>
 <style>
@@ -377,20 +378,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#bienvenidos" id="toc-bienvenidos" class="nav-link active" data-scroll-target="#bienvenidos">Bienvenidos</a>
-  <ul class="collapse">
+  <li><a href="#bienvenidos" id="toc-bienvenidos" class="nav-link active" data-scroll-target="#bienvenidos">Bienvenidos</a></li>
   <li><a href="#estructura-del-curso" id="toc-estructura-del-curso" class="nav-link" data-scroll-target="#estructura-del-curso">Estructura del Curso</a></li>
   <li><a href="#objetivos-del-curso" id="toc-objetivos-del-curso" class="nav-link" data-scroll-target="#objetivos-del-curso">Objetivos del Curso</a></li>
   <li><a href="#metodología" id="toc-metodología" class="nav-link" data-scroll-target="#metodología">Metodología</a></li>
-  <li><a href="#próximos-temas" id="toc-próximos-temas" class="nav-link" data-scroll-target="#próximos-temas">Próximos Temas</a></li>
   <li><a href="#requisitos" id="toc-requisitos" class="nav-link" data-scroll-target="#requisitos">Requisitos</a></li>
-  </ul></li>
-  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a>
-  <ul class="collapse">
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
+  <li><a href="#evaluación" id="toc-evaluación" class="nav-link" data-scroll-target="#evaluación">Evaluación</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
-  <li><a href="#otros-libros-recomendados" id="toc-otros-libros-recomendados" class="nav-link" data-scroll-target="#otros-libros-recomendados">Otros libros recomendados</a></li>
+  <li><a href="#otros-libros" id="toc-otros-libros" class="nav-link" data-scroll-target="#otros-libros">Otros libros</a></li>
   <li><a href="#otros-recursos" id="toc-otros-recursos" class="nav-link" data-scroll-target="#otros-recursos">Otros recursos</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -400,8 +397,14 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Aprendizaje Automático para Física</h1>
+<p class="subtitle lead">De la inferencia estadística a redes neuronales. Para físicos.</p>
 </div>
 
+<div>
+  <div class="description">
+    Curso para estudiantes de física: probabilidad desde cero, modelos lineales, clasificación, validación y redes neuronales (incluyendo convolucionales y transformadores).
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -416,33 +419,36 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="bienvenidos" class="level1">
-<h1>Bienvenidos</h1>
-<p>Este curso está diseñado específicamente para estudiantes de física que desean comprender y aplicar técnicas de aprendizaje automático en su investigación. Nuestro enfoque se centra en construir una comprensión intuitiva y profunda de los fundamentos.</p>
+<section id="bienvenidos" class="level2">
+<h2 class="anchored" data-anchor-id="bienvenidos">Bienvenidos</h2>
+<p>Este curso está diseñado específicamente para estudiantes de física que desean comprender y aplicar técnicas de aprendizaje automático en su investigación. Nuestro enfoque se centra en construir una comprensión intuitiva y profunda de los fundamentos. No se asume una base sólida en estadística.</p>
+</section>
 <section id="estructura-del-curso" class="level2">
 <h2 class="anchored" data-anchor-id="estructura-del-curso">Estructura del Curso</h2>
-<p>El curso se divide en cuatro partes principales, las escritas hasta ahora son:</p>
+<p>El curso se divide en tres partes principales:</p>
 <ul>
-<li>Fundamentos de Probabilidad y Estadística
+<li>Unidad 1: Fundamentos de Probabilidad y Estadística
 <ul>
-<li>Teoría de probabilidad (en construcción)</li>
-<li>Distribuciones de probabilidad y estimación</li>
-<li>Verosimilitud y métodos de inferencia</li>
+<li>Nociones básicas: eventos, probabilidad, independencia</li>
+<li>Distribuciones de probabilidad</li>
+<li>Función generatriz, momentos, teorema central del límite.</li>
+<li>Verosimilitud y estimación</li>
 <li>Mínimos cuadrados e intervalos de confianza</li>
-<li>Testeo de hipótesis y teoría de la información</li>
+<li>Testeo de hipótesis</li>
+<li>Introducción a la teoría de la información</li>
 </ul></li>
-<li>Bases del Aprendizaje Automático
+<li>Unidad 2: Aprendizaje Automático Clásico
 <ul>
-<li>Regresión lineal y no lineal</li>
-<li>Métodos de clasificación</li>
-<li>Selección y validación de modelos</li>
-<li>Árboles de decisión y métodos de ensemble</li>
-<li>Máquinas de vectores de soporte y aprendizaje no supervisado</li>
+<li>Regresión lineal, no lineal, y regularización.</li>
+<li>Clasificación: Regresión logística y métricas.</li>
+<li>Selección de modelos: entrenamiento/validación/prueba, validación cruzada.</li>
+<li>Árboles de decisión, random forests y boosting</li>
+<li>Otros métodos: Máquinas de vectores de soporte y aprendizaje no supervisado</li>
 </ul></li>
-<li>Redes Neuronales
+<li>Unidad 3: Redes Neuronales
 <ul>
 <li>El perceptrón multicapa</li>
-<li>Descenso de gradiente y diferenciación automática</li>
+<li>Entrenamiento: Descenso de gradiente (objetivo) y diferenciación automática (herramienta)</li>
 <li>Evaluación de modelos y regularización de redes neuronales</li>
 <li>Redes convolucionales</li>
 <li>Redes Residuales</li>
@@ -454,11 +460,11 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="objetivos-del-curso">Objetivos del Curso</h2>
 <p>Al finalizar este curso, los estudiantes serán capaces de:</p>
 <ol type="1">
-<li>Comprender los fundamentos matemáticos detrás de los métodos de machine learning</li>
+<li>Comprender los fundamentos matemáticos detrás de los métodos de machine learning y su interpretación en provlemas de datos</li>
 <li>Identificar qué técnicas son apropiadas para diferentes problemas en física</li>
 <li>Implementar y adaptar algoritmos de aprendizaje automático para aplicaciones específicas</li>
 <li>Evaluar críticamente los resultados y limitaciones de diferentes métodos</li>
-<li>Comprender los principios fundamentales de las redes neuronales y su aplicación en problemas físicos</li>
+<li>Comprender los principios fundamentales de las redes neuronales y su aplicación en problemas físicos sin tratarlas como cajas negras</li>
 </ol>
 </section>
 <section id="metodología" class="level2">
@@ -471,14 +477,6 @@ ul.task-list li input[type="checkbox"] {
 <li>Ejercicios prácticos</li>
 </ul>
 </section>
-<section id="próximos-temas" class="level2">
-<h2 class="anchored" data-anchor-id="próximos-temas">Próximos Temas</h2>
-<p>Estas notas están en constante actualización. En el futuro, exploraremos temas avanzados como:</p>
-<ul>
-<li>Inferencia basada en simulaciones</li>
-<li>Redes neuronales con restricciones físicas (Physics-Informed Neural Networks)</li>
-</ul>
-</section>
 <section id="requisitos" class="level2">
 <h2 class="anchored" data-anchor-id="requisitos">Requisitos</h2>
 <ul>
@@ -487,27 +485,36 @@ ul.task-list li input[type="checkbox"] {
 <li>Programación básica en Python</li>
 <li>Física universitaria general</li>
 </ul>
-<p>¡Esperamos que este curso les proporcione las herramientas necesarias para aplicar el aprendizaje automático en sus investigaciones en física!</p>
+<p>No se requiere una base sólida en estadística. Esta se enseña durante el curso.</p>
+<p>Esperamos que este curso les proporcione las herramientas necesarias para aplicar el aprendizaje automático en sus investigaciones en física.</p>
 </section>
-</section>
-<section id="referencias" class="level1">
-<h1>Referencias</h1>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
 <p>Estas notas son más que nada un resumen de los siguientes libros:</p>
 <ul>
-<li><p>“Statistics for Physical Sciences”, B.R. Martin, Elsevier (2012). (Probabilidad y Estadística)</p></li>
-<li><p>“An Introduction to Statistical Learning”, James, Witten, Hastie, Tibshirani, Taylor, Springer (2023). Disponible libremente en <a href="Aprendizaje Automático">https://www.statlearning.com/</a></p></li>
-<li><p>“Understanding Deep Learning”, J.D. Prince, MIT Press (2023). Disponible libremente en <a href="Redes Neuronales">https://udlbook.github.io/udlbook/</a></p></li>
+<li><p>“Statistics for Physical Sciences”, B.R. Martin, Elsevier (2012). (Probabilidad y estadística)</p></li>
+<li><p>“Statistics: A Guide to the Use of Statistical Methods in the Physical Sciences”, Barlow, Wiley (1989).</p></li>
+<li><p>“An Introduction to Statistical Learning”, James, Witten, Hastie, Tibshirani, Taylor, Springer (2023). Disponible libremente en <a href="https://www.statlearning.com/">Aprendizaje Automático</a> (Aprendizaje automático)</p></li>
+<li><p>“Understanding Deep Learning”, J.D. Prince, MIT Press (2023). Disponible libremente en <a href="https://udlbook.github.io/udlbook/">Redes Neuronales</a> (Redes neronales)</p></li>
 <li><p>“Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow”, Géron, O’Reilly (2022).</p></li>
 </ul>
+</section>
+<section id="evaluación" class="level2">
+<h2 class="anchored" data-anchor-id="evaluación">Evaluación</h2>
+<p>Al final de la primera unidad se realizará una prueba escrita.</p>
+<p>Al final de la segunda unidad se presentará un proyecto sobre aprendizaje automático.</p>
+<p>Al final de la tercera unidad se presentará un proyecto sobre redes neuronales con alguna aplicación a la física.</p>
+<p>Cada uno vale un tercio de la nota final.</p>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
 <p>Al final de cada clase hay ejercicios sugeridos. Los números se refieren al libro correspondiente en cada unidad. Por ejemplo, si se escribe 1.1 en una de las clases de la unidad de Probabilidad y Estadística, se refiere al ejercicio 1.1 del libro “Statistics for Physical Sciences”.</p>
 </section>
-<section id="otros-libros-recomendados" class="level2">
-<h2 class="anchored" data-anchor-id="otros-libros-recomendados">Otros libros recomendados</h2>
+<section id="otros-libros" class="level2">
+<h2 class="anchored" data-anchor-id="otros-libros">Otros libros</h2>
 <ul>
 <li><p>“Deep Learning”, I. Goodfellow, Y. Bengio, A. Courville, MIT Press (2016).</p></li>
-<li><p>“Dive into Deep Learning”, A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en https://d2l.ai/</p></li>
+<li><p>“Dive into Deep Learning”, A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en [https://d2l.ai/]</p></li>
 </ul>
 </section>
 <section id="otros-recursos" class="level2">
@@ -518,7 +525,6 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
