@@ -1,5 +1,6 @@
 ---
 title: "Probabilidad"
+lang: es
 ---
 
 ## El dato
@@ -83,7 +84,7 @@ plt.show()
 
 ## Estadísticas sencillas
 
-Si queremos tener una idea del valor típico de lis datos, podemis tomar el *promedio* o *media aritmética* que denotamos con una barra sobre la cantidad
+Si queremos tener una idea del valor típico de los datos, podemos tomar el *promedio* o *media aritmética* que denotamos con una barra sobre la cantidad
 
 $$
 \bar{x} = \frac{1}{N}\sum_{i=1}^N x_i\,,
@@ -128,25 +129,107 @@ def scatter_with_cov(x, y, title):
 # 1) Zero covariance (independent Gaussian)
 x1 = rng.normal(size=N)
 y1 = rng.normal(size=N)
-scatter_with_cov(x1, y1, "1) Zero covariance (independent)")
+scatter_with_cov(x1, y1, "Sin covarianza")
 
 # 2) Positive covariance (correlated Gaussian)
 mean = [0, 0]
 Sigma_pos = np.array([[1.0, 0.8],
                       [0.8, 1.0]])
 xy2 = rng.multivariate_normal(mean, Sigma_pos, size=N)
-scatter_with_cov(xy2[:, 0], xy2[:, 1], "2) Positive covariance")
+scatter_with_cov(xy2[:, 0], xy2[:, 1], "Covarianza positiva")
 
 # 3) Negative covariance (anti-correlated Gaussian)
 Sigma_neg = np.array([[1.0, -0.8],
                       [-0.8, 1.0]])
 xy3 = rng.multivariate_normal(mean, Sigma_neg, size=N)
-scatter_with_cov(xy3[:, 0], xy3[:, 1], "3) Negative covariance")
+scatter_with_cov(xy3[:, 0], xy3[:, 1], "Covarianza negativa")
 
 # 4) ~Zero covariance despite strong non-linear relation (noisy ring)
 t = rng.uniform(0, 2*np.pi, size=N)
 r = 1.0 + 0.07 * rng.normal(size=N)  # small radial noise
 x4 = r * np.cos(t)
 y4 = r * np.sin(t)
-scatter_with_cov(x4, y4, "4) ~Zero covariance, but non-linear dependence (ring)")
+scatter_with_cov(x4, y4, "Covarianza cero con relación no lineal")
 ```
+
+Como vemos, la covarianza captura solo relaciones lineales entre pares de variables.
+
+## Probabilidad
+
+Para discutir los datos es inevitable hablar de probabilidad.
+
+Matemáticamente, la probabilidad es una función que le asigna un número entre cero y uno a cada subconjunto de un conjunto $S$. A dicho subconjunto le llamamos un *evento*. Pedimos que la probabilidad del conjunto vacío $P(\emptyset) = 0$ y que la probabilidad de $S$ es $P(S) = 1$. Además pedimos que la probabilidad de la unión de dos subconjuntos disjuntos $P(A \cup B) = P(A) + P(B)$.
+
+Hay varias imterpretaciones de la probabilidad. Las dos más populares son:
+
+- La probabilidad de un evento es la frecuencia con la cual se produce ese evento. Es decir, si realizo un experimento $N$ veces, cuento el número de veces $n$ que ocurre el evento y la probabilidad es $P = \lim_{N \to \infty} \frac{n}{N}$.
+- La probabilidad es el grado de certeza de que ocurra un evento. Es decir, dada la información disponible, le asigno a cada evento un número entre cero y uno que indica mi mejor estima de mi confianza que ese evento ocurrirá.
+
+No discutiremos ulteriormente estos puntos por simple falta de espacio. Simplemente usaremos ambas interpretacione indiferentemente para obtener una intuición en cada caso.
+
+### Propiedades de la probabilidad
+
+La probabilidad asociada a la diferencia de dos conjuntos $A - B$ es fácil de obtener. Primero notemos que $A = (A - B) \cup (A \cap B)$, que son disjuntos. Por lo tanto
+
+$$
+P(A) = P(A - B) + P(A \cap B)\,.
+$$
+
+De aquí
+
+:::{#thm-resta}
+$$
+P(A - B) = P(A) - P(A \cap B)\,.
+$$
+:::
+
+Cuando dos eventos $A$ y $B$ no son disjuntos, podemos separar su unión en dos conjuntos disjuntos
+
+$$
+A \cup B = (A - B) \cup B\,.
+$$
+
+Esto nos permite obtener la siguiente propiedad
+
+:::{#thm-uniones}
+$$
+P(A \cup B) = P(A - B) + P(B) = P(A) + P(B) - P(A \cap B)\,.
+$$
+:::
+
+Nos gustaría poder decir algo sobre $P(A \cap B)$. En general no podemos decir nada porque las asignaciones de probabilidad son arbitrarias. 
+
+Definimos la *probabilidad condicional* de $A$ dado $B$ como 
+
+$$
+P(A | B) = \frac{P(A \cap B)}{P(B)}\,.
+$$
+
+Intuitivamente, esta probabilidad consiste en restringir el universo de posibles eventos a aquellos que ocurren junto con el evento $B$. Es decir, nos dice cuánto es probable que $A$ ocurra dado que $B$ ocurrió. En general $P(A | B) \neq P(B | A)$.
+
+De la definición de la probabilidad condicional tenemos que $P(A \cap B) = P(A | B) P(B)$. Decimos que dos eventos son *independientes* si $P(A | B) = P(A)$ y $P(B | A) = P(B)$. En ese caso podemos decir que $P(A \cap B) = P(A) P(B)$.
+
+### Teorema de Bayes
+
+Tal vez el teorema más sencillo entre los que han tenido mayor impacto. Este teorema nos permite relacionar $P(A | B)$ con $P(B | A)$. Para lograrlo notemos que podemos escribir $P(A \cap B)$ de dos maneras iguales
+
+$$
+P(A \cap B) = P(A | B) P(B) = P(B | A) P(A)\,.
+$$
+
+De donde
+
+:::{#thm-bayes}
+
+## Teorema de Bayes
+
+$$
+P(A | B) = \frac{P(A \cap B)}{P(B)} = \frac{P(B | A) P(A)}{P(B)}\,.
+$$
+:::
+
+## Ejercicios sugeridos
+
+- Investigue sobre el problema de Monty Hall y la aplicación a este del teorema de Bayes.
+
+2.1, 2.3, 2.5, 2.7
