@@ -16,8 +16,8 @@ website:
           - text: "Probabilidad y Estadística"
           - text: "1. Probabilidad"
             href: 1_probabilidad.qmd
-          - text: "2. Distribuciones y Estimación"
-            href: 2_distribuciones_y_estimacion.qmd
+          - text: "2. Distribuciones de Probabilidad"
+            href: 2_distribuciones.qmd
           - text: "3. Verosimilitud"
             href: 3_verosimilitud.qmd
           - text: "4. Mínimos Cuadrados e Intervalos"

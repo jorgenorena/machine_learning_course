@@ -1,6 +1,5 @@
 ---
 title: "Aprendizaje Automático para Física"
-subtitle: "De la inferencia estadística a redes neuronales. Para físicos."
 description: "Curso para estudiantes de física: probabilidad desde cero, modelos lineales, clasificación, validación y redes neuronales (incluyendo convolucionales y transformadores)."
 ---
 
@@ -15,11 +14,11 @@ El curso se divide en tres partes principales:
 - Unidad 1: Fundamentos de Probabilidad y Estadística
     - Nociones básicas: eventos, probabilidad, independencia
     - Distribuciones de probabilidad
-	- Función generatriz, momentos, teorema central del límite.
+	  - Función generatriz, momentos, teorema central del límite.
     - Verosimilitud y estimación
     - Mínimos cuadrados e intervalos de confianza
     - Testeo de hipótesis 
-	- Introducción a la teoría de la información
+	  - Introducción a la teoría de la información
 
 - Unidad 2: Aprendizaje Automático Clásico
     - Regresión lineal, no lineal, y regularización.
