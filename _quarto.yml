@@ -18,8 +18,8 @@ website:
             href: 1_probabilidad.qmd
           - text: "2. Distribuciones de Probabilidad"
             href: 2_distribuciones.qmd
-          - text: "3. Verosimilitud"
-            href: 3_verosimilitud.qmd
+          - text: "3. Función generatriz y teorema central del límite"
+            href: 3_funcion_generatriz_tcl.qmd
           - text: "4. Mínimos Cuadrados e Intervalos"
             href: 4_minimos_cuadrados_intervalos.qmd
           - text: "5. Testeo de Hipótesis y Entropía"
@@ -67,8 +67,10 @@ website:
         contents:
           - text: "1. Probabilidad"
             href: 1_probabilidad.qmd
-          - text: "2. Distribuciones y Estimación"
-            href: 2_distribuciones_y_estimacion.qmd
+          - text: "2. Distribuciones de Probabilidad"
+            href: 2_distribuciones.qmd
+          - text: "3. Función generatriz y teorema central del límite"
+            href: 3_funcion_generatriz_tcl.qmd
           - text: "3. Verosimilitud"
             href: 3_verosimilitud.qmd
           - text: "4. Mínimos Cuadrados e Intervalos"

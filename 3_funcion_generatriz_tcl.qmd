@@ -1,0 +1,254 @@
+
+---
+title: "Momentos, función generatriz y teorema central del limite"
+---
+
+## Función generatriz y característica
+
+Definimos la **función generatriz**
+$$
+M_x(t) \equiv \langle e^{xt} \rangle\,.
+$$
+Expandiendo en Taylor tenemos que 
+$$
+M_x(t) = \left\langle1 + xt + \frac{1}{2}(xt)^2 + ...\right\rangle = \sum_{n=0}^\infty \frac{1}{n!}\mu'_n t^n\,.
+$$
+De esta expresión vemos que 
+$$
+\mu'_n = \left.\frac{\partial^n}{\partial t^n}M_x(t)\right|_{t=0}\,.
+$$
+Entonces decimos que podemos *generar los momentos* de la distribución.
+
+En la mayoría de los casos, si dos distribuciones tienen la misma función generatriz, entonces son la misma distribución. Para algunas distribuciones la suma no converge, tal que se usa en cambio la **función característica**
+$$
+\phi_x(t) \equiv \langle e^{itx}\rangle\,.
+$$
+
+También es útil definir la **función generatriz conexa**
+$$
+\ln M_x(t) \equiv \kappa_1 t + \frac{1}{2}\kappa_2 t^2 + ...\,,
+$$
+donde $\kappa$ son los **cumulantes**. Cuando dos distribuciones tienen los mismos cumulantes son iguales (si estos existen para ambas). 
+
+Estas son muy útiles para demostrar varias propiedades de las distribuciones, como veremos.
+
+- El primer cumulante corresponde a la media $\kappa_1 = \mu$ y nos dice dónde se centra la distribución.
+
+- El segundo a la varianza $\kappa_2 = \sigma^2$. Nos da una idea del ancho de la distribución.
+
+- El tercer cumulante corresponde a la **skewness** $\kappa_3$. Esto nos da una idea de la asimetria de la distribución. Si se "tira" para un lado u otro. 
+
+- El cuarto cumulante a la **kurtosis** $\kappa_4$. Nos dice cuanto pesan las colas de la distribución respecto a su centro. Es decir, si las colas son más "gruesas" o "delgadas" que lo que se encontraría en una distribución normal.
+
+### Funciones generatrices de algunas distribuciones
+
+#### Gaussiana
+
+Integrando (ejercicio), se obtiene la función generatriz
+$$
+M_x(t) = \langle e^{xt}\rangle = e^{t\mu + \sigma^2 t^2/2}\,.
+$$
+Podemos tomar el logaritmo para obtener los cumulantes 
+$$
+\ln M_x(t) = t\mu + \frac{1}{2}t^2\sigma^2\,.
+$$
+De aquí se puede deducir que $\kappa_1 = \mu$ y $\kappa_2 = \sigma^2$ por lo que la varianza es $\sigma^2$. La función característica es análoga
+$$
+\phi(t) = e^{it\mu - t^2\sigma^2/2}\,.
+$$
+
+La Gaussiana es la distribución que está completamente determinada por sus primeros dos cumulantes. Todos los cumulantes de orden más alto son cero.
+
+#### Poisson
+
+Expandiendo, vemos que todos los cumulantes de la distribución de Poisson son iguales
+$$
+\ln M_r(t) = \lambda e^t - \lambda = \sum_{n=1}^\infty \frac{1}{n!}t^n\lambda\,.
+$$
+es decir $\kappa_i = \lambda$. Es decir que su media es $\lambda$ y su varianza es $\lambda$, así como todos los demás.
+
+
+## El Teorema Central del Límite
+
+Se dice que los físicos creen en este resultado porque es un teorema matemático y los matemáticos creen en este resultado porque funciona en experimentos. En cualquier caso, este resultado provee la justificación para lo que vimos en el ejemplo de arriba. 
+
+Consideremos $N$ variables aleatorias independientes y provenientes de la misma distribución de probabilidad $x_1, ..., x_N$. Nos interesa calcular la distribución de probabilidad de la suma $X = \sum_i^N x_i$. Para hacerlo es más fácil trabajar con la función característica
+$$
+\tilde{p}_X(k) = \left\langle e^{-ikX} \right\rangle =  \left\langle e^{-ik\sum_i x_i} \right\rangle = \tilde{p}(k_1 = k, ..., k_N = k)\,.
+$$
+De aquí podemos escribir
+$$
+\ln\tilde{p}_X(k) = -i k \sum_i \langle x_i \rangle_c - \frac{1}{2}k^2\sum_{i,j}\langle x_i x_j\rangle_c + ...\,.
+$$
+Si las variables son todas independientes entonces los cumulantes que involucran variables diferentes son todos cero
+$$
+\ln\tilde{p}_X(k) = -i k \sum_i \langle x_i \rangle_c - \frac{1}{2}k^2 \sum_i \langle x_i^2\rangle_c + ...\,,
+$$
+y si además todas vienen de una misma distribución (tal que sus cumulantes son todos iguales)
+$$
+\ln\tilde{p}_X(k) = -i k N \langle x_1 \rangle_c - \frac{1}{2}k^2 N \langle x_1^2\rangle_c + ...\,.
+$$
+Finalmente, definimos la variable $y \equiv \left(\frac{X - N\langle x_1 \rangle_c}{\sqrt{N}}\right)$. Entonces la distribución de esta variable será dada por
+$$
+\langle y \rangle_c = 0\,,\quad \langle y^2 \rangle_c = \langle x_1^2\rangle_c = \sigma^2\,,\quad \langle y^n\rangle_c \propto N^{1 - n/2}\,.
+$$
+Por lo tanto, cuando $N \rightarrow \infty$ todos los cumulantes de $y$ desaparecen excepto el segundo tal que
+$$
+\ln\tilde{p}_y(k) \sim -\frac{1}{2}k^2 \sigma^2\,,
+$$
+por lo tanto
+$$
+p(y) = \frac{1}{\sqrt{2\pi}\sigma}e^{-y^2/2\sigma^2}\,.
+$$
+
+Podemos relajar las condiciones de que las variables sean independientes e idénticamente distribuidas. Lo que necesitamos en realidad es que todos los cumulantes caigan lo suficientemente rápido 
+$$
+\sum_{i_1,...,i_m = 1}^N \langle x_{i_1} ... x_{i_m}\rangle_c \ll \mathcal{O}(N^{m/2})\,.
+$$
+Si esto se cumple, entonces podemos enunciar la versión más general del teorema:
+
+::: {.callout-warning icon=false}
+
+## Teorema central del límite
+
+Considere la suma $X = \sum_{i = 1}^N x_i$ de $N$ variables aleatorias independientes $x_i$, cada una tomada de una distribución con media $\mu_i$ y varianza $\sigma_i^2$. La distribución de $X$ cumple:
+
+
+* Tiene valor esperado $\langle X \rangle = \sum_i \mu_i$.
+
+* Tiene varianza $\sigma^2(X) = \sum_i \sigma_i^2$.
+
+* Tiende a una gaussiana a medida que $N \rightarrow \infty$.
+
+:::
+
+## Ejemplo 
+
+``` {python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def suma_aleatorios(num):
+  return sum([np.random.rand(1000) for i in range(num)])
+
+fig = plt.figure(figsize=(6,11), dpi= 100)
+
+ax1 = fig.add_subplot(4,2,1)
+ax2 = fig.add_subplot(4,2,2)
+ax3 = fig.add_subplot(4,2,3)
+ax4 = fig.add_subplot(4,2,4)
+
+ax1.hist(suma_aleatorios(1), bins=30)
+ax2.hist(suma_aleatorios(2), bins=30)
+ax3.hist(suma_aleatorios(20), bins=30)
+ax4.hist(suma_aleatorios(200), bins=30)
+        
+ax1.set_title('$n = 1$')
+ax2.set_title('$n = 2$')
+ax3.set_title('$n = 20$')
+ax4.set_title('$n = 200$')
+
+fig.tight_layout(pad=2.0)
+```
+
+Ahora estudiaremos algunas pdf's derivadas de la Gaussiana que se usan mucho para sacar conclusiones estadídsticas.
+
+## Algunas Distribuciones Derivadas de la Gaussiana
+
+### La distribución $\chi^2$
+
+La variable $\chi^2$ se define
+$$
+\chi^2 \equiv \sum_i \frac{(y_i - g(x_i))^2}{\sigma^2}
+$$
+Si todos los errores son gaussianos, la probabilidad de obtener un cierto valor de $\chi^2$ es proporcional a $e^{-\chi^2/2}$ y además hay que integrar sobre todos los puntos que tienen un mismo valor de $\chi$ que forman una esfera, lo que nos da algo proporcional a $\chi^{N - 1}e^{-\chi^2/2}$, donde $N$ es el número de datos. Pero además necesitamos la probabilidad de $\chi^2$ tal que
+$$
+P(\chi^2) \propto P(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
+$$
+Sin embargo al ajustar $m$ parámetros imponemos $m$ condiciones sobre la región considerada, una por cada derivada parcial que fijamos a cero, tal que $N$ debe ser en realidad el *número de grados de libertad* dado por **el número de datos menos el número de parámetros**.
+
+Nos falta solo una normalización para que la integral sea uno. Los expertos reconocerán la función gama.
+
+``` {python}
+from scipy.special import gamma
+
+def chi2(x, n):
+    return 2**(-n/2)*x**((n-2)/2)*np.exp(-x/2)/gamma(n/2)
+
+x = np.linspace(0, 23, 100)
+for n in [2, 3, 5, 10]:
+    plt.plot(x, chi2(x, n), label = '$n = $ %d'%(n))
+plt.xlabel(r'$\chi^2$')
+plt.ylabel(r'$P(\chi^2)$')
+plt.legend()
+```
+
+### La distribución $t$ de Student
+
+Student es el pseudónimo de la persona que inventó esta distribución.
+
+Según el teorema central del límite, el promedio $\bar{x}$ tiene una distribución Gaussiana con media $\mu$ y varianza $\sigma_n = \sigma/\sqrt{n}$. Esto lo podemos usar para estimar el error cometido al realizar una medición. Por ejemplo, podemos usar $\sigma$ para estimar el error y sabemos que tenemos una probabilidad de aproximadamente $68\%$ de estar a $1\sigma$ de la media, $95\%$ de estar a $2\sigma$, y $99\%$ de estar a $3\sigma$.
+
+Sin embargo no conocemos $\sigma$ en muchos casos. Entonces debemos usar algún estimador $\hat{\sigma}$ calculado usando los mismos datos.
+
+Este reemplazo sigue produciendo una distribución Gaussiana cuando tenemos muchos datos. Pero si tenemos pocos (en la práctica aproximadamente menos de $30$ datos) debemos tener cuidado.
+
+Consideremos la variable 
+$$
+u = \frac{\bar{x} - \mu}{\sigma}\,,
+$$
+esta sigue una distribución Gaussiana con media cero y varianza uno. Si estimamos la varianza, escribimos 
+$$
+t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{n}}\,.
+$$
+Para $n$ grande, $t$ resulta que también sigue una Gaussiana. Pero para $n$ pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.
+
+``` {python}
+# Código producido por ChatGPT 4o con el siguiente prompt:
+# "Produce una serie de gráficos en python usando la distribución t de Student 
+# y comparándola con la distribución normal. Comentarios y nombres de variables
+# y funciones en español."
+
+# Código revisado para garantizar que sea correcto
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+
+# Definir grados de libertad para la distribución t de Student
+grados_libertad = [1, 2, 5, 10, 30]  # Diferentes grados de libertad
+x = np.linspace(-5, 5, 1000)  # Valores de X
+
+# Crear la figura y los ejes
+figura, ejes = plt.subplots(nrows=len(grados_libertad), figsize=(6, 10), sharex=True)
+
+# Graficar para cada grado de libertad
+for eje, gl in zip(ejes, grados_libertad):
+    # Distribución t de Student
+    t_pdf = stats.t.pdf(x, gl)
+    eje.plot(x, t_pdf, label=f"Distribución t (gl={gl})", linestyle='-', linewidth=2)
+    
+    # Distribución normal para comparación
+    normal_pdf = stats.norm.pdf(x)
+    eje.plot(x, normal_pdf, label="Distribución normal", linestyle='--', linewidth=2)
+    
+    eje.legend()
+    eje.set_ylabel("Densidad")
+    eje.set_title(f"Distribución t vs Normal (gl={gl})")
+
+# Establecer etiqueta común en el eje x
+ejes[-1].set_xlabel("x")
+
+# Ajustar el diseño
+plt.tight_layout()
+plt.show()
+
+```
+
+## Ejercicios sugeridos
+
+3.1, 6.1, 6.3
+
+- Encuentre la función característica de la distribución binomial.
+
+- Demuestre que la distribución de Poisson tiende a una distribución normal cuando $n$ es grande. No haga simolemente gráficos, necesitamos la *demostración* matemática.
