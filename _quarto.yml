@@ -24,8 +24,10 @@ website:
             href: 4_estimacion_verosimilitud.qmd
           - text: "5. Mínimos Cuadrados e Intervalos"
             href: 5_minimos_cuadrados_intervalos.qmd
-          - text: "5. Testeo de Hipótesis y Entropía"
-            href: 5_testeo_de_hipotesis_entropia.qmd
+          - text: "6. Testeo de Hipótesis"
+            href: 6_testeo_de_hipotesis.qmd
+          - text: "7. Entropía"
+            href: 7_entropia.qmd
           - text: "------"
           - text: "Aprendizaje Automático"
           - text: "6. Aprendizaje Automático y Regresión Lineal"
