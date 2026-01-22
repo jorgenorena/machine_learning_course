@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>plan_de_clases – Aprendizaje Automático para Físicos</title>
+<title>Distribuciones de Probabilidad – Aprendizaje Automático para Físicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +67,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -201,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./2_distribuciones.html">2. Distribuciones de Probabilidad</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -230,7 +259,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2_distribuciones.html" class="sidebar-item-text sidebar-link">
+  <a href="./2_distribuciones.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">2. Distribuciones de Probabilidad</span></a>
   </div>
 </li>
@@ -393,26 +422,181 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#plan-de-clases" id="toc-plan-de-clases" class="nav-link active" data-scroll-target="#plan-de-clases">Plan de Clases</a></li>
+  <li><a href="#una-variable-aleatoria" id="toc-una-variable-aleatoria" class="nav-link active" data-scroll-target="#una-variable-aleatoria">Una variable aleatoria</a>
+  <ul class="collapse">
+  <li><a href="#distribuciones-de-probabilidad" id="toc-distribuciones-de-probabilidad" class="nav-link" data-scroll-target="#distribuciones-de-probabilidad">Distribuciones de probabilidad</a></li>
+  <li><a href="#valores-esperados" id="toc-valores-esperados" class="nav-link" data-scroll-target="#valores-esperados">Valores esperados</a></li>
+  </ul></li>
+  <li><a href="#varias-variables" id="toc-varias-variables" class="nav-link" data-scroll-target="#varias-variables">Varias variables</a>
+  <ul class="collapse">
+  <li><a href="#distribución-de-probabilidad-conjunta" id="toc-distribución-de-probabilidad-conjunta" class="nav-link" data-scroll-target="#distribución-de-probabilidad-conjunta">Distribución de probabilidad conjunta</a></li>
+  <li><a href="#distribución-marginal-y-condicional" id="toc-distribución-marginal-y-condicional" class="nav-link" data-scroll-target="#distribución-marginal-y-condicional">Distribución marginal y condicional</a></li>
+  <li><a href="#momentos-y-valores-esperados" id="toc-momentos-y-valores-esperados" class="nav-link" data-scroll-target="#momentos-y-valores-esperados">Momentos y valores esperados</a></li>
+  </ul></li>
+  <li><a href="#funciones-de-una-variable-aleatoria" id="toc-funciones-de-una-variable-aleatoria" class="nav-link" data-scroll-target="#funciones-de-una-variable-aleatoria">Funciones de una variable aleatoria</a></li>
+  <li><a href="#algunas-distribuciones-de-probabilidad" id="toc-algunas-distribuciones-de-probabilidad" class="nav-link" data-scroll-target="#algunas-distribuciones-de-probabilidad">Algunas distribuciones de probabilidad</a>
+  <ul class="collapse">
+  <li><a href="#uniforme" id="toc-uniforme" class="nav-link" data-scroll-target="#uniforme">Uniforme</a></li>
+  <li><a href="#normal-gaussiana" id="toc-normal-gaussiana" class="nav-link" data-scroll-target="#normal-gaussiana">Normal (Gaussiana)</a></li>
+  <li><a href="#binomial" id="toc-binomial" class="nav-link" data-scroll-target="#binomial">Binomial</a></li>
+  <li><a href="#poisson" id="toc-poisson" class="nav-link" data-scroll-target="#poisson">Poisson</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-sugeridos-para-estudiar-para-la-prueba" id="toc-ejercicios-sugeridos-para-estudiar-para-la-prueba" class="nav-link" data-scroll-target="#ejercicios-sugeridos-para-estudiar-para-la-prueba">Ejercicios sugeridos para estudiar para la prueba</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./2_distribuciones.html">2. Distribuciones de Probabilidad</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Distribuciones de Probabilidad</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="plan-de-clases" class="level1">
-<h1>Plan de Clases</h1>
-<p>1- Probabilidad y estadística</p>
-<p>Probabilidad, variables aleatorias, valores esperados Distribuciones y estimación Estimación de parámetros, verosimilitud Mínimos cuadrados, estimación de intervalos Testeo de hipótesis</p>
-<p>2- Métodos Clásicos de Aprendizaje Automático</p>
-<p>Introducción al aprendizaje automático y regresión lineal Clasificación lineal Validación y selección de modelos Modelos no lineales, árboles y bosques Otros modelos: SVM, aprendizaje no supervisado</p>
-<p>3- Redes neuronales</p>
-<p>El perceptrón, redes completamente conectadas, funciones de pérdida Minimización y gradientes Ajuste y entrenamiento de modelos, regularización Redes convolucionales Redes residuales Transformadores</p>
-<p>4- Aplicaciones de redes neuronales a la física</p>
-<p>Flujos normalizantes Inferencia basada en simulaciones Métodos para solución de PDEs con redes neuronales Operadores neuronales</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Hablamos de <strong>variables aleatorias</strong> como variables que pueden tomar un valor aleatorio dentro de un cierto conjunto. Cada valor prosible tiene una cierta probabilidad. Esto lo haremos más preciso en esta sección.</p>
+<section id="una-variable-aleatoria" class="level2">
+<h2 class="anchored" data-anchor-id="una-variable-aleatoria">Una variable aleatoria</h2>
+<section id="distribuciones-de-probabilidad" class="level3">
+<h3 class="anchored" data-anchor-id="distribuciones-de-probabilidad">Distribuciones de probabilidad</h3>
+<p>Consideremos primero una variable discreta. Decimos que la variable <span class="math inline">\(x\)</span> tiene una probabilidad <span class="math inline">\(P[x_k]\)</span> de tomar el valor <span class="math inline">\(x_k\)</span>. Este valor está dado por una <strong>distribución de probabilidad</strong>. Es decir una función <span class="math inline">\(f\)</span> tal que <span class="math display">\[
+P[x_k] = f(x_k)\,.
+\]</span> Esta cumple</p>
+<ul>
+<li><span class="math inline">\(f\)</span> es univaluada y <span class="math inline">\(f(x) \geq 0\)</span>.</li>
+<li>La probabilidad total es <span class="math inline">\(1\)</span>, es decir <span class="math inline">\(\sum_i f(x_i) = 1\)</span>.</li>
+</ul>
+<p>Definimos también la <strong>distribución cumulativa de probabilidad</strong> <span class="math display">\[
+F(x) = \sum_{x_k \leq x} f(x_k)\,.
+\]</span> Es decir, es la probabilidad de obtener un valor menor a <span class="math inline">\(x\)</span>.</p>
+<p>Para variables que toman valores continuos, la probabilidad de un valor dado tiende a cero (como hay infinitos valores, la probabilidad de cada uno debe ser minúscula para que su suma sea <span class="math inline">\(1\)</span>). Por ese motivo no hablamos de una distribución de probabilidad sino de una <strong>función de densidad de probabilidad</strong> <span class="math inline">\(f(x)\)</span> tal que la probabilidad de obtener un resultado en el intervalo <span class="math inline">\([a,b]\)</span> es <span class="math display">\[
+P[a \leq x \leq b] = \int_a^bdx\,f(x)\,.
+\]</span> Esta cumple</p>
+<ul>
+<li><span class="math inline">\(f\)</span> es univaluada y <span class="math inline">\(f(x) \geq 0\)</span>.</li>
+<li>La probabilidad total es <span class="math inline">\(1\)</span>, es decir <span class="math inline">\(\int_{-\infty}^\infty dx\,f(x) = 1\)</span>.</li>
+</ul>
+<p>Análogamente definimos la distribución cumulativa de probabilidad <span class="math display">\[
+F(x) = \int_{-\infty}^x dx'\,f(x')\,.
+\]</span></p>
+</section>
+<section id="valores-esperados" class="level3">
+<h3 class="anchored" data-anchor-id="valores-esperados">Valores esperados</h3>
+<p>Definimos el <strong>valor esperado</strong> de una variable discreta como <span class="math display">\[
+\langle x\rangle \equiv \sum_x xf(x)\,.
+\]</span> Para una variable continua <span class="math display">\[
+\langle x\rangle \equiv \int_{-\infty}^\infty dx\,xf(x)\,.
+\]</span></p>
+<p>De esta manera los <strong>momentos</strong> son <span class="math display">\[
+\mu'_n \equiv \langle x^n \rangle\,,
+\]</span> y los <strong>momentos centrales</strong> <span class="math display">\[
+\mu_n \equiv \left\langle (x - \langle x\rangle)^n\right\rangle\,.
+\]</span></p>
+<p>De la definición de valor esperado se puede demostrar para una constante <span class="math inline">\(c\)</span> <span class="math display">\[
+\langle cx\rangle = c\langle x\rangle\,,\quad \langle x_1 + x_2 + ... + x_n\rangle = \langle x_1\rangle + \langle x_2 \rangle + ... + \langle x_n\rangle\,.
+\]</span> Además si las variables <span class="math inline">\(x_1, ..., x_n\)</span> son independientes <span class="math display">\[
+\langle x_1 ... x_n\rangle = \langle x_1\rangle ...\langle x_n\rangle\,.
+\]</span></p>
+</section>
+</section>
+<section id="varias-variables" class="level2">
+<h2 class="anchored" data-anchor-id="varias-variables">Varias variables</h2>
+<section id="distribución-de-probabilidad-conjunta" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-de-probabilidad-conjunta">Distribución de probabilidad conjunta</h3>
+<p>Si tenemos varias variables aleatorias, las definiciones son muy análogas. Por ejemplo, la <strong>distribución de probabilidad conjunta</strong> <span class="math display">\[
+P[a_1\leq x_1 \leq b_1, ..., a_n \leq x_n \leq b_n] \equiv \int_{a_n}^{b_n}...\int_{a_1}^{b_1}\prod_{i=1}^n dx_i\, f(x_1, ..., x_n)\,.
+\]</span></p>
+</section>
+<section id="distribución-marginal-y-condicional" class="level3">
+<h3 class="anchored" data-anchor-id="distribución-marginal-y-condicional">Distribución marginal y condicional</h3>
+<p>Si nos preguntamos cuál es el valor de una variable, independientemente del valor que tomen todas las demás, sólo tenemos que sumar sobre todos los valores de las demás variables. Esta se llama la <strong>distribución marginal</strong> <span class="math display">\[
+f^M(x_1) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=2}^n dx_i\,f(x_1, x_2, ..., x_n)\,.
+\]</span> Análogamente, si queremos la probabilidad conjunta para algunas variables, marginalizamos sobre todas las demás <span class="math display">\[
+f^M(x_1, ..., x_m) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=m+1}^n dx_i\,f(x_1, x_2, ..., x_n)\,.
+\]</span></p>
+<p>Una pregunta distinta, es si <em>fijamos</em> el valor de las demás variables y nos preguntamos por la probabilidad de las restantes. Esta es la <strong>distribución condicional</strong> <span class="math display">\[
+f^C(x_1, ..., x_m| x_{m+1}, ..., x_n) \equiv \frac{f(x_1, ..., x_n)}{f^M(x_{m+1}, ..., x_n)}\,.
+\]</span></p>
+<p>Esto nos permite escribir por ejemplo la siguiente relación <span class="math display">\[
+f^C(x|y) = \frac{f^C(y|x)f^M(x)}{f^M(y)}\,,
+\]</span> o también <span class="math display">\[
+f(x, y) = f^C(x|y)f^M(y)\,.
+\]</span> Decimos que dos variables son <strong>independientes</strong> si <span class="math display">\[
+f(x, y) = f^M(x)f^M(y)\,.
+\]</span></p>
+</section>
+<section id="momentos-y-valores-esperados" class="level3">
+<h3 class="anchored" data-anchor-id="momentos-y-valores-esperados">Momentos y valores esperados</h3>
+<p>Se definen de forma análoga a una variable. Por ejemplo, definimos la covarianza como el segundo momento central <span class="math display">\[
+\text{cov}(x_i, x_j) \equiv \sigma_{ij} \equiv \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=1}^n dx_i\, (x_i - \mu_i)(x_j - \mu_j) f(x_1, ..., x_n)\,.
+\]</span> La condición <span class="math inline">\(\sigma_{ij} = 0\)</span> es necesaria (pero no suficiente) para que dos variables sean independientes.</p>
+</section>
+</section>
+<section id="funciones-de-una-variable-aleatoria" class="level2">
+<h2 class="anchored" data-anchor-id="funciones-de-una-variable-aleatoria">Funciones de una variable aleatoria</h2>
+<p>Supongamos que la cantidad <span class="math inline">\(y\)</span> es una función de la variable aleatoria <span class="math inline">\(x\)</span>. Podemos calcular su distribución de probabilidad haciendo un simple cambio de variable <span class="math display">\[
+f(y) = \sum_{x}f(x)\left|\frac{dx}{dy}\right|\,.
+\]</span> Donde la suma es sobre todos los puntos tal que <span class="math inline">\(y = y(x)\)</span>.</p>
+<p>Cuando hay varias variables, usamos el Jacobiano.</p>
+</section>
+<section id="algunas-distribuciones-de-probabilidad" class="level2">
+<h2 class="anchored" data-anchor-id="algunas-distribuciones-de-probabilidad">Algunas distribuciones de probabilidad</h2>
+<section id="uniforme" class="level3">
+<h3 class="anchored" data-anchor-id="uniforme">Uniforme</h3>
+<p>Si la probabilidad es la misma en todas partes dentro de un intervalo <span class="math display">\[
+f(x) \equiv u(x; a, b) = \begin{cases}
+\frac{1}{b - a}\quad a\leq x \leq b\,
+0\quad \text{de otra manera}
+\end{cases}\,.
+\]</span> Esta probabilidad es útil por ejemplo para generar números aleatorios. Cualquier variable se puede convertir en una variable con distribución uniforme mediante <span class="math inline">\(u = F[x]\)</span>.</p>
+</section>
+<section id="normal-gaussiana" class="level3">
+<h3 class="anchored" data-anchor-id="normal-gaussiana">Normal (Gaussiana)</h3>
+<p>Ubicua en física por motivos que discutiremos en unos minutos. La famosa distribución a campana <span class="math display">\[
+f(x) \equiv n(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\,.
+\]</span></p>
+<p>La utilidad de la gaussiana es que por motivos que vermos representa los errores de muchas cantidades medidas. Entonces es útil saber las probabilidades de obtener un resultado a un cierto número de desviaciones estándar de la media</p>
+<ul>
+<li><span class="math inline">\(1\sigma\)</span> es <span class="math inline">\(68.3\%\)</span>.</li>
+<li><span class="math inline">\(2\sigma\)</span> es <span class="math inline">\(95.4\%\)</span>.</li>
+<li><span class="math inline">\(3\sigma\)</span> es <span class="math inline">\(99.7\%\)</span>.</li>
+</ul>
+<p>Para varias variables es similar <span class="math display">\[
+f(\mathbf{x}) = \frac{1}{(2\pi)^{n/2}|V|^{1/2}}\exp\left[-\frac{1}{2}(\mathbf{x} - \mathbf{\mu})^T V^{-1} (\mathbf{x} - \mathbf{\mu})\right]\,.
+\]</span> La covarianza es fácil de calcular y es <span class="math inline">\(\sigma_{ij} = V_{ij}\)</span>.</p>
+<p>Integrando, se puede demostrar que la distribución marginal también es una gaussiana.</p>
+</section>
+<section id="binomial" class="level3">
+<h3 class="anchored" data-anchor-id="binomial">Binomial</h3>
+<p>La distribución binomial es para una variable discreta. Representa intentar muchas veces un experimento con probabilidad de éxito <span class="math inline">\(p\)</span>. Esta distribución es la probabilidad de obtener <span class="math inline">\(r\)</span> éxitos en <span class="math inline">\(n\)</span> intentos <span class="math display">\[
+f(r; p, n) = \frac{n!}{r!(n - r)!}p^r (1 - p)^{n - r}\,.
+\]</span> Esta es fácil de deducir, especialmente si hacemos un ejemplo. Supongamos que realizamos el expeeimento <span class="math inline">\(4\)</span> veces. La probabilidad de obtener éxito en los primeros tres intentos y fracaso en el último (<span class="math inline">\(+++-\)</span>) es <span class="math inline">\(p^3(1 - p)^1\)</span>. Pero tenemos otras tres maneras de obtener tres éxitos: <span class="math inline">\(+-++\)</span>, <span class="math inline">\(++-+\)</span>, <span class="math inline">\(-+++\)</span>. Por lo tanto, la probabilidad de obtener <span class="math inline">\(3\)</span> éxitos es <span class="math inline">\(4p^3(1 - p)\)</span>. En general, el factor combinatorial curnta de cuántas maneradas hay de obtener <span class="math inline">\(r\)</span> éxitos en <span class="math inline">\(n\)</span> intentos.</p>
+</section>
+<section id="poisson" class="level3">
+<h3 class="anchored" data-anchor-id="poisson">Poisson</h3>
+<p>Es muy importante en física. Representa la probabilidad de obtener <span class="math inline">\(r\)</span> éxitos cuando <span class="math inline">\(n\)</span> tiende a ser un número grande y <span class="math inline">\(p\)</span> tiende a ser pequeño tal que <span class="math inline">\(pn \equiv \lambda\)</span> permanece constante <span class="math display">\[
+\lim_{n\rightarrow \infty} \frac{1}{r!}\frac{n!}{(n-r)!}\left(\frac{\lambda}{n}\right)^r\left(1 - \frac{\lambda}{n}\right)^{n - r} = \lim_{n\rightarrow \infty}\frac{1}{r!}n^r\frac{\lambda^r}{n^r}\left(1 - \frac{\lambda}{n}\right)^n = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
+\]</span> Entonces definimos la <strong>distribución de Poisson</strong> <span class="math display">\[
+f(r; \lambda) = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
+\]</span></p>
+</section>
+</section>
+<section id="ejercicios-sugeridos-para-estudiar-para-la-prueba" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-sugeridos-para-estudiar-para-la-prueba">Ejercicios sugeridos para estudiar para la prueba</h2>
+<p>3.5, 3.6, 4.2, 4.7, 4.8</p>
 
 
 </section>

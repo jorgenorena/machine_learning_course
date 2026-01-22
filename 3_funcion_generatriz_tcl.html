@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>plan_de_clases – Aprendizaje Automático para Físicos</title>
+<title>Momentos, función generatriz y teorema central del limite – Aprendizaje Automático para Físicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -67,6 +101,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -201,7 +264,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./3_funcion_generatriz_tcl.html">3. Función generatriz y teorema central del límite</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -236,7 +299,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_funcion_generatriz_tcl.html" class="sidebar-item-text sidebar-link">
+  <a href="./3_funcion_generatriz_tcl.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">3. Función generatriz y teorema central del límite</span></a>
   </div>
 </li>
@@ -393,26 +456,261 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#plan-de-clases" id="toc-plan-de-clases" class="nav-link active" data-scroll-target="#plan-de-clases">Plan de Clases</a></li>
+  <li><a href="#función-generatriz-y-característica" id="toc-función-generatriz-y-característica" class="nav-link active" data-scroll-target="#función-generatriz-y-característica">Función generatriz y característica</a>
+  <ul class="collapse">
+  <li><a href="#funciones-generatrices-de-algunas-distribuciones" id="toc-funciones-generatrices-de-algunas-distribuciones" class="nav-link" data-scroll-target="#funciones-generatrices-de-algunas-distribuciones">Funciones generatrices de algunas distribuciones</a></li>
+  </ul></li>
+  <li><a href="#el-teorema-central-del-límite" id="toc-el-teorema-central-del-límite" class="nav-link" data-scroll-target="#el-teorema-central-del-límite">El Teorema Central del Límite</a></li>
+  <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo">Ejemplo</a></li>
+  <li><a href="#algunas-distribuciones-derivadas-de-la-gaussiana" id="toc-algunas-distribuciones-derivadas-de-la-gaussiana" class="nav-link" data-scroll-target="#algunas-distribuciones-derivadas-de-la-gaussiana">Algunas Distribuciones Derivadas de la Gaussiana</a>
+  <ul class="collapse">
+  <li><a href="#la-distribución-chi2" id="toc-la-distribución-chi2" class="nav-link" data-scroll-target="#la-distribución-chi2">La distribución <span class="math inline">\(\chi^2\)</span></a></li>
+  <li><a href="#la-distribución-t-de-student" id="toc-la-distribución-t-de-student" class="nav-link" data-scroll-target="#la-distribución-t-de-student">La distribución <span class="math inline">\(t\)</span> de Student</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-sugeridos" id="toc-ejercicios-sugeridos" class="nav-link" data-scroll-target="#ejercicios-sugeridos">Ejercicios sugeridos</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./3_funcion_generatriz_tcl.html">3. Función generatriz y teorema central del límite</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Momentos, función generatriz y teorema central del limite</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="plan-de-clases" class="level1">
-<h1>Plan de Clases</h1>
-<p>1- Probabilidad y estadística</p>
-<p>Probabilidad, variables aleatorias, valores esperados Distribuciones y estimación Estimación de parámetros, verosimilitud Mínimos cuadrados, estimación de intervalos Testeo de hipótesis</p>
-<p>2- Métodos Clásicos de Aprendizaje Automático</p>
-<p>Introducción al aprendizaje automático y regresión lineal Clasificación lineal Validación y selección de modelos Modelos no lineales, árboles y bosques Otros modelos: SVM, aprendizaje no supervisado</p>
-<p>3- Redes neuronales</p>
-<p>El perceptrón, redes completamente conectadas, funciones de pérdida Minimización y gradientes Ajuste y entrenamiento de modelos, regularización Redes convolucionales Redes residuales Transformadores</p>
-<p>4- Aplicaciones de redes neuronales a la física</p>
-<p>Flujos normalizantes Inferencia basada en simulaciones Métodos para solución de PDEs con redes neuronales Operadores neuronales</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="función-generatriz-y-característica" class="level2">
+<h2 class="anchored" data-anchor-id="función-generatriz-y-característica">Función generatriz y característica</h2>
+<p>Definimos la <strong>función generatriz</strong> <span class="math display">\[
+M_x(t) \equiv \langle e^{xt} \rangle\,.
+\]</span> Expandiendo en Taylor tenemos que <span class="math display">\[
+M_x(t) = \left\langle1 + xt + \frac{1}{2}(xt)^2 + ...\right\rangle = \sum_{n=0}^\infty \frac{1}{n!}\mu'_n t^n\,.
+\]</span> De esta expresión vemos que <span class="math display">\[
+\mu'_n = \left.\frac{\partial^n}{\partial t^n}M_x(t)\right|_{t=0}\,.
+\]</span> Entonces decimos que podemos <em>generar los momentos</em> de la distribución.</p>
+<p>En la mayoría de los casos, si dos distribuciones tienen la misma función generatriz, entonces son la misma distribución. Para algunas distribuciones la suma no converge, tal que se usa en cambio la <strong>función característica</strong> <span class="math display">\[
+\phi_x(t) \equiv \langle e^{itx}\rangle\,.
+\]</span></p>
+<p>También es útil definir la <strong>función generatriz conexa</strong> <span class="math display">\[
+\ln M_x(t) \equiv \kappa_1 t + \frac{1}{2}\kappa_2 t^2 + ...\,,
+\]</span> donde <span class="math inline">\(\kappa\)</span> son los <strong>cumulantes</strong>. Cuando dos distribuciones tienen los mismos cumulantes son iguales (si estos existen para ambas).</p>
+<p>Estas son muy útiles para demostrar varias propiedades de las distribuciones, como veremos.</p>
+<ul>
+<li><p>El primer cumulante corresponde a la media <span class="math inline">\(\kappa_1 = \mu\)</span> y nos dice dónde se centra la distribución.</p></li>
+<li><p>El segundo a la varianza <span class="math inline">\(\kappa_2 = \sigma^2\)</span>. Nos da una idea del ancho de la distribución.</p></li>
+<li><p>El tercer cumulante corresponde a la <strong>skewness</strong> <span class="math inline">\(\kappa_3\)</span>. Esto nos da una idea de la asimetria de la distribución. Si se “tira” para un lado u otro.</p></li>
+<li><p>El cuarto cumulante a la <strong>kurtosis</strong> <span class="math inline">\(\kappa_4\)</span>. Nos dice cuanto pesan las colas de la distribución respecto a su centro. Es decir, si las colas son más “gruesas” o “delgadas” que lo que se encontraría en una distribución normal.</p></li>
+</ul>
+<section id="funciones-generatrices-de-algunas-distribuciones" class="level3">
+<h3 class="anchored" data-anchor-id="funciones-generatrices-de-algunas-distribuciones">Funciones generatrices de algunas distribuciones</h3>
+<section id="gaussiana" class="level4">
+<h4 class="anchored" data-anchor-id="gaussiana">Gaussiana</h4>
+<p>Integrando (ejercicio), se obtiene la función generatriz <span class="math display">\[
+M_x(t) = \langle e^{xt}\rangle = e^{t\mu + \sigma^2 t^2/2}\,.
+\]</span> Podemos tomar el logaritmo para obtener los cumulantes <span class="math display">\[
+\ln M_x(t) = t\mu + \frac{1}{2}t^2\sigma^2\,.
+\]</span> De aquí se puede deducir que <span class="math inline">\(\kappa_1 = \mu\)</span> y <span class="math inline">\(\kappa_2 = \sigma^2\)</span> por lo que la varianza es <span class="math inline">\(\sigma^2\)</span>. La función característica es análoga <span class="math display">\[
+\phi(t) = e^{it\mu - t^2\sigma^2/2}\,.
+\]</span></p>
+<p>La Gaussiana es la distribución que está completamente determinada por sus primeros dos cumulantes. Todos los cumulantes de orden más alto son cero.</p>
+</section>
+<section id="poisson" class="level4">
+<h4 class="anchored" data-anchor-id="poisson">Poisson</h4>
+<p>Expandiendo, vemos que todos los cumulantes de la distribución de Poisson son iguales <span class="math display">\[
+\ln M_r(t) = \lambda e^t - \lambda = \sum_{n=1}^\infty \frac{1}{n!}t^n\lambda\,.
+\]</span> es decir <span class="math inline">\(\kappa_i = \lambda\)</span>. Es decir que su media es <span class="math inline">\(\lambda\)</span> y su varianza es <span class="math inline">\(\lambda\)</span>, así como todos los demás.</p>
+</section>
+</section>
+</section>
+<section id="el-teorema-central-del-límite" class="level2">
+<h2 class="anchored" data-anchor-id="el-teorema-central-del-límite">El Teorema Central del Límite</h2>
+<p>Se dice que los físicos creen en este resultado porque es un teorema matemático y los matemáticos creen en este resultado porque funciona en experimentos. En cualquier caso, este resultado provee la justificación para lo que vimos en el ejemplo de arriba.</p>
+<p>Consideremos <span class="math inline">\(N\)</span> variables aleatorias independientes y provenientes de la misma distribución de probabilidad <span class="math inline">\(x_1, ..., x_N\)</span>. Nos interesa calcular la distribución de probabilidad de la suma <span class="math inline">\(X = \sum_i^N x_i\)</span>. Para hacerlo es más fácil trabajar con la función característica <span class="math display">\[
+\tilde{p}_X(k) = \left\langle e^{-ikX} \right\rangle =  \left\langle e^{-ik\sum_i x_i} \right\rangle = \tilde{p}(k_1 = k, ..., k_N = k)\,.
+\]</span> De aquí podemos escribir <span class="math display">\[
+\ln\tilde{p}_X(k) = -i k \sum_i \langle x_i \rangle_c - \frac{1}{2}k^2\sum_{i,j}\langle x_i x_j\rangle_c + ...\,.
+\]</span> Si las variables son todas independientes entonces los cumulantes que involucran variables diferentes son todos cero <span class="math display">\[
+\ln\tilde{p}_X(k) = -i k \sum_i \langle x_i \rangle_c - \frac{1}{2}k^2 \sum_i \langle x_i^2\rangle_c + ...\,,
+\]</span> y si además todas vienen de una misma distribución (tal que sus cumulantes son todos iguales) <span class="math display">\[
+\ln\tilde{p}_X(k) = -i k N \langle x_1 \rangle_c - \frac{1}{2}k^2 N \langle x_1^2\rangle_c + ...\,.
+\]</span> Finalmente, definimos la variable <span class="math inline">\(y \equiv \left(\frac{X - N\langle x_1 \rangle_c}{\sqrt{N}}\right)\)</span>. Entonces la distribución de esta variable será dada por <span class="math display">\[
+\langle y \rangle_c = 0\,,\quad \langle y^2 \rangle_c = \langle x_1^2\rangle_c = \sigma^2\,,\quad \langle y^n\rangle_c \propto N^{1 - n/2}\,.
+\]</span> Por lo tanto, cuando <span class="math inline">\(N \rightarrow \infty\)</span> todos los cumulantes de <span class="math inline">\(y\)</span> desaparecen excepto el segundo tal que <span class="math display">\[
+\ln\tilde{p}_y(k) \sim -\frac{1}{2}k^2 \sigma^2\,,
+\]</span> por lo tanto <span class="math display">\[
+p(y) = \frac{1}{\sqrt{2\pi}\sigma}e^{-y^2/2\sigma^2}\,.
+\]</span></p>
+<p>Podemos relajar las condiciones de que las variables sean independientes e idénticamente distribuidas. Lo que necesitamos en realidad es que todos los cumulantes caigan lo suficientemente rápido <span class="math display">\[
+\sum_{i_1,...,i_m = 1}^N \langle x_{i_1} ... x_{i_m}\rangle_c \ll \mathcal{O}(N^{m/2})\,.
+\]</span> Si esto se cumple, entonces podemos enunciar la versión más general del teorema:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Teorema central del límite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere la suma <span class="math inline">\(X = \sum_{i = 1}^N x_i\)</span> de <span class="math inline">\(N\)</span> variables aleatorias independientes <span class="math inline">\(x_i\)</span>, cada una tomada de una distribución con media <span class="math inline">\(\mu_i\)</span> y varianza <span class="math inline">\(\sigma_i^2\)</span>. La distribución de <span class="math inline">\(X\)</span> cumple:</p>
+<ul>
+<li><p>Tiene valor esperado <span class="math inline">\(\langle X \rangle = \sum_i \mu_i\)</span>.</p></li>
+<li><p>Tiene varianza <span class="math inline">\(\sigma^2(X) = \sum_i \sigma_i^2\)</span>.</p></li>
+<li><p>Tiende a una gaussiana a medida que <span class="math inline">\(N \rightarrow \infty\)</span>.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="ejemplo" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo">Ejemplo</h2>
+<div id="244788c6" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma_aleatorios(num):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">sum</span>([np.random.rand(<span class="dv">1000</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num)])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">11</span>), dpi<span class="op">=</span> <span class="dv">100</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>ax4 <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ax1.hist(suma_aleatorios(<span class="dv">1</span>), bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ax2.hist(suma_aleatorios(<span class="dv">2</span>), bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>ax3.hist(suma_aleatorios(<span class="dv">20</span>), bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>ax4.hist(suma_aleatorios(<span class="dv">200</span>), bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'$n = 1$'</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'$n = 2$'</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax3.set_title(<span class="st">'$n = 20$'</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>ax4.set_title(<span class="st">'$n = 200$'</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>fig.tight_layout(pad<span class="op">=</span><span class="fl">2.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_funcion_generatriz_tcl_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ahora estudiaremos algunas pdf’s derivadas de la Gaussiana que se usan mucho para sacar conclusiones estadídsticas.</p>
+</section>
+<section id="algunas-distribuciones-derivadas-de-la-gaussiana" class="level2">
+<h2 class="anchored" data-anchor-id="algunas-distribuciones-derivadas-de-la-gaussiana">Algunas Distribuciones Derivadas de la Gaussiana</h2>
+<section id="la-distribución-chi2" class="level3">
+<h3 class="anchored" data-anchor-id="la-distribución-chi2">La distribución <span class="math inline">\(\chi^2\)</span></h3>
+<p>La variable <span class="math inline">\(\chi^2\)</span> se define <span class="math display">\[
+\chi^2 \equiv \sum_i \frac{(y_i - g(x_i))^2}{\sigma^2}
+\]</span> Si todos los errores son gaussianos, la probabilidad de obtener un cierto valor de <span class="math inline">\(\chi^2\)</span> es proporcional a <span class="math inline">\(e^{-\chi^2/2}\)</span> y además hay que integrar sobre todos los puntos que tienen un mismo valor de <span class="math inline">\(\chi\)</span> que forman una esfera, lo que nos da algo proporcional a <span class="math inline">\(\chi^{N - 1}e^{-\chi^2/2}\)</span>, donde <span class="math inline">\(N\)</span> es el número de datos. Pero además necesitamos la probabilidad de <span class="math inline">\(\chi^2\)</span> tal que <span class="math display">\[
+P(\chi^2) \propto P(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
+\]</span> Sin embargo al ajustar <span class="math inline">\(m\)</span> parámetros imponemos <span class="math inline">\(m\)</span> condiciones sobre la región considerada, una por cada derivada parcial que fijamos a cero, tal que <span class="math inline">\(N\)</span> debe ser en realidad el <em>número de grados de libertad</em> dado por <strong>el número de datos menos el número de parámetros</strong>.</p>
+<p>Nos falta solo una normalización para que la integral sea uno. Los expertos reconocerán la función gama.</p>
+<div id="a1fd4926" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chi2(x, n):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">**</span>(<span class="op">-</span>n<span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>x<span class="op">**</span>((n<span class="op">-</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>np.exp(<span class="op">-</span>x<span class="op">/</span><span class="dv">2</span>)<span class="op">/</span>gamma(n<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">23</span>, <span class="dv">100</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>]:</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, chi2(x, n), label <span class="op">=</span> <span class="st">'$n = $ </span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>(n))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r'$\chi^2$'</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="vs">r'$P(\chi^2)$'</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_funcion_generatriz_tcl_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="la-distribución-t-de-student" class="level3">
+<h3 class="anchored" data-anchor-id="la-distribución-t-de-student">La distribución <span class="math inline">\(t\)</span> de Student</h3>
+<p>Student es el pseudónimo de la persona que inventó esta distribución.</p>
+<p>Según el teorema central del límite, el promedio <span class="math inline">\(\bar{x}\)</span> tiene una distribución Gaussiana con media <span class="math inline">\(\mu\)</span> y varianza <span class="math inline">\(\sigma_n = \sigma/\sqrt{n}\)</span>. Esto lo podemos usar para estimar el error cometido al realizar una medición. Por ejemplo, podemos usar <span class="math inline">\(\sigma\)</span> para estimar el error y sabemos que tenemos una probabilidad de aproximadamente <span class="math inline">\(68\%\)</span> de estar a <span class="math inline">\(1\sigma\)</span> de la media, <span class="math inline">\(95\%\)</span> de estar a <span class="math inline">\(2\sigma\)</span>, y <span class="math inline">\(99\%\)</span> de estar a <span class="math inline">\(3\sigma\)</span>.</p>
+<p>Sin embargo no conocemos <span class="math inline">\(\sigma\)</span> en muchos casos. Entonces debemos usar algún estimador <span class="math inline">\(\hat{\sigma}\)</span> calculado usando los mismos datos.</p>
+<p>Este reemplazo sigue produciendo una distribución Gaussiana cuando tenemos muchos datos. Pero si tenemos pocos (en la práctica aproximadamente menos de <span class="math inline">\(30\)</span> datos) debemos tener cuidado.</p>
+<p>Consideremos la variable <span class="math display">\[
+u = \frac{\bar{x} - \mu}{\sigma}\,,
+\]</span> esta sigue una distribución Gaussiana con media cero y varianza uno. Si estimamos la varianza, escribimos <span class="math display">\[
+t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{n}}\,.
+\]</span> Para <span class="math inline">\(n\)</span> grande, <span class="math inline">\(t\)</span> resulta que también sigue una Gaussiana. Pero para <span class="math inline">\(n\)</span> pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.</p>
+<div id="da8f969b" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Código producido por ChatGPT 4o con el siguiente prompt:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "Produce una serie de gráficos en python usando la distribución t de Student </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y comparándola con la distribución normal. Comentarios y nombres de variables</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># y funciones en español."</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Código revisado para garantizar que sea correcto</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir grados de libertad para la distribución t de Student</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>grados_libertad <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>]  <span class="co"># Diferentes grados de libertad</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1000</span>)  <span class="co"># Valores de X</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear la figura y los ejes</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>figura, ejes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="bu">len</span>(grados_libertad), figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">10</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar para cada grado de libertad</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> eje, gl <span class="kw">in</span> <span class="bu">zip</span>(ejes, grados_libertad):</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Distribución t de Student</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    t_pdf <span class="op">=</span> stats.t.pdf(x, gl)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    eje.plot(x, t_pdf, label<span class="op">=</span><span class="ss">f"Distribución t (gl=</span><span class="sc">{</span>gl<span class="sc">}</span><span class="ss">)"</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Distribución normal para comparación</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    normal_pdf <span class="op">=</span> stats.norm.pdf(x)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    eje.plot(x, normal_pdf, label<span class="op">=</span><span class="st">"Distribución normal"</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    eje.legend()</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    eje.set_ylabel(<span class="st">"Densidad"</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    eje.set_title(<span class="ss">f"Distribución t vs Normal (gl=</span><span class="sc">{</span>gl<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Establecer etiqueta común en el eje x</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>ejes[<span class="op">-</span><span class="dv">1</span>].set_xlabel(<span class="st">"x"</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar el diseño</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_funcion_generatriz_tcl_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ejercicios-sugeridos" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-sugeridos">Ejercicios sugeridos</h2>
+<p>3.1, 6.1, 6.3</p>
+<ul>
+<li><p>Encuentre la función característica de la distribución binomial.</p></li>
+<li><p>Demuestre que la distribución de Poisson tiende a una distribución normal cuando <span class="math inline">\(n\)</span> es grande. No haga simolemente gráficos, necesitamos la <em>demostración</em> matemática.</p></li>
+</ul>
 
 
 </section>

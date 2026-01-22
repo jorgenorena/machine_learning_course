@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>plan_de_clases – Aprendizaje Automático para Físicos</title>
+<title>Mínimos Cuadrados y Estimación de Intervalos – Aprendizaje Automático para Físicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -67,6 +101,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -201,7 +264,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./5_minimos_cuadrados_intervalos.html">5. Mínimos Cuadrados e Intervalos</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -254,7 +317,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_minimos_cuadrados_intervalos.html" class="sidebar-item-text sidebar-link">
+  <a href="./5_minimos_cuadrados_intervalos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">5. Mínimos Cuadrados e Intervalos</span></a>
   </div>
 </li>
@@ -393,26 +456,235 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#plan-de-clases" id="toc-plan-de-clases" class="nav-link active" data-scroll-target="#plan-de-clases">Plan de Clases</a></li>
+  <li><a href="#definición-del-método-de-mínimos-cuadrados" id="toc-definición-del-método-de-mínimos-cuadrados" class="nav-link active" data-scroll-target="#definición-del-método-de-mínimos-cuadrados">Definición del Método de Mínimos Cuadrados</a></li>
+  <li><a href="#ajuste-de-una-recta" id="toc-ajuste-de-una-recta" class="nav-link" data-scroll-target="#ajuste-de-una-recta">Ajuste de Una Recta</a></li>
+  <li><a href="#ajuste-de-mínimos-cuadrados-con-varios-parámetros" id="toc-ajuste-de-mínimos-cuadrados-con-varios-parámetros" class="nav-link" data-scroll-target="#ajuste-de-mínimos-cuadrados-con-varios-parámetros">Ajuste de Mínimos Cuadrados con Varios Parámetros</a></li>
+  <li><a href="#intervalos-de-confianza" id="toc-intervalos-de-confianza" class="nav-link" data-scroll-target="#intervalos-de-confianza">Intervalos de Confianza</a>
+  <ul class="collapse">
+  <li><a href="#frecuentista-el-intervalo-de-confianza." id="toc-frecuentista-el-intervalo-de-confianza." class="nav-link" data-scroll-target="#frecuentista-el-intervalo-de-confianza.">Frecuentista: El intervalo de confianza.</a></li>
+  <li><a href="#bayesiana-el-invervalo-de-credibilidad" id="toc-bayesiana-el-invervalo-de-credibilidad" class="nav-link" data-scroll-target="#bayesiana-el-invervalo-de-credibilidad">Bayesiana: El invervalo de credibilidad</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-sugeridos" id="toc-ejercicios-sugeridos" class="nav-link" data-scroll-target="#ejercicios-sugeridos">Ejercicios Sugeridos</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./5_minimos_cuadrados_intervalos.html">5. Mínimos Cuadrados e Intervalos</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Mínimos Cuadrados y Estimación de Intervalos</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="plan-de-clases" class="level1">
-<h1>Plan de Clases</h1>
-<p>1- Probabilidad y estadística</p>
-<p>Probabilidad, variables aleatorias, valores esperados Distribuciones y estimación Estimación de parámetros, verosimilitud Mínimos cuadrados, estimación de intervalos Testeo de hipótesis</p>
-<p>2- Métodos Clásicos de Aprendizaje Automático</p>
-<p>Introducción al aprendizaje automático y regresión lineal Clasificación lineal Validación y selección de modelos Modelos no lineales, árboles y bosques Otros modelos: SVM, aprendizaje no supervisado</p>
-<p>3- Redes neuronales</p>
-<p>El perceptrón, redes completamente conectadas, funciones de pérdida Minimización y gradientes Ajuste y entrenamiento de modelos, regularización Redes convolucionales Redes residuales Transformadores</p>
-<p>4- Aplicaciones de redes neuronales a la física</p>
-<p>Flujos normalizantes Inferencia basada en simulaciones Métodos para solución de PDEs con redes neuronales Operadores neuronales</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Vamos a estudiar un método más de obtener estimadores. Es tal vez el método más usado por su simplicidad y nos dará pie para motivar varios de los conceptos usados en aprendizaje automático. Este es el método de mínimos cuadrados.</p>
+<p>Luego empezaremos a estudiar cómo sacar conclusiones a partir de los datos. Nuestro primer problema es cómo interpretar los resultados de una medición.</p>
+<section id="definición-del-método-de-mínimos-cuadrados" class="level1">
+<h1>Definición del Método de Mínimos Cuadrados</h1>
+<p>Supongamos que medimos una cantidad <span class="math inline">\(y\)</span> para cada valor de una variable <span class="math inline">\(x\)</span>. Por ejemplo podemos medir la energía emitida por un cuerpo negro para cada valor de la temperatura. En general <span class="math inline">\(y = f(x;\theta)\)</span> es una función complicada de <span class="math inline">\(x\)</span> que depende de uno o más parámetros <span class="math inline">\(\theta\)</span>. Queremos encontrar un estimador para <span class="math inline">\(\theta\)</span>. Ya vimos que podemos usar el estimador de máxima verosimilitud.</p>
+<p>En muchos casos no podemos calcular la verosimilitud porque modelar la distribución de probabilidad es extremadamente difícil. Por ejemplo, ¿cuál es la distribución de probabilidad de los precios de los departamentos dada la zona donde se encuentran?</p>
+<p>Lo que podemos hacer es minimizar las desviaciones de las predicciones del modelo respecto a los datos. Es decir minimizar el <span class="math inline">\(\chi^2\)</span> <span class="math display">\[
+\chi^2 = \sum_{i=1}^n \left[\frac{y_i - f(x_i;\theta)}{\sigma_i}\right]^2\,.
+\]</span> Aquí hemos supuesto que las mediciones <span class="math inline">\(y_i\)</span> son independientes, si no lo son, es necesario considerar la covarianza (ver el libro). Si además suponemos que las mediciones son idénticamente distribuidas, esto es equivalente a minimizar la suma de desviaciones al cuadrado.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definición
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El <strong>estimador de mínimos cuadrados</strong> es el valor de <span class="math inline">\(\theta\)</span> que minimiza esta suma de desviaciones al cuadrado <span class="math display">\[
+\hat{\theta} = \underset{\theta}{\operatorname{argmax}}\sum_{i=1}^n\left[y_i -f(x_i;\theta)\right]^2\,.
+\]</span></p>
+</div>
+</div>
+<p>Cuando la verosimilitud es una distribución normal la minimización de los mínimos cuadrados es lo mismo que la minimización del logaritmo de la verosimilitud, tal que ambos estimadores coinciden. Cuando la verosimilitud no es gaussiana ambos estimadores serán diferentes. La ventaja del método de mínimos cuadrados es que se puede usar cuando no se conoce la verosimilitud.</p>
+</section>
+<section id="ajuste-de-una-recta" class="level1">
+<h1>Ajuste de Una Recta</h1>
+<p>El ejemplo más sencillo es cuando <span class="math inline">\(y = mx\)</span> y queremos encontrar <span class="math inline">\(m\)</span>. Nuestra suma de mínimos cuadrados es <span class="math display">\[
+L = \sum_{i=1}^n(y_i - mx_i)^2\,,
+\]</span> donde <span class="math inline">\(L\)</span> será nuestra <em>función de coste</em>. Buscando su mínimo <span class="math display">\[
+\begin{multline}
+0 = \frac{\partial L}{\partial m} = -2\sum_i x_i(y_i - \hat{m}x_i) \\ = -2\left(\sum_i x_i y_i\right) + 2\hat{m}\left(\sum_i x_i^2\right) \equiv -2n\overline{xy} + 2\hat{m}n\overline{(x^2)}\,,
+\end{multline}
+\]</span> que es fácil de resolver <span class="math display">\[
+\hat{m} = \frac{\overline{xy}}{\overline{(x^2)}}\,.
+\]</span></p>
+<p>Podemos además calcular la varianza de este estimador (asumiendo que los <span class="math inline">\(x_i\)</span> son fijos y no tienen error). Para eso escribimos el estimador en la forma <span class="math inline">\(\hat{m} = \sum\left(x_i/n\overline{(x^2)}\right)y_i\)</span> y entonces la varianza es <span class="math display">\[
+\operatorname{Var}(\hat{m}) = \left(\frac{1}{n\overline{(x^2)}}\sum_i x_i\right)^2 \operatorname{Var}(y) = \left(\frac{\bar{x}}{\overline{(x^2)}}\right)^2\frac{\sigma^2}{n}\,.
+\]</span></p>
+<p>Cuando el modelo es <span class="math inline">\(y = mx + a\)</span> y queremos encontrar <span class="math inline">\(m\)</span> y <span class="math inline">\(a\)</span>, debemos minimizar la suma de cuadrados respecto a ambos parámetros. El álgebra es más complicada pero muy similar a lo hecho arriba, el resultado es <span class="math display">\[
+\hat{m} = \frac{\overline{xy} - \bar{x}\bar{y}}{\overline{(x^2)} - \bar{x}^2}\,,\quad \hat{a} = \bar{y} - \hat{m}\bar{x}\,.
+\]</span> Estos tienen varianza <em>y covarianza</em> <span class="math display">\[
+\sigma^2_m = \frac{\sigma^2}{n(\overline{(x^2)} - \bar{x}^2)}\,,\quad \sigma^2_a = \frac{\sigma^2\overline{(x^2)}}{N(\overline{(x^2)} - \bar{x}^2)}\,,\quad \sigma_{ma} = -\frac{\sigma^2\bar{x}}{n(\overline{(x^2)} - \bar{x}^2)}\,.
+\]</span> Aprendemos que en general cuando estimamos varios parámetros de los mismos datos, estos estarán correlacionados.</p>
+<div id="85c2835a" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos sintéticos con errores normales</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>m_verdadero, a_verdadero <span class="op">=</span> <span class="fl">2.0</span>, <span class="fl">1.0</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Desviación estándar de los errores</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>errores_y <span class="op">=</span> np.full_like(x, sigma)  <span class="co"># Todos los errores iguales</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar observaciones con ruido</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> m_verdadero <span class="op">*</span> x <span class="op">+</span> a_verdadero <span class="op">+</span> np.random.normal(<span class="dv">0</span>, sigma, size<span class="op">=</span>x.size)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular promedios necesarios</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>x_prom <span class="op">=</span> np.mean(x)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>y_prom <span class="op">=</span> np.mean(y)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>xy_prom <span class="op">=</span> np.mean(x <span class="op">*</span> y)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>x2_prom <span class="op">=</span> np.mean(x<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular pendiente y ordenada al origen usando las fórmulas explícitas</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>m_ajustada <span class="op">=</span> (xy_prom <span class="op">-</span> x_prom <span class="op">*</span> y_prom) <span class="op">/</span> (x2_prom <span class="op">-</span> x_prom<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>a_ajustada <span class="op">=</span> y_prom <span class="op">-</span> m_ajustada <span class="op">*</span> x_prom</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular los valores ajustados de y</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>y_ajustada <span class="op">=</span> m_ajustada <span class="op">*</span> x <span class="op">+</span> a_ajustada</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar los datos con barras de error y la recta ajustada</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.errorbar(x, y, yerr<span class="op">=</span>errores_y, fmt<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">'Datos con error'</span>, color<span class="op">=</span><span class="st">'blue'</span>, capsize<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y_ajustada, label<span class="op">=</span><span class="ss">f'Ajuste: y = </span><span class="sc">{</span>m_ajustada<span class="sc">:.2f}</span><span class="ss">x + </span><span class="sc">{</span>a_ajustada<span class="sc">:.2f}</span><span class="ss">'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'y'</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Ajuste por mínimos cuadrados con barras de error'</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="5_minimos_cuadrados_intervalos_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>¿Cómo podemos saber si un modelo con <span class="math inline">\(p\)</span> parámetros es un buen ajuste a los datos? Por ejemplo, puede que la relación entre <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> no sea lineal. La respuesta la daremos en la próxima clase pero en general nos esperamos que <span class="math inline">\(\chi^2\)</span> sea cercano a <span class="math inline">\(d\)</span> donde <span class="math inline">\(d = n - p\)</span> es el número de grados de libertad.</p>
+</section>
+<section id="ajuste-de-mínimos-cuadrados-con-varios-parámetros" class="level1">
+<h1>Ajuste de Mínimos Cuadrados con Varios Parámetros</h1>
+<p>Supongamos que nuestra distribución depende de varios parámetros <span class="math inline">\(y = f(x_i;\boldsymbol{\theta})\)</span> y además las diferentes mediciones tienen una covarianza general, entonces escribimos <span class="math display">\[
+\chi^2 = \sum_{i,j}[y_i - f(x_i;\boldsymbol{\theta})]C^{-1}_{ij}[y_j - f(x_j;\boldsymbol{\theta})]\,.
+\]</span> Queremos minimizar respecto a los parámetros <span class="math inline">\(\boldsymbol{\theta}\)</span>. Para simplificar la notación usamos notación matricial <span class="math display">\[
+\chi^2 = (\boldsymbol{y} - \boldsymbol{f})^TC^{-1}(\boldsymbol{y} - \boldsymbol{f})\,.
+\]</span> Además supongamos que la función <span class="math inline">\(f(x;\boldsymbol{\theta})\)</span> tiene la forma <span class="math display">\[
+f(x;\boldsymbol{\theta}) = \sum_{j=1}^p \theta_j\phi(x_j)\,,
+\]</span></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ejemplo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Supongamos que queremos medir <span class="math inline">\(y = \gamma e^{\alpha x}\)</span>, donde nos interesa estimar <span class="math inline">\(\gamma\)</span> y <span class="math inline">\(\alpha\)</span>. Esto no parece un modelo lineal pero podemos estimar los parámetros a partir de <span class="math display">\[
+\ln y = \ln\gamma + \alpha x\,.
+\]</span></p>
+</div>
+</div>
+<p>Entonces <span class="math display">\[
+\chi^2 = (\boldsymbol{y}^T - \boldsymbol{\theta}^T\Phi^T)C^{-1}(\boldsymbol{y} - \Phi\boldsymbol{\theta})\,.
+\]</span> Tomando en cuenta que <span class="math inline">\(C\)</span> es simétrica la derivada es <span class="math display">\[
+\frac{\partial \chi^2}{\partial\boldsymbol{\theta}} = 2\Phi^TC^{-1}\Phi\boldsymbol{\theta} - 2\Phi^TC^{-1}\boldsymbol{y}\,.
+\]</span> Pidiendo que sea cero obtenemos <span class="math display">\[
+\Phi^TC^{-1}\Phi\hat{\boldsymbol{\theta}} = \Phi^TC^{-1}\boldsymbol{y}\,.
+\]</span> Invirtiendo la matriz nos da</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ecuación normal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[
+\hat{\boldsymbol{\theta}} = (\Phi^TC^{-1}\Phi)^{-1}\Phi^TC^{-1}\boldsymbol{y}\,.
+\]</span></p>
+</div>
+</div>
+<p>Si definimos <span class="math inline">\(M = (\Phi^TC^{-1}\Phi)^{-1}\Phi^TC^{-1}\)</span>. Entonces <span class="math inline">\(\hat{\boldsymbol{\theta}} = M\boldsymbol{y}\)</span>. Podemos calcular fácilmente la varianza <span class="math display">\[
+\operatorname{Var}(\hat{\boldsymbol{\theta}}) = M\operatorname{Var}(y)M^T = MCM^T = (\Phi^T)C^{-1}\Phi)^{-1}\,.
+\]</span></p>
+<p>El problema es para escribir la ecuación normal necesitamos invertir una matriz. Esa matriz resulta difícil de invertir incluso numéricamente en muchos casos.</p>
+<p>Cuando el modelo no es lineal tenemos que minimizar el <span class="math inline">\(\chi^2\)</span> que será una función complicada de los parámetros y es necesario hacerlo numéricamente. Más adelante estudiaremos el descenso de gradiente que es la técnica más usada para lograrlo.</p>
+</section>
+<section id="intervalos-de-confianza" class="level1">
+<h1>Intervalos de Confianza</h1>
+<p>Ahora queremos empezar a sacar conclusiones a partir de los datos. Una primera conclusión es el valor de alguna cantidad que se quiere medir.</p>
+<p>Nuestra pregunta es entonces qué quiere decir exactamente si decimos por ejemplo que una medida de la masa del electrón nos da <span class="math inline">\(m = 0.510\pm 0.005\,\text{MeV}\)</span>. Uno puede decir intuitivamente que eso signinifca que el electrón tiene una masa que va entre <span class="math inline">\(0.505\,\text{MeV}\)</span> y <span class="math inline">\(0.515\,\text{MeV}\)</span>. Pero sabemos que los errores experimentales son enunciados sobre probabilidad, tal que la frase anterior no es lo suficientemente precisa, le falta una probabilidad. La “medición” es un estimador aplicado a los datos, y el “error” tiene que ver con la dispersión de esos datos.</p>
+<p>Muchas veces, sobre todo para distribuciones gaussianas, se usa la desviación estándar para denotar los errores, tal que reportamos <span class="math inline">\(\hat{\theta} \pm \sigma_\theta\)</span>. La intuición detrás de esto es que para una distribución normal la probabilidad de obtener un valor a un <span class="math inline">\(\sigma\)</span> de la media es aproximadamente <span class="math inline">\(68\%\)</span>, entonces esto nos da una intuición de la probabilidad.</p>
+<p>Para distribuciones no gaussianas necesitamos algo más general. Por eso escogemos un <em>nivel de confianza</em> <span class="math inline">\(C\)</span> y escogemos un intervalo <span class="math inline">\([\theta_-, \theta_+]\)</span> tal que <span class="math display">\[
+P[\theta_- \leq \theta \leq \theta_+] = \int_{x_-}^{x_+} dx\,f(x) = C\,.
+\]</span> Pero los extremos del intervalo no son únicos, puede haber muchos intervalos cuya integral da la misma probabilidad. Hay tres maneras de definirlos (y todas tres se usan en la práctica)</p>
+<ul>
+<li>El intervalo simétrico: <span class="math inline">\(x_-\)</span> y <span class="math inline">\(x_+\)</span> se toman equidistantes del valor central.</li>
+<li>El intervalo más corto: Se escoge el intervalo más pequeño entre todas las posibilidades.</li>
+<li>El intervalo central: Se escoge tal que la probabilidad entre <span class="math inline">\(x_-\)</span> y el valor central es igual a la probabilidad entre el valor central y <span class="math inline">\(x_+\)</span>.</li>
+</ul>
+<p>Podríamos decir que el valor verdadero de la masa del electrón tiene una probabilidad de <span class="math inline">\(\sim 68\%\)</span> de estar en ese intervalo. Pero esa frase suena raro (de hecho es considerada acientífica por algunos). El electrón tiene una sola masa, no es una variable aleatoria, tal que no tiene sentido asignarle una probabilidad.</p>
+<p>Pensemos un poco mejor cómo formular ese enunciado. Hay dos respuestas dependiendo de la interpretación de probabilidad que a uno le guste más.</p>
+<section id="frecuentista-el-intervalo-de-confianza." class="level2">
+<h2 class="anchored" data-anchor-id="frecuentista-el-intervalo-de-confianza.">Frecuentista: El intervalo de confianza.</h2>
+<p>Para cada valor del parámetro <span class="math inline">\(\theta\)</span> tenemos una probabilidad de obtener un valor <span class="math inline">\(\hat{\theta}\)</span> al aplicar un estimador <span class="math inline">\(P(\hat{\theta}|\theta)\)</span>. De esta forma, para cada valor verdadero de <span class="math inline">\(\theta\)</span> podemos calcular un intervalo <span class="math inline">\([\hat{\theta}_-, \hat{\theta}_+]\)</span> tal que la probabilidad de obtener el valor medido en ese intervalo es <span class="math inline">\(C\)</span>. Podemos graficar las curvas <span class="math inline">\(\hat{\theta}_-\)</span> y <span class="math inline">\(\hat{\theta}_+\)</span> como funciones de <span class="math inline">\(\theta\)</span>.</p>
+<div id="52178e99" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="5_minimos_cuadrados_intervalos_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Pero ¡No conocemos el valor de <span class="math inline">\(\theta\)</span>! Sólo conocemos el valor medido <span class="math inline">\(\hat{\theta}\)</span>. Entonces lo que podemos hacer es buscar la intersección de la línea vertical <span class="math inline">\(\hat{\theta}\)</span> con <span class="math inline">\(\hat{\theta}_+\)</span> y <span class="math inline">\(\hat{\theta}_-\)</span>. Esto nos dará los valores <span class="math inline">\(\theta_+\)</span> y <span class="math inline">\(\theta_-\)</span> que podemos reportar como los extremos de nuestro intervalo de confianza para el parámetro.</p>
+<div id="dd1d371e" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="5_minimos_cuadrados_intervalos_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>La interpretación es que si repetimos el experimento muchas veces, una fracción <span class="math inline">\(C\)</span> de esas repeticiones contendrá el verdadero valor <span class="math inline">\(\theta\)</span> dentro del intervalo.</p>
+<p>Para una gaussiana, las curvas son líneas rectas, tal que el intervalo a <span class="math inline">\(n\sigma\)</span> tiene una probabilidad <span class="math inline">\(N((\hat{\theta} - \theta)/(n\sigma))\)</span> de contener el verdadero valor. En estos enunciados <span class="math inline">\(\sigma\)</span> se refiere a <span class="math inline">\(\langle(\hat{\theta} - \theta)^2\rangle\)</span>.</p>
+</section>
+<section id="bayesiana-el-invervalo-de-credibilidad" class="level2">
+<h2 class="anchored" data-anchor-id="bayesiana-el-invervalo-de-credibilidad">Bayesiana: El invervalo de credibilidad</h2>
+<p>La interpretación frecuentista tiene la desventaja de no usar información previa. Según la interpretación Bayesiana <em>sí podemos</em> decir frases como “la probabilidad de que la masa del electrón esté en un intervalo es tal”. La definición bayesiana considera la probabilidad como algo subjetivo dada la información disponible, entonces esa frase no se refiere a la probabilidad de que el electrón tenga esa masa si no a cuál es nuestra certidumbre, o “cuánto estamos dispuestos a apostar”.</p>
+<p>Para calcular intervalos de credibilidad bayesianos, calculamos la probabilidad posterior <span class="math display">\[
+f_{post}(\theta|\hat{\theta}) = \frac{L(\hat{\theta}|\theta)f_{prev}(\theta)}{\int d\theta'\,L(\hat{\theta}|\theta)f_{prev}(\theta)}\,.
+\]</span> El intervalo se calcula usando este posterior.</p>
+<p>El problema de la interpretación bayesiana es que no nos dice cómo calcular el prior <span class="math inline">\(f_{prev}\)</span>. Este viene de nuestro conocimiento anterior sobre la cantidad a medir. Pero es algo muy subjetivo. Por ejemplo, si no sabemos nada podríamos asignarle una probabilidad uniforme. Pero si <span class="math inline">\(x\)</span> tiene una distribución uniforme, <span class="math inline">\(\ln x\)</span> tiene una distribución con un exponencial. Entonces si no sabemos nada sobre <span class="math inline">\(x\)</span> pareciera que sabemos algo sobre <span class="math inline">\(\ln x\)</span> ya que no le asignamos la misma probabilidad a todos sus valores, y vice versa. ¿Cuál escoger? Hay algunos criterios que tienen que ver por ejemplo con la entropía, pero el consenso de la comunidad es que ninguno es del todo satisfactorio.</p>
+</section>
+</section>
+<section id="ejercicios-sugeridos" class="level1">
+<h1>Ejercicios Sugeridos</h1>
+<p>8.1, 8.7, 9.1, 9.2, 9.4</p>
 
 
 </section>
