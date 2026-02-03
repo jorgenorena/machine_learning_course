@@ -95,10 +95,24 @@ donde $N$ es el número de puntos de datos.
 Si en cambio queremos saber cuánto están dispersos respecto a este valor, calculamos la varianza
 
 $$
-\sigma^2 = \frac{1}{N}\sum_{i=1}^N (x_i - \bar{x})^2\,.
+s^2 = \frac{1}{N}\sum_{i=1}^N (x_i - \bar{x})^2\,.
 $$
 
-la *desviación estándar* $\sigma$ es la raíz cuadrada de la varianza, y como lo dice su nombre nos dice cuánto se desvía típicamente un dato. 
+la *desviación estándar* $s$ es la raíz cuadrada de la varianza, y como lo dice su nombre nos dice cuánto se desvía típicamente un dato. 
+
+::: {.callout-warning}
+
+Cuando hablamos de varianza y covarianza nos podemos referir a diferentes cantidades:
+
+- La varianza de los datos $s^2$ está dada por la fórmula anterior y nos dice cuál es la dispersión de estos.
+
+- La varianza de una distribución de probabilidad $\sigma^2$ nos dice lo ancha que es es esta. Si esta describe los datos, será igual a $s^2$ para $N \to \infty$.
+
+- La varianza estimada $\hat{\sigma}^2$ es nuestra mejor estimación de $\sigma^2$ para un conjunto de datos. Lo discutiremos dentro de unas clases.
+
+Una diferencia similar ocurre para la covarianza.
+
+:::
 
 A veces cada dato contiene más de una variable. Por ejemplo cuando medimos temperatura y presión de un sistema termodinámico. Una manera de medir la relación entre las variables es mediante su *covarianza*
 
