@@ -1,12 +1,9 @@
 ---
-title: "Testeo de Hipótesis y Entropía"
+title: "Testeo de Hipótesis"
 lang: es
 ---
 
-
-## Testeo de Hipótesis 
-
-### Hipótesis estadísticas
+## Hipótesis estadísticas
 
 Normalmente tenemos una pregunta y queremos usar los datos disponibles para responderla. Ya vimos cómo podemos responder a la pregunta de cuál es el valor de algún parámetro: Usamos un estimador y reportamos un intervalo de confianza. 
 
@@ -45,13 +42,13 @@ Supongamos que obtenemos $8$ caras. La probabilidad de obtener un resultado así
 
 :::
 
-### Tipos de hipótesis
+## Tipos de hipótesis
 
 - Hipótesis simple: Especifica completamente la distribución de probabilidad, **sin dejar parámetros libres**. Por ejemplo: $\mu = 5$ para una distribución normal con varianza conocida. Raras veces se puede formular una hipótesis de esta manera, pero es útil para entender cómo testear hipótesis.
 
 - Hipótesis compuesta: No especifica completamente la distribución de probabilidad. Por ejemplo: $\mu < 5$ para una distribución gaussiana con varianza conocida. Otro ejemplo: Los parámetros medidos son compatibles con mi modelo físico.
 
-### Tipos de errores
+## Tipos de errores
 
 Cuando ponemos una hipótesis a prueba, hay cuatro resultados posibles.
 
@@ -62,7 +59,7 @@ Cuando ponemos una hipótesis a prueba, hay cuatro resultados posibles.
 
 La probabilidad de cometer errores de tipo I se llama **significancia**, normalmente denotada $\alpha$. Al comparar una hipótesis nula con una alternativa, $\alpha$ es la probabilidad de rechazar la hipótesis nula siendo esta verdadera $\alpha = P[R_a | H_0]$.
 
-La probabilidad de rechazar correctamente una hipótesis falsa se llama la **potencia**, denotada por $\beta$. Al comparar una hipótesis nula con una alternativa, $\beta$ es la probabilidad de rechazar la hipótesis nula, siendo esta falsa $\beta = P[R_a | H_0]$. Entonces la probabilidad de cometer un error de tipo II es $1 - P[R_a | H_0] = 1 - \beta$.
+La probabilidad de rechazar correctamente una hipótesis falsa se llama la **potencia**, denotada por $\beta$. Al comparar una hipótesis nula con una alternativa, $\beta$ es la probabilidad de rechazar la hipótesis nula, siendo esta falsa $\beta = P[R_a | H_a]$. Entonces la probabilidad de cometer un error de tipo II es $1 - P[R_a | H_a] = 1 - \beta$.
 
 En un mundo ideal nos gustaría reducir los errores de ambos tipos, es decir $\alpha$ pequeño y $\beta$ alto. Pero normalmente reducir los de tipo I aumenta los de tipo II y vice versa. Ilustremos con un par de imágenes:
 
@@ -180,7 +177,7 @@ Dada una sensitividad $\alpha$ fija, este test es el que tiene menor $\beta$. Es
 ::: {.callout-tip icon=false}
 ## Lema de Neyman-Pearson
 
-La región de exclusión $R_k$ de todos los puntos tal que $\lambda < k$ tal que $\alpha = \int_{R_k} d^nx\,L(\theta_0)$ es la que maximiza $\beta = \int_{R_k}d^nx\,L(\theta_a)$.
+La región de exclusión $R_k$ de todos los puntos tal que $\lambda < k$ dado un $\alpha = \int_{R_k} d^nx\,L(\theta_0)$ es la que maximiza $\beta = \int_{R_k}d^nx\,L(\theta_a)$.
 :::
 
 ::: {.callout-tip icon=false collapse=true}

@@ -111,7 +111,7 @@ $$
 $$
 Ahora invocamos la siguiente identidad
 $$
-\int d^nx\,u \int d^nx\,v \geq \left(\int d^nx uv\right)^2\,,
+\int d^nx\,u^2 \int d^nx\,v^2 \geq \left(\int d^nx uv\right)^2\,,
 $$
 para obtener 
 $$
@@ -239,10 +239,16 @@ $$
 $$
 
 Ahora bien, de la ecuación ([-@eq-valor-esperado-derivada-logL]) sabemos que el valor esperado de $\partial \ln L/\partial \theta$ es cero evaluado en $\theta_*$. Edemás, esta cantidad es la suma de $n$ valores independientes para cada $x_i$, y por el teorema central del límite sabemos que esas sumas van a estar descritas por una gaussiana, con varianza 
+
+$$
 \begin{align}
 \left\langle\left(\frac{\partial \ln L}{\partial a}\right)^2\right\rangle &= \int d^n x \left(\frac{\partial \ln L}{\partial \theta}\right)^2 L = \int d^nx \frac{\partial \ln L}{\partial \theta} \frac{\partial L}{\partial\theta} \\ 
-&= -\int d^nx \frac{\partial^2\ln L}{\partial\theta^2} L = \left\langle-\frac{\partial^2 \ln L}{\partial\theta^2}\right\rangle\,.
+&= -\int d^nx \frac{\partial^2\ln L}{\partial\theta^2} L + \frac{\partial}{\partial\theta} \int d^nx \frac{\partial\ln L}{\partial\theta}L \\
+&= \left\langle-\frac{\partial^2 \ln L}{\partial\theta^2}\right\rangle\,,
 \end{align}
+$$
+
+donde hemos usado el hecho que el segundo término de la penúltima línea es cero por la ecuación ([-@eq-derivative-of-normalization]).
 
 Como $(\hat{\theta} - \theta)$ es proporcional a $\partial \ln L/\partial\theta$, su distribución también estará descrita por una gaussiana con varianza 
 $$

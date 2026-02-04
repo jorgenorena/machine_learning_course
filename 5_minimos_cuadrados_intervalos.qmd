@@ -12,11 +12,11 @@ Supongamos que medimos una cantidad $y$ para cada valor de una variable $x$. Por
 
 En muchos casos no podemos calcular la verosimilitud porque modelar la distribución de probabilidad es extremadamente difícil. Por ejemplo, ¿cuál es la distribución de probabilidad de los precios de los departamentos dada la zona donde se encuentran?
 
-Lo que podemos hacer es minimizar las desviaciones de las predicciones del modelo respecto a los datos. Es decir minimizar el $\chi^2$
+Algo que podemos hacer es minimizar las desviaciones de las predicciones del modelo respecto a los datos. Es decir minimizar el $\chi^2$
 $$
 \chi^2 = \sum_{i=1}^n \left[\frac{y_i - f(x_i;\theta)}{\sigma_i}\right]^2\,.
 $$
-Aquí hemos supuesto que las mediciones $y_i$ son independientes, si no lo son, es necesario considerar la covarianza (ver el libro). Si además suponemos que las mediciones son idénticamente distribuidas, esto es equivalente a minimizar la suma de desviaciones al cuadrado.
+Aquí hemos supuesto que las mediciones $y_i$ son independientes. Si no lo son, es necesario considerar la covarianza (ver el libro). Si además suponemos que las mediciones son idénticamente distribuidas, esto es equivalente a minimizar la suma de desviaciones al cuadrado.
 
 ::: {.callout-tip icon=false}
 
@@ -39,9 +39,9 @@ L = \sum_{i=1}^n(y_i - mx_i)^2\,,
 $$
 donde $L$ será nuestra *función de coste*. Buscando su mínimo 
 $$
-\begin{multline}
-0 = \frac{\partial L}{\partial m} = -2\sum_i x_i(y_i - \hat{m}x_i) \\ = -2\left(\sum_i x_i y_i\right) + 2\hat{m}\left(\sum_i x_i^2\right) \equiv -2n\overline{xy} + 2\hat{m}n\overline{(x^2)}\,,
-\end{multline}
+\begin{align}
+0 &= \frac{\partial L}{\partial m} = -2\sum_i x_i(y_i - \hat{m}x_i) \\ &= -2\left(\sum_i x_i y_i\right) + 2\hat{m}\left(\sum_i x_i^2\right) \equiv -2n\overline{xy} + 2\hat{m}n\overline{(x^2)}\,,
+\end{align}
 $$
 que es fácil de resolver
 $$
@@ -101,6 +101,17 @@ plt.grid(True)
 plt.show()
 ```
 
+::: {.callout-note icon=false}
+
+## Ejemplo 
+
+Supongamos que queremos medir $y = \gamma e^{\alpha x}$, donde nos interesa estimar $\gamma$ y $\alpha$. Esto no parece un modelo lineal pero podemos estimar los parámetros a partir de
+$$
+\ln y = \ln\gamma + \alpha x\,.
+$$
+
+:::
+
 ¿Cómo podemos saber si un modelo con $p$ parámetros es un buen ajuste a los datos? Por ejemplo, puede que la relación entre $x$ e $y$ no sea lineal. La respuesta la daremos en la próxima clase pero en general nos esperamos que $\chi^2$ sea cercano a $d$ donde $d = n - p$ es el número de grados de libertad.
 
 # Ajuste de Mínimos Cuadrados con Varios Parámetros 
@@ -117,17 +128,6 @@ Además supongamos que la función $f(x;\boldsymbol{\theta})$ tiene la forma
 $$
 f(x;\boldsymbol{\theta}) = \sum_{j=1}^p \theta_j\phi(x_j)\,,
 $$
-
-::: {.callout-note icon=false}
-
-## Ejemplo 
-
-Supongamos que queremos medir $y = \gamma e^{\alpha x}$, donde nos interesa estimar $\gamma$ y $\alpha$. Esto no parece un modelo lineal pero podemos estimar los parámetros a partir de
-$$
-\ln y = \ln\gamma + \alpha x\,.
-$$
-
-:::
 
 Entonces 
 $$
@@ -155,7 +155,7 @@ $$
 
 Si definimos $M = (\Phi^TC^{-1}\Phi)^{-1}\Phi^TC^{-1}$. Entonces $\hat{\boldsymbol{\theta}} = M\boldsymbol{y}$. Podemos calcular fácilmente la varianza 
 $$
-\operatorname{Var}(\hat{\boldsymbol{\theta}}) = M\operatorname{Var}(y)M^T = MCM^T = (\Phi^T)C^{-1}\Phi)^{-1}\,.
+\operatorname{Var}(\hat{\boldsymbol{\theta}}) = M\operatorname{Var}(y)M^T = MCM^T = (\Phi^TC^{-1}\Phi)^{-1}\,.
 $$
 
 El problema es para escribir la ecuación normal necesitamos invertir una matriz. Esa matriz resulta difícil de invertir incluso numéricamente en muchos casos. 
@@ -164,7 +164,7 @@ Cuando el modelo no es lineal tenemos que minimizar el $\chi^2$ que será una fu
 
 # Intervalos de Confianza
 
-Ahora queremos empezar a sacar conclusiones a partir de los datos. Una primera conclusión es el valor de alguna cantidad que se quiere medir. 
+Ahora queremos empezar a sacar conclusiones a partir de los datos. Una primera conclusión es medir el valor de algún parámetro físico. Por ejemplo, la masa del electrón. Pero no sólo queremos un número, también queremos una medida de la incertidumbre de esa medición.
 
 Nuestra pregunta es entonces qué quiere decir exactamente si decimos por ejemplo que una medida de la masa del electrón nos da $m = 0.510\pm 0.005\,\text{MeV}$. Uno puede decir intuitivamente que eso signinifca que el electrón tiene una masa que va entre $0.505\,\text{MeV}$ y $0.515\,\text{MeV}$. Pero sabemos que los errores experimentales son enunciados sobre probabilidad, tal que la frase anterior no es lo suficientemente precisa, le falta una probabilidad. La "medición" es un estimador aplicado a los datos, y el "error" tiene que ver con la dispersión de esos datos.
 
