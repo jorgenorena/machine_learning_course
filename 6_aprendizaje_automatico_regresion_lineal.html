@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -185,8 +185,12 @@ window.Quarto = {
  <span class="dropdown-text">5. Mínimos Cuadrados e Intervalos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
- <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+    <a class="dropdown-item" href="./6_testeo_de_hipotesis.html">
+ <span class="dropdown-text">6. Testeo de Hipótesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_entropia.html">
+ <span class="dropdown-text">7. Entropía</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
@@ -308,12 +312,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Verosimilitud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./4_estimacion_verosimilitud.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Verosimilitud y estimación</span></a>
   </div>
@@ -326,8 +324,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  <a href="./6_testeo_de_hipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Testeo de Hipótesis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Entropía</span></a>
   </div>
 </li>
       </ul>
@@ -541,13 +545,13 @@ window.Quarto = {
 <h1>Regresión Lineal</h1>
 <p>Ilustraremos varios de los conceptos anteriores mediante la sencilla regresión lineal. Este tipo de regresión es muy sencilla, pero es computacionalmente barata y muy fácil de interpretar. Por ese motivo fue muy usada antes de la llegada de computadores suficientemente potentes. Nosotros lo estudiamos aquí porque es fácil y nos permite introducir varios conceptos sin el bagaje adicional de un modelo complicado.</p>
 <p>Nos ocuparemos de el siguiente ejemplo: Una compañía quiere saber cómo invertir el dinero de publicidad. Tenemos los datos de gasto publicitario en televisión, radio y periódicos para varios mercados junto con el número de unidades vendidas en cada uno.</p>
-<div id="1917974c" class="cell" data-execution_count="2">
+<div id="4443c606" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Importamos los datos</p>
-<div id="61c696b0" class="cell" data-execution_count="3">
+<div id="2e95945b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>datos_publicidad <span class="op">=</span> pd.read_csv(<span class="st">"data/Advertising.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>datos_publicidad.describe()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -632,7 +636,7 @@ window.Quarto = {
 <p>Primero reducimos el problema a predecir el número de ventas basados en el gasto en televisión. Por lo tanto nuestro modelo es <span class="math display">\[
 f(X) = \beta_0 + \beta_1 X\,,
 \]</span> donde <span class="math inline">\(\beta_1\)</span> es el gasto en televisión. Ya vimos cómo estimar los coeficientes minimizando la suma de errores al cuadrado. Esto ya hace parte de muchas librerías en python.</p>
-<div id="ee208baa" class="cell" data-execution_count="4">
+<div id="aa5b7401" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos </span></span>
@@ -667,7 +671,7 @@ f(X) = \beta_0 + \beta_1 X\,,
 <section id="determinando-la-precisión-de-los-coeficientes" class="level2">
 <h2 class="anchored" data-anchor-id="determinando-la-precisión-de-los-coeficientes">Determinando la precisión de los coeficientes</h2>
 <p>Al escribir el modelo nosotros <em>estimamos</em> los coeficientes. Como se calcularon a partir de los datos, tendrán una varianza. Para verlo repetimos el código de arriba pero usando un subconjunto de los datos.</p>
-<div id="d461260f" class="cell" data-execution_count="5">
+<div id="2c10679b" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>datos_subconjunto_1 <span class="op">=</span> datos_publicidad.sample(frac<span class="op">=</span><span class="fl">0.2</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>datos_subconjunto_2 <span class="op">=</span> datos_publicidad.sample(frac<span class="op">=</span><span class="fl">0.2</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -726,7 +730,7 @@ R^2 = 1 - \frac{\text{RSS}}{\sum (y_i - \bar{y})^2}\,.
 <p>Ahora queremos ajustar un modelo que depende de varias variables de entrada. En nuestro caso son los presupuestos para los diferentes tipos de publicidad. <span class="math display">\[
 f(\vec{X}) = \beta_0 + \beta_1 X_1 + ... + \beta_q X_q\,.
 \]</span> El ajuste de mínimos cuadrados se logra por medio de la ecuación normal como antes. Para tener más control sobre las propiedades estadísticas usamos otra librería de python.</p>
-<div id="d876ae70" class="cell" data-execution_count="6">
+<div id="ad4e968e" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> datos_publicidad.drop(<span class="st">"Sales"</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -744,8 +748,8 @@ f(\vec{X}) = \beta_0 + \beta_1 X_1 + ... + \beta_q X_q\,.
 Dep. Variable:                  Sales   R-squared:                       0.897
 Model:                            OLS   Adj. R-squared:                  0.896
 Method:                 Least Squares   F-statistic:                     570.3
-Date:                Mon, 29 Dec 2025   Prob (F-statistic):           1.58e-96
-Time:                        12:48:04   Log-Likelihood:                -386.18
+Date:                Wed, 04 Feb 2026   Prob (F-statistic):           1.58e-96
+Time:                        13:15:29   Log-Likelihood:                -386.18
 No. Observations:                 200   AIC:                             780.4
 Df Residuals:                     196   BIC:                             793.6
 Df Model:                           3                                         
@@ -787,7 +791,7 @@ f(X) = \beta_0 + \beta_1 X + \beta_2 X^2\,.
 \]</span> Más interesante aún, en el caso de varios predictores podemos incluir términos <strong>de interacción</strong>. En nuestro ejemplo podemos escribir <span class="math display">\[
 f(X) = \beta_0 + \beta_{\text{TV}}X_{\text{TV}} + \beta_{\text{radio}}X_{\text{radio}} + \beta_{\text{TV}\times\text{radio}}X_{\text{TV}}X_{\text{radio}}\,.
 \]</span> Lo que representa este término es que hay un efecto de sinergia entre los dos predictores. El efecto de invertir en televisión depende de si se invierte en radio o no. Veámoslo</p>
-<div id="98db8b16" class="cell" data-execution_count="7">
+<div id="50d91cb1" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> datos_publicidad.drop([<span class="st">"Sales"</span>, <span class="st">"Newspaper"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -806,8 +810,8 @@ f(X) = \beta_0 + \beta_{\text{TV}}X_{\text{TV}} + \beta_{\text{radio}}X_{\text{r
 Dep. Variable:                  Sales   R-squared:                       0.968
 Model:                            OLS   Adj. R-squared:                  0.967
 Method:                 Least Squares   F-statistic:                     1963.
-Date:                Mon, 29 Dec 2025   Prob (F-statistic):          6.68e-146
-Time:                        12:48:04   Log-Likelihood:                -270.14
+Date:                Wed, 04 Feb 2026   Prob (F-statistic):          6.68e-146
+Time:                        13:15:29   Log-Likelihood:                -270.14
 No. Observations:                 200   AIC:                             548.3
 Df Residuals:                     196   BIC:                             561.5
 Df Model:                           3                                         

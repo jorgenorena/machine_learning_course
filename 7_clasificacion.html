@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -185,8 +185,12 @@ window.Quarto = {
  <span class="dropdown-text">5. Mínimos Cuadrados e Intervalos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
- <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+    <a class="dropdown-item" href="./6_testeo_de_hipotesis.html">
+ <span class="dropdown-text">6. Testeo de Hipótesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_entropia.html">
+ <span class="dropdown-text">7. Entropía</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
@@ -308,12 +312,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Verosimilitud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./4_estimacion_verosimilitud.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Verosimilitud y estimación</span></a>
   </div>
@@ -326,8 +324,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  <a href="./6_testeo_de_hipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Testeo de Hipótesis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Entropía</span></a>
   </div>
 </li>
       </ul>
@@ -992,7 +996,7 @@ Figura&nbsp;5
 <p>Lo que hacemos es escribir la <strong>función logística</strong> <span class="math display">\[
 \sigma(x) = \frac{e^{x}}{1 + e^{x}}\,.
 \]</span> Esta funcіón tiende a <span class="math inline">\(0\)</span> cuando <span class="math inline">\(x\rightarrow -\infty\)</span> ya que el numerador se anula, y tiende a <span class="math inline">\(1\)</span> cuando <span class="math inline">\(x\rightarrow \infty\)</span> ya que el exponencial domina en el denominador. Por lo tanto podría representar una probabilidad.</p>
-<div id="6c1603c8" class="cell" data-execution_count="7">
+<div id="b5003b84" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1092,7 +1096,7 @@ f_k(\boldsymbol{x}) = f_{1k}(x_1)...f_{qk}(x_q)\,.
 <section id="un-ejemplo" class="level1">
 <h1>Un Ejemplo</h1>
 <p>Usemos los diferentes clasificadores para estudiar el siguiente problema. Tenemos una serie de datos de una compañía de tarjetas de crédito. Queremos poder predecir si un dado cliente será incapaz de cubrir su deuda. Los datos consisten en el crédito usado, el sueldo y si el cliente es un estudiante o no.</p>
-<div id="91b2bd11" class="cell" data-execution_count="8">
+<div id="f886a7af" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>default <span class="op">=</span> pd.read_csv(<span class="st">"data/default.csv"</span>)</span>
@@ -1153,7 +1157,7 @@ f_k(\boldsymbol{x}) = f_{1k}(x_1)...f_{qk}(x_q)\,.
 </div>
 </div>
 </div>
-<div id="9d4f5dae" class="cell" data-execution_count="9">
+<div id="6e0e1f0e" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>default.describe()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
@@ -1234,7 +1238,7 @@ f_k(\boldsymbol{x}) = f_{1k}(x_1)...f_{qk}(x_q)\,.
 </div>
 <section id="regresión-logística-1" class="level2">
 <h2 class="anchored" data-anchor-id="regresión-logística-1">Regresión logística</h2>
-<div id="72f9fcb5" class="cell" data-execution_count="10">
+<div id="c0517b6d" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> default.drop([<span class="st">'default'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1244,7 +1248,7 @@ f_k(\boldsymbol{x}) = f_{1k}(x_1)...f_{qk}(x_q)\,.
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> logit.fit(X, Y)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Para evaluar los modelos escribiremos una <strong>matriz de confusión</strong> a partir del siguiente código</p>
-<div id="027bff5c" class="cell" data-execution_count="11">
+<div id="6e6785ba" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1354,7 +1358,7 @@ Tabla&nbsp;2: Matriz de confusión para la regresión logística.Con un nivel de
 </div>
 </div>
 <p>Al cambiar el nivel, el número de falsos positivos y negativos cambiará. Mientras mayor el nivel, mayor el número de falsos positivos y menor el de falsos negativos. Esto se puede ver en la llamada <strong>curva ROC</strong></p>
-<div id="0e37fde1" class="cell" data-execution_count="14">
+<div id="a6012a84" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> graficar_curva_roc(y_real, y_pred_proba):</span>
@@ -1399,7 +1403,7 @@ Figura&nbsp;6: Curva ROC para la regresión logística. Se muestra también el �
 <section id="discriminante-lineal-1" class="level2">
 <h2 class="anchored" data-anchor-id="discriminante-lineal-1">Discriminante lineal</h2>
 <p>Este método en general tendrá resultados parecidos a los de la regresión logística ya que ambos son lineales. En general será un método muy potente cuando se cumple la suposición de que todas las clases tienen la misma covarianza.</p>
-<div id="873abef9" class="cell" data-execution_count="16">
+<div id="5907a9cc" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.discriminant_analysis <span class="im">import</span> LinearDiscriminantAnalysis <span class="im">as</span> LDA</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>lda <span class="op">=</span> LDA()</span>
@@ -1461,7 +1465,7 @@ Figura&nbsp;7: Curva ROC para el análisis discriminante lineal.
 <section id="discriminante-cuadrático-1" class="level2">
 <h2 class="anchored" data-anchor-id="discriminante-cuadrático-1">Discriminante cuadrático</h2>
 <p>Este método es más general que el discriminante lineal. Funciona mejor cuando las diferentes categorías tienen covarianzas diferentes. Sin embargo necesita más datos para reducir la varianza de las predicciones.</p>
-<div id="b80b9aba" class="cell" data-execution_count="19">
+<div id="edbe434e" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.discriminant_analysis <span class="im">import</span> QuadraticDiscriminantAnalysis <span class="im">as</span> QDA</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>qda <span class="op">=</span> QDA()</span>
@@ -1523,7 +1527,7 @@ Figura&nbsp;8: Curva ROC para el análisis discriminante cuadrático.
 <section id="bayes-ingenuo-1" class="level2">
 <h2 class="anchored" data-anchor-id="bayes-ingenuo-1">Bayes ingenuo</h2>
 <p>Este método funciona bien cuando se cumple la suposición de que no hay correlación entre los <span class="math inline">\(X\)</span>. Tiene un costo computacional y de datos similar al del discriminante lineal, pero puede ser mejor si se cumple esta suposición ya que admite una varianza diferente en cada clase.</p>
-<div id="23d51538" class="cell" data-execution_count="22">
+<div id="5bcaa768" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> GaussianNB</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>nb <span class="op">=</span> GaussianNB()</span>
@@ -1588,7 +1592,7 @@ Figura&nbsp;9: Curva ROC para el método de Bayes ingenuo.
 <p>Un detalle de estos modelos es que dependen de la distancia entre puntos. Esta distancia en general depende de las unidades en las que se mide. Por ejemplo si una columna de datos de propiedades está en centímetros cuadrados y otra en millones de pesos, el modelo creerá que una diferencia de diez mil centímetros cuadrados (un metro cuadrado) es igual de importante que una diferencia de diez mil millones de pesos. Por eso se acostumbra reescalar todos los valores a que tengan un valor en el rango <span class="math inline">\([0,1]\)</span> antes de entrenar el modelo.</p>
 <section id="k-1" class="level3">
 <h3 class="anchored" data-anchor-id="k-1"><span class="math inline">\(k = 1\)</span></h3>
-<div id="5d645242" class="cell" data-execution_count="25">
+<div id="afdad527" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1603,7 +1607,7 @@ Figura&nbsp;9: Curva ROC para el método de Bayes ingenuo.
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> (y_pred_proba <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(y_verdad, y_pred)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/home/jnorena/machine_learning_course/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2684: UserWarning: X has feature names, but KNeighborsClassifier was fitted without feature names
+<pre><code>/home/jorge/Dropbox/Academic_2026/Teaching/nn_course/machine_learning_course/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2684: UserWarning: X has feature names, but KNeighborsClassifier was fitted without feature names
   warnings.warn(</code></pre>
 </div>
 <div id="tbl-knn1-confusion" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="26">
@@ -1657,7 +1661,7 @@ Figura&nbsp;10: Curva ROC para el método de los <span class="math inline">\(k\)
 </section>
 <section id="k-30" class="level3">
 <h3 class="anchored" data-anchor-id="k-30"><span class="math inline">\(k = 30\)</span></h3>
-<div id="6edaf869" class="cell" data-execution_count="28">
+<div id="e8ca1079" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1672,7 +1676,7 @@ Figura&nbsp;10: Curva ROC para el método de los <span class="math inline">\(k\)
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> (y_pred_proba <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>matriz_confusion_binaria(y_verdad, y_pred)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/home/jnorena/machine_learning_course/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2684: UserWarning: X has feature names, but KNeighborsClassifier was fitted without feature names
+<pre><code>/home/jorge/Dropbox/Academic_2026/Teaching/nn_course/machine_learning_course/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2684: UserWarning: X has feature names, but KNeighborsClassifier was fitted without feature names
   warnings.warn(</code></pre>
 </div>
 <div id="tbl-knn30-confusion" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="29">

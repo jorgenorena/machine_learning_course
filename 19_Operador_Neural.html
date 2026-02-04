@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -182,8 +182,12 @@ window.Quarto = {
  <span class="dropdown-text">5. Mínimos Cuadrados e Intervalos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
- <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+    <a class="dropdown-item" href="./6_testeo_de_hipotesis.html">
+ <span class="dropdown-text">6. Testeo de Hipótesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_entropia.html">
+ <span class="dropdown-text">7. Entropía</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
@@ -305,12 +309,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Verosimilitud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./4_estimacion_verosimilitud.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Verosimilitud y estimación</span></a>
   </div>
@@ -323,8 +321,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  <a href="./6_testeo_de_hipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Testeo de Hipótesis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Entropía</span></a>
   </div>
 </li>
       </ul>
@@ -528,7 +532,7 @@ u(t,x) = \frac{1}{2}\Big[\,f(x - c\,t) + f(x + c\,t)\Big] +
 <section id="generación-de-datos" class="level2">
 <h2 class="anchored" data-anchor-id="generación-de-datos">1. Generación de Datos</h2>
 <p>Primero, establecemos los parámetros del problema y creamos un conjunto de datos. Elegimos una cuadrícula espacial de tamaño <span class="math inline">\(N=100\)</span> (puntos en <span class="math inline">\([0,1]\)</span>), consideramos <span class="math inline">\(c=1\)</span> y un tiempo final <span class="math inline">\(T=0.25\)</span>. Generamos funciones de desplazamiento inicial aleatorio <span class="math inline">\(f(x)\)</span> superponiendo algunos modos de Fourier aleatorios para obtener funciones suaves y periódicas. Luego calculamos el correspondiente <span class="math inline">\(u(T,x)\)</span> usando la solución analítica. Esto nos da pares <span class="math inline">\((f, u_T)\)</span> para entrenamiento.</p>
-<div id="d1fbcb56" class="cell" data-execution_count="2">
+<div id="1d5c2ce5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parametros</span></span>
@@ -581,7 +585,7 @@ u(t,x) = \frac{1}{2}\Big[\,f(x - c\,t) + f(x + c\,t)\Big] +
 <section id="definición-del-modelo-de-operador-neuronal" class="level2">
 <h2 class="anchored" data-anchor-id="definición-del-modelo-de-operador-neuronal">2. Definición del Modelo de Operador Neuronal</h2>
 <p>Usaremos una <em>red neuronal totalmente conectada</em>. Esta red toma un vector de longitud <span class="math inline">\(N\)</span> (la condición inicial discretizada <span class="math inline">\(f\)</span>) y produce un vector de longitud <span class="math inline">\(N\)</span> (la solución predicha <span class="math inline">\(u_T\)</span>). Aunque es esencialmente una red estándar (sin imponer estructura especial de operador), aún puede aprender el mapeo de <span class="math inline">\(f\)</span> a <span class="math inline">\(u_T\)</span> dada suficiente capacidad y datos. Modelos más sofisticados podrían usar convoluciones o compartir pesos para aprovechar simetrías, pero aquí usamos este enfoque básico por claridad.</p>
-<div id="094229df" class="cell" data-execution_count="3">
+<div id="6bbc89ce" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> OperadorNeuronal1D(nn.Module):</span>
@@ -603,7 +607,7 @@ u(t,x) = \frac{1}{2}\Big[\,f(x - c\,t) + f(x + c\,t)\Big] +
 <section id="entrenamiento-del-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="entrenamiento-del-modelo">3. Entrenamiento del Modelo</h2>
 <p>Entrenamos el operador neuronal usando el error cuadrático medio (MSE) entre la salida de la red y la solución verdadera <span class="math inline">\(u_T(x)\)</span>, mediante descenso de gradiente (optimizador Adam). En cada época hacemos una pasada completa sobre los datos (por simplicidad, no usamos minibatches aquí, pero podría hacerse).</p>
-<div id="dc8196d1" class="cell" data-execution_count="4">
+<div id="07b41b16" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Funcion de perdida y optimizador</span></span>
@@ -623,12 +627,16 @@ u(t,x) = \frac{1}{2}\Big[\,f(x - c\,t) + f(x + c\,t)\Big] +
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Imprimir progreso ocasionalmente</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> epoca <span class="op">%</span> <span class="dv">100</span> <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Epoca </span><span class="sc">{</span>epoca<span class="sc">}</span><span class="ss">: perdida de entrenamiento = </span><span class="sc">{</span>perdida<span class="sc">.</span>item()<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/jorge/Dropbox/Academic_2026/Teaching/nn_course/machine_learning_course/.venv/lib/python3.13/site-packages/torch/autograd/graph.py:841: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 804: forward compatibility was attempted on non supported HW (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Epoca 0: perdida de entrenamiento = 0.335672
-Epoca 100: perdida de entrenamiento = 0.001228
-Epoca 200: perdida de entrenamiento = 0.000407
-Epoca 300: perdida de entrenamiento = 0.000203
-Epoca 400: perdida de entrenamiento = 0.000127</code></pre>
+<pre><code>Epoca 0: perdida de entrenamiento = 0.338339
+Epoca 100: perdida de entrenamiento = 0.001286
+Epoca 200: perdida de entrenamiento = 0.000427
+Epoca 300: perdida de entrenamiento = 0.000210
+Epoca 400: perdida de entrenamiento = 0.000126</code></pre>
 </div>
 </div>
 <p>Corremos, por ejemplo, 500 épocas. Cada 100 épocas imprimimos la pérdida para monitorear el avance.</p>
@@ -636,20 +644,20 @@ Epoca 400: perdida de entrenamiento = 0.000127</code></pre>
 <section id="prueba-del-operador-aprendido" class="level2">
 <h2 class="anchored" data-anchor-id="prueba-del-operador-aprendido">4. Prueba del Operador Aprendido</h2>
 <p>Tras entrenar, evaluamos el modelo sobre condiciones iniciales de prueba no vistas. Calculamos el error relativo para ver cuán bien se aprendió el operador y comparamos visualmente para un ejemplo.</p>
-<div id="afa0ea77" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar en datos de prueba</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>modelo.<span class="bu">eval</span>()  <span class="co"># modo evaluacion</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># elegir un indice del conjunto de prueba</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    f0 <span class="op">=</span> prueba_x_t[k]         <span class="co"># condicion inicial</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    solucion_verdadera <span class="op">=</span> prueba_y_t[k]    <span class="co"># solucion exacta en T</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    prediccion_u <span class="op">=</span> modelo(f0.unsqueeze(<span class="dv">0</span>)).squeeze(<span class="dv">0</span>)  <span class="co"># agregar dimension batch</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular error relativo L2</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> torch.norm(prediccion_u <span class="op">-</span> solucion_verdadera) <span class="op">/</span> torch.norm(solucion_verdadera)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Error relativo L2 en muestra de prueba </span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>error<span class="sc">.</span>item()<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="600d7211" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar en datos de prueba</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>modelo.<span class="bu">eval</span>()  <span class="co"># modo evaluacion</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># elegir un indice del conjunto de prueba</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    f0 <span class="op">=</span> prueba_x_t[k]         <span class="co"># condicion inicial</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    solucion_verdadera <span class="op">=</span> prueba_y_t[k]    <span class="co"># solucion exacta en T</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    prediccion_u <span class="op">=</span> modelo(f0.unsqueeze(<span class="dv">0</span>)).squeeze(<span class="dv">0</span>)  <span class="co"># agregar dimension batch</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular error relativo L2</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> torch.norm(prediccion_u <span class="op">-</span> solucion_verdadera) <span class="op">/</span> torch.norm(solucion_verdadera)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Error relativo L2 en muestra de prueba </span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>error<span class="sc">.</span>item()<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Error relativo L2 en muestra de prueba 0: 0.0513</code></pre>
+<pre><code>Error relativo L2 en muestra de prueba 0: 0.0159</code></pre>
 </div>
 </div>
 <p>En este ejemplo 1D, el problema era fácil – el operador era un promedio de desplazamientos lineales, y la red lo aprende rápidamente. En escenarios más complejos (EDPs no lineales, más dimensiones, etc.), se requerirían arquitecturas más avanzadas y conjuntos de datos más grandes, pero el flujo de trabajo sería análogo: simular muchas instancias del sistema, entrenar una red para mapear entradas a salidas, y luego usar el modelo entrenado para predicciones rápidas.</p>

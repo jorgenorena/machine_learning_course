@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -182,8 +182,12 @@ window.Quarto = {
  <span class="dropdown-text">5. Mínimos Cuadrados e Intervalos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
- <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+    <a class="dropdown-item" href="./6_testeo_de_hipotesis.html">
+ <span class="dropdown-text">6. Testeo de Hipótesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_entropia.html">
+ <span class="dropdown-text">7. Entropía</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
@@ -305,12 +309,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Verosimilitud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./4_estimacion_verosimilitud.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Verosimilitud y estimación</span></a>
   </div>
@@ -323,8 +321,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  <a href="./6_testeo_de_hipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Testeo de Hipótesis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Entropía</span></a>
   </div>
 </li>
       </ul>
@@ -578,7 +582,7 @@ Teorema central del límite
 </section>
 <section id="ejemplo" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo">Ejemplo</h2>
-<div id="244788c6" class="cell" data-execution_count="2">
+<div id="5b4f724b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -623,7 +627,7 @@ Teorema central del límite
 P(\chi^2) \propto P(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
 \]</span> Sin embargo al ajustar <span class="math inline">\(m\)</span> parámetros imponemos <span class="math inline">\(m\)</span> condiciones sobre la región considerada, una por cada derivada parcial que fijamos a cero, tal que <span class="math inline">\(N\)</span> debe ser en realidad el <em>número de grados de libertad</em> dado por <strong>el número de datos menos el número de parámetros</strong>.</p>
 <p>Nos falta solo una normalización para que la integral sea uno. Los expertos reconocerán la función gama.</p>
-<div id="a1fd4926" class="cell" data-execution_count="3">
+<div id="6a528a38" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chi2(x, n):</span>
@@ -655,7 +659,7 @@ u = \frac{\bar{x} - \mu}{\sigma}\,,
 \]</span> esta sigue una distribución Gaussiana con media cero y varianza uno. Si estimamos la varianza, escribimos <span class="math display">\[
 t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{n}}\,.
 \]</span> Para <span class="math inline">\(n\)</span> grande, <span class="math inline">\(t\)</span> resulta que también sigue una Gaussiana. Pero para <span class="math inline">\(n\)</span> pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.</p>
-<div id="da8f969b" class="cell" data-execution_count="4">
+<div id="c87b65f4" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Código producido por ChatGPT 4o con el siguiente prompt:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "Produce una serie de gráficos en python usando la distribución t de Student </span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y comparándola con la distribución normal. Comentarios y nombres de variables</span></span>

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Testeo de Hipótesis y Entropía – Aprendizaje Automático para Físicos</title>
+<title>Testeo de Hipótesis – Aprendizaje Automático para Físicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -182,8 +182,12 @@ window.Quarto = {
  <span class="dropdown-text">5. Mínimos Cuadrados e Intervalos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
- <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+    <a class="dropdown-item" href="./6_testeo_de_hipotesis.html">
+ <span class="dropdown-text">6. Testeo de Hipótesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_entropia.html">
+ <span class="dropdown-text">7. Entropía</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
@@ -264,7 +268,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./5_testeo_de_hipotesis_entropia.html">5. Testeo de Hipótesis y Entropía</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./6_testeo_de_hipotesis.html">6. Testeo de Hipótesis</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -305,12 +309,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Verosimilitud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./4_estimacion_verosimilitud.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Verosimilitud y estimación</span></a>
   </div>
@@ -323,8 +321,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  <a href="./6_testeo_de_hipotesis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">6. Testeo de Hipótesis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Entropía</span></a>
   </div>
 </li>
       </ul>
@@ -456,35 +460,25 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#testeo-de-hipótesis" id="toc-testeo-de-hipótesis" class="nav-link active" data-scroll-target="#testeo-de-hipótesis">Testeo de Hipótesis</a>
-  <ul class="collapse">
-  <li><a href="#hipótesis-estadísticas" id="toc-hipótesis-estadísticas" class="nav-link" data-scroll-target="#hipótesis-estadísticas">Hipótesis estadísticas</a></li>
+  <li><a href="#hipótesis-estadísticas" id="toc-hipótesis-estadísticas" class="nav-link active" data-scroll-target="#hipótesis-estadísticas">Hipótesis estadísticas</a></li>
   <li><a href="#tipos-de-hipótesis" id="toc-tipos-de-hipótesis" class="nav-link" data-scroll-target="#tipos-de-hipótesis">Tipos de hipótesis</a></li>
   <li><a href="#tipos-de-errores" id="toc-tipos-de-errores" class="nav-link" data-scroll-target="#tipos-de-errores">Tipos de errores</a></li>
-  </ul></li>
   <li><a href="#test-de-neyman-pearson" id="toc-test-de-neyman-pearson" class="nav-link" data-scroll-target="#test-de-neyman-pearson">Test de Neyman-Pearson</a>
   <ul class="collapse">
   <li><a href="#dos-hipótesis-simples" id="toc-dos-hipótesis-simples" class="nav-link" data-scroll-target="#dos-hipótesis-simples">Dos hipótesis simples</a></li>
   <li><a href="#hipótesis-compuestas" id="toc-hipótesis-compuestas" class="nav-link" data-scroll-target="#hipótesis-compuestas">Hipótesis compuestas</a></li>
   </ul></li>
   <li><a href="#bondad-de-ajuste" id="toc-bondad-de-ajuste" class="nav-link" data-scroll-target="#bondad-de-ajuste">Bondad de Ajuste</a></li>
-  <li><a href="#información-y-entropía-de-shannon" id="toc-información-y-entropía-de-shannon" class="nav-link" data-scroll-target="#información-y-entropía-de-shannon">Información y entropía de Shannon</a></li>
-  <li><a href="#el-teorema-de-canal-sin-ruido-de-shannon" id="toc-el-teorema-de-canal-sin-ruido-de-shannon" class="nav-link" data-scroll-target="#el-teorema-de-canal-sin-ruido-de-shannon">El teorema de canal sin ruido de Shannon</a>
-  <ul class="collapse">
-  <li><a href="#el-teorema-original" id="toc-el-teorema-original" class="nav-link" data-scroll-target="#el-teorema-original">El teorema original</a></li>
-  <li><a href="#un-par-de-consideraciones-intuitivas" id="toc-un-par-de-consideraciones-intuitivas" class="nav-link" data-scroll-target="#un-par-de-consideraciones-intuitivas">Un par de consideraciones intuitivas</a></li>
-  <li><a href="#un-ejemplo-de-compresión" id="toc-un-ejemplo-de-compresión" class="nav-link" data-scroll-target="#un-ejemplo-de-compresión">Un ejemplo de compresión</a></li>
-  </ul></li>
-  <li><a href="#ejercicios-sugeridos-para-la-prueba" id="toc-ejercicios-sugeridos-para-la-prueba" class="nav-link" data-scroll-target="#ejercicios-sugeridos-para-la-prueba">Ejercicios sugeridos para la prueba</a></li>
+  <li><a href="#ejercicios-sugeridos" id="toc-ejercicios-sugeridos" class="nav-link" data-scroll-target="#ejercicios-sugeridos">Ejercicios sugeridos</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./5_testeo_de_hipotesis_entropia.html">5. Testeo de Hipótesis y Entropía</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_probabilidad.html">Probabilidad y Estadística</a></li><li class="breadcrumb-item"><a href="./6_testeo_de_hipotesis.html">6. Testeo de Hipótesis</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Testeo de Hipótesis y Entropía</h1>
+<h1 class="title">Testeo de Hipótesis</h1>
 </div>
 
 
@@ -501,8 +495,6 @@ window.Quarto = {
 </header>
 
 
-<section id="testeo-de-hipótesis" class="level1">
-<h1>Testeo de Hipótesis</h1>
 <section id="hipótesis-estadísticas" class="level2">
 <h2 class="anchored" data-anchor-id="hipótesis-estadísticas">Hipótesis estadísticas</h2>
 <p>Normalmente tenemos una pregunta y queremos usar los datos disponibles para responderla. Ya vimos cómo podemos responder a la pregunta de cuál es el valor de algún parámetro: Usamos un estimador y reportamos un intervalo de confianza.</p>
@@ -554,14 +546,14 @@ P(10) = P(0) \approx 0.001\,,\quad P(9) = P(1) \approx 0.010\,,\quad P(8) = P(2)
 <li>La hipótesis es falsa y la aceptamos. Esto se llama <strong>error de tipo II</strong> o falso positivo.</li>
 </ul>
 <p>La probabilidad de cometer errores de tipo I se llama <strong>significancia</strong>, normalmente denotada <span class="math inline">\(\alpha\)</span>. Al comparar una hipótesis nula con una alternativa, <span class="math inline">\(\alpha\)</span> es la probabilidad de rechazar la hipótesis nula siendo esta verdadera <span class="math inline">\(\alpha = P[R_a | H_0]\)</span>.</p>
-<p>La probabilidad de rechazar correctamente una hipótesis falsa se llama la <strong>potencia</strong>, denotada por <span class="math inline">\(\beta\)</span>. Al comparar una hipótesis nula con una alternativa, <span class="math inline">\(\beta\)</span> es la probabilidad de rechazar la hipótesis nula, siendo esta falsa <span class="math inline">\(\beta = P[R_a | H_0]\)</span>. Entonces la probabilidad de cometer un error de tipo II es <span class="math inline">\(1 - P[R_a | H_0] = 1 - \beta\)</span>.</p>
+<p>La probabilidad de rechazar correctamente una hipótesis falsa se llama la <strong>potencia</strong>, denotada por <span class="math inline">\(\beta\)</span>. Al comparar una hipótesis nula con una alternativa, <span class="math inline">\(\beta\)</span> es la probabilidad de rechazar la hipótesis nula, siendo esta falsa <span class="math inline">\(\beta = P[R_a | H_a]\)</span>. Entonces la probabilidad de cometer un error de tipo II es <span class="math inline">\(1 - P[R_a | H_a] = 1 - \beta\)</span>.</p>
 <p>En un mundo ideal nos gustaría reducir los errores de ambos tipos, es decir <span class="math inline">\(\alpha\)</span> pequeño y <span class="math inline">\(\beta\)</span> alto. Pero normalmente reducir los de tipo I aumenta los de tipo II y vice versa. Ilustremos con un par de imágenes:</p>
 <div id="cell-fig-small-significance" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-small-significance" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-small-significance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="5_testeo_de_hipotesis_entropia_files/figure-html/fig-small-significance-output-1.png" class="img-fluid figure-img">
+<img src="6_testeo_de_hipotesis_files/figure-html/fig-small-significance-output-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-small-significance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;1: Baja probabilidad de rechazar equivocadamente la hipótesis nula.
@@ -576,7 +568,7 @@ Figura&nbsp;1: Baja probabilidad de rechazar equivocadamente la hipótesis nula.
 <div id="fig-high-power" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-high-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="5_testeo_de_hipotesis_entropia_files/figure-html/fig-high-power-output-1.png" class="img-fluid figure-img">
+<img src="6_testeo_de_hipotesis_files/figure-html/fig-high-power-output-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-high-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;2: Baja probabilidad de no rechazar equivocadamente <span class="math inline">\(H_0\)</span>.
@@ -587,11 +579,10 @@ Figura&nbsp;2: Baja probabilidad de no rechazar equivocadamente <span class="mat
 </div>
 <p>En la <a href="#fig-high-power" class="quarto-xref">Figura&nbsp;2</a> tenemos el ejemplo contrario. Ahora la probabilidad de no rechazar erróneamente la hipótesis nula es baja. Es decir, podemos “detectar” más fácilmente el nuevo fenómeno, pero si la hipótesis nula es la correcta, corremos más riesgo de rechazarla.</p>
 </section>
-</section>
-<section id="test-de-neyman-pearson" class="level1">
-<h1>Test de Neyman-Pearson</h1>
-<section id="dos-hipótesis-simples" class="level2">
-<h2 class="anchored" data-anchor-id="dos-hipótesis-simples">Dos hipótesis simples</h2>
+<section id="test-de-neyman-pearson" class="level2">
+<h2 class="anchored" data-anchor-id="test-de-neyman-pearson">Test de Neyman-Pearson</h2>
+<section id="dos-hipótesis-simples" class="level3">
+<h3 class="anchored" data-anchor-id="dos-hipótesis-simples">Dos hipótesis simples</h3>
 <p>Supongamos que la hipótesis nula es que algún conjunto de parámetros que determinan la distribución de probabilidad toma el valor <span class="math inline">\(\boldsymbol{\theta}_0\)</span> y la alternativa que toman el valor <span class="math inline">\(\boldsymbol{\theta}_a\)</span>. En este caso existe un test óptimo. Escogemos la región de exclusión como todos aquellos puntos para los cuales <span class="math display">\[
 \lambda \equiv \frac{L(\boldsymbol{\theta}_0)}{L(\boldsymbol{\theta}_a)}
 \]</span> toma un valor menor que algún valor crítico <span class="math inline">\(\lambda\)</span>.</p>
@@ -606,7 +597,7 @@ Lema de Neyman-Pearson
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>La región de exclusión <span class="math inline">\(R_k\)</span> de todos los puntos tal que <span class="math inline">\(\lambda &lt; k\)</span> tal que <span class="math inline">\(\alpha = \int_{R_k} d^nx\,L(\theta_0)\)</span> es la que maximiza <span class="math inline">\(\beta = \int_{R_k}d^nx\,L(\theta_a)\)</span>.</p>
+<p>La región de exclusión <span class="math inline">\(R_k\)</span> de todos los puntos tal que <span class="math inline">\(\lambda &lt; k\)</span> dado un <span class="math inline">\(\alpha = \int_{R_k} d^nx\,L(\theta_0)\)</span> es la que maximiza <span class="math inline">\(\beta = \int_{R_k}d^nx\,L(\theta_a)\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -650,15 +641,15 @@ Ejemplo
 </div>
 </div>
 </section>
-<section id="hipótesis-compuestas" class="level2">
-<h2 class="anchored" data-anchor-id="hipótesis-compuestas">Hipótesis compuestas</h2>
+<section id="hipótesis-compuestas" class="level3">
+<h3 class="anchored" data-anchor-id="hipótesis-compuestas">Hipótesis compuestas</h3>
 <p>Cuando las hipótesis son compuestas no tenemos un test con las propiedades del de Neyman-Pearson. Sin embargo podemos definir algo análogo usando la máxima verosimilitud. Es decir, tomamos <span class="math inline">\(\lambda = L(\hat{R}_0)/L(\hat{S})\)</span> donde <span class="math inline">\(L(\hat{R}_0)\)</span> es el valor máximo que toma la verosimilitud en la región que respeta la hipótesis nula, y <span class="math inline">\(L(\hat{S})\)</span> es el valor máximo que toma la verosimilitud en la unión de las regiones de la hipótesis nula y la alternativa.</p>
 <p>En la práctica hacer esto nos da un test que es razonablemente potente. Además tiene buenas propiedades cuando el número de datos <span class="math inline">\(n\)</span> es grande. En particular, suponga que la hipótesis nula es que los <span class="math inline">\(k\)</span> parámetros de un modelo toman valores <span class="math inline">\(\boldsymbol{\theta} = \boldsymbol{\theta}_0\)</span> y la hipótesis alternativa es simplemente <span class="math inline">\(\boldsymbol{\theta} \neq \boldsymbol{\theta}_0\)</span>. Entonces si <span class="math inline">\(H_0\)</span> es verdadera, la variable <span class="math inline">\(-2\ln\lambda\)</span> tiene una distribución aproximadamente <span class="math inline">\(\chi^2\)</span> con <span class="math inline">\(k\)</span> grados de libertad para <span class="math inline">\(n\)</span> grande.</p>
 <p>La probabilidad de obtener un valor observado de los datos bajo la hipótesis nula igual o más extremo que un cierto nivel <span class="math inline">\(p\)</span> se lo llama el “valor-<span class="math inline">\(p\)</span>” (<span class="math inline">\(p\)</span>-value). Este es igual a <span class="math inline">\(\alpha\)</span> cuando se toma la región de exclusión como la región en las colas de la distribución de probabilidad.</p>
 </section>
 </section>
-<section id="bondad-de-ajuste" class="level1">
-<h1>Bondad de Ajuste</h1>
+<section id="bondad-de-ajuste" class="level2">
+<h2 class="anchored" data-anchor-id="bondad-de-ajuste">Bondad de Ajuste</h2>
 <p>Es un tipo de testeo de hipótesis. Nuestra hipótesis nula es que los datos están bien descritos por un modelo (el ajuste es bueno) tal que las diferencias entre los datos y las predicciones son fluctuaciones estadísticas. La hipótesis alternativa es que no lo están.</p>
 <p>Si la distribución es aproximadamente gaussiana, y las mediciones no son independientes, podemos calcular <span class="math display">\[
 \chi^2 = \sum_{i=1}^n \frac{(y_i - f(x_i))^2}{\sigma_i^2}\,,
@@ -670,7 +661,7 @@ Ejemplo
 \]</span></p>
 <p>Este test se usa mucho en la práctica. Se puede escribir una versión discreta, dividida por subintervalos, etc.</p>
 <p>Hay muchos otros métodos de comparación de modelos, testeo de hipótesis y bondad de ajuste. Como este no es un curso de estadística no los describiremos aquí y recomendamos que el lector se refiera a los libros sugeridos.</p>
-<div id="70cea1b7" class="cell" data-execution_count="4">
+<div id="0e8fec83" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -712,203 +703,20 @@ Ejemplo
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="5_testeo_de_hipotesis_entropia_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="6_testeo_de_hipotesis_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>El ajuste polinomial de grado 1 tiene chi-cuadrado = 69.28
-El ajuste polinomial de grado 2 tiene chi-cuadrado = 22.51
-El ajuste polinomial de grado 8 tiene chi-cuadrado = 13.32</code></pre>
+<pre><code>El ajuste polinomial de grado 1 tiene chi-cuadrado = 51.42
+El ajuste polinomial de grado 2 tiene chi-cuadrado = 12.64
+El ajuste polinomial de grado 8 tiene chi-cuadrado = 9.30</code></pre>
 </div>
 </div>
 </section>
-<section id="información-y-entropía-de-shannon" class="level1">
-<h1>Información y entropía de Shannon</h1>
-<p>¿Cuánta información se obtiene cuando se sabe que ocurrió un evento de probabilidad <span class="math inline">\(p\)</span>? <span class="math display">\[
--\log p
-\]</span> La base del logaritmo no es importante es mera convención. Si uno es físico le gusta el logaritmo natural, si uno es informático le gusta base 2, si uno en cambio es una persona normal le gusta base 10. Pero no es muy importante. Simplemente definimos un “bit de información” como <span class="math inline">\(\log 2\)</span> en la base dada.</p>
-<p>Por ejemplo: Suponga que se tiran tres monedas y se obtiene “cara, sello, cara”. Este evento tiene probabilidad <span class="math inline">\(1/2^3\)</span> y entonces se obtuvo una cantidad de información igual a <span class="math display">\[
--\log\left(\frac{1}{2^3}\right) = 3\log 2
-\]</span></p>
-<p>La justificación del enunciado anterior es que queremos que la información sea:</p>
-<ul>
-<li><p>Positiva para <span class="math inline">\(p &gt; 0\)</span>.</p></li>
-<li><p>Decreciente <span class="math inline">\(I(p) &gt; I(q)\)</span> para <span class="math inline">\(p &lt; q\)</span>: Si ocurre un evento de baja probabilidad queremos decir que obtuvimos mucha información y vice versa.</p></li>
-<li><p>Aditiva <span class="math inline">\(I(pq) = I(p) + I(q)\)</span>: La información de la combinación de dos eventos independientes es la suma de las informaciones.</p></li>
-</ul>
-<p>Resulta que la única función que cumple estas tres condiciones es el logaritmo.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Ejemplo
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Ahora supongamos que tenemos una moneda pesada tal que <span class="math inline">\(2/3\)</span> de las veces sale cara mientras <span class="math inline">\(1/3\)</span> de las veces sale sello.</p>
-<p>Si sale cara obtuvimos <span class="math inline">\(-\log 2/3\)</span> de información mientras si sale sello obtuvimos <span class="math inline">\(-\log 1/3\)</span>.</p>
-<p>La información promedio obtenida en cada lanzamiento de la moneda es <span class="math display">\[
--\frac{2}{3} \log \frac{2}{3} - \frac{1}{3} \log \frac{1}{3}\,.
-\]</span></p>
-<p>Esta es la <strong>entropía de Shannon</strong> de este sistema.</p>
-</div>
-</div>
-<p>Ahora supongamos que tenemos una moneda pesada tal que <span class="math inline">\(2/3\)</span> de las veces sale cara mientras <span class="math inline">\(1/3\)</span> de las veces sale sello.</p>
-<p>Si sale cara obtuvimos <span class="math inline">\(-\log 2/3\)</span> de información mientras si sale sello obtuvimos <span class="math inline">\(-\log 1/3\)</span>.</p>
-<p>La información promedio obtenida en cada lanzamiento de la moneda es <span class="math display">\[
--\frac{2}{3} \log \frac{2}{3} - \frac{1}{3} \log \frac{1}{3}\,.
-\]</span></p>
-<p>Esta es la <strong>entropía de Shannon</strong> de este sistema.</p>
-<div id="e1bfd5cb" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ps <span class="op">=</span> np.linspace(<span class="fl">0.0001</span>, <span class="fl">0.9999</span>, <span class="dv">100</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="op">-</span>ps<span class="op">*</span>np.log(ps) <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> ps)<span class="op">*</span>np.log(<span class="dv">1</span> <span class="op">-</span> ps)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.plot(ps, h)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="5_testeo_de_hipotesis_entropia_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Para dos eventos con probabilidades <span class="math inline">\(p\)</span> y <span class="math inline">\(1 - p\)</span> la entropía es máxima cuando <span class="math inline">\(p=1/2\)</span>. Es mínima cuando <span class="math inline">\(p=1\)</span> o <span class="math inline">\(p=0\)</span> (cuando sabemos todo y no ganamos información con la ocurrencia de un evento).</p>
-<p>En general para <span class="math inline">\(n\)</span> eventos queremos encontrar el mínimo y el máximo de la entropía. Es decir los extremos de <span class="math display">\[
-H = -\sum_i p_i \log p_i\,,
-\]</span> sujetos a la condición <span class="math inline">\(\sum_i p_i = 1\)</span>. Para lograrlo fijamos <span class="math inline">\(p_1 = 1 - \sum_{j = 2}^n p_i\)</span> y calculamos la derivada respecto a <span class="math inline">\(p_i\)</span> con <span class="math inline">\(i \neq 1\)</span> <span class="math display">\[
-\frac{\partial}{\partial p_i} H = -\log p_i - 1 + \log p_1 + 1 = -\log \frac{p_i}{p_1}
-\]</span> Esto es cero cuando <span class="math inline">\(\frac{p_i}{p_1} = 1\)</span>, es decir cuando todas las probabilidades son iguales <span class="math inline">\(p_i = 1/n\)</span>. De hecho este punto es un máximo.</p>
-<p>Esta definición se puede generalizar a una variable continua, definimos la entropía de Gibbs como <span class="math display">\[
-H = -\int dx\, \rho(x) \log \rho(x)\,.
-\]</span></p>
-<p>Esta entropía tiene el defecto de que puede ser negativa y no es invariante bajo cambios de variables, a diferencia del caso discreto.</p>
-<p>La interpretación de esto depende del contexto.</p>
-</section>
-<section id="el-teorema-de-canal-sin-ruido-de-shannon" class="level1">
-<h1>El teorema de canal sin ruido de Shannon</h1>
-<section id="el-teorema-original" class="level2">
-<h2 class="anchored" data-anchor-id="el-teorema-original">El teorema original</h2>
-<p>Shannon era un informático (más apropiadamente un científico de la información) que introdujo su concepto de entropía para demostrar un teorema sobre comunicaciones en redes.</p>
-<p>La pregunta es cuánto podemos comprimir la información producida por un computador para enviarla de manera eficiente a otro computador. Todos hemos usado archivos .zip. La pregunta es cuánto podemos comprimir una serie de bits.</p>
-<p>Definimos la compresión como un mapa <span class="math inline">\(C^n\)</span> entre las posibles secuencias <span class="math inline">\((x_1,...,x_n)\)</span> y una cadena de bits de longitud <span class="math inline">\(nR\)</span>. Entonces la <em>razón de compresión</em> de este mapa es <span class="math inline">\(R\)</span>.</p>
-<p>La descompresión del mensjae es un mapa <span class="math inline">\(D^n\)</span> que toma una cadena de bits de longitud <span class="math inline">\(nR\)</span> y produce <span class="math inline">\((x_1,...,x_n)\)</span>.</p>
-<p>Un mecanismo de compresión y descompresión es <em>confiable</em> si <span class="math inline">\(D^n(C^n(x)) = x\)</span> con probabilidad <span class="math inline">\(1\)</span> cuando <span class="math inline">\(n\)</span> tiende a infinito.</p>
-<p>El teorema dice (asumiendo que el logaritmo en la definición de <span class="math inline">\(H\)</span> es base <span class="math inline">\(2\)</span>)</p>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Teorema del canal sin ruido de Shannon
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Suponga que <span class="math inline">\(X_i\)</span> es una serie de variables i.i.d (independientes e idénticamente distribuidas) sacadas de una distribución discreta de probabilidad con entropía <span class="math inline">\(H(X)\)</span>. Sea <span class="math inline">\(R &gt; H\)</span>, entonces existe un mecanismo de compresión confiable con razón de compresión <span class="math inline">\(R\)</span>. Por el contrario sea <span class="math inline">\(R &lt; H\)</span>, entonces no existe un tal mecanismo confiable.</p>
-</div>
-</div>
-<p>Lamentablemente no tenemos el tiempo necesario para introducir los conceptos previos necesarios para demostrar este teorema.</p>
-</section>
-<section id="un-par-de-consideraciones-intuitivas" class="level2">
-<h2 class="anchored" data-anchor-id="un-par-de-consideraciones-intuitivas">Un par de consideraciones intuitivas</h2>
-<p>Consideremos una fuente que sólo produce la letra “c”. Esta fuente no contiene alguna información, no necesitamos comprimir nada.</p>
-<p>Ahora supongamos que unos días la fuente produce la palabra “azul” y otros días la fuente produce la palabra “rojo”. En este caso podemos representar la palabra “azul” con 0 y la palabra rojo con “1”. De hecho la entropía es <span class="math inline">\(1\)</span>, necesitamos un solo bit.</p>
-<p>En el otro extremo, supongamos que la fuente produce una cadena completamente aleatoria de “1” y “0” de longitud <span class="math inline">\(n\)</span>. No tenemos manera de comprimirla si es completamente aleatoria, la entropía es <span class="math display">\[
-H = -n\sum_{i=0}^1 \frac{1}{2}\log\frac{1}{2} = n\,,
-\]</span> y necesitamos todos los <span class="math inline">\(n\)</span> bits. Esta cadena tiene la máxima cantidad de información, no se puede comprimir.</p>
-<p>Aquí vemos que la estadística de la fuente es importante, por eso la información está relacionada con la estadísitica.</p>
-<p>Ahora pensemos en una fuente que transmite un mensaje en español. Resulta que los 33 caracteres del español no ocurren con igual probabilidad, las vocales son mucho más probables. Igualmente para las palabras, algunas palabras son más comunes. Idem para las parejas de palabras o frases.</p>
-<p>Para acercarnos a ese caso, ahora pensemos en una cadena de “0” y “1” tal que el “1” aparece con probabilidad <span class="math inline">\(0.8\)</span>. Una tal cadena es <span class="math display">\[
-111101110101111
-\]</span> Parecería que no podemos comprimir esta cadena, después de todo para el cero necesitamos el símbolo “0” y para el uno necesitamos el símbolo “1”. Esto parecería contradecir la intuición que hemos construído de entropía <span class="math display">\[
-H = -n\left(0.8\log 0.8 + 0.2 \log 0.2\right) \approx 0.5n\,.
-\]</span> Pero en realidad podemos tomar cadenas de caracteres, por ejemplo de cinco caracteres. Las cinco cadenas “11110”, “11101”, “11011”, “10111”, “01111” ocurren con mucha más frecuencia que las otras, tal que podemos usar un par de bits para representarlas en vez de cinco. Jugando de esta manera nos podemos acercar a comprimir esos mensajes por un <span class="math inline">\(50\%\)</span>.</p>
-</section>
-<section id="un-ejemplo-de-compresión" class="level2">
-<h2 class="anchored" data-anchor-id="un-ejemplo-de-compresión">Un ejemplo de compresión</h2>
-<p>Ahora supongamos que tenemos un alfabeto de 8 caracteres que queremos comprimir, llamémoslos <span class="math inline">\(\{1,2,3,4,5,6,7,8\}\)</span>. De forma ingenua podemos representar cada caracter con 3 bits. ¿Podemos comprimirlo?</p>
-<p>Si los 8 caracteres ocurren con igual probabilidad <span class="math inline">\(1/8\)</span> no podemos hacer mucho <span class="math display">\[
-H = -n\sum \frac{1}{8}\log\frac{1}{8} = n\log 8 = 3n\,.
-\]</span> Es decir, necesitamos <span class="math inline">\(3n\)</span> bits para representar un mensaje de longitud <span class="math inline">\(n\)</span>.</p>
-<p>Pero si ocurren con probabilidad diferente, podemos hacer algo mejor. Supongamos que las probabilidades son <span class="math display">\[
-\begin{multline}
-\{p_1 = 0.5, p_2 = 0.3, p_3 = 0.1, p_4 = 0.05, \\ p_5 = 0.025, p_6 = 0.0125, p_7 = 0.0065, p_8 = 0.006\}\,.
-\end{multline}
-\]</span> Entonces un esquema debido a Fano consiste en:</p>
-<ol type="1">
-<li>Ordenar las probabilidades de forma decreciente (como ya hemos hecho)</li>
-<li>Dividir en dos conjuntos que tengan aproximadamente la misma probabilidad. Para nosotros serán <span class="math display">\[
-\{0.5\}\,,\quad \{0.3, 0.1, 0.05, 0.025, 0.0125, 0.0065, 0.006\}\,.
-\]</span></li>
-<li>Los caracteres del primer conjunto se representan con el dígito <span class="math inline">\(0\)</span>, los del segundo con el dígito <span class="math inline">\(1\)</span>. <span class="math display">\[
-\begin{multline}
-r(0) = 1\,,\quad r(1) = \{p_2 = 0.3, p_3 = 0.1, p_4 = 0.05, \\ p_5 = 0.025, p_6 = 0.0125, p_7 = 0.0065, p_8 = 0.006\}\,,
-\end{multline}
-\]</span></li>
-<li>Repetimos hasta terminar <span class="math display">\[
-\begin{multline}
-r(0) = 1\,,\quad r(10) = 2\,,\quad r(11) = \{p_3 = 0.1, p_4 = 0.05, \\p_5 = 0.025, p_6 = 0.0125, p_7 = 0.0065, p_8 = 0.006\}\,,
-\end{multline}
-\]</span> <span class="math display">\[
-\begin{multline}
-r(0) = 1\,,\quad r(10) = 2\,,\quad r(110) = \{p_3 = 0.1, p_4 = 0.05\}\,,\\ \quad r(111) = \{p_5 = 0.025, p_6 = 0.0125, p_7 = 0.0065, p_8 = 0.006\}\,,
-\end{multline}
-\]</span> <span class="math display">\[
-\begin{multline}
-r(0) = 1\,,\quad r(10) = 2\,,\quad r(1100) = 3\,,\quad r(1101)= 4\,,\\ \quad r(1110) = 5\,,\quad r(1111) = \{p_6 = 0.0125, p_7 = 0.0065, p_8 = 0.006\}\,,
-\end{multline}
-\]</span> <span class="math display">\[
-\begin{multline}
-r(0) = 1\,,\quad r(10) = 2\,,\quad r(1100) = 3\,,\quad r(1101)= 4\,,\\ \quad r(1110) = 5\,,\quad r(11110) = 6\,,\quad r(11111) = \{p_7 = 0.0065, p_8 = 0.006\}\,,
-\end{multline}
-\]</span> <span class="math display">\[
-\begin{multline}
-r(0) = 1\,,\quad r(10) = 2\,,\quad r(1100) = 3\,,\quad r(1101)= 4\,,\\ \quad r(1110) = 5\,,\quad r(11110) = 6\,,\quad r(111110) = 7\,,\quad r(111111) = 8\,.
-\end{multline}
-\]</span> Es verdad que los símbolos menos probables son representados por más de 3 bits. Pero en promedio un mensaje tendrá longitud</li>
-</ol>
-<div id="aaf3381f" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.5</span><span class="op">*</span><span class="dv">1</span><span class="op">+</span><span class="fl">0.3</span><span class="op">*</span><span class="dv">2</span><span class="op">+</span><span class="fl">0.1</span><span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="fl">0.05</span><span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="fl">0.025</span><span class="op">*</span><span class="dv">4</span><span class="op">+</span><span class="fl">0.0125</span><span class="op">*</span><span class="dv">5</span><span class="op">+</span><span class="fl">0.0065</span><span class="op">*</span><span class="dv">6</span><span class="op">+</span><span class="fl">0.006</span><span class="op">*</span><span class="dv">6</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>1.7875000000000003</code></pre>
-</div>
-</div>
-<p>Comparemos con el valor de la entropía y veamos que se acerca.</p>
-<div id="b239cf69" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>np.log(<span class="fl">0.5</span>)<span class="op">-</span><span class="fl">0.3</span><span class="op">*</span>np.log(<span class="fl">0.3</span>)<span class="op">-</span><span class="fl">0.1</span><span class="op">*</span>np.log(<span class="fl">0.1</span>)<span class="op">-</span><span class="fl">0.05</span><span class="op">*</span>np.log(<span class="fl">0.05</span>)<span class="op">\</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span><span class="fl">0.025</span><span class="op">*</span>np.log(<span class="fl">0.025</span>)<span class="op">-</span><span class="fl">0.0125</span><span class="op">*</span>np.log(<span class="fl">0.0125</span>)<span class="op">\</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span><span class="fl">0.0065</span><span class="op">*</span>np.log(<span class="fl">0.0065</span>)<span class="op">-</span><span class="fl">0.006</span><span class="op">*</span>np.log(<span class="fl">0.006</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>np.float64(1.2982375438631775)</code></pre>
-</div>
-</div>
-<p>En general, aplicando un esquema como el que vimos la longitud de cada caracter será aproximadamente <span class="math inline">\(-\lceil\log p\rceil\)</span> y como este ocurre con frecuencia <span class="math inline">\(p\)</span>, la longitud promedio de un mensaje en bits será cercana a la entropía <span class="math display">\[
--n\sum_i p_i\lceil\log p_i\rceil\,.
-\]</span></p>
-</section>
-</section>
-<section id="ejercicios-sugeridos-para-la-prueba" class="level1">
-<h1>Ejercicios sugeridos para la prueba</h1>
-<p>10.1, 10.3, 11.1</p>
-<ul>
-<li><p>Si dos variables aleatorias son independientes, demuestre que <span class="math inline">\(H(x, y) = H(x) + H(y)\)</span>. En general demuestre que <span class="math inline">\(H(x) \leq H(x, y)\)</span>.</p></li>
-<li><p>Considere una variable aleatoria <span class="math inline">\(x\)</span> que puede tomar valores enteros con probabilidades <span class="math inline">\(p_i\)</span>. Suponga que a priori conocemos sólo la varianza de <span class="math inline">\(x\)</span> y que su media es cero. Calcule la distribución de probabilidad de <span class="math inline">\(x\)</span> basándose en el principio de máxima entropía.</p></li>
-<li><p>La entropía de Shannon de una distribución discreta que tiene absoluta certeza de obtener un resultado dado es cero.</p>
-<p>En el continuo es un poco más complicado. Considere la siguiente función de densidad de probabilidad <span class="math display">\[
-\rho(x) = \begin{cases} \frac{1}{L} &amp; -L/2 \leq x \leq L/2 \\ 0 &amp; x &lt; -L/2\quad\text{o}\quad x &gt; L/2 \end{cases}
-\]</span></p>
-<ol type="1">
-<li>Calcule la entropía de Shannon de esta distribución de probabilidad.</li>
-<li>Tome el límite <span class="math inline">\(L \rightarrow 0\)</span> en el cual esta distribución tiende a una delta de Dirac.</li>
-<li>En el límite anterior estamos absolutamente seguros de que la variable tiene el valor <span class="math inline">\(0\)</span>. ¿Por qué la entropía no nos da igual a cero? De una interpretación de este hecho más allá del simple hecho que la fórmula para el continuo es diferente.</li>
-</ol></li>
-</ul>
+<section id="ejercicios-sugeridos" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-sugeridos">Ejercicios sugeridos</h2>
+<p>10.1, 10.3, 10.5, 10.6, 11.1</p>
 
 
 </section>

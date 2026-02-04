@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e13f217ceb0135cb77e1494052e28e8a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -148,8 +148,12 @@ window.Quarto = {
  <span class="dropdown-text">5. Mínimos Cuadrados e Intervalos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./5_testeo_de_hipotesis_entropia.html">
- <span class="dropdown-text">5. Testeo de Hipótesis y Entropía</span></a>
+    <a class="dropdown-item" href="./6_testeo_de_hipotesis.html">
+ <span class="dropdown-text">6. Testeo de Hipótesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_entropia.html">
+ <span class="dropdown-text">7. Entropía</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
@@ -271,12 +275,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_verosimilitud.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Verosimilitud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./4_estimacion_verosimilitud.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">4. Verosimilitud y estimación</span></a>
   </div>
@@ -289,8 +287,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_testeo_de_hipotesis_entropia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5. Testeo de Hipótesis y Entropía</span></a>
+  <a href="./6_testeo_de_hipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Testeo de Hipótesis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Entropía</span></a>
   </div>
 </li>
       </ul>
@@ -527,7 +531,7 @@ L(\theta) = f(x_1,...,x_n|\theta) = \prod_{i=1}^n f(x_i;\theta)\,,
 \tag{4}\]</span></span> Multiplicando la ecuación (<a href="#eq-derivative-of-normalization" class="quarto-xref">3</a>) por <span class="math inline">\(\theta\)</span> y restando la ecuación (<a href="#eq-derivative-of-expectation" class="quarto-xref">2</a>) obtenemos <span class="math display">\[
 \int d^nx\,(\hat{\theta} - \theta)\frac{\partial\ln L}{\partial\theta}L = 1\,.
 \]</span> Ahora invocamos la siguiente identidad <span class="math display">\[
-\int d^nx\,u \int d^nx\,v \geq \left(\int d^nx uv\right)^2\,,
+\int d^nx\,u^2 \int d^nx\,v^2 \geq \left(\int d^nx uv\right)^2\,,
 \]</span> para obtener <span class="math display">\[
 \left(\int d^nx (\hat{\theta} - \theta)^2 L\right)\left(\int d^nx\,(d\ln L/d\theta)^2 L\right) \geq 1\,.
 \]</span> Esto lo reescribimos de la siguiente manera:</p>
@@ -636,10 +640,15 @@ f(x_i; \mu, \theta) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x_i - \mu)^2/2\sigma^2}\,.
 \]</span> Como nos esperamos estar cerca del verdadero valor para une muestra grande, podemos aproximar el lado izquierdo con una expansión de Taylor <span class="math display">\[
 \left.\frac{\partial \ln L}{\partial \theta}\right|_{\theta = \theta_*} + (\hat{\theta} - \theta_*)\left.\frac{\partial^2 \ln L}{\partial\theta^2}\right|_{\theta = \theta_*} = 0\,.
 \]</span></p>
-<p>Ahora bien, de la ecuación (<a href="#eq-valor-esperado-derivada-logL" class="quarto-xref">4</a>) sabemos que el valor esperado de <span class="math inline">\(\partial \ln L/\partial \theta\)</span> es cero evaluado en <span class="math inline">\(\theta_*\)</span>. Edemás, esta cantidad es la suma de <span class="math inline">\(n\)</span> valores independientes para cada <span class="math inline">\(x_i\)</span>, y por el teorema central del límite sabemos que esas sumas van a estar descritas por una gaussiana, con varianza <span class="math display">\[\begin{align}
+<p>Ahora bien, de la ecuación (<a href="#eq-valor-esperado-derivada-logL" class="quarto-xref">4</a>) sabemos que el valor esperado de <span class="math inline">\(\partial \ln L/\partial \theta\)</span> es cero evaluado en <span class="math inline">\(\theta_*\)</span>. Edemás, esta cantidad es la suma de <span class="math inline">\(n\)</span> valores independientes para cada <span class="math inline">\(x_i\)</span>, y por el teorema central del límite sabemos que esas sumas van a estar descritas por una gaussiana, con varianza</p>
+<p><span class="math display">\[
+\begin{align}
 \left\langle\left(\frac{\partial \ln L}{\partial a}\right)^2\right\rangle &amp;= \int d^n x \left(\frac{\partial \ln L}{\partial \theta}\right)^2 L = \int d^nx \frac{\partial \ln L}{\partial \theta} \frac{\partial L}{\partial\theta} \\
-&amp;= -\int d^nx \frac{\partial^2\ln L}{\partial\theta^2} L = \left\langle-\frac{\partial^2 \ln L}{\partial\theta^2}\right\rangle\,.
-\end{align}\]</span></p>
+&amp;= -\int d^nx \frac{\partial^2\ln L}{\partial\theta^2} L + \frac{\partial}{\partial\theta} \int d^nx \frac{\partial\ln L}{\partial\theta}L \\
+&amp;= \left\langle-\frac{\partial^2 \ln L}{\partial\theta^2}\right\rangle\,,
+\end{align}
+\]</span></p>
+<p>donde hemos usado el hecho que el segundo término de la penúltima línea es cero por la ecuación (<a href="#eq-derivative-of-normalization" class="quarto-xref">3</a>).</p>
 <p>Como <span class="math inline">\((\hat{\theta} - \theta)\)</span> es proporcional a <span class="math inline">\(\partial \ln L/\partial\theta\)</span>, su distribución también estará descrita por una gaussiana con varianza <span class="math display">\[
 \left\langle(\hat{\theta} - \theta)^2\right\rangle = -\left.\left\langle\frac{\partial^2\ln L}{\partial \theta^2}\right\rangle\right/\left(\left.\frac{\partial^2 \ln L}{\partial\theta^2}\right|_{\theta=\theta_*}\right)^2
 \]</span> Además para <span class="math inline">\(n\)</span> grande el valor esperado tiende al verdadero valor tal que el numerador cancela una potencia del denominador. Por lo tanto tenemos <span class="math display">\[
