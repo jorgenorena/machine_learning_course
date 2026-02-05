@@ -24,7 +24,7 @@ Aquí hemos supuesto que las mediciones $y_i$ son independientes. Si no lo son, 
 
 El **estimador de mínimos cuadrados** es el valor de $\theta$ que minimiza esta suma de desviaciones al cuadrado 
 $$
-\hat{\theta} = \underset{\theta}{\operatorname{argmax}}\sum_{i=1}^n\left[y_i -f(x_i;\theta)\right]^2\,.
+\hat{\theta} = \underset{\theta}{\operatorname{argmax}}\sum_{i=1}^N\left[y_i -f(x_i;\theta)\right]^2\,.
 $$
 
 :::
@@ -35,7 +35,7 @@ Cuando la verosimilitud es una distribución normal la minimización de los mín
 
 El ejemplo más sencillo es cuando $y = mx$ y queremos encontrar $m$. Nuestra suma de mínimos cuadrados es 
 $$
-L = \sum_{i=1}^n(y_i - mx_i)^2\,,
+L = \sum_{i=1}^N(y_i - mx_i)^2\,,
 $$
 donde $L$ será nuestra *función de coste*. Buscando su mínimo 
 $$
@@ -48,9 +48,9 @@ $$
 \hat{m} = \frac{\overline{xy}}{\overline{(x^2)}}\,.
 $$
 
-Podemos además calcular la varianza de este estimador (asumiendo que los $x_i$ son fijos y no tienen error). Para eso escribimos el estimador en la forma $\hat{m} = \sum\left(x_i/n\overline{(x^2)}\right)y_i$ y entonces la varianza es
+Podemos además calcular la varianza de este estimador (asumiendo que los $x_i$ son fijos y no tienen error). Para eso escribimos el estimador en la forma $\hat{m} = \sum\left(x_i/N\overline{(x^2)}\right)y_i$ y entonces la varianza es
 $$
-\operatorname{Var}(\hat{m}) = \left(\frac{1}{n\overline{(x^2)}}\sum_i x_i\right)^2 \operatorname{Var}(y) = \left(\frac{\bar{x}}{\overline{(x^2)}}\right)^2\frac{\sigma^2}{n}\,.
+\operatorname{Var}(\hat{m}) = \left(\frac{1}{N\overline{(x^2)}}\sum_i x_i\right)^2 \operatorname{Var}(y) = \left(\frac{\bar{x}}{\overline{(x^2)}}\right)^2\frac{\sigma^2}{N}\,.
 $$
 
 Cuando el modelo es $y = mx + a$ y queremos encontrar $m$ y $a$, debemos minimizar la suma de cuadrados respecto a ambos parámetros. El álgebra es más complicada pero muy similar a lo hecho arriba, el resultado es
@@ -59,7 +59,7 @@ $$
 $$
 Estos tienen varianza *y covarianza*
 $$
-\sigma^2_m = \frac{\sigma^2}{n(\overline{(x^2)} - \bar{x}^2)}\,,\quad \sigma^2_a = \frac{\sigma^2\overline{(x^2)}}{N(\overline{(x^2)} - \bar{x}^2)}\,,\quad \sigma_{ma} = -\frac{\sigma^2\bar{x}}{n(\overline{(x^2)} - \bar{x}^2)}\,.
+\sigma^2_m = \frac{\sigma^2}{N(\overline{(x^2)} - \bar{x}^2)}\,,\quad \sigma^2_a = \frac{\sigma^2\overline{(x^2)}}{N(\overline{(x^2)} - \bar{x}^2)}\,,\quad \sigma_{ma} = -\frac{\sigma^2\bar{x}}{N(\overline{(x^2)} - \bar{x}^2)}\,.
 $$
 Aprendemos que en general cuando estimamos varios parámetros de los mismos datos, estos estarán correlacionados.
 
@@ -172,7 +172,7 @@ Muchas veces, sobre todo para distribuciones gaussianas, se usa la desviación e
 
 Para distribuciones no gaussianas necesitamos algo más general. Por eso escogemos un *nivel de confianza* $C$ y escogemos un intervalo $[\theta_-, \theta_+]$ tal que
 $$
-P[\theta_- \leq \theta \leq \theta_+] = \int_{x_-}^{x_+} dx\,f(x) = C\,.
+P[\theta_- \leq \theta \leq \theta_+] = \int_{x_-}^{x_+} dx\,\rho(x) = C\,.
 $$
 Pero los extremos del intervalo no son únicos, puede haber muchos intervalos cuya integral da la misma probabilidad. Hay tres maneras de definirlos (y todas tres se usan en la práctica)
 

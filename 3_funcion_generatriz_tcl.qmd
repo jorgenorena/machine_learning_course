@@ -98,7 +98,7 @@ $$
 $$
 por lo tanto
 $$
-p(y) = \frac{1}{\sqrt{2\pi}\sigma}e^{-y^2/2\sigma^2}\,.
+\rho(y) = \frac{1}{\sqrt{2\pi}\sigma}e^{-y^2/2\sigma^2}\,.
 $$
 
 Podemos relajar las condiciones de que las variables sean independientes e idénticamente distribuidas. Lo que necesitamos en realidad es que todos los cumulantes caigan lo suficientemente rápido 
@@ -163,7 +163,7 @@ $$
 $$
 Si todos los errores son gaussianos, la probabilidad de obtener un cierto valor de $\chi^2$ es proporcional a $e^{-\chi^2/2}$ y además hay que integrar sobre todos los puntos que tienen un mismo valor de $\chi$ que forman una esfera, lo que nos da algo proporcional a $\chi^{N - 1}e^{-\chi^2/2}$, donde $N$ es el número de datos. Pero además necesitamos la probabilidad de $\chi^2$ tal que
 $$
-P(\chi^2) \propto P(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
+\rho(\chi^2) \propto \rho(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
 $$
 Sin embargo al ajustar $m$ parámetros imponemos $m$ condiciones sobre la región considerada, una por cada derivada parcial que fijamos a cero, tal que $N$ debe ser en realidad el *número de grados de libertad* dado por **el número de datos menos el número de parámetros**.
 

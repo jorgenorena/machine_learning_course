@@ -74,7 +74,7 @@ Esto es cero cuando $\frac{p_i}{p_1} = 1$, es decir cuando todas las probabilida
 
 Esta definición se puede generalizar a una variable continua, definimos la entropía de Gibbs como
 $$
-H = -\int dx\, \rho(x) \log f(x)\,.
+H = -\int dx\, \rho(x) \log \rho(x)\,.
 $$
 
 Esta entropía tiene el defecto de que puede ser negativa y no es invariante bajo cambios de variables, a diferencia del caso discreto. 

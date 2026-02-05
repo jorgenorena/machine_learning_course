@@ -9,13 +9,13 @@ Definimos variables **independientes e idénticamente distribuídas (i.i.d.)** c
 
 Para nosotros una **muestra aleatoria** será un conjunto de variables i.i.d. Esto modela el repetir un experimento u observación muchas veces. Como son i.i.d. su distribución conjunta se escribe 
 $$
-f(x_1, ..., x_N) = f(x_1)...f(x_N)\,,
+\rho(x_1, ..., x_N) = \rho(x_1)...\rho(x_N)\,,
 $$
-para alguna distribución $f(x)$.
+para alguna distribución $\rho(x)$.
 
 ## Propiedades de estimadores
 
-Muchas veces desconocemos la forma exacta de $f(x)$ pero tenemos un modelo para producirla. Ese modelo puede depender de unos parámetros libres (masas de partículas, varianzas, algún parámetro experimental, ...) $\mathbf{\theta} = (\theta_1, ..., \theta_p)$. Queremos sacar el valor de esos parámetros a partir de los datos. Nuestra aproximación a ese valor usando los datos se llama un **estimador** $\hat{\theta}_N$, que depende del número de datos tomados $N$.
+Muchas veces desconocemos la forma exacta de $\rho(x)$ pero tenemos un modelo para producirla. Ese modelo puede depender de unos parámetros libres (masas de partículas, varianzas, algún parámetro experimental, ...) $\mathbf{\theta} = (\theta_1, ..., \theta_p)$. Queremos sacar el valor de esos parámetros a partir de los datos. Nuestra aproximación a ese valor usando los datos se llama un **estimador** $\hat{\theta}_N$, que depende del número de datos tomados $N$.
 
 Puede haber muchos estimadores diferentes, dependiendo del método usado. Discutamos cómo podemos evaluar si un estimador es bueno y en qué sentido lo puede ser.
 
@@ -79,9 +79,9 @@ Para ir de la segunda a la tercera igualdad hemos usado el hecho que todos los t
 
 ## La Función de Verosimilitud 
 
-Supongamos que la distribución $f(x;\theta)$ de una medición depende de un solo parámetro $\theta$. La función de verosimilitud la habíamos definido como la probabilidad de obtener las observaciones $x_1,...,x_N$ dado un valor de $\theta$
+Supongamos que la distribución $\rho(x;\theta)$ de una medición depende de un solo parámetro $\theta$. La función de verosimilitud la habíamos definido como la probabilidad de obtener las observaciones $x_1,...,x_N$ dado un valor de $\theta$
 $$
-L(\theta) = f(x_1,...,x_N|\theta) = \prod_{i=1}^N f(x_i;\theta)\,,
+L(\theta) = \rho(x_1,...,x_N|\theta) = \prod_{i=1}^N \rho(x_i;\theta)\,,
 $$
 donde hemos usado el hecho que las muestra es independiente.
 
@@ -177,7 +177,7 @@ En general los estimadores de máxima verosimilitud son sesgados como veremos co
 
 Consideremos una distribución gaussiana de la cual deconocemos la media y la varianza. Es decir 
 $$
-f(x_i; \mu, \theta) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x_i - \mu)^2/2\sigma^2}\,.
+\rho(x_i; \mu, \theta) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x_i - \mu)^2/2\sigma^2}\,.
 $$
 Busquemos el estimador de máxima verosimilitud para $\mu$ y $\sigma$ a partir de una muestra $\{x_i\}$.
 
@@ -207,9 +207,9 @@ Entonces, ¿por qué usar estimadores de máxima verosimilitud? Es porque tienen
 
 ### Invarianza de estimadores de máxima verosimilitud
 
-Supongamos que tenemos un estimador para $\theta$, pero para el problema que queremos resolver nos interesa más una función $F(\theta)$. En general $\hat{F}(\theta) \neq F(\hat{\theta})$ tal que tenemos que calcular el estimador de la función. 
+Supongamos que tenemos un estimador para $\theta$, pero para el problema que queremos resolver nos interesa más una función $g(\theta)$. En general $\hat{g}(\theta) \neq g(\hat{\theta})$ tal que tenemos que calcular el estimador de la función. 
 
-Esto sí se cumple cuando usamos el estimador de máxima verosimilitud, ya que el punto donde $L$ es máximo es el mismo independientemente de si lo escribimos en función de $\theta$ o de $F(\theta)$.
+Esto sí se cumple cuando usamos el estimador de máxima verosimilitud, ya que el punto donde $L$ es máximo es el mismo independientemente de si lo escribimos en función de $\theta$ o de $g(\theta)$.
 
 ### Cota de mínima varianza del estimador de máxima verosimilitud
 

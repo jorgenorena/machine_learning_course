@@ -8,44 +8,44 @@ Hablamos de **variables aleatorias** como variables que pueden tomar un valor al
 
 ### Distribuciones de probabilidad 
 
-Consideremos primero una variable discreta. Decimos que la variable $x$ tiene una probabilidad $P[x_k]$ de tomar el valor $x_k$. Este valor está dado por una **distribución de probabilidad**. Es decir una función $f$ tal que
+Consideremos primero una variable discreta. Decimos que la variable $x$ tiene una probabilidad $P[x_k]$ de tomar el valor $x_k$. Este valor está dado por una **distribución de probabilidad**. Es decir una función $p$ tal que
 $$
-P[x_k] = f(x_k)\,.
+P[x_k] = p(x_k)\,.
 $$
 Esta cumple
 
-- $f$ es univaluada y $f(x) \geq 0$.
-- La probabilidad total es $1$, es decir $\sum_i f(x_i) = 1$.
+- $p$ es univaluada y $p(x) \geq 0$.
+- La probabilidad total es $1$, es decir $\sum_i p(x_i) = 1$.
 
 Definimos también la **distribución cumulativa de probabilidad** 
 $$
-F(x) = \sum_{x_k \leq x} f(x_k)\,.
+F(x) = \sum_{x_k \leq x} p(x_k)\,.
 $$
 Es decir, es la probabilidad de obtener un valor menor a $x$.
 
-Para variables que toman valores continuos, la probabilidad de un valor dado tiende a cero (como hay infinitos valores, la probabilidad de cada uno debe ser minúscula para que su suma sea $1$). Por ese motivo no hablamos de una distribución de probabilidad sino de una **función de densidad de probabilidad** $f(x)$ tal que la probabilidad de obtener un resultado en el intervalo $[a,b]$ es
+Para variables que toman valores continuos, la probabilidad de un valor dado tiende a cero (como hay infinitos valores, la probabilidad de cada uno debe ser minúscula para que su suma sea $1$). Por ese motivo no hablamos de una distribución de probabilidad sino de una **función de densidad de probabilidad** $\rho(x)$ tal que la probabilidad de obtener un resultado en el intervalo $[a,b]$ es
 $$
-P[a \leq x \leq b] = \int_a^bdx\,f(x)\,.
+P[a \leq x \leq b] = \int_a^bdx\,\rho(x)\,.
 $$
 Esta cumple
 
-- $f$ es univaluada y $f(x) \geq 0$.
-- La probabilidad total es $1$, es decir $\int_{-\infty}^\infty dx\,f(x) = 1$.
+- $\rho$ es univaluada y $\rho(x) \geq 0$.
+- La probabilidad total es $1$, es decir $\int_{-\infty}^\infty dx\,\rho(x) = 1$.
 
 Análogamente definimos la distribución cumulativa de probabilidad
 $$
-F(x) = \int_{-\infty}^x dx'\,f(x')\,.
+F(x) = \int_{-\infty}^x dx'\,\rho(x')\,.
 $$
 
 ### Valores esperados
 
 Definimos el **valor esperado** de una variable discreta como
 $$
-\langle x\rangle \equiv \sum_x xf(x)\,.
+\langle x\rangle \equiv \sum_x xp(x)\,.
 $$
 Para una variable continua
 $$
-\langle x\rangle \equiv \int_{-\infty}^\infty dx\,xf(x)\,.
+\langle x\rangle \equiv \int_{-\infty}^\infty dx\,x\rho(x)\,.
 $$
 
 De esta manera los **momentos** son
@@ -72,32 +72,32 @@ $$
 
 Si tenemos varias variables aleatorias, las definiciones son muy análogas. Por ejemplo, la **distribución de probabilidad conjunta**
 $$
-P[a_1\leq x_1 \leq b_1, ..., a_n \leq x_n \leq b_n] \equiv \int_{a_n}^{b_n}...\int_{a_1}^{b_1}\prod_{i=1}^n dx_i\, f(x_1, ..., x_n)\,.
+P[a_1\leq x_1 \leq b_1, ..., a_n \leq x_n \leq b_n] \equiv \int_{a_n}^{b_n}...\int_{a_1}^{b_1}\prod_{i=1}^n dx_i\, \rho(x_1, ..., x_n)\,.
 $$
 
 ### Distribución marginal y condicional
 
 Si nos preguntamos cuál es el valor de una variable, independientemente del valor que tomen todas las demás, sólo tenemos que sumar sobre todos los valores de las demás variables. Esta se llama la **distribución marginal**
 $$
-f^M(x_1) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=2}^n dx_i\,f(x_1, x_2, ..., x_n)\,.
+\rho^M(x_1) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=2}^n dx_i\,\rho(x_1, x_2, ..., x_n)\,.
 $$
 Análogamente, si queremos la probabilidad conjunta para algunas variables, marginalizamos sobre todas las demás 
 $$
-f^M(x_1, ..., x_m) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=m+1}^n dx_i\,f(x_1, x_2, ..., x_n)\,.
-$$
+\rho^M(x_1, ..., x_m) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=m+1}^n dx_i\,\rho(x_1, x_2, ..., x_n)\,.
+$$}
 
 Una pregunta distinta, es si *fijamos* el valor de las demás variables y nos preguntamos por la probabilidad de las restantes. Esta es la **distribución condicional**
 $$
-f^C(x_1, ..., x_m| x_{m+1}, ..., x_n) \equiv \frac{f(x_1, ..., x_n)}{f^M(x_{m+1}, ..., x_n)}\,.
+\rho^C(x_1, ..., x_m| x_{m+1}, ..., x_n) \equiv \frac{\rho(x_1, ..., x_n)}{\rho^M(x_{m+1}, ..., x_n)}\,.
 $$
 
 Esto nos permite escribir por ejemplo la siguiente relación
 $$
-f^C(x|y) = \frac{f^C(y|x)f^M(x)}{f^M(y)}\,,
+\rho^C(x|y) = \frac{\rho^C(y|x)\rho^M(x)}{\rho^M(y)}\,,
 $$
 o también 
 $$
-f(x, y) = f^C(x|y)f^M(y)\,.
+\rho(x, y) = \rho^C(x|y)\rho^M(y)\,.
 $$
 Decimos que dos variables son **independientes** si
 $$
@@ -108,7 +108,7 @@ $$
 
 Se definen de forma análoga a una variable. Por ejemplo, definimos la covarianza como el segundo momento central 
 $$
-\text{cov}(x_i, x_j) \equiv \sigma_{ij} \equiv \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=1}^n dx_i\, (x_i - \mu_i)(x_j - \mu_j) f(x_1, ..., x_n)\,.
+\text{cov}(x_i, x_j) \equiv \sigma_{ij} \equiv \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=1}^n dx_i\, (x_i - \mu_i)(x_j - \mu_j) \rho(x_1, ..., x_n)\,.
 $$
 La condición $\sigma_{ij} = 0$ es necesaria (pero no suficiente) para que dos variables sean independientes.
 
@@ -116,7 +116,7 @@ La condición $\sigma_{ij} = 0$ es necesaria (pero no suficiente) para que dos v
 
 Supongamos que la cantidad $y$ es una función de la variable aleatoria $x$. Podemos calcular su distribución de probabilidad haciendo un simple cambio de variable
 $$
-f(y) = \sum_{x}f(x)\left|\frac{dx}{dy}\right|\,.
+\rho(y) = \sum_{x}\rho(x)\left|\frac{dx}{dy}\right|\,.
 $$
 Donde la suma es sobre todos los puntos tal que $y = y(x)$.
 
@@ -128,7 +128,7 @@ Cuando hay varias variables, usamos el Jacobiano.
 
 Si la probabilidad es la misma en todas partes dentro de un intervalo
 $$
-f(x) \equiv u(x; a, b) = \begin{cases}
+\rho(x) \equiv u(x; a, b) = \begin{cases}
 \frac{1}{b - a}\quad a\leq x \leq b\,
 0\quad \text{de otra manera}
 \end{cases}\,.
@@ -139,7 +139,7 @@ Esta probabilidad es útil por ejemplo para generar números aleatorios. Cualqui
 
 Ubicua en física por motivos que discutiremos en unos minutos. La famosa distribución a campana
 $$
-f(x) \equiv n(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\,.
+\rho(x) \equiv n(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\,.
 $$
 
 La utilidad de la gaussiana es que por motivos que vermos representa los errores de muchas cantidades medidas. Entonces es útil saber las probabilidades de obtener un resultado a un cierto número de desviaciones estándar de la media 
@@ -150,7 +150,7 @@ La utilidad de la gaussiana es que por motivos que vermos representa los errores
 
 Para varias variables es similar
 $$
-f(\mathbf{x}) = \frac{1}{(2\pi)^{n/2}|V|^{1/2}}\exp\left[-\frac{1}{2}(\mathbf{x} - \mathbf{\mu})^T V^{-1} (\mathbf{x} - \mathbf{\mu})\right]\,.
+\rho(\mathbf{x}) = \frac{1}{(2\pi)^{n/2}|V|^{1/2}}\exp\left[-\frac{1}{2}(\mathbf{x} - \mathbf{\mu})^T V^{-1} (\mathbf{x} - \mathbf{\mu})\right]\,.
 $$
 La covarianza es fácil de calcular y es $\sigma_{ij} = V_{ij}$.
 
@@ -160,7 +160,7 @@ Integrando, se puede demostrar que la distribución marginal también es una gau
 
 La distribución binomial es para una variable discreta. Representa intentar muchas veces un experimento con probabilidad de éxito $p$. Esta distribución es la probabilidad de obtener $r$ éxitos en $n$ intentos
 $$
-f(r; p, n) = \frac{n!}{r!(n - r)!}p^r (1 - p)^{n - r}\,.
+p(r; p, n) = \frac{n!}{r!(n - r)!}p^r (1 - p)^{n - r}\,.
 $$
 Esta es fácil de deducir, especialmente si hacemos un ejemplo. Supongamos que realizamos el expeeimento $4$ veces. La probabilidad de obtener éxito en los primeros tres intentos y fracaso en el último ($+++-$) es $p^3(1 - p)^1$. Pero tenemos otras tres maneras de obtener tres éxitos: $+-++$, $++-+$, $-+++$. Por lo tanto, la probabilidad de obtener $3$ éxitos es $4p^3(1 - p)$. En general, el factor combinatorial curnta de cuántas maneradas hay de obtener $r$ éxitos en $n$ intentos.
 
@@ -172,7 +172,7 @@ $$
 $$
 Entonces definimos la **distribución de Poisson**
 $$
-f(r; \lambda) = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
+p(r; \lambda) = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
 $$
 
 ## Ejercicios sugeridos para estudiar para la prueba
