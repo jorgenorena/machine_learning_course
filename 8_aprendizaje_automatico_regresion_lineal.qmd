@@ -3,7 +3,7 @@ title: "Introducción al Aprendizaje Automático con Regresión Lineal"
 lang: es
 ---
 
-# ¿Qué es el Aprendizaje Automático?
+## ¿Qué es el Aprendizaje Automático?
 
 Esta disciplina existe en la intersección entre la estadística y la informática. Por lo tanto hay un par de maneras de verlo.
 
@@ -11,11 +11,11 @@ Un informático definiría el aprendizaje automático por contraste con la progr
 
 Un estadístico diría que el aprendizaje automático es una serie de nuevos modelos para trabajar con una cantidad grande de datos y/o parámetros libres. El desarrollo de estos algoritmos fue posible gracias al progreso del hardware de las últimas décadas. 
 
-En muchas situacines tenemos una serie de variables que medimos sobre un sistema, las llamamos $X_1, ..., X_n$, y nos interesa alguna otra variable que depende de ellas $Y = f(X) + \epsilon$. El $\epsilon$ es un ruido que representa lo que está fuera de nuestro control y capacidad para medir. Puede ser error experimental en las mediciones, o el efecto de otras variables que no estamos tomando en cuenta. 
+En muchas situacines tenemos una serie de variables que medimos sobre un sistema, las llamamos $x_1, ..., x_n$, y nos interesa alguna otra variable que depende de ellas $y = f(x) + \epsilon$. El $\epsilon$ es un ruido que representa lo que está fuera de nuestro control y capacidad para medir. Puede ser error experimental en las mediciones, o el efecto de otras variables que no estamos tomando en cuenta. 
 
 Un ejemplo de un tal problema es el siguiente: Trabajamos para una empresa que vende un producto dado. Esta empresa invierte su presupuesto de publicidad en radio, televisión y periódicos. Tenemos el número de unidades medidas en varios mercados así como la inversión en estos tres tipos de publicidad. De esta forma $X_1, X_2, X_3$ es la inversión en televisión, radio y periódicos respectivamente, mientras $Y$ es la cantidad de unidades medidas. 
 
-## Predicción vs inferencia
+### Predicción vs inferencia
 
 En este caso podemos querer determinar $f$ por dos motivos: Predicción o inferencia.
 
@@ -29,7 +29,7 @@ Para la inferencia, nos interesa saber la forma de $f$ para responder preguntas 
 
 En física normalmente nos interesa la inferencia. Predecir no es suficiente dado que el propósito de la física es entender los sistemas que estudia. Además nos interesa tener alguna medida de la incertidumbre de nuestras predicciones y modelos. Algunos estadísticos le llaman *aprendizaje estadístico* al estudio de este tipo de pregutnas, en contraste con el *aprendizaje automático* que se preocupa sólo de obtener predicciones de la manera más eficiente posible.
 
-## Modelos paramétricos vs no paramétricos 
+### Modelos paramétricos vs no paramétricos 
 
 En nuestra discusión anterior hemos tomado en cuenta modelos que dependen de parámetros. En física esto ocurre con mucha frecuencia ya que tenemos leyes físicas que queremos comparar con el experimento. Esas leyes nos proveen el modelo de forma natural junto con sus parámetros libres.
 
@@ -41,7 +41,7 @@ Sin embargo hay casos donde no sabemos cuál es el modelo subyacente. Aún así 
 
 La ventaja de estos modelos es que para la predicción son más generales que los paramétricos. No necesitamos conocer el sistema para tratar de ajustar uno de estos modelos, y nos puede permitir predecir en situaciones complejas. Por otro lado, suelen ser menos interpretables. Son menos potentes que conocer el modelo subyacente de los datos. Mientras más sabemos sobre un sistema a priori, mejores los métodos que podemos aplicar.
 
-## Aprendizaje supervisado vs no supervisado 
+### Aprendizaje supervisado vs no supervisado 
 
 Normalmente los datos toman la forma de una enorme lista de mediciones de las diferentes variables de entrada. Si tenemos $q$ variables de entrada y $n$ mediciones, podemos organizarlas en una matriz donde cada columna corresponde a una variable medida y cada fila es una medición. Es decir $\boldsymbol{X}$ es una matriz $n\times q$. En algunos casos también tenemos las variables de salida $Y$ que organizamos como un vector $y_i$ con $n$ componentes. Si usamos esas variables de salida para entrenar el modelo hablamos de **aprendizaje supervisado**. La analogía es que el modelo mira varios ejemplos para aprender.
 
@@ -49,13 +49,13 @@ En otras situaciones no tenemos una variable de salida $y_i$. Por ejemplo si ten
 
 También hay mezclas entre ambos. Un ejemplo es reconocer imágenes de células con una cierta característica. Tenemos muchas imágenes pero alguien tiene que etiquetarlas con esa característica a mano. En ese caso podemos etiquetar algunas pocas e intentar entrenar un modelo que mezcle ambos tipos de algoritmos. Esto se llama aprendizaje **semi supervisado**.
 
-## Regresión contra clasificación
+### Regresión contra clasificación
 
 En problemas de **regresión** las variables de salida son numeros reales. Por ejemplo la masa de una partícula o la densidad del universo. 
 
 En problemas de **clasificación** las variables de salida son categorías. Por ejemplo si un evento en un detector es una señal o un ruido instrumental.
 
-# Regresión Lineal
+## Regresión Lineal
 
 Ilustraremos varios de los conceptos anteriores mediante la sencilla regresión lineal. Este tipo de regresión es muy sencilla, pero es computacionalmente barata y muy fácil de interpretar. Por ese motivo fue muy usada antes de la llegada de computadores suficientemente potentes. Nosotros lo estudiamos aquí porque es fácil y nos permite introducir varios conceptos sin el bagaje adicional de un modelo complicado.
 
@@ -74,7 +74,7 @@ datos_publicidad = pd.read_csv("data/Advertising.csv", index_col=0)
 datos_publicidad.describe()
 ```
 
-## Regresión lineal simple
+### Regresión lineal simple
 
 Primero reducimos el problema a predecir el número de ventas basados en el gasto en televisión. Por lo tanto nuestro modelo es 
 $$
@@ -105,7 +105,7 @@ plt.ylabel("Ventas")
 
 ```
 
-## Determinando la precisión de los coeficientes 
+### Determinando la precisión de los coeficientes 
 
 Al escribir el modelo nosotros *estimamos* los coeficientes. Como se calcularon a partir de los datos, tendrán una varianza. Para verlo repetimos el código de arriba pero usando un subconjunto de los datos.
 
@@ -148,7 +148,7 @@ $$
 $$
 En general no concemos $\sigma^2$, que es la varianza de $Y$. Lo tenemos que estimar de los datos. Para hacerlo tomamos $s^2 = \sum(y_i - \bar{y})^2/(n-2)$. Es $(n-2)$ en vez de $(n-1)$ en el denominador porque en este modelo tenemos dos parámetros.
 
-## Evaluar la precisión de un modelo
+### Evaluar la precisión de un modelo
 
 Una manera de evaluar lo bueno o malo que es el ajuste es por medio de la estadística $\chi^2$ que vimos antes.
 
@@ -164,7 +164,7 @@ R^2 = 1 - \frac{\text{RSS}}{\sum (y_i - \bar{y})^2}\,.
 $$
 El denominador del segundo término se llama la suma total de cuadrados. Nos dice la varianza de $y$ en los datos. El numerador nos dice la desviación de los datos respecto al modelo. Si $R^2$ es cercano a $1$ quiere decir que la desviación de los daotos respecto al modelo es muy pequeña comparada con la desviación total y el modelo es bueno. Si al contrario $R^2$ es cercano a cero, quiere decir que la desviación respecto al modelo es similar a la desviación total tal que el modelo no está haciendo nada (podemos lograr algo similar usando la media). A veces se dice que $R^2$ es la "fracción de la varianza explicada por el modelo". Para la regresión lineal simple, $R^2% es igual a la correlación entre el modelo y los datos.
 
-## Regresión Lineal Múltiple
+### Regresión Lineal Múltiple
 
 Ahora queremos ajustar un modelo que depende de varias variables de entrada. En nuestro caso son los presupuestos para los diferentes tipos de publicidad.
 $$
@@ -204,7 +204,7 @@ En nuestro ejemplo es bastante claro que podemos remover el coeficiente de peri�
 
 Una vez tengamos un buen modelo podemos hacer predicciones. A partir de las varianzas de los parámetros podemos reportar un intervalo de confianza a un nivel $C$ para la prediccón (propagando errores). Según este modelo, el verdadero valor de $f(X)$ estará en ese intervalo una fracción $C$ de veces. *Esto no quiere decir que al realizar muchas observaciones futuras, una fracción $C$ caerá en ese intervalo. Esto es porque nos falta $\epsilon$, el error irreducible (recuerde que cada observación es $f(X) + \epsilon$). A los intervalos que incorporan este error irreducible (estimado a partir de los datos) se los llama **intervalos de predicción**.
 
-## Términos No-Lineales en Regresión Lineal
+### Términos No-Lineales en Regresión Lineal
 
 Cuando la relación entre variables es no-lineal, al parecer no podemos aplicar este método. En realidad podemos generalizarlo. Por ejemplo podríamos escribir para un solo predictor
 $$
@@ -233,7 +233,7 @@ print(results.summary())
 
 Vemos que el ajuste mejora el $R^2$. Note que el valor $p$ de radio bajó un poco. Esto es porque la interacción era parte de su efecto. En general, si queremos incluir los términos de interacción, debemos incluir cada uno de sus componentes separadamente para evitar confusiones entre la interacción y la simple variable.
 
-## Problemas con la regresión lineal
+### Problemas con la regresión lineal
 
 Algunas situaciones que pueden ser problemáticas para la regresión lineal que hemos presentado.
 
@@ -247,6 +247,6 @@ Algunas situaciones que pueden ser problemáticas para la regresión lineal que 
 
 - Colinearidad: Cuando dos variables están muy correlacionadas, esto puede inducir problemas a la hora de hacer inferencia con el modelo. Por ejemplo, el ajuste particular puede diluir el valor $p$ de ambas variables, porque puede compensar con una de ellas lo que hace la otra. Para facilitar la interpretación se puede intentar remover una de esas variables y ver cómo cambian las conclusiones.
 
-# Ejercicios para la prueba
+## Ejercicios para la prueba
 
 2.1, 3.1, 3.3, 3.4, 3.6

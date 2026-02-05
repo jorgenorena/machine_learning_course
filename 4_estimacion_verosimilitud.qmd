@@ -9,19 +9,19 @@ Definimos variables **independientes e idénticamente distribuídas (i.i.d.)** c
 
 Para nosotros una **muestra aleatoria** será un conjunto de variables i.i.d. Esto modela el repetir un experimento u observación muchas veces. Como son i.i.d. su distribución conjunta se escribe 
 $$
-f(x_1, ..., x_n) = f(x_1)...f(x_n)\,,
+f(x_1, ..., x_N) = f(x_1)...f(x_N)\,,
 $$
 para alguna distribución $f(x)$.
 
 ## Propiedades de estimadores
 
-Muchas veces desconocemos la forma exacta de $f(x)$ pero tenemos un modelo para producirla. Ese modelo puede depender de unos parámetros libres (masas de partículas, varianzas, algún parámetro experimental, ...) $\mathbf{\theta} = (\theta_1, ..., \theta_m)$. Queremos sacar el valor de esos parámetros a partir de los datos. Nuestra aproximación a ese valor usando los datos se llama un **estimador** $\hat{\theta}_n$, que depende del número de datos tomados $n$.
+Muchas veces desconocemos la forma exacta de $f(x)$ pero tenemos un modelo para producirla. Ese modelo puede depender de unos parámetros libres (masas de partículas, varianzas, algún parámetro experimental, ...) $\mathbf{\theta} = (\theta_1, ..., \theta_p)$. Queremos sacar el valor de esos parámetros a partir de los datos. Nuestra aproximación a ese valor usando los datos se llama un **estimador** $\hat{\theta}_N$, que depende del número de datos tomados $N$.
 
 Puede haber muchos estimadores diferentes, dependiendo del método usado. Discutamos cómo podemos evaluar si un estimador es bueno y en qué sentido lo puede ser.
 
 Una propiedad importante de un estimador es que sea **consistente**. Es decir, para todo $\epsilon > 0$
 $$
-\lim_{n\rightarrow \infty} P(|\hat{\theta}_n - \theta| > \epsilon) = 0\,.
+\lim_{N\rightarrow \infty} P(|\hat{\theta}_N - \theta| > \epsilon) = 0\,.
 $$
 En lenguaje más cristiano, un estimador consistente es aquel que tiende al verdadero valor del parámetro si tenemos infinitos datos.
 
@@ -29,7 +29,7 @@ Que un estimador sea consistente no quiere decir que para una cantidad finita de
 
 Definimos el **sesgo** (muchas veces llamado por su nombre inglés **bias**)
 $$
-b \equiv \langle \hat{\theta}_n\rangle - \theta\,.
+b \equiv \langle \hat{\theta}_N\rangle - \theta\,.
 $$
 Un estimador **no sesgado** si $b = 0$. En general nos van a interesar muchos estimadores sesgados, pero queremos tratar de mantener el sesgo bajo control.
 
@@ -39,7 +39,7 @@ Decimos que un estimador es **eficiente** si la varianza cae rápidamente a medi
 
 Lo que nos interesa acotar en realidad es la diferencia entre el valor verdadero y el estimado. Este se relaciona con el sesgo y la varianza
 $$
-\left\langle(\hat{\theta}_n - \theta)^2\right\rangle = \left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle+ b)^2\right\rangle = \left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle)^2\right\rangle +2b\left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle)\right\rangle + b^2 = \sigma^2_{\hat{\theta}} + b^2\,.
+\left\langle(\hat{\theta}_N - \theta)^2\right\rangle = \left\langle(\hat{\theta}_N - \langle\hat{\theta}_N\rangle+ b)^2\right\rangle = \left\langle(\hat{\theta}_N - \langle\hat{\theta}_N\rangle)^2\right\rangle +2b\left\langle(\hat{\theta}_N - \langle\hat{\theta}_N\rangle)\right\rangle + b^2 = \sigma^2_{\hat{\theta}} + b^2\,.
 $$
 Entonces la varianza del error cometido es la suma de la varianza del estimador y el cuadrado del sesgo. Es decir que idealmente queremos reducir ambos para tener errores pequeños.
 
@@ -51,37 +51,37 @@ Para dar un ejemplo, supongamos que queremos encontrar la media y la varianza de
 
 Para la media, el estimador es el promedio sobre la muestra 
 $$
-\hat{\mu} = \frac{1}{n}\sum_{i = 1}^n x_i \equiv \bar{x}\,.
+\hat{\mu} = \frac{1}{n}\sum_{i = 1}^N x_i \equiv \bar{x}\,.
 $$
 Veamos que es no sesgado recordando que todos vienen de la misma distribución con media $\mu$
 $$
-\langle \hat{\mu}\rangle = \frac{1}{n}\sum_{i=1}^n \langle x_i\rangle = \frac{1}{n}\sum_{i=1}^n \mu = \mu\,.
+\langle \hat{\mu}\rangle = \frac{1}{N}\sum_{i=1}^N \langle x_i\rangle = \frac{1}{N}\sum_{i=1}^N \mu = \mu\,.
 $$
 
 Para la varianza es un poco más sutil. Queremos escribir una expresión que dependa sólo de los datos. Para obtener un estimador no sesgado necesitamos escribir 
 $$
-\hat{\sigma}^2 = \frac{1}{n - 1}\sum_{i=1}^n(x_i - \bar{x})^2\,.
+\hat{\sigma}^2 = \frac{1}{N - 1}\sum_{i=1}^N(x_i - \bar{x})^2\,.
 $$
 Ese denominador no es lo que uno esperaría ingenuamente. Si yo no conociera este tema, habría dicho que el estimador debería ser el promedio sobre las desviaciones al cuadrado, pero el denominador no corresponde a esa intuición. Para ver de dónde viene demostremos que no es sesgado 
 $$
 \begin{align}
-\langle \hat{\sigma}^2\rangle &= \frac{1}{n - 1}\sum_{i = 1}^n \left\langle(x_i - \bar{x})^2\right\rangle\\
-&= \frac{1}{n - 1}\sum_{i = 1}^n \left\langle\left(x_i - \frac{1}{n}\sum_{j=1}^n x_j\right)^2\right\rangle\\
-&= \frac{n}{n - 1} \left\langle\left(x_1 - \frac{1}{n}\sum_{j=1}^n x_j\right)^2\right\rangle\\
-&= \frac{n}{n - 1} \left(\langle x_1^2\rangle - \frac{2}{n}\sum_{j=1}^n \langle x_1 x_j\rangle + \frac{1}{n^2}\sum_{j,k=1}^n \langle x_j x_k\rangle \right)\\
-&= \frac{n}{n - 1} \left(\langle x_1^2\rangle - \frac{1}{n}\sum_{j=1}^n \langle x_1 x_j\rangle\right)\\
-&= \frac{n}{n - 1} \left(\left(1 - \frac{1}{n}\right)\langle x_1^2\rangle - \frac{1}{n}\sum_{j=2}^n \langle x_1 x_j\rangle\right)\\
-&= \frac{n}{n - 1} \left(\left(1 - \frac{1}{n}\right)\langle x_1^2\rangle - \frac{1}{n}\sum_{j=2}^n \langle x_1\rangle\langle x_j\rangle\right)\\
-&= \frac{n}{n - 1} \left(\frac{n - 1}{n}\langle x_1^2\rangle - \frac{n - 1}{n}\mu^2\right) = \langle x^2\rangle - \mu^2 = \sigma^2\,.
+\langle \hat{\sigma}^2\rangle &= \frac{1}{N - 1}\sum_{i = 1}^N \left\langle(x_i - \bar{x})^2\right\rangle\\
+&= \frac{1}{N - 1}\sum_{i = 1}^N \left\langle\left(x_i - \frac{1}{N}\sum_{j=1}^N x_j\right)^2\right\rangle\\
+&= \frac{N}{N - 1} \left\langle\left(x_1 - \frac{1}{N}\sum_{j=1}^N x_j\right)^2\right\rangle\\
+&= \frac{N}{N - 1} \left(\langle x_1^2\rangle - \frac{2}{N}\sum_{j=1}^N \langle x_1 x_j\rangle + \frac{1}{N^2}\sum_{j,k=1}^N \langle x_j x_k\rangle \right)\\
+&= \frac{N}{N - 1} \left(\langle x_1^2\rangle - \frac{1}{N}\sum_{j=1}^N \langle x_1 x_j\rangle\right)\\
+&= \frac{N}{N - 1} \left(\left(1 - \frac{1}{N}\right)\langle x_1^2\rangle - \frac{1}{N}\sum_{j=2}^n \langle x_1 x_j\rangle\right)\\
+&= \frac{N}{N - 1} \left(\left(1 - \frac{1}{N}\right)\langle x_1^2\rangle - \frac{1}{N}\sum_{j=2}^N \langle x_1\rangle\langle x_j\rangle\right)\\
+&= \frac{N}{N - 1} \left(\frac{N - 1}{N}\langle x_1^2\rangle - \frac{N - 1}{N}\mu^2\right) = \langle x^2\rangle - \mu^2 = \sigma^2\,.
 \end{align}
 $$
 Para ir de la segunda a la tercera igualdad hemos usado el hecho que todos los términos de la suma deben dar el mismo resultado ya que las variables son idénticamente distribuídas. Para ir de la cuarta a la quinta hemos usado ese mismo truco. Para ir de la sexta a la séptima hemos usado el hecho que las variables son independientes tal que $\langle x_1 x_j\rangle = \langle x_1\rangle\langle x_j\rangle$ para $j\neq 1$.
 
 ## La Función de Verosimilitud 
 
-Supongamos que la distribución $f(x;\theta)$ de una medición depende de un solo parámetro $\theta$. La función de verosimilitud la habíamos definido como la probabilidad de obtener las observaciones $x_1,...,x_n$ dado un valor de $\theta$
+Supongamos que la distribución $f(x;\theta)$ de una medición depende de un solo parámetro $\theta$. La función de verosimilitud la habíamos definido como la probabilidad de obtener las observaciones $x_1,...,x_N$ dado un valor de $\theta$
 $$
-L(\theta) = f(x_1,...,x_n|\theta) = \prod_{i=1}^n f(x_i;\theta)\,,
+L(\theta) = f(x_1,...,x_N|\theta) = \prod_{i=1}^N f(x_i;\theta)\,,
 $$
 donde hemos usado el hecho que las muestra es independiente.
 
@@ -153,15 +153,15 @@ Suponga que usted hace un experimento en el cual quiere medir el tiempo de vida 
 
 Sabemos que la probabilidad de decaer en un tiempo $t$ es $\frac{1}{\tau}e^{-t_i/\tau}$, por lo tanto la verosimilitud es
 $$
-L(\tau) = \frac{1}{\tau^n}\prod_i e^{-t_i/\tau}\,.
+L(\tau) = \frac{1}{\tau^N}\prod_i e^{-t_i/\tau}\,.
 $$
 Como dijimos, es más fácil trabajar con el logaritmo porque convierte las multiplicaciones en sumas y cancela los exponenciales que aparecen en muchas distribuciones 
 $$
-\ln L(\tau) = -\sum_i \frac{t_i}{\tau} - n\ln\tau\,.
+\ln L(\tau) = -\sum_i \frac{t_i}{\tau} - N\ln\tau\,.
 $$
 Podemos calcular su derivada 
 $$
-\frac{\partial \ln L}{\partial \tau} = \sum_i \frac{t_i}{\tau^2} - n\frac{1}{\tau}\,.
+\frac{\partial \ln L}{\partial \tau} = \sum_i \frac{t_i}{\tau^2} - N\frac{1}{\tau}\,.
 $$
 Igualando a cero obtenemos
 $$
@@ -183,25 +183,25 @@ Busquemos el estimador de máxima verosimilitud para $\mu$ y $\sigma$ a partir d
 
 La verosimilitud es fácil de escribir 
 $$
-\ln L = -n\ln(\sqrt{2\pi}\sigma) - \sum_i\frac{(x_i - \mu)}{2\sigma^2}\,.
+\ln L = -N\ln(\sqrt{2\pi}\sigma) - \sum_i\frac{(x_i - \mu)}{2\sigma^2}\,.
 $$
 Tomando derivadas e igualando a cero se obtiene el sistema
 $$
-\sum_i(x_i - \hat{\mu}) = 0\,,\quad \sum_i\frac{(x_i - \hat{\mu})^2}{\hat{\sigma}^3} - \frac{n}{\hat{\sigma}} = 0\,.
+\sum_i(x_i - \hat{\mu}) = 0\,,\quad \sum_i\frac{(x_i - \hat{\mu})^2}{\hat{\sigma}^3} - \frac{N}{\hat{\sigma}} = 0\,.
 $$
 La solución a la primera ecuación es fácil 
 $$
-\hat{\mu} = \frac{1}{n}\sum_i x_i = \bar{x}\,.
+\hat{\mu} = \frac{1}{N}\sum_i x_i = \bar{x}\,.
 $$
 Este es el mismo estimador no sesgado estudiado anteriormente. Reemplazamos esto en la segunda ecuación, que también se hace fácil de resolver
 $$
-\hat{\sigma}^2 = \frac{1}{n}\sum_i(x_i - \bar{x})^2\,.
+\hat{\sigma}^2 = \frac{1}{N}\sum_i(x_i - \bar{x})^2\,.
 $$
 Este *no es el estimador no sesgado*. La máxima verosimilitud no nos da un estimador con esta propiedad.
 
 :::
 
-Para grandes muestras esto no es un problema ya que $(n - 1) \approx n$.
+Para grandes muestras esto no es un problema ya que $(N - 1) \approx N$.
 
 Entonces, ¿por qué usar estimadores de máxima verosimilitud? Es porque tienen dos propiedades útiles.
 
@@ -238,7 +238,7 @@ $$
 \left.\frac{\partial \ln L}{\partial \theta}\right|_{\theta = \theta_*} + (\hat{\theta} - \theta_*)\left.\frac{\partial^2 \ln L}{\partial\theta^2}\right|_{\theta = \theta_*} = 0\,.
 $$
 
-Ahora bien, de la ecuación ([-@eq-valor-esperado-derivada-logL]) sabemos que el valor esperado de $\partial \ln L/\partial \theta$ es cero evaluado en $\theta_*$. Edemás, esta cantidad es la suma de $n$ valores independientes para cada $x_i$, y por el teorema central del límite sabemos que esas sumas van a estar descritas por una gaussiana, con varianza 
+Ahora bien, de la ecuación ([-@eq-valor-esperado-derivada-logL]) sabemos que el valor esperado de $\partial \ln L/\partial \theta$ es cero evaluado en $\theta_*$. Edemás, esta cantidad es la suma de $N$ valores independientes para cada $x_i$, y por el teorema central del límite sabemos que esas sumas van a estar descritas por una gaussiana, con varianza 
 
 $$
 \begin{align}
@@ -266,6 +266,6 @@ Pero esta es el mínimo valor posible según la ecuación ([-@eq-cota-minima-var
 
 - Si conocemos la media $\mu$ de una distribución, escriba un estimador para la varianza 
 $$
-\hat{\sigma}^2 = \alpha \sum_{i=1}^n (x_i - \mu)^2\,.
+\hat{\sigma}^2 = \alpha \sum_{i=1}^N (x_i - \mu)^2\,.
 $$
 Encuentre la constante $\alpha$ para que el estimador sea no sesgado. Bonus: ¿Tiene este estimador una varianza menor a la del estimador visto en clase?

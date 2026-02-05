@@ -11,11 +11,11 @@ M_x(t) \equiv \langle e^{xt} \rangle\,.
 $$
 Expandiendo en Taylor tenemos que 
 $$
-M_x(t) = \left\langle1 + xt + \frac{1}{2}(xt)^2 + ...\right\rangle = \sum_{n=0}^\infty \frac{1}{n!}\mu'_n t^n\,.
+M_x(t) = \left\langle1 + xt + \frac{1}{2}(xt)^2 + ...\right\rangle = \sum_{m=0}^\infty \frac{1}{m!}\mu'_m t^m\,.
 $$
 De esta expresión vemos que 
 $$
-\mu'_n = \left.\frac{\partial^n}{\partial t^n}M_x(t)\right|_{t=0}\,.
+\mu'_m = \left.\frac{\partial^m}{\partial t^m}M_x(t)\right|_{t=0}\,.
 $$
 Entonces decimos que podemos *generar los momentos* de la distribución.
 
@@ -63,9 +63,9 @@ La Gaussiana es la distribución que está completamente determinada por sus pri
 
 Expandiendo, vemos que todos los cumulantes de la distribución de Poisson son iguales
 $$
-\ln M_r(t) = \lambda e^t - \lambda = \sum_{n=1}^\infty \frac{1}{n!}t^n\lambda\,.
+\ln M_r(t) = \lambda e^t - \lambda = \sum_{m=1}^\infty \frac{1}{m!}t^m\lambda\,.
 $$
-es decir $\kappa_i = \lambda$. Es decir que su media es $\lambda$ y su varianza es $\lambda$, así como todos los demás.
+es decir $\kappa_m = \lambda$ para todo $m$. Es decir que su media es $\lambda$ y su varianza es $\lambda$, así como todos los demás.
 
 
 ## El Teorema Central del Límite
@@ -187,7 +187,7 @@ plt.legend()
 
 Student es el pseudónimo de la persona que inventó esta distribución.
 
-Según el teorema central del límite, el promedio $\bar{x}$ tiene una distribución Gaussiana con media $\mu$ y varianza $\sigma_n = \sigma/\sqrt{n}$. Esto lo podemos usar para estimar el error cometido al realizar una medición. Por ejemplo, podemos usar $\sigma$ para estimar el error y sabemos que tenemos una probabilidad de aproximadamente $68\%$ de estar a $1\sigma$ de la media, $95\%$ de estar a $2\sigma$, y $99\%$ de estar a $3\sigma$.
+Según el teorema central del límite, el promedio $\bar{x}$ tiene una distribución Gaussiana con media $\mu$ y varianza $\sigma_N = \sigma/\sqrt{N}$. Esto lo podemos usar para estimar el error cometido al realizar una medición. Por ejemplo, podemos usar $\sigma$ para estimar el error y sabemos que tenemos una probabilidad de aproximadamente $68\%$ de estar a $1\sigma$ de la media, $95\%$ de estar a $2\sigma$, y $99\%$ de estar a $3\sigma$.
 
 Sin embargo no conocemos $\sigma$ en muchos casos. Entonces debemos usar algún estimador $\hat{\sigma}$ calculado usando los mismos datos.
 
@@ -199,9 +199,9 @@ u = \frac{\bar{x} - \mu}{\sigma}\,,
 $$
 esta sigue una distribución Gaussiana con media cero y varianza uno. Si estimamos la varianza, escribimos 
 $$
-t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{n}}\,.
+t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{N}}\,.
 $$
-Para $n$ grande, $t$ resulta que también sigue una Gaussiana. Pero para $n$ pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.
+Para $N$ grande, $t$ resulta que también sigue una Gaussiana. Pero para $N$ pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.
 
 ``` {python}
 # Código producido por ChatGPT 4o con el siguiente prompt:

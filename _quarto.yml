@@ -30,16 +30,16 @@ website:
             href: 7_entropia.qmd
           - text: "------"
           - text: "Aprendizaje Automático"
-          - text: "6. Aprendizaje Automático y Regresión Lineal"
-            href: 6_aprendizaje_automatico_regresion_lineal.qmd
-          - text: "7. Clasificación"
-            href: 7_clasificacion.qmd
-          - text: "8. Selección de Modelos"
-            href: 8_seleccion_de_modelos.qmd
-          - text: "9. Árboles, Bosques y Boosting"
-            href: 9_arboles_bosques_boosting.qmd
-          - text: "10. SVM y Aprendizaje No Supervisado"
-            href: 10_svm_y_no_supervisado.qmd
+          - text: "8. Aprendizaje Automático y Regresión Lineal"
+            href: 8_aprendizaje_automatico_regresion_lineal.qmd
+          - text: "9. Clasificación"
+            href: 9_clasificacion.qmd
+          - text: "10. Selección de Modelos"
+            href: 10_seleccion_de_modelos.qmd
+          - text: "11. Árboles, Bosques y Boosting"
+            href: 11_arboles_bosques_boosting.qmd
+          - text: "12. SVM y Aprendizaje No Supervisado"
+            href: 12_svm_y_no_supervisado.qmd
           - text: "------"
           - text: "Redes Neuronales"
           - text: "11. Perceptrón y Redes Conexas y Pérdidas"
@@ -85,16 +85,16 @@ website:
             href: 7_entropia.qmd
       - section: "Aprendizaje Automático"
         contents:
-          - text: "6. Aprendizaje Automático y Regresión Lineal"
-            href: 6_aprendizaje_automatico_regresion_lineal.qmd
-          - text: "7. Clasificación"
-            href: 7_clasificacion.qmd
-          - text: "8. Selección de Modelos"
-            href: 8_seleccion_de_modelos.qmd
-          - text: "9. Árboles, Bosques y Boosting"
-            href: 9_arboles_bosques_boosting.qmd
-          - text: "10. SVM y Aprendizaje No Supervisado"
-            href: 10_svm_y_no_supervisado.qmd
+          - text: "8. Aprendizaje Automático y Regresión Lineal"
+            href: 8_aprendizaje_automatico_regresion_lineal.qmd
+          - text: "9. Clasificación"
+            href: 9_clasificacion.qmd
+          - text: "10. Selección de Modelos"
+            href: 10_seleccion_de_modelos.qmd
+          - text: "11. Árboles, Bosques y Boosting"
+            href: 11_arboles_bosques_boosting.qmd
+          - text: "12. SVM y Aprendizaje No Supervisado"
+            href: 12_svm_y_no_supervisado.qmd
       - section: "Redes Neuronales"
         contents:
           - text: "11. Perceptrón, Redes Conexas y Pérdidas"

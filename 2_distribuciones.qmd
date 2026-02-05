@@ -50,11 +50,11 @@ $$
 
 De esta manera los **momentos** son
 $$
-\mu'_n \equiv \langle x^n \rangle\,,
+\mu'_m \equiv \langle x^m \rangle\,,
 $$
 y los **momentos centrales**
 $$
-\mu_n \equiv \left\langle (x - \langle x\rangle)^n\right\rangle\,.
+\mu_m \equiv \left\langle (x - \langle x\rangle)^m\right\rangle\,.
 $$
 
 De la definición de valor esperado se puede demostrar para una constante $c$

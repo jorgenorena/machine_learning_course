@@ -14,16 +14,17 @@ El curso se divide en tres partes principales:
 - Unidad 1: Fundamentos de Probabilidad y Estadística
     - Nociones básicas: eventos, probabilidad, independencia
     - Distribuciones de probabilidad
-	  - Función generatriz, momentos, teorema central del límite.
+	- Función generatriz, momentos, teorema central del límite.
     - Verosimilitud y estimación
     - Mínimos cuadrados e intervalos de confianza
     - Testeo de hipótesis 
-	  - Introducción a la teoría de la información
+	- Introducción a la teoría de la información
 
 - Unidad 2: Aprendizaje Automático Clásico
-    - Regresión lineal, no lineal, y regularización.
+    - Aprendizaje Automático y Regresión lineal.
     - Clasificación: Regresión logística y métricas.
     - Selección de modelos: entrenamiento/validación/prueba, validación cruzada.
+    - Regularización: Ridge, Lasso y Elastic Net.
     - Árboles de decisión, random forests y boosting
     - Otros métodos: Máquinas de vectores de soporte y aprendizaje no supervisado
 

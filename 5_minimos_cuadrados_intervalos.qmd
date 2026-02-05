@@ -14,7 +14,7 @@ En muchos casos no podemos calcular la verosimilitud porque modelar la distribuc
 
 Algo que podemos hacer es minimizar las desviaciones de las predicciones del modelo respecto a los datos. Es decir minimizar el $\chi^2$
 $$
-\chi^2 = \sum_{i=1}^n \left[\frac{y_i - f(x_i;\theta)}{\sigma_i}\right]^2\,.
+\chi^2 = \sum_{i=1}^N \left[\frac{y_i - f(x_i;\theta)}{\sigma_i}\right]^2\,.
 $$
 Aquí hemos supuesto que las mediciones $y_i$ son independientes. Si no lo son, es necesario considerar la covarianza (ver el libro). Si además suponemos que las mediciones son idénticamente distribuidas, esto es equivalente a minimizar la suma de desviaciones al cuadrado.
 
