@@ -3,7 +3,7 @@ title: "Selección de Modelos y Regularización"
 lang: es
 ---
 
-Ahora discutiremos cómo evaluar un modelo. Vimos que puede haber varias formas de ajustar los datos. Por ejemplo, podemos usar todos los predictores $X_i$ o sólo algunos de ellos que consideramos más relevantes. El problema es que en general mientars más parámetros tenga un modelo, mejor será el ajuste a los datos usados para entrenarlo: Si el modelo tiene más libertad, la usa para ajustarse mejor. Sin embargo cuando tiene demasiada libertad se ajustará también a las fluctuaciones aleatorias en los datos, tal que al tratar de hacer predicciones a partir de datos no vistos cometerá errores (gran varianza). Al error cometido sobre datos no vistos se lo llama **error de generalización**. Un modelo que se ajusta muy bien a los datos usados para entrenarlo, pero que tiene un gran error de generalización se dice que no generaliza bien.
+Ahora discutiremos cómo evaluar un modelo. Vimos que puede haber varias formas de ajustar los datos. Por ejemplo, podemos usar todos los predictores $X_i$ o sólo algunos de ellos que consideramos más relevantes. El problema es que en general mientras más parámetros tenga un modelo, mejor será el ajuste a los datos usados para entrenarlo: Si el modelo tiene más libertad, la usa para ajustarse mejor. Sin embargo cuando tiene demasiada libertad se ajustará también a las fluctuaciones aleatorias en los datos, tal que al tratar de hacer predicciones a partir de datos no vistos cometerá errores (gran varianza). Al error cometido sobre datos no vistos se lo llama **error de generalización**. Un modelo que se ajusta muy bien a los datos usados para entrenarlo, pero que tiene un gran error de generalización se dice que no generaliza bien.
 
 Por otro lado si tiene poca libertad no logrará capturar los patrones en los datos, lo que se llama **poca expresividad** del modelo, y cometerá un error grande al predecir (gran sesgo).
 
@@ -67,18 +67,18 @@ plt.show()
 
 En la @fig-mse graficamos el error cuadrático medio para una regresión lineal $\sum_{i=1}^p \beta_i X_i$ a partir de datos ficticios. Los datos reales fueron producidos por sólo tres predictores. Sin embargo, vemos que al incluir más y más variables el error cuadrático medio sigue decreciendo.
 
-# Métodos de Evaluación de Modelos
+## Métodos de Evaluación de Modelos
 
 Hay globalmente dos formas de evaluar el error que cometerá el modelo cuando se usa en datos no usados para entrenarlo. Uno consiste en intentar penalizar modelos más complejos basándose en principios estadísticos, y otro consiste en usar los mismos datos para la evaluación.
 
 
-## Criterios de información para penalizar modelos complejos 
+### Criterios de información para penalizar modelos complejos 
 
 Existen varios criterios apra evaluar modelos basados en la teoría de probabilidad.
 
-### Criterio de información de Akaike
+#### Criterio de información de Akaike
 
-Supongamos que los datos subyacentes tienen una distribución de probabilidad $f(y)$ y nosotros la aproximamos con una verosimilitud $L(y|\theta)$. Una manera de cuantificar la diferencia entre las dos distribuciones es medir la entropía. Esto se hace mediante la **divergencia de Kullback Liebler**
+Supongamos que los datos subyacentes tienen una distribución de probabilidad $\rho(y)$ y nosotros la aproximamos con una verosimilitud $L(y|\theta)$. Una manera de cuantificar la diferencia entre las dos distribuciones es medir la entropía. Esto se hace mediante la **divergencia de Kullback Liebler**
 $$
 \begin{multline}
 D_{KL}(f || p) = \int dy\,f(y)\log\left(\frac{f(y)}{L(y|\theta)}\right) \\ = \int dy\,f(y)\log f(y) - \int dy\,f(y)\log L(y|\theta) = -\langle L(y|\theta)\rangle + const.\,.
@@ -86,7 +86,7 @@ D_{KL}(f || p) = \int dy\,f(y)\log\left(\frac{f(y)}{L(y|\theta)}\right) \\ = \in
 $$
 Se puede demostrar que $D_{KL}(f || p) > 0$ y es cero sólo cuando $f = p$. Además tiene la interpretación de ser igual a la entropía de $f$ más el costo asociado con usar $p(y)$ al analizar los datos.
 
-Ahora bien, supongamos que estimamos los parámetros maximizando la verosimilitud. Sea $\log\hat{L}$ el máximo valor de la verosimilitud. Akaike demostró que este es un estimador sesgado de $\langle \ln L\rangle$. Tal que un estimador no sesgado de la divergencia de Kullback Liebler (a parte constantes) es
+Ahora bien, supongamos que estimamos los parámetros maximizando la verosimilitud. Sea $\hat{L}$ el máximo valor la verosimilitud. Akaike demostró que $\ln \hat{L}$ es un estimador sesgado de $\langle \ln L\rangle$. Tal que un estimador no sesgado de la divergencia de Kullback Liebler (a parte constantes) es
 $$
 AIC = 2p -2\log\hat{L}\,.
 $$
@@ -145,7 +145,7 @@ plt.show()
 
 Si aplicamos este criterio a nuestro modelo de juquete, vemos que la cantidad $AIC$ tiene un mínimo justo en $3$ predictores.
 
-### Criterio de información de Bayes
+#### Criterio de información de Bayes
 
 En la visión bayesiana podemos asignarle una probabilidad a cada modelo dados los datos. En esa óptica podemos escoger el modelo más probable. Aplicando el teorema de Bayes tenemos
 $$
@@ -167,12 +167,12 @@ Comparado con el AIC, el BIC penaliza más fuertemente los modelos con más par�
 
 ## Demostración
 
-Primero asumimos que las mediciones son i.i.d., tal que $L = \prod_i p(x_i)$ y entonces $\ln L = \sum_i \ln p(x_i)$. Para $n$ grande podemos aproximar $\sum_i \ln p(x_i) \approx n \langle\ln p\rangle \equiv n f(\boldsymbol{\beta})$.
+Primero asumimos que las mediciones son i.i.d., tal que $L = \prod_i p(x_i)$ y entonces $\ln L = \sum_i \ln p(x_i)$. Para $n$ grande podemos aproximar $\sum_i \ln p(x_i) \approx n \langle\ln p\rangle \equiv n \rho(\boldsymbol{\beta})$.
 
 Usando eso, aproximamos la integral cerca del máximo. Esta aproximación es buena para $n$ grande
 $$
 \begin{multline}
-P(D|M) \approx \int d^p\beta\,e^{\ln L(\boldsymbol{\beta})} \approx \int d^p\beta\,e^{n\ln f(\boldsymbol{\beta})} \\ \approx \int d^p\beta\,e^{n\ln f(\hat{\boldsymbol{\beta}}) + n\frac{\partial \ln f(\hat{\boldsymbol{\beta}})}{\partial \beta^i \partial \beta^j} (\boldsymbol{\beta}^i - \hat{\boldsymbol{\beta}}^i)(\boldsymbol{\beta}^j - \hat{\boldsymbol{\beta}}^j)} = e^{n\ln f(\hat{\boldsymbol{\beta}})}\left(\frac{|\partial^2 \ln f /\partial\beta^2|^{-1/2}}{n^{p/2}(2\pi)^{p/2}}\right)\,.
+P(D|M) \approx \int d^p\beta\,e^{\ln L(\boldsymbol{\beta})} \approx \int d^p\beta\,e^{n\ln \rho(\boldsymbol{\beta})} \\ \approx \int d^p\beta\,e^{n\ln \rho(\hat{\boldsymbol{\beta}}) + n\frac{\partial \ln \rho(\hat{\boldsymbol{\beta}})}{\partial \beta^i \partial \beta^j} (\boldsymbol{\beta}^i - \hat{\boldsymbol{\beta}}^i)(\boldsymbol{\beta}^j - \hat{\boldsymbol{\beta}}^j)} = e^{n\ln \rho(\hat{\boldsymbol{\beta}})}\left(\frac{|\partial^2 \ln \rho /\partial\beta^2|^{-1/2}}{n^{p/2}(2\pi)^{p/2}}\right)\,.
 \end{multline}
 $$
 Tomando el logaritmo obtenemos
@@ -232,15 +232,15 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Evaluación de modelos usando subconjuntos aleatorios
+### Evaluación de modelos usando subconjuntos aleatorios
 
 En algunos casos no es fácil escribir una verosimilitud y entonces no podemos usar los criterios de la sección anterior. Esto ocurre con mucha frecuencia cuando se trabaja con modelos de redes neuronales. 
 
 Cuando es así, la práctica común es estimar la precisión del modelo sobre datos no vistos usando un subconjunto de los datos mismos.
 
-### El conjunto de validación
+#### El conjunto de validación
 
-Una manera de lograrlo es separar una fracción de los datos para que sea un **conjunto de validación**. Los datos que no son parte de este forman el **conjunto de entrenamiento**. El modelo se ajusta o entrena con el conjunto de entrenamiento y el de validación se usa solo para evaluar su desempeño. Como el modelo no vio el conjunto de validación, el error cometido sobre él será una aproximación al error que cometerá cuando vea datos nuevos. Como sabemos los $Y$ del conjunto de validación, podemos calcular dicho error. 
+Una manera de lograrlo es separar una fracción de los datos para que sea un **conjunto de validación**. Los datos que no son parte de este forman el **conjunto de entrenamiento**. El modelo se ajusta o entrena con el conjunto de entrenamiento y el de validación se usa solo para evaluar su desempeño. Como el modelo no vio el conjunto de validación, el error cometido sobre él será una aproximación al error que cometerá cuando vea datos nuevos. Como sabemos los $y$ del conjunto de validación, podemos calcular dicho error. 
 
 Es decir, procedemos en tres pasos:
 
@@ -309,7 +309,7 @@ plt.show()
 
 En la @fig-val graficamos el error de validación estimado con usando dos particiones distintas de los datos entre validación y entrenamiento. Vemos que la estimación del error de generalización tiene varianza (varía dependiendo de cuál es el conjunto de validación).
 
-### Validación cruzada
+#### Validación cruzada
 
 Si queremos reducir el sesgo y la varianza, podemos tomar el promedio de muchas validaciones diferentes. La manera de hacerlo es:
 
@@ -381,13 +381,13 @@ plt.show()
 
 En la práctica se puede usar validación cruzada cuando el modelo es pequeño y barato de entrenar (tarda algunos minutos). Pero si el modelo es costoso de entrenar usualmente se usa un solo conjunto de validación. 
 
-# Métodos para Explorar Modelos 
+## Métodos para Explorar Modelos 
 
 Ya tenemos varias herramientas para evaluar el desempeño de los modelos. Esto nos puede servir para comparar varios modelos y escoger el mejor.
 
 Consideremos el ejemplo del ajuste lineal con $20$ variables. Para escoger cuales variables predicen mejor el resultado podríamos evaluar todas las combinaciones posibles. Esto es muy costoso porque hay $2^20 \approx 1\times 10^6$ modelos. Ahora discutiremos algunas estrategias:
 
-## Búsqueda hacia adelante y hacia atrás 
+### Búsqueda hacia adelante y hacia atrás 
 
 La búsqueda hacia adelante consiste en lo siguiente:
 
@@ -403,19 +403,19 @@ La búsqueda hacia atrás es similar pero empezamos por un modelo con todas las 
 3. Repetimos 1 y 2 a partir de $\mathcal{M}_{\ell - 1}$ para obtener $\mathcal{M}_{\ell - 2}$.
 4. Para comparar los modelos $\mathcal{M}_1, ..., \mathcal{M}_q$ usamos validación cruzada, AIC o BIC. 
 
-## Búsqueda aleatoria 
+### Búsqueda aleatoria 
 
 Cuando el número de modelos es grande, y cuando no hay claridad sobre los hiperparámetros a usar, uno puede explorar modelos de forma aleatoria. La idea es que habrán muchos modelos parecidos entre ellos, tal que la búsqueda aleatoria puede encontrar varias zonas en el espacio de hiperparámetros y escoger la mejor.
 
 Estos métodos de búsqueda son aún muy costosos cuando el número de hiperparámetros es grande. Por eso se han desarrollado métodos más sofisticados como uno inspirado en métodos bayesianos para explorar el espacio de hiperparámetros de forma más eficiente.
 
-## Conjunto de prueba 
+### Conjunto de prueba 
 
 Cuando se busca un modelo entre muchos, el modelo se puede ajustar al conjunto de validación. Es como si uno hiciera un entrenamiento adicional a mano. Por lo tanto, el error de validación o validación cruzada puede ser mucho menor que el error de generalización.
 
 Para atacar este problema lo usual en aprendizaje automático es separar una fracción de los datos *antes de empezar cualquier análisis*, escogidos aleatoriamente para testear el modelo *al final del análisis*. Es decir, uno separa el $10-20\%$ de los datos en un **conjunto de prueba** y se usa sólo al final para evaluar el mejor modelo obtenido. De esta manera tendremos una idea de cómo se comportará ese modelo con datos no vistos nunca durante el entrenamiento ni la selección de modelos.
 
-# Regularización
+## Regularización
 
 Finalmente, en vez de escoger el modelo como mostramos arriba, podemos quedarnos con un modelo grande de muchos parámetros y variables e intentar reducir el impacto de las que no sean importantes. Siendo laxos, decimos que hacemos que el modelo aprenda cuáles variables son relevantes. Veremos dos métodos que nos permiten lograrlo con regresión lineal. También se pueden aplicar a la regresión logística que no es otra cosa que la regresión lineal para el logit.
 
@@ -525,7 +525,7 @@ plt.show()
 
 En la @fig-ridge-coeffs vemos cómo se comportan los coeficientes a medida que cambia $\alpha$.
 
-## Lazo o regularización L1
+### Lazo o regularización L1
 
 Una alternativa es usar la suma de valores absolutos
 $$

@@ -9,23 +9,23 @@ La clase pasada estudiamos problemas de regresión, en los cuales tratamos de pr
 
 ¿Cómo podemos describir una variable que no toma valores numéricos? Podemos intentar usar un número entero para cada categoría. Si son dos categorías, estas las podemos marcar $0$ o $1$. Para $n$ categrorías podemos usar $1, ..., n$. 
 
-Si $Y$ es categórica podemos intentar usar una regresión lineal para predecirla a partir de los valores de $X$. Esto nos dará un número real y podemos tomar el entero más cercano para determinar la categoría.
+Si $y$ es categórica podemos intentar usar una regresión lineal para predecirla a partir de los valores de $x$. Esto nos dará un número real y podemos tomar el entero más cercano para determinar la categoría.
 
 Esto funciona parcialmente pero tiene algunos problemas: En muchos casos las categorías no tienen un orden definido. Si queremos clasificar galaxias en elípticas, barradas y espirales, podemos asignar $0$, $1$ y $2$ respectivamente. Pero en ningún sentido son las galaxias espirales mayores que las barradas y las elípticas. Esto complica la interpretación. Además no tenemos un modelo que corresponde al sistema que describe, lo que generalmente aumenta el sesgo.
 
 Cuando hay varias categorías podemos evitar asignarles un orden con una técnica llamada "**one-hot encoding**". Consiste en crear una variable ficticia para cada categoría. Cada una de esas variables vale $1$ cuando el dato pertenece a esa categoría o $0$ de otra manera.
 
-Estas mismas estrategias se pueden usar cuando alguno de los $X$ es categórico.
+Estas mismas estrategias se pueden usar cuando alguno de los $x$ es categórico.
 
 # Clasificador de Bayes
 
-Para describir el problema de clasificación imaginamos que dados los valores de $X$, tenemos una cierta probabilidad de pertenecer a la categoría $j$. Es decir, tenemos 
+Para describir el problema de clasificación imaginamos que dados los valores de $x$, tenemos una cierta probabilidad de pertenecer a la categoría $j$. Es decir, tenemos 
 $$
-P(Y=j|X)\,.
+P(y=j|x)\,.
 $$
-Esto es porque en general el valor de $X$ no determina completamente la categoría. Siempre hay un pequeño error. Cuando conocemos esta probabilidad podemos asignar cada dato a la categoría más probable. Este se llama el **clasificador de Bayes**.
+Esto es porque en general el valor de $x$ no determina completamente la categoría. Siempre hay un pequeño error. Cuando conocemos esta probabilidad podemos asignar cada dato a la categoría más probable. Este se llama el **clasificador de Bayes**.
 
-Los modelos de clasificación consisten en intentar estimar $P(Y=j|X)$ de alguna manera.
+Los modelos de clasificación consisten en intentar estimar $P(y=j|x)$ de alguna manera.
 
 ```{python}
 #| code-fold: true
@@ -456,7 +456,7 @@ La frontera ahora es más suave y podemos esperar que tenga menos varianza. Pero
 
 Una alternativa es usar un modelo paramétrico para aproximar la probabilidad. La ventaja de los métodos paramétricos es que son más interpretables y necesitan menos datos para su entrenamiento. La desventaja es que debemos conocer o suponer algo sobre el sistema para poder parametrizar la probabilidad. 
 
-Una manera sencilla de aproximar la probabilidad es usar la regresión lineal. Sin embargo, no podemos interpretar $P = \beta_1 X + \beta_0$ como una probabilidad ya que puede tomar valores fuera del rango $[0,1]$.
+Una manera sencilla de aproximar la probabilidad es usar la regresión lineal. Sin embargo, no podemos interpretar $P = \beta_1 x + \beta_0$ como una probabilidad ya que puede tomar valores fuera del rango $[0,1]$.
 
 Lo que hacemos es escribir la **función logística**
 $$
@@ -493,9 +493,9 @@ plt.legend()
 plt.show()
 ```
 
-Entonces el modelo de **regresión logística** toma $p(x) \equiv P(X|Y=1) = \sigma(\beta_0 + \beta_1 X)$, $P(X|Y=0) = 1 - P(X|Y=1)$. En otras palabras
+Entonces el modelo de **regresión logística** toma $p(x) \equiv P(x|y=1) = \sigma(\beta_0 + \beta_1 x)$, $P(x|y=0) = 1 - P(x|y=1)$. En otras palabras
 $$
-\log\left(\frac{p(X)}{1 - p(X)}\right) = \beta_0 + \beta_1 X\,.
+\log\left(\frac{p(x)}{1 - p(x)}\right) = \beta_0 + \beta_1 x\,.
 $$
 A la función del lado izquierdo a veces se lo llama el **logit**.
 
@@ -521,23 +521,23 @@ Para encontrar el mínimo buscamos la derivada y la igualamos a cero. La ecuaci�
 
 La generalización a múltiples variables es directa. En este caso escribimos
 $$
-\log\left(\frac{p(X)}{1 - p(X)}\right) = \beta_0 + \beta_1 X_1 + ... + \beta_q X_q\,.
+\log\left(\frac{p(x)}{1 - p(x)}\right) = \beta_0 + \beta_1 x_1 + ... + \beta_q x_q\,.
 $$
 
 Cuando tenemos $K > 2$ categorías también es fácil generalizarlo. Para cada categoría escribimos para $k \neq K$
 $$
-P(X|Y=k) = \frac{e^{\beta_{k0} + \beta_{k1}x_1 + ... + \beta_{kq}x_q}}{1 + \sum_{i = 1}^{K-1}e^{\beta_{i0} + \beta_{i1}x_1 + ... + \beta_{in}x_n}}\,.
+P(x|y=k) = \frac{e^{\beta_{k0} + \beta_{k1}x_1 + ... + \beta_{kq}x_q}}{1 + \sum_{i = 1}^{K-1}e^{\beta_{i0} + \beta_{i1}x_1 + ... + \beta_{in}x_n}}\,.
 $$
 Donde escogemos la categoría $K$ como la de referencia y
 $$
-P(X|Y=K) = \frac{1}{1 + \sum_{i = 1}^{K-1}e^{\beta_{i0} + \beta_{i1}x_1 + ... + \beta_{in}x_n}}
+P(x|y=K) = \frac{1}{1 + \sum_{i = 1}^{K-1}e^{\beta_{i0} + \beta_{i1}x_1 + ... + \beta_{in}x_n}}
 $$
 
 # Análisis Discriminante
 
-Una alternativa adicional es usar el teorema de Bayes para encontrar la probabilidad posterior $P(Y=j|X) \equiv p_j(x) = P(X|Y=j)P(Y=j)/\sum_i P(X|Y=i)P(Y=i)$. 
+Una alternativa adicional es usar el teorema de Bayes para encontrar la probabilidad posterior $P(y=j|x) \equiv p_j(x) = P(x|y=j)P(y=j)/\sum_i P(x|Y=i)P(y=i)$. 
 
-Para estimar $P(Y=j) \equiv \pi_j$ podemos aproximarla como la fracción del total de los datos que pertenecen a la categoría $j$. Estimar $P(X|Y=j) = f_j(X)$ puede hacerse de varias maneras.
+Para estimar $P(y=j) \equiv \pi_j$ podemos aproximarla como la fracción del total de los datos que pertenecen a la categoría $j$. Estimar $P(x|y=j) = f_j(X)$ puede hacerse de varias maneras.
 
 ## Discriminante lineal
 
@@ -545,7 +545,7 @@ En este caso aproximamos $f_j(X)$ con una gaussiana donde la covarianza es la mi
 $$
 f_k(x) = \frac{1}{\sqrt{2\pi}|\sigma|^{1/2}}\exp\left(-\frac{1}{2}(\boldsymbol{x} - \boldsymbol{\mu}_k)^T \Sigma^{-1}(\boldsymbol{x} - \boldsymbol{\mu}_k)\right)\,.
 $$
-La media $\mu_j$ es la media de los $x$ de cada categoría y la covarianza $\Sigma$ es la covarianza entre las variables $X$ estimada a partir de los datos de todas las categorías.
+La media $\mu_j$ es la media de los $x$ de cada categoría y la covarianza $\Sigma$ es la covarianza entre las variables $x$ estimada a partir de los datos de todas las categorías.
 
 Asignamos la categoría más probable a cada dato a partir de su probabilidad. Como siempre, es más fácil trabajar con el logaritmo
 $$
@@ -559,7 +559,7 @@ Si no asumimos que todas las categorías tienen la misma covarianza, tenemos que
 $$
 \ln p_k(x) = \ln{\pi_k} + \frac{1}{2}\boldsymbol{x}^T\Sigma_k^{-1}\boldsymbol{x} + \boldsymbol{x}^T\Sigma_k^{-1}\boldsymbol{\mu}_k - \frac{1}{2}\boldsymbol{\mu}_k^T\Sigma_k^{-1}\boldsymbol{\mu}_k + ...
 $$
-Ahora la ecuación es cuadrática. Esto es más general que el caso anterior, pero requiere estimar el término cuadrático. Este término contiene la matriz $\Sigma^{-1}$  que contiene $q(q - 1)/2$ elementos por cada clase. Esto quiere decir que necesitamos más datos en general para que funcione bien.
+Ahora la ecuación es cuadrática. Esto es más general que el caso anterior, pero requiere estimar el término cuadrático. Este término contiene la matriz $\Sigma^{-1}$  que contiene $p(p - 1)/2$ elementos por cada clase. Esto quiere decir que necesitamos más datos en general para que funcione bien.
 
 ## Bayes ingenuo
 
