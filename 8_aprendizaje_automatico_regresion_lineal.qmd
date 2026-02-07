@@ -7,21 +7,21 @@ lang: es
 
 Esta disciplina existe en la intersección entre la estadística y la informática. Por lo tanto hay un par de maneras de verlo.
 
-Un informático definiría el aprendizaje automático por contraste con la programación clásica. En programación clásica uno le dice al computador qué hacer paso a paso. En aprendizaje automático uno en cambio define un *modelo* y este aprende o se ajusta a los datos para dar el resultado esperado. Un ejemplo trivial sería convertir entre grados centígrados y fahrenheit: En programación usual uno le pide al computador calcular con la fórmula de conversión. En aprendizaje automático uno tiene muchas parejas de temperaturas en ambas esalas y ajusta un modelo por ejemplo con regresión lineal. En ese sentido decimos que el modelo aprende de los datos.
+Un informático definiría el aprendizaje automático por contraste con la programación clásica. En programación clásica uno le dice al computador qué hacer paso a paso. En aprendizaje automático uno en cambio define un *modelo* y este aprende o se ajusta a los datos para dar el resultado esperado. Un ejemplo trivial sería convertir entre grados centígrados y fahrenheit: En programación usual uno le pide al computador calcular con la fórmula de conversión. En aprendizaje automático uno tiene muchas parejas de temperaturas en ambas escalas y ajusta un modelo por ejemplo con regresión lineal. En ese sentido decimos que el modelo aprende de los datos.
 
-Un estadístico diría que el aprendizaje automático es una serie de nuevos modelos para trabajar con una cantidad grande de datos y/o parámetros libres. El desarrollo de estos algoritmos fue posible gracias al progreso del hardware de las últimas décadas. 
+Un estadístico diría que el aprendizaje automático es una serie de nuevos modelos estadísticos para trabajar con una cantidad grande de datos y/o parámetros libres. El desarrollo de estos algoritmos fue posible gracias al progreso del hardware de las últimas décadas. 
 
-En muchas situacines tenemos una serie de variables que medimos sobre un sistema, las llamamos $x_1, ..., x_n$, y nos interesa alguna otra variable que depende de ellas $y = f(x) + \epsilon$. El $\epsilon$ es un ruido que representa lo que está fuera de nuestro control y capacidad para medir. Puede ser error experimental en las mediciones, o el efecto de otras variables que no estamos tomando en cuenta. 
+En muchas situacines tenemos una serie de variables que medimos sobre un sistema, las llamamos $\mathbf{x} = (x_1, ..., x_n)$, y nos interesa alguna otra variable que depende de ellas $y = f(\mathbf{x}) + \epsilon$. El $\epsilon$ es un ruido que representa lo que está fuera de nuestro control y capacidad para medir. Puede ser error experimental en las mediciones, o el efecto de otras variables que no estamos tomando en cuenta. 
 
-Un ejemplo de un tal problema es el siguiente: Trabajamos para una empresa que vende un producto dado. Esta empresa invierte su presupuesto de publicidad en radio, televisión y periódicos. Tenemos el número de unidades medidas en varios mercados así como la inversión en estos tres tipos de publicidad. De esta forma $X_1, X_2, X_3$ es la inversión en televisión, radio y periódicos respectivamente, mientras $Y$ es la cantidad de unidades medidas. 
+Un ejemplo de un tal problema es el siguiente: Trabajamos para una empresa que vende un producto dado. Esta empresa invierte su presupuesto de publicidad en radio, televisión y periódicos. Tenemos el número de unidades vendidas en varios mercados así como la inversión en estos tres tipos de publicidad. De esta forma $x_1, x_2, x_3$ es la inversión en televisión, radio y periódicos respectivamente, mientras $y$ es la cantidad de unidades vendidas 
 
 ### Predicción vs inferencia
 
 En este caso podemos querer determinar $f$ por dos motivos: Predicción o inferencia.
 
-Para predicción, nos importa solamente determinar cuánto vale $Y$ para alguna combinación de las variables de entrada que no hemos visto antes. Por ejemplo saber cuántas unidades se venderán para una dada inversión en publicidad. La mayor parte del aprendizaje automático se ocupa de este tipo de problemas. Lo más importante en este tipo de problemas es reducir el error
+Para predicción, nos importa solamente determinar cuánto vale $y$ para alguna combinación de las variables de entrada que no hemos visto antes. Por ejemplo saber cuántas unidades se venderán para una dada inversión en publicidad. La mayor parte del aprendizaje automático se ocupa de este tipo de problemas. Lo más importante en este tipo de problemas es reducir el error
 $$
-\langle (\hat{Y} - Y)^2\rangle = \langle(\hat{f}(X) - f(X) + \epsilon)^2 \rangle = \langle(f(X) - \hat{f}(X))^2\rangle + \operatorname{Var}(\epsilon)\,.
+\langle (\hat{y} - y)^2\rangle = \langle(\hat{f}(\mathbf{x}) - f(\mathbf{x}) + \epsilon)^2 \rangle = \langle(f(\mathbf{x}) - \hat{f}(\mathbf{x}))^2\rangle + \operatorname{Var}(\epsilon)\,.
 $$
 Al primer término lo llamamos el error reducible: Podemos esperar disminuirlo encontrlando un modelo mejor. Al segundo término lo llamamos el error irreducible.
 
@@ -33,9 +33,9 @@ En física normalmente nos interesa la inferencia. Predecir no es suficiente dad
 
 En nuestra discusión anterior hemos tomado en cuenta modelos que dependen de parámetros. En física esto ocurre con mucha frecuencia ya que tenemos leyes físicas que queremos comparar con el experimento. Esas leyes nos proveen el modelo de forma natural junto con sus parámetros libres.
 
-En general, los modelos que dependen de parámetros pueden dar origen a métodos muy potentes cuando son una buena descripción de los datos. Por ejemplo el ajuste lineal que vimos antes y que discutiremos más abajo puede ser un método muy potente si la relación entre los $X_i$ y $Y$ es lineal.
+En general, los modelos que dependen de parámetros pueden dar origen a métodos muy potentes cuando son una buena descripción de los datos. Por ejemplo el ajuste lineal que vimos antes y que discutiremos más abajo puede ser un método muy potente si la relación entre los $x_i$ y $y$ es lineal.
 
-Los modelos paraétricos suelen ser más interpretables y más fáciles de usar para hacer inferencia.
+Los modelos paramétricos suelen ser más interpretables y más fáciles de usar para hacer inferencia.
 
 Sin embargo hay casos donde no sabemos cuál es el modelo subyacente. Aún así nos puede interesar hacer predicciones. Un ejemplo que surge en física es cuando algún detalle del detector tiene un efecto sobre la medida, pero no nos interesa o es demasiado complicado modelarlo. Entonces tratamos de aproximar el efecto con funciones muy generales que no tengan parámetros libres. 
 
@@ -43,7 +43,7 @@ La ventaja de estos modelos es que para la predicción son más generales que lo
 
 ### Aprendizaje supervisado vs no supervisado 
 
-Normalmente los datos toman la forma de una enorme lista de mediciones de las diferentes variables de entrada. Si tenemos $q$ variables de entrada y $n$ mediciones, podemos organizarlas en una matriz donde cada columna corresponde a una variable medida y cada fila es una medición. Es decir $\boldsymbol{X}$ es una matriz $n\times q$. En algunos casos también tenemos las variables de salida $Y$ que organizamos como un vector $y_i$ con $n$ componentes. Si usamos esas variables de salida para entrenar el modelo hablamos de **aprendizaje supervisado**. La analogía es que el modelo mira varios ejemplos para aprender.
+Normalmente los datos toman la forma de una enorme lista de mediciones de las diferentes variables de entrada. Si tenemos $n$ variables de entrada y $N$ mediciones, podemos organizarlas en una matriz donde cada columna corresponde a una variable medida y cada fila es una medición. Es decir $\boldsymbol{X}$ es una matriz $N\times n$. En algunos casos también tenemos las variables de salida $Y$ que organizamos como un vector $y_i$ con $N$ componentes. Si usamos esas variables de salida para entrenar el modelo hablamos de **aprendizaje supervisado**. La analogía es que el modelo mira varios ejemplos para aprender.
 
 En otras situaciones no tenemos una variable de salida $y_i$. Por ejemplo si tenemos una aplicación que recomienda restaurantes, nos puede interesar saber cuáles son los gustos de las personas. Podemos entonces agruparlos por gusto, donde los miembros de cada grupo tienen gustos similares. En casos como este decimos que el aprendizaje es **no supervisado**.
 
@@ -162,7 +162,7 @@ Otra evaluacón que muy usada que no depende del modelo es la $R^2$. Definida as
 $$
 R^2 = 1 - \frac{\text{RSS}}{\sum (y_i - \bar{y})^2}\,.
 $$
-El denominador del segundo término se llama la suma total de cuadrados. Nos dice la varianza de $y$ en los datos. El numerador nos dice la desviación de los datos respecto al modelo. Si $R^2$ es cercano a $1$ quiere decir que la desviación de los daotos respecto al modelo es muy pequeña comparada con la desviación total y el modelo es bueno. Si al contrario $R^2$ es cercano a cero, quiere decir que la desviación respecto al modelo es similar a la desviación total tal que el modelo no está haciendo nada (podemos lograr algo similar usando la media). A veces se dice que $R^2$ es la "fracción de la varianza explicada por el modelo". Para la regresión lineal simple, $R^2% es igual a la correlación entre el modelo y los datos.
+El denominador del segundo término se llama la suma total de cuadrados. Nos dice la varianza de $y$ en los datos. El numerador nos dice la desviación de los datos respecto al modelo. Si $R^2$ es cercano a $1$ quiere decir que la desviación de los daotos respecto al modelo es muy pequeña comparada con la desviación total y el modelo es bueno. Si al contrario $R^2$ es cercano a cero, quiere decir que la desviación respecto al modelo es similar a la desviación total tal que el modelo no está haciendo nada (podemos lograr algo similar usando la media). A veces se dice que $R^2$ es la "fracción de la varianza explicada por el modelo". Para la regresión lineal simple, $R^2$ es igual a la correlación entre el modelo y los datos.
 
 ### Regresión Lineal Múltiple
 
@@ -202,17 +202,19 @@ Estudiaremos más adelante varias maneras de seleccionar variables. Por ahora s�
 
 En nuestro ejemplo es bastante claro que podemos remover el coeficiente de periódicos.
 
-Una vez tengamos un buen modelo podemos hacer predicciones. A partir de las varianzas de los parámetros podemos reportar un intervalo de confianza a un nivel $C$ para la prediccón (propagando errores). Según este modelo, el verdadero valor de $f(X)$ estará en ese intervalo una fracción $C$ de veces. *Esto no quiere decir que al realizar muchas observaciones futuras, una fracción $C$ caerá en ese intervalo. Esto es porque nos falta $\epsilon$, el error irreducible (recuerde que cada observación es $f(X) + \epsilon$). A los intervalos que incorporan este error irreducible (estimado a partir de los datos) se los llama **intervalos de predicción**.
+Una vez tengamos un buen modelo podemos hacer predicciones. A partir de las varianzas de los parámetros podemos reportar un intervalo de confianza a un nivel $C$ para la prediccón (propagando errores). Según este modelo, el verdadero valor de $f(X)$ estará en ese intervalo una fracción $C$ de veces. 
+
+*Esto no quiere decir que al realizar muchas observaciones futuras, una fracción $C$ caerá en ese intervalo. Esto es porque nos falta $\epsilon$, el error irreducible (recuerde que cada observación es $f(X) + \epsilon$). A los intervalos que incorporan este error irreducible (estimado a partir de los datos) se los llama **intervalos de predicción**.*
 
 ### Términos No-Lineales en Regresión Lineal
 
 Cuando la relación entre variables es no-lineal, al parecer no podemos aplicar este método. En realidad podemos generalizarlo. Por ejemplo podríamos escribir para un solo predictor
 $$
-f(X) = \beta_0 + \beta_1 X + \beta_2 X^2\,.
+f(x) = \beta_0 + \beta_1 x + \beta_2 x^2\,.
 $$
 Más interesante aún, en el caso de varios predictores podemos incluir términos **de interacción**. En nuestro ejemplo podemos escribir 
 $$
-f(X) = \beta_0 + \beta_{\text{TV}}X_{\text{TV}} + \beta_{\text{radio}}X_{\text{radio}} + \beta_{\text{TV}\times\text{radio}}X_{\text{TV}}X_{\text{radio}}\,.
+f(X) = \beta_0 + \beta_{\text{TV}}x_{\text{TV}} + \beta_{\text{radio}}x_{\text{radio}} + \beta_{\text{TV}\times\text{radio}}x_{\text{TV}}X_{\text{radio}}\,.
 $$
 Lo que representa este término es que hay un efecto de sinergia entre los dos predictores. El efecto de invertir en televisión depende de si se invierte en radio o no. Veámoslo
 
