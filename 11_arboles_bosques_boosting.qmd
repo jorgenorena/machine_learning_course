@@ -65,7 +65,7 @@ print("Forma de objetivo:", objetivo.shape)
 
 Generamos datos en una hiperesfera de seis dimensiones. Los datos verdaderos dependen sólo del radio de la hiperesfera, pero tenemos los valores de cada una de las seis variables. Este es un caso muy no-lineal, por lo que no es fácil de aproximar con un modelo lineal como la mayoría de los vistos hasta ahora.
 
-# Árboles de Decisión
+## Árboles de Decisión
 
 Los árboles de decisión consisten en hacer una regresión o una clasificación basada en una serie de decisiones.
 
@@ -237,7 +237,7 @@ $$
 donde $T$ es el número de hojas en el árbol. El hiperpárametro $\alpha$ corresponde al costo de agregarle más complejidad al árbol. Su valor se puede escoger usando validación cruzada:
 
 1. Crecemos un árbol muy grande. Hasta que cada hoja tenga pocos puntos de datos.
-2. Calculamos la función de pérdida como función de $\alpha$, cortando hojas para obtener el mejor subárbol para cada valord e $\alpha$.
+2. Calculamos la función de pérdida como función de $\alpha$, cortando hojas para obtener el mejor subárbol para cada valor de $\alpha$.
 3. Usamos validación cruzada, repitiendo los pasos 1 y 2 en cada pliegue. El menor error nos da el mejor valor de $\alpha$.
 4. Se escoge el subárbol correspondiente a ese valor de $\alpha$ que se había guardado en el paso 2.
 
@@ -307,15 +307,15 @@ $$
 
 donde $N$ es el número total de observaciones en el nodo, y $N_{\text{izq}}$ y $N_{\text{der}}$ son los números de observaciones en los nodos hijos izquierdo y derecho respectivamente.
 
-# Métodos de Ensamble
+## Métodos de Ensamble
 
 Los métodos de ensamble combinan múltiples árboles para mejorar el rendimiento. La idea principal es que cada árbol es débil por sí solo, pero combinados dan un resultado mucho mejor.
 
-## Bagging y Bosques Aleatorios
+### Bagging y Bosques Aleatorios
 
 Los árboles de decisión tienen una alta varianza. Es decir, un árbol de decisión entrenado con un conjunto de datos puede dar resultados muy diferentes si se entrena con otro conjunto de datos. Una forma de reducir la varianza en general es promediar sobre muchas realizaciones entrenadas sobre múltiples conjuntos de datos. Sin embargo, no tenemos múltiples conjuntos de datos. Por esto podemos usar muestreo con reemplazo para obtener múltiples conjuntos de datos. Es decir, procedemos de la siguiente manera:
 
-1. Tomamos un subconjunto aleatorio con reemplazo de los datos de tamaño $N$.
+1. Tomamos un subconjunto aleatorio con reemplazo de los datos del mismo tamaño del conjunto original.
 2. Entrenamos un árbol de decisión con ese subconjunto.
 3. Repetimos el proceso $B$ veces.
 4. Obtenemos $B$ árboles de decisión.
@@ -361,7 +361,7 @@ plt.show()
 
 Aunque esto reduce la varianza, los árboles de decisión tienen todavía una alta correlación entre ellos. Es decir, si un árbol predice que un punto es de una clase, los otros árboles tenderán a predecir lo mismo. Para reducir esta correlación, podemos introducir una fuente adicional de aleatoriedad. La idea es permitir que cada árbol pueda usar un subconjunto de características para hacer las divisiones.
 
-### Bosques Aleatorios
+#### Bosques Aleatorios
 
 Los bosques aleatorios son una modificación del bagging que introduce una fuente adicional de aleatoriedad. La idea principal es:
 
@@ -398,7 +398,7 @@ plt.legend()
 plt.show()
 ```
 
-## Boosting
+### Boosting
 
 El boosting es otra técnica de ensamblaje que construye modelos secuencialmente, donde cada nuevo modelo intenta corregir los errores del anterior. El algoritmo más popular es Gradient Boosting:
 
@@ -443,7 +443,9 @@ plt.show()
 
 En este caso yo escogí unos hiperparámetros que dan un error pequeño sobre el conjunto de entrenamiento. En general, esto no es lo que se hace ya que el error sobre el conjunto de entrenamiento no es una buena estimación del error sobre datos nuevos. Lo que se hace es usar validación cruzada para escoger los hiperparámetros.
 
-# Importancia de Cada Variable en Métodos Basados en Árboles
+El boosting tiende a sobreajustarse a los datos, tal que es necesario tener cuidado con el proceso de entrenamiento y elección de hiperparámetros.
+
+## Importancia de Cada Variable en Métodos Basados en Árboles
 
 En los métodos basados en árboles de regresión, la importancia de una característica se mide por su contribución a la reducción del error cuadrático medio. Para un árbol individual, la importancia de la característica $j$ se calcula como:
 
@@ -463,39 +465,6 @@ En el caso de bosques aleatorios y boosting, la importancia de cada característ
 Es importante notar que estas medidas de importancia son relativas y no absolutas. Una característica con importancia cero no significa necesariamente que sea irrelevante para la predicción, sino que podría estar correlacionada con otras características más importantes. Además, estas medidas tienden a favorecer características con más valores únicos o rangos más amplios.
 
 En nuestro ejemplo con datos en 6D, donde la función objetivo depende solo del radio, esperaríamos que todas las características tengan una importancia similar, ya que cada una contribuye igualmente al cálculo del radio.
-
-# Comparación de Métodos
-
-Cada uno de los métodos discutidos tiene sus ventajas y desventajas. Aquí presentamos una comparación detallada:
-
-## Árboles de Decisión
-- **Sobreajuste**: Muy propensos a sobreajuste, especialmente si no se controla la profundidad
-- **Costo computacional**: Muy eficiente en entrenamiento y predicción
-- **Interpretabilidad**: Excelente - se pueden visualizar y entender fácilmente
-- **Hiperparámetros**: Pocos y fáciles de interpretar (profundidad máxima, número mínimo de muestras por hoja)
-- **Rendimiento**: Regresores débiles con alta varianza - predicciones escalonadas y poco suaves
-- **Uso recomendado**: Cuando la interpretabilidad es crucial y el conjunto de datos es pequeño. No recomendado como regresor único en problemas donde se necesita precisión.
-
-## Bagging
-- **Sobreajuste**: Menos propenso que árboles individuales, pero puede sobreajustar si los árboles base son muy complejos
-- **Costo computacional**: Lineal con el número de árboles, paralelizable
-- **Interpretabilidad**: Baja - el ensamble es difícil de interpretar
-- **Hiperparámetros**: Número de árboles, tamaño del subconjunto de datos
-- **Uso recomendado**: Cuando se necesita reducir la varianza de árboles individuales
-
-## Bosques Aleatorios
-- **Sobreajuste**: Menos propenso que bagging debido a la aleatorización adicional
-- **Costo computacional**: Similar a bagging, pero ligeramente más costoso por la selección aleatoria de características
-- **Interpretabilidad**: Baja, pero permite medir la importancia de características
-- **Hiperparámetros**: Número de árboles, número de características a considerar en cada división
-- **Uso recomendado**: Problemas generales de regresión y clasificación donde la interpretabilidad no es crucial
-
-## Boosting 
-- **Sobreajuste**: Muy propenso si no se controla adecuadamente con regularización
-- **Costo computacional**: Alto, especialmente con muchos árboles y datos grandes
-- **Interpretabilidad**: Baja, pero permite medir la importancia de características
-- **Hiperparámetros**: Múltiples e importantes (tasa de aprendizaje, número de árboles, profundidad, regularización)
-- **Uso recomendado**: Cuando se necesita el mejor rendimiento posible y se tienen recursos computacionales suficientes
 
 # Ejercicios sugeridos para la prueba
 
