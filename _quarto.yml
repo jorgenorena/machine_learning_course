@@ -38,8 +38,10 @@ website:
             href: 10_seleccion_de_modelos.qmd
           - text: "11. Árboles, Bosques y Boosting"
             href: 11_arboles_bosques_boosting.qmd
-          - text: "12. SVM y Aprendizaje No Supervisado"
-            href: 12_svm_y_no_supervisado.qmd
+          - text: "12. Máquinas de Vectores de Soporte (SVM)"
+            href: 12_svm.qmd
+          - text: "13. Aprendizaje No Supervisado"
+            href: 13_no_supervisado.qmd
           - text: "------"
           - text: "Redes Neuronales"
           - text: "11. Perceptrón y Redes Conexas y Pérdidas"
@@ -93,8 +95,10 @@ website:
             href: 10_seleccion_de_modelos.qmd
           - text: "11. Árboles, Bosques y Boosting"
             href: 11_arboles_bosques_boosting.qmd
-          - text: "12. SVM y Aprendizaje No Supervisado"
-            href: 12_svm_y_no_supervisado.qmd
+          - text: "12. Máquinas de Vectores de Soporte (SVM)"
+            href: 12_svm.qmd
+          - text: "13. Aprendizaje No Supervisado"
+            href: 13_no_supervisado.qmd
       - section: "Redes Neuronales"
         contents:
           - text: "11. Perceptrón, Redes Conexas y Pérdidas"
@@ -112,7 +116,7 @@ website:
       - section: "Algunas aplicaciones"
         contents:
           - text: "17. Flujos Normalizantes"
-            href: "17_flujos_normalizantes.qmd"
+            href: 17_flujos_normalizantes.qmd
           - text: "18. Redes Neuronales Informadas por la Física (PINNs)"
             href: 18_PINNs.qmd
           - text: "19. Operadores Neuronales"

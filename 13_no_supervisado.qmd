@@ -83,6 +83,8 @@ En este ejemplo, usamos PCA para comprimir una imagen de un dígito escrito a ma
 #| fig-cap: "Dígitos de MNIST"
 #| code-fold: true
 
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.datasets import fetch_openml
 
 mnist = fetch_openml('mnist_784', as_frame=False)
@@ -248,5 +250,7 @@ cluster_image(5)
 En la figura @fig-ladybug-segmented-5 se muestra el resultado del clustering K-means para la imagen de la figura @fig-ladybug con 5 clusters.
 
 ## Ejercicios sugeridos
+
+12.3, 12.6, 12.7
 
 - Suponga que realizamos un PCA de un conjunto de datos y obtenemos que el primer componente principal explica el 95% de la varianza. ¿Qué significa esto?

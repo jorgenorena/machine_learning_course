@@ -348,6 +348,6 @@ Las SVM definen una frontera de decisión para separar dos clases. Cuando tenemo
 
 # Ejercicios Sugeridos
 
-9.2, 9.3, 12.3
+9.2, 9.3, 9.4
 
 - Suponga que ajustamos un conjunto de datos con un modelo SVM y obtenemos un sobreajuste. ¿Qué puede hacer para reducir el sobreajuste? 

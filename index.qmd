@@ -26,7 +26,8 @@ El curso se divide en tres partes principales:
     - Selección de modelos: entrenamiento/validación/prueba, validación cruzada.
     - Regularización: Ridge, Lasso y Elastic Net.
     - Árboles de decisión, random forests y boosting
-    - Otros métodos: Máquinas de vectores de soporte y aprendizaje no supervisado
+    - Máquinas de vectores de soporte.
+    - Aprendizaje no supervisado: clustering y reducción de dimensionalidad
 
 - Unidad 3: Redes Neuronales
     - El perceptrón multicapa
@@ -40,7 +41,7 @@ El curso se divide en tres partes principales:
 
 Al finalizar este curso, los estudiantes serán capaces de:
 
-1. Comprender los fundamentos matemáticos detrás de los métodos de machine learning y su interpretación en provlemas de datos
+1. Comprender los fundamentos matemáticos detrás de los métodos de machine learning y su interpretación en problemas de datos
 2. Identificar qué técnicas son apropiadas para diferentes problemas en física
 3. Implementar y adaptar algoritmos de aprendizaje automático para aplicaciones específicas
 4. Evaluar críticamente los resultados y limitaciones de diferentes métodos
