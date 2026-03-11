@@ -1597,7 +1597,7 @@
     "href": "2_distribuciones.html#varias-variables",
     "title": "Distribuciones de Probabilidad",
     "section": "Varias variables",
-    "text": "Varias variables\n\nDistribución de probabilidad conjunta\nSi tenemos varias variables aleatorias, las definiciones son muy análogas. Por ejemplo, la distribución de probabilidad conjunta \\[\nP[a_1\\leq x_1 \\leq b_1, ..., a_n \\leq x_n \\leq b_n] \\equiv \\int_{a_n}^{b_n}...\\int_{a_1}^{b_1}\\prod_{i=1}^n dx_i\\, \\rho(x_1, ..., x_n)\\,.\n\\]\n\n\nDistribución marginal y condicional\nSi nos preguntamos cuál es el valor de una variable, independientemente del valor que tomen todas las demás, sólo tenemos que sumar sobre todos los valores de las demás variables. Esta se llama la distribución marginal \\[\n\\rho^M(x_1) = \\int_{-\\infty}^\\infty...\\int_{-\\infty}^\\infty \\prod_{i=2}^n dx_i\\,\\rho(x_1, x_2, ..., x_n)\\,.\n\\] Análogamente, si queremos la probabilidad conjunta para algunas variables, marginalizamos sobre todas las demás \\[\n\\rho^M(x_1, ..., x_m) = \\int_{-\\infty}^\\infty...\\int_{-\\infty}^\\infty \\prod_{i=m+1}^n dx_i\\,\\rho(x_1, x_2, ..., x_n)\\,.\n\\]}\nUna pregunta distinta, es si fijamos el valor de las demás variables y nos preguntamos por la probabilidad de las restantes. Esta es la distribución condicional \\[\n\\rho^C(x_1, ..., x_m| x_{m+1}, ..., x_n) \\equiv \\frac{\\rho(x_1, ..., x_n)}{\\rho^M(x_{m+1}, ..., x_n)}\\,.\n\\]\nEsto nos permite escribir por ejemplo la siguiente relación \\[\n\\rho^C(x|y) = \\frac{\\rho^C(y|x)\\rho^M(x)}{\\rho^M(y)}\\,,\n\\] o también \\[\n\\rho(x, y) = \\rho^C(x|y)\\rho^M(y)\\,.\n\\] Decimos que dos variables son independientes si \\[\nf(x, y) = f^M(x)f^M(y)\\,.\n\\]\n\n\nMomentos y valores esperados\nSe definen de forma análoga a una variable. Por ejemplo, definimos la covarianza como el segundo momento central \\[\n\\text{cov}(x_i, x_j) \\equiv \\sigma_{ij} \\equiv \\int_{-\\infty}^\\infty...\\int_{-\\infty}^\\infty \\prod_{i=1}^n dx_i\\, (x_i - \\mu_i)(x_j - \\mu_j) \\rho(x_1, ..., x_n)\\,.\n\\] La condición \\(\\sigma_{ij} = 0\\) es necesaria (pero no suficiente) para que dos variables sean independientes.",
+    "text": "Varias variables\n\nDistribución de probabilidad conjunta\nSi tenemos varias variables aleatorias, las definiciones son muy análogas. Por ejemplo, la distribución de probabilidad conjunta \\[\nP[a_1\\leq x_1 \\leq b_1, ..., a_n \\leq x_n \\leq b_n] \\equiv \\int_{a_n}^{b_n}...\\int_{a_1}^{b_1}\\prod_{i=1}^n dx_i\\, \\rho(x_1, ..., x_n)\\,.\n\\]\n\n\nDistribución marginal y condicional\nSi nos preguntamos cuál es el valor de una variable, independientemente del valor que tomen todas las demás, sólo tenemos que sumar sobre todos los valores de las demás variables. Esta se llama la distribución marginal \\[\n\\rho^M(x_1) = \\int_{-\\infty}^\\infty...\\int_{-\\infty}^\\infty \\prod_{i=2}^n dx_i\\,\\rho(x_1, x_2, ..., x_n)\\,.\n\\] Análogamente, si queremos la probabilidad conjunta para algunas variables, marginalizamos sobre todas las demás \\[\n\\rho^M(x_1, ..., x_m) = \\int_{-\\infty}^\\infty...\\int_{-\\infty}^\\infty \\prod_{i=m+1}^n dx_i\\,\\rho(x_1, x_2, ..., x_n)\\,.\n\\]}\nUna pregunta distinta, es si fijamos el valor de las demás variables y nos preguntamos por la probabilidad de las restantes. Esta es la distribución condicional \\[\n\\rho^C(x_1, ..., x_m| x_{m+1}, ..., x_n) \\equiv \\frac{\\rho(x_1, ..., x_n)}{\\rho^M(x_{m+1}, ..., x_n)}\\,.\n\\]\nEsto nos permite escribir por ejemplo la siguiente relación \\[\n\\rho^C(x|y) = \\frac{\\rho^C(y|x)\\rho^M(x)}{\\rho^M(y)}\\,,\n\\] o también \\[\n\\rho(x, y) = \\rho^C(x|y)\\rho^M(y)\\,.\n\\] Decimos que dos variables son independientes si \\[\n\\rho(x, y) = \\rho^M(x)\\rho^M(y)\\,.\n\\]\n\n\nMomentos y valores esperados\nSe definen de forma análoga a una variable. Por ejemplo, definimos la covarianza como el segundo momento central \\[\n\\text{cov}(x_i, x_j) \\equiv \\sigma_{ij} \\equiv \\int_{-\\infty}^\\infty...\\int_{-\\infty}^\\infty \\prod_{i=1}^n dx_i\\, (x_i - \\mu_i)(x_j - \\mu_j) \\rho(x_1, ..., x_n)\\,.\n\\] La condición \\(\\sigma_{ij} = 0\\) es necesaria (pero no suficiente) para que dos variables sean independientes.",
     "crumbs": [
       "Home",
       "Probabilidad y Estadística",
@@ -1764,7 +1764,7 @@
     "href": "proyectos.html",
     "title": "Proyectos propuestos",
     "section": "",
-    "text": "Proyecto 1: [proyecto_1_espectro_de_potencias_y_arboles]\nProyecto 2: [proyecto_2_descenso_doble_en_polinomios]\nProyecto 3: [proyecto_3_busqueda_bayesiana_de_hiperparametros]\nProyecto 4: [proyecto_4_sesgo_varianza_en_clasificacion]",
+    "text": "Proyecto 1: Espectro de potencias en cosmología y contenido de información\nProyecto 2: Descenso doble en polinomios\nProyecto 3: Búsqueda bayesiana de hiperparámetros\nProyecto 4: Sesgo, varianza y riesgo en problemas de clasificación",
     "crumbs": [
       "Home",
       "Evaluacion",
@@ -1776,7 +1776,7 @@
     "href": "proyectos.html#unidad-2-aprendizaje-automático-clásico",
     "title": "Proyectos propuestos",
     "section": "",
-    "text": "Proyecto 1: [proyecto_1_espectro_de_potencias_y_arboles]\nProyecto 2: [proyecto_2_descenso_doble_en_polinomios]\nProyecto 3: [proyecto_3_busqueda_bayesiana_de_hiperparametros]\nProyecto 4: [proyecto_4_sesgo_varianza_en_clasificacion]",
+    "text": "Proyecto 1: Espectro de potencias en cosmología y contenido de información\nProyecto 2: Descenso doble en polinomios\nProyecto 3: Búsqueda bayesiana de hiperparámetros\nProyecto 4: Sesgo, varianza y riesgo en problemas de clasificación",
     "crumbs": [
       "Home",
       "Evaluacion",
@@ -1878,14 +1878,14 @@
     "href": "index.html#referencias",
     "title": "Aprendizaje Automático para Física",
     "section": "Referencias",
-    "text": "Referencias\nEstas notas son más que nada un resumen de los siguientes libros:\n\n“Statistics for Physical Sciences”, B.R. Martin, Elsevier (2012). (Probabilidad y estadística)\n“Statistics: A Guide to the Use of Statistical Methods in the Physical Sciences”, Barlow, Wiley (1989).\n“An Introduction to Statistical Learning”, James, Witten, Hastie, Tibshirani, Taylor, Springer (2023). Disponible libremente en Aprendizaje Automático (Aprendizaje automático)\n“Understanding Deep Learning”, J.D. Prince, MIT Press (2023). Disponible libremente en Redes Neuronales (Redes neronales)\n“Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow”, Géron, O’Reilly (2022)."
+    "text": "Referencias\nEstas notas son más que nada un resumen de los siguientes libros:\n\n“Statistics for Physical Sciences”, B.R. Martin, Elsevier (2012). (Probabilidad y estadística)\n“Statistics: A Guide to the Use of Statistical Methods in the Physical Sciences”, Barlow, Wiley (1989).\n“An Introduction to Statistical Learning”, James, Witten, Hastie, Tibshirani, Taylor, Springer (2023). Disponible libremente en este enlace (Aprendizaje automático)\n“Understanding Deep Learning”, J.D. Prince, MIT Press (2023). Disponible libremente en este enlace (Redes neronales)\n“Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow”, Géron, O’Reilly (2022)."
   },
   {
     "objectID": "index.html#evaluación",
     "href": "index.html#evaluación",
     "title": "Aprendizaje Automático para Física",
     "section": "Evaluación",
-    "text": "Evaluación\nAl final de la primera unidad se realizará una prueba escrita.\nAl final de la segunda unidad se presentará un proyecto sobre aprendizaje automático (ver [proyectos]).\nAl final de la tercera unidad se presentará un proyecto sobre redes neuronales con alguna aplicación a la física.\nCada uno vale un tercio de la nota final."
+    "text": "Evaluación\nAl final de la primera unidad se realizará una prueba escrita.\nAl final de la segunda unidad se presentará un proyecto sobre aprendizaje automático (ver los proyectos).\nAl final de la tercera unidad se presentará un proyecto sobre redes neuronales con alguna aplicación a la física.\nCada uno vale un tercio de la nota final."
   },
   {
     "objectID": "index.html#ejercicios",
@@ -1899,7 +1899,7 @@
     "href": "index.html#otros-libros",
     "title": "Aprendizaje Automático para Física",
     "section": "Otros libros",
-    "text": "Otros libros\n\n“Deep Learning”, I. Goodfellow, Y. Bengio, A. Courville, MIT Press (2016).\n“Dive into Deep Learning”, A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en [https://d2l.ai/]"
+    "text": "Otros libros\n\n“Deep Learning”, I. Goodfellow, Y. Bengio, A. Courville, MIT Press (2016).\n“Dive into Deep Learning”, A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en este sitio."
   },
   {
     "objectID": "index.html#otros-recursos",
