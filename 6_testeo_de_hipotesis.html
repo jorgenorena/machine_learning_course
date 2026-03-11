@@ -192,24 +192,28 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
         <li>
-    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
- <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+    <a class="dropdown-item" href="./8_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./7_clasificacion.html">
- <span class="dropdown-text">7. Clasificación</span></a>
+    <a class="dropdown-item" href="./9_clasificacion.html">
+ <span class="dropdown-text">9. Clasificación</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
- <span class="dropdown-text">8. Selección de Modelos</span></a>
+    <a class="dropdown-item" href="./10_seleccion_de_modelos.html">
+ <span class="dropdown-text">10. Selección de Modelos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
- <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+    <a class="dropdown-item" href="./11_arboles_bosques_boosting.html">
+ <span class="dropdown-text">11. Árboles, Bosques y Boosting</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
- <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+    <a class="dropdown-item" href="./12_svm.html">
+ <span class="dropdown-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_no_supervisado.html">
+ <span class="dropdown-text">13. Aprendizaje No Supervisado</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Redes Neuronales</li>
@@ -253,6 +257,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./proyectos.html" aria-current="page"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">Acerca de</span></a>
@@ -344,32 +352,38 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  <a href="./8_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">7. Clasificación</span></a>
+  <a href="./9_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Clasificación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">8. Selección de Modelos</span></a>
+  <a href="./10_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Selección de Modelos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  <a href="./11_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Árboles, Bosques y Boosting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  <a href="./12_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Aprendizaje No Supervisado</span></a>
   </div>
 </li>
       </ul>
@@ -446,6 +460,23 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./19_Operador_Neural.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">19. Operadores Neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Evaluacion</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proyectos</span></a>
   </div>
 </li>
       </ul>
@@ -548,7 +579,7 @@ P(10) = P(0) \approx 0.001\,,\quad P(9) = P(1) \approx 0.010\,,\quad P(8) = P(2)
 <p>La probabilidad de cometer errores de tipo I se llama <strong>significancia</strong>, normalmente denotada <span class="math inline">\(\alpha\)</span>. Al comparar una hipótesis nula con una alternativa, <span class="math inline">\(\alpha\)</span> es la probabilidad de rechazar la hipótesis nula siendo esta verdadera <span class="math inline">\(\alpha = P[R_a | H_0]\)</span>.</p>
 <p>La probabilidad de rechazar correctamente una hipótesis falsa se llama la <strong>potencia</strong>, denotada por <span class="math inline">\(\beta\)</span>. Al comparar una hipótesis nula con una alternativa, <span class="math inline">\(\beta\)</span> es la probabilidad de rechazar la hipótesis nula, siendo esta falsa <span class="math inline">\(\beta = P[R_a | H_a]\)</span>. Entonces la probabilidad de cometer un error de tipo II es <span class="math inline">\(1 - P[R_a | H_a] = 1 - \beta\)</span>.</p>
 <p>En un mundo ideal nos gustaría reducir los errores de ambos tipos, es decir <span class="math inline">\(\alpha\)</span> pequeño y <span class="math inline">\(\beta\)</span> alto. Pero normalmente reducir los de tipo I aumenta los de tipo II y vice versa. Ilustremos con un par de imágenes:</p>
-<div id="cell-fig-small-significance" class="cell" data-execution_count="2">
+<div id="cell-fig-small-significance" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div id="fig-small-significance" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -563,7 +594,7 @@ Figura&nbsp;1: Baja probabilidad de rechazar equivocadamente la hipótesis nula.
 </div>
 </div>
 <p>En la <a href="#fig-small-significance" class="quarto-xref">Figura&nbsp;1</a> supongamos que la región de exclusión es a la derecha de la barra negra. Si la hipótesis nula es verdadera, la distribución de probabilidad es la azul. Si la alternativa es verdadera, la distribución de probabilidad es la roja. Vemos que escoger esa región de exclusión nos da una probablidad muy chiquita de excluir la hipótesis nula en caso de que sea verdadera (área bajo la curva azul a la derecha de la línea). Es decir, es poco probable que rechacemos la hipótesis nula por error. Pero por otro lado si la hipótesis alternativa es verdadera, tenemos una probabilidad relativamente alta de aceptar la hipótesis nula (área bajo la curva roja a la izquierda de la línea). Es decir que es bastante probable que por error no rechacemos la hipótesis nula. En este caso vemos que el criterio no es muy <em>potente</em>: No nos permitiría detectar un nuevo fenómeno.</p>
-<div id="cell-fig-high-power" class="cell" data-execution_count="3">
+<div id="cell-fig-high-power" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-high-power" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -661,7 +692,7 @@ Ejemplo
 \]</span></p>
 <p>Este test se usa mucho en la práctica. Se puede escribir una versión discreta, dividida por subintervalos, etc.</p>
 <p>Hay muchos otros métodos de comparación de modelos, testeo de hipótesis y bondad de ajuste. Como este no es un curso de estadística no los describiremos aquí y recomendamos que el lector se refiera a los libros sugeridos.</p>
-<div id="0e8fec83" class="cell" data-execution_count="4">
+<div id="1947a064" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -708,9 +739,9 @@ Ejemplo
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>El ajuste polinomial de grado 1 tiene chi-cuadrado = 51.42
-El ajuste polinomial de grado 2 tiene chi-cuadrado = 12.64
-El ajuste polinomial de grado 8 tiene chi-cuadrado = 9.30</code></pre>
+<pre><code>El ajuste polinomial de grado 1 tiene chi-cuadrado = 64.81
+El ajuste polinomial de grado 2 tiene chi-cuadrado = 11.70
+El ajuste polinomial de grado 8 tiene chi-cuadrado = 6.28</code></pre>
 </div>
 </div>
 </section>

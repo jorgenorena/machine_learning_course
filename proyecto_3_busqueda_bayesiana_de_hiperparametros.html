@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Proyecto: Búsqueda bayesiana de hiperparámetros, construida paso a paso – Aprendizaje Automático para Físicos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Aprendizaje Automático para Físicos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-clases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Clases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-clases">    
+        <li class="dropdown-header">Probabilidad y Estadística</li>
+        <li>
+    <a class="dropdown-item" href="./1_probabilidad.html">
+ <span class="dropdown-text">1. Probabilidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_distribuciones.html">
+ <span class="dropdown-text">2. Distribuciones de Probabilidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_funcion_generatriz_tcl.html">
+ <span class="dropdown-text">3. Función generatriz y teorema central del límite</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_estimacion_verosimilitud.html">
+ <span class="dropdown-text">4. Verosimilitud y estimación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_minimos_cuadrados_intervalos.html">
+ <span class="dropdown-text">5. Mínimos Cuadrados e Intervalos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_testeo_de_hipotesis.html">
+ <span class="dropdown-text">6. Testeo de Hipótesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_entropia.html">
+ <span class="dropdown-text">7. Entropía</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Aprendizaje Automático</li>
+        <li>
+    <a class="dropdown-item" href="./8_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_clasificacion.html">
+ <span class="dropdown-text">9. Clasificación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_seleccion_de_modelos.html">
+ <span class="dropdown-text">10. Selección de Modelos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_arboles_bosques_boosting.html">
+ <span class="dropdown-text">11. Árboles, Bosques y Boosting</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_svm.html">
+ <span class="dropdown-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_no_supervisado.html">
+ <span class="dropdown-text">13. Aprendizaje No Supervisado</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Redes Neuronales</li>
+        <li>
+    <a class="dropdown-item" href="./11_perceptron_y_redes_conexas.html">
+ <span class="dropdown-text">11. Perceptrón y Redes Conexas y Pérdidas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_gradient_descent_and_autodiff.html">
+ <span class="dropdown-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_evaluacion_y_regularizacion_de_nn.html">
+ <span class="dropdown-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_redes_convolucionales.html">
+ <span class="dropdown-text">14. Redes Convolucionales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_redes_residuales.html">
+ <span class="dropdown-text">15. Redes Residuales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_transformadores.html">
+ <span class="dropdown-text">16. Transformadores y el mecanismo de atención</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Algunas aplicaciones</li>
+        <li>
+    <a class="dropdown-item" href="./17_flujos_normalizantes.html">
+ <span class="dropdown-text">17. Flujos Normalizantes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_PINNs.html">
+ <span class="dropdown-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_Operador_Neural.html">
+ <span class="dropdown-text">19. Operadores Neuronales</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./proyectos.html" aria-current="page"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Proyecto: Búsqueda bayesiana de hiperparámetros, construida paso a paso</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Probabilidad y Estadística</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_probabilidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Probabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_distribuciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Distribuciones de Probabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_funcion_generatriz_tcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Función generatriz y teorema central del límite</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_estimacion_verosimilitud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Verosimilitud y estimación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_minimos_cuadrados_intervalos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Mínimos Cuadrados e Intervalos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_testeo_de_hipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Testeo de Hipótesis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Entropía</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Aprendizaje Automático</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Clasificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Selección de Modelos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Árboles, Bosques y Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Aprendizaje No Supervisado</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Redes Neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_perceptron_y_redes_conexas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Perceptrón, Redes Conexas y Pérdidas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_gradient_descent_and_autodiff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_evaluacion_y_regularizacion_de_nn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_redes_convolucionales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14. Redes Convolucionales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_redes_residuales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15. Redes Residuales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_transformadores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16. Transformadores y el mecanismo de atención</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Algunas aplicaciones</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17_flujos_normalizantes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">17. Flujos Normalizantes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18_PINNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19_Operador_Neural.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">19. Operadores Neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Evaluacion</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proyectos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#objetivo-y-motivación" id="toc-objetivo-y-motivación" class="nav-link active" data-scroll-target="#objetivo-y-motivación">Objetivo y motivación</a></li>
+  <li><a href="#preguntas-guía" id="toc-preguntas-guía" class="nav-link" data-scroll-target="#preguntas-guía">Preguntas guía</a></li>
+  <li><a href="#aclaración-conceptual-importante" id="toc-aclaración-conceptual-importante" class="nav-link" data-scroll-target="#aclaración-conceptual-importante">Aclaración conceptual importante</a></li>
+  <li><a href="#estructura-general-del-proyecto" id="toc-estructura-general-del-proyecto" class="nav-link" data-scroll-target="#estructura-general-del-proyecto">Estructura general del proyecto</a></li>
+  <li><a href="#parte-a-problema-de-juguete-en-una-dimensión" id="toc-parte-a-problema-de-juguete-en-una-dimensión" class="nav-link" data-scroll-target="#parte-a-problema-de-juguete-en-una-dimensión">Parte A: problema de juguete en una dimensión</a>
+  <ul class="collapse">
+  <li><a href="#tarea-a1-punto-de-partida" id="toc-tarea-a1-punto-de-partida" class="nav-link" data-scroll-target="#tarea-a1-punto-de-partida">Tarea A1: punto de partida</a></li>
+  <li><a href="#tarea-a2-construir-un-modelo-sustituto" id="toc-tarea-a2-construir-un-modelo-sustituto" class="nav-link" data-scroll-target="#tarea-a2-construir-un-modelo-sustituto">Tarea A2: construir un modelo sustituto</a></li>
+  <li><a href="#tarea-a3-regla-para-elegir-el-siguiente-punto" id="toc-tarea-a3-regla-para-elegir-el-siguiente-punto" class="nav-link" data-scroll-target="#tarea-a3-regla-para-elegir-el-siguiente-punto">Tarea A3: regla para elegir el siguiente punto</a></li>
+  <li><a href="#tarea-a4-ciclo-iterativo" id="toc-tarea-a4-ciclo-iterativo" class="nav-link" data-scroll-target="#tarea-a4-ciclo-iterativo">Tarea A4: ciclo iterativo</a></li>
+  <li><a href="#tarea-a5-visualización" id="toc-tarea-a5-visualización" class="nav-link" data-scroll-target="#tarea-a5-visualización">Tarea A5: visualización</a></li>
+  </ul></li>
+  <li><a href="#parte-b-pasar-de-una-función-artificial-a-hiperparámetros-reales" id="toc-parte-b-pasar-de-una-función-artificial-a-hiperparámetros-reales" class="nav-link" data-scroll-target="#parte-b-pasar-de-una-función-artificial-a-hiperparámetros-reales">Parte B: pasar de una función artificial a hiperparámetros reales</a>
+  <ul class="collapse">
+  <li><a href="#tarea-b1-problema-de-regresión-sugerido" id="toc-tarea-b1-problema-de-regresión-sugerido" class="nav-link" data-scroll-target="#tarea-b1-problema-de-regresión-sugerido">Tarea B1: Problema de regresión sugerido</a></li>
+  </ul></li>
+  <li><a href="#modelo-a-optimizar" id="toc-modelo-a-optimizar" class="nav-link" data-scroll-target="#modelo-a-optimizar">Modelo a optimizar</a></li>
+  <li><a href="#definición-formal-de-la-función-objetivo" id="toc-definición-formal-de-la-función-objetivo" class="nav-link" data-scroll-target="#definición-formal-de-la-función-objetivo">Definición formal de la función objetivo</a></li>
+  <li><a href="#parte-c-construir-la-búsqueda-bayesiana-sobre-hiperparámetros" id="toc-parte-c-construir-la-búsqueda-bayesiana-sobre-hiperparámetros" class="nav-link" data-scroll-target="#parte-c-construir-la-búsqueda-bayesiana-sobre-hiperparámetros">Parte C: construir la búsqueda bayesiana sobre hiperparámetros</a>
+  <ul class="collapse">
+  <li><a href="#tarea-c1-comparación-de-base-con-búsqueda-aleatoria" id="toc-tarea-c1-comparación-de-base-con-búsqueda-aleatoria" class="nav-link" data-scroll-target="#tarea-c1-comparación-de-base-con-búsqueda-aleatoria">Tarea C1: Comparación de base con búsqueda aleatoria</a></li>
+  <li><a href="#tarea-c2-inicialización" id="toc-tarea-c2-inicialización" class="nav-link" data-scroll-target="#tarea-c2-inicialización">Tarea C2: inicialización</a></li>
+  <li><a href="#tarea-c3-modelo-sustituto-en-espacio-de-hiperparámetros" id="toc-tarea-c3-modelo-sustituto-en-espacio-de-hiperparámetros" class="nav-link" data-scroll-target="#tarea-c3-modelo-sustituto-en-espacio-de-hiperparámetros">Tarea C3: modelo sustituto en espacio de hiperparámetros</a></li>
+  <li><a href="#tarea-c4-adquisición" id="toc-tarea-c4-adquisición" class="nav-link" data-scroll-target="#tarea-c4-adquisición">Tarea C4: adquisición</a></li>
+  <li><a href="#tarea-c5-optimización-de-la-adquisición" id="toc-tarea-c5-optimización-de-la-adquisición" class="nav-link" data-scroll-target="#tarea-c5-optimización-de-la-adquisición">Tarea C5: optimización de la adquisición</a></li>
+  <li><a href="#tarea-c6-ciclo" id="toc-tarea-c6-ciclo" class="nav-link" data-scroll-target="#tarea-c6-ciclo">Tarea C6: ciclo</a></li>
+  </ul></li>
+  <li><a href="#qué-debes-comparar" id="toc-qué-debes-comparar" class="nav-link" data-scroll-target="#qué-debes-comparar">Qué debes comparar</a>
+  <ul class="collapse">
+  <li><a href="#evolución-del-mejor-puntaje-encontrado" id="toc-evolución-del-mejor-puntaje-encontrado" class="nav-link" data-scroll-target="#evolución-del-mejor-puntaje-encontrado">Evolución del mejor puntaje encontrado</a></li>
+  <li><a href="#configuración-final-elegida" id="toc-configuración-final-elegida" class="nav-link" data-scroll-target="#configuración-final-elegida">Configuración final elegida</a></li>
+  <li><a href="#predicción-final" id="toc-predicción-final" class="nav-link" data-scroll-target="#predicción-final">Predicción final</a></li>
+  </ul></li>
+  <li><a href="#visualizaciones" id="toc-visualizaciones" class="nav-link" data-scroll-target="#visualizaciones">Visualizaciones</a></li>
+  <li><a href="#preguntas-conceptuales-que-debes-responder" id="toc-preguntas-conceptuales-que-debes-responder" class="nav-link" data-scroll-target="#preguntas-conceptuales-que-debes-responder">Preguntas conceptuales que debes responder</a></li>
+  <li><a href="#extensiones-opcionales" id="toc-extensiones-opcionales" class="nav-link" data-scroll-target="#extensiones-opcionales">Extensiones opcionales</a></li>
+  <li><a href="#recomendaciones-prácticas" id="toc-recomendaciones-prácticas" class="nav-link" data-scroll-target="#recomendaciones-prácticas">Recomendaciones prácticas</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Proyecto: Búsqueda bayesiana de hiperparámetros, construida paso a paso</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivo-y-motivación" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo-y-motivación">Objetivo y motivación</h2>
+<p>Cuando entrenamos un modelo de machine learning, rara vez basta con elegir la arquitectura o el algoritmo. También hay que escoger <strong>hiperparámetros</strong>: profundidad máxima de un árbol, número de estimadores, regularización, tasa de aprendizaje, etc.</p>
+<p>Una posibilidad es probar muchas combinaciones:</p>
+<ul>
+<li>búsqueda en grilla,</li>
+<li>búsqueda aleatoria,</li>
+<li>o simplemente “prueba y error”.</li>
+</ul>
+<p>Pero cada evaluación puede ser costosa: entrenar el modelo, validarlo, medir su desempeño. La idea de la <strong>optimización bayesiana</strong> es usar de manera inteligente la información acumulada hasta el momento para decidir <strong>qué hiperparámetro conviene probar después</strong>.</p>
+<p>En este proyecto construirás un algoritmo simple de búsqueda bayesiana <strong>desde cero</strong>, paso a paso, y luego lo aplicarás a un problema concreto de clasificación.</p>
+<p>La meta no es usar una librería sofisticada, sino entender bien el mecanismo.</p>
+<hr>
+</section>
+<section id="preguntas-guía" class="level2">
+<h2 class="anchored" data-anchor-id="preguntas-guía">Preguntas guía</h2>
+<p>Al finalizar, deberías poder responder:</p>
+<ol type="1">
+<li>¿Qué problema resuelve la optimización bayesiana?</li>
+<li>¿En qué se diferencia de grid search y random search?</li>
+<li>¿Qué es un modelo sustituto (<em>surrogate model</em>)?</li>
+<li>¿Qué papel juega la incertidumbre en la elección del siguiente punto?</li>
+<li>¿Por qué existe una tensión entre <strong>explorar</strong> y <strong>explotar</strong>?</li>
+<li>¿Cuándo conviene usar búsqueda bayesiana y cuándo no?</li>
+</ol>
+<hr>
+</section>
+<section id="aclaración-conceptual-importante" class="level2">
+<h2 class="anchored" data-anchor-id="aclaración-conceptual-importante">Aclaración conceptual importante</h2>
+<p>En este proyecto, “bayesiano” <strong>no</strong> significa que el clasificador final sea un modelo bayesiano.</p>
+<p>Aquí “bayesiano” se refiere a que modelaremos nuestra ignorancia sobre la función objetivo usando una distribución probabilística. Esa función objetivo será algo como:</p>
+<p><span class="math display">\[
+f(\lambda) = \text{puntaje de validación del modelo con hiperparámetros } \lambda.
+\]</span></p>
+<p>No conocemos <span class="math inline">\(f\)</span> en todo el espacio de hiperparámetros. Solo la observamos en unos pocos puntos, y usamos esas observaciones para construir una aproximación probabilística de <span class="math inline">\(f\)</span>. Esa aproximación nos ayuda a decidir dónde evaluar después.</p>
+<p>Es decir, evaluamos <span class="math inline">\(f\)</span> (la precisión en validación) en unos pocos puntos aleatorios del espacio de hiperparámetros <span class="math inline">\(\{\lambda_i\}\)</span> y los usamos para ajustar (‘fitear’) un modelo que aproxime <span class="math inline">\(f\)</span> usando el conjunto <span class="math inline">\(\{(\lambda_i, f(\lambda_i))\}\)</span>. Escogemos el mejor valor <span class="math inline">\(\lambda\)</span> según ese modelo y evaluamos <span class="math inline">\(f\)</span> en ese punto. Esto nos da un nuevo dato <span class="math inline">\((\lambda, f(\lambda))\)</span> que agregamos a nuestro conjunto de observaciones. Al tener ahora más datos, ajustamos un nuevo modelo sustituto que será una mejor aproximación y repetimos el proceso.</p>
+<hr>
+</section>
+<section id="estructura-general-del-proyecto" class="level2">
+<h2 class="anchored" data-anchor-id="estructura-general-del-proyecto">Estructura general del proyecto</h2>
+<p>El proyecto tiene dos partes:</p>
+<ol type="1">
+<li><strong>Construcción pedagógica del algoritmo</strong> en un problema simple.</li>
+<li><strong>Aplicación a un problema real de hiperparámetros</strong> en clasificación.</li>
+</ol>
+<p>La idea es que primero entiendas el algoritmo en un entorno donde puedas visualizar todo, y solo después lo uses en un problema de aprendizaje automático.</p>
+<hr>
+</section>
+<section id="parte-a-problema-de-juguete-en-una-dimensión" class="level2">
+<h2 class="anchored" data-anchor-id="parte-a-problema-de-juguete-en-una-dimensión">Parte A: problema de juguete en una dimensión</h2>
+<p>Antes de optimizar hiperparámetros reales, trabajarás con una función objetivo artificial en una dimensión, por ejemplo:</p>
+<p><span class="math display">\[
+f(x)=\sin(3x)+0.3x^2-0.7x,
+\qquad x\in[-2,2].
+\]</span></p>
+<p>También puedes agregar ruido pequeño en las evaluaciones:</p>
+<p><span class="math display">\[
+y = f(x) + \epsilon,
+\]</span></p>
+<p>donde <span class="math inline">\(\epsilon\)</span> es un ruido gaussiano con media cero y desviación estándar pequeña. Esta <span class="math inline">\(f\)</span> representa la función que queremos maximizar, pero solo podemos evaluarla en puntos específicos y con ruido. El objetivo es encontrar el máximo de <span class="math inline">\(f\)</span> con la menor cantidad de evaluaciones posibles. Para ello construiremos una función aproximante (sustituto) y una función de adquisición que nos guíe en la búsqueda.</p>
+<section id="tarea-a1-punto-de-partida" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-a1-punto-de-partida">Tarea A1: punto de partida</h3>
+<ol type="1">
+<li>Evalúa la función en unos pocos puntos iniciales aleatorios, por ejemplo 4 o 5.</li>
+<li>Grafica:
+<ul>
+<li>la función verdadera <span class="math inline">\(f\)</span>,</li>
+<li>los puntos observados <span class="math inline">\(y\)</span>.</li>
+</ul></li>
+</ol>
+</section>
+<section id="tarea-a2-construir-un-modelo-sustituto" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-a2-construir-un-modelo-sustituto">Tarea A2: construir un modelo sustituto</h3>
+<p>Debes ajustar un modelo probabilístico sencillo para aproximar la función a partir de los puntos observados. La opción recomendada es un <strong>Gaussian Process Regressor</strong>.</p>
+<p>El modelo sustituto debe entregar, para cada punto <span class="math inline">\(x\)</span>:</p>
+<ul>
+<li>una media predictiva: <span class="math display">\[
+\mu(x),
+\]</span></li>
+<li>y una incertidumbre predictiva: <span class="math display">\[
+\sigma(x).
+\]</span></li>
+</ul>
+<p>La intuición es simple:</p>
+<ul>
+<li>donde ya observaste muchos puntos, <span class="math inline">\(\sigma(x)\)</span> debe ser pequeña;</li>
+<li>donde no sabes nada, <span class="math inline">\(\sigma(x)\)</span> debe ser grande.</li>
+</ul>
+</section>
+<section id="tarea-a3-regla-para-elegir-el-siguiente-punto" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-a3-regla-para-elegir-el-siguiente-punto">Tarea A3: regla para elegir el siguiente punto</h3>
+<p>Implementa una <strong>función de adquisición</strong>. La más simple y recomendada es la cota superior a la confianza o <strong>Upper Confidence Bound</strong> (UCB) si maximizas:</p>
+<p><span class="math display">\[
+a_{\rm UCB}(x)=\mu(x)+\kappa\,\sigma(x),
+\]</span></p>
+<p>donde <span class="math inline">\(\kappa&gt;0\)</span> controla la tensión entre:</p>
+<ul>
+<li><strong>explotación</strong>: elegir donde la media parece buena,</li>
+<li><strong>exploración</strong>: elegir donde la incertidumbre es grande.</li>
+</ul>
+<p>Alternativamente, puedes usar la mejoría esperada o <strong>Expected Improvement</strong> (EI).</p>
+</section>
+<section id="tarea-a4-ciclo-iterativo" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-a4-ciclo-iterativo">Tarea A4: ciclo iterativo</h3>
+<p>Implementa el siguiente algoritmo:</p>
+<ol type="1">
+<li>partir de unos pocos puntos iniciales,</li>
+<li>ajustar el sustituto,</li>
+<li>maximizar la función de adquisición,</li>
+<li>evaluar la función verdadera en el nuevo punto,</li>
+<li>agregar el nuevo punto al conjunto de observaciones,</li>
+<li>repetir.</li>
+</ol>
+<p>Haz esto durante 15 a 25 iteraciones.</p>
+</section>
+<section id="tarea-a5-visualización" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-a5-visualización">Tarea A5: visualización</h3>
+<p>En cada iteración (o en algunas seleccionadas), grafica:</p>
+<ul>
+<li>la función verdadera,</li>
+<li>la media del sustituto,</li>
+<li>una banda de incertidumbre, por ejemplo <span class="math inline">\(\mu(x)\pm 2\sigma(x)\)</span>,</li>
+<li>la función de adquisición,</li>
+<li>el punto sugerido por el algoritmo.</li>
+</ul>
+<p>Esta parte es clave: aquí es donde realmente se entiende el algoritmo.</p>
+<hr>
+</section>
+</section>
+<section id="parte-b-pasar-de-una-función-artificial-a-hiperparámetros-reales" class="level2">
+<h2 class="anchored" data-anchor-id="parte-b-pasar-de-una-función-artificial-a-hiperparámetros-reales">Parte B: pasar de una función artificial a hiperparámetros reales</h2>
+<p>Ahora trabajaremos con el problema de la <strong>hiperesfera gaussiana en 6 dimensiones</strong> presentado en la clase 11 de árboles y bosques. En ese ejemplo, los datos se generan uniformemente en un hipercubo, pero la señal verdadera depende solo del radio <span class="math inline">\(\|x\|\)</span> y luego se le agrega ruido gaussiano.</p>
+<p>Esto produce una función objetivo realista para optimización de hiperparámetros: cada evaluación requiere entrenar un modelo de regresión y medir su error en validación. Como en la parte A, la evaluación es costosa y la superficie de desempeño no se conoce de antemano.</p>
+<section id="tarea-b1-problema-de-regresión-sugerido" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-b1-problema-de-regresión-sugerido">Tarea B1: Problema de regresión sugerido</h3>
+<p>Usa el problema de la hiperesfera con ruido gaussiano de la clase 11:</p>
+<ul>
+<li>entradas en <span class="math inline">\(\mathbb{R}^6\)</span>,</li>
+<li>puntos muestreados uniformemente en <span class="math inline">\([-1.5,1.5]^6\)</span>,</li>
+<li>señal verdadera que depende del radio,</li>
+<li>ruido gaussiano aditivo pequeño.</li>
+</ul>
+<p>Divide estos datos en:</p>
+<ul>
+<li>entrenamiento,</li>
+<li>validación,</li>
+<li>prueba.</li>
+</ul>
+<p>La función objetivo será el desempeño en validación de un modelo de regresión entrenado con ciertos hiperparámetros.</p>
+<hr>
+</section>
+</section>
+<section id="modelo-a-optimizar" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-a-optimizar">Modelo a optimizar</h2>
+<p>Usa un bosque aleatorio de regresión <code>RandomForestRegressor</code>.</p>
+<p>Debes escoger un espacio de búsqueda pequeño pero no trivial. Una buena opción para este problema es:</p>
+<ul>
+<li><code>max_features</code> en <span class="math inline">\([1, 6]\)</span></li>
+<li><code>min_samples_leaf</code> en <span class="math inline">\([1, 60]\)</span></li>
+</ul>
+<p>Estos dos hiperparámetros afectan cuánto se promedian los árboles y qué tan local o suave es la aproximación del bosque.</p>
+</section>
+<section id="definición-formal-de-la-función-objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="definición-formal-de-la-función-objetivo">Definición formal de la función objetivo</h2>
+<p>Sea</p>
+<p><span class="math display">\[
+\lambda = (\texttt{max\_features},\,\texttt{min\_samples\_leaf}).
+\]</span></p>
+<p>Como queremos <strong>minimizar</strong> el error cuadrático medio de validación, pero la optimización bayesiana en este proyecto está formulada como un problema de <strong>maximización</strong>, definimos</p>
+<p><span class="math display">\[
+f(\lambda) = -\operatorname{MSE}_{\mathrm{val}}(\lambda).
+\]</span></p>
+<p>Es decir, valores más altos de <span class="math inline">\(f(\lambda)\)</span> corresponden a menor error de validación.</p>
+<p>Observa que:</p>
+<ul>
+<li><span class="math inline">\(f\)</span> es una función “caja negra”,</li>
+<li>no tenemos fórmula analítica,</li>
+<li>cada evaluación requiere entrenar un modelo.</li>
+</ul>
+<p>Ese es exactamente el escenario ideal para optimización bayesiana.</p>
+</section>
+<section id="parte-c-construir-la-búsqueda-bayesiana-sobre-hiperparámetros" class="level2">
+<h2 class="anchored" data-anchor-id="parte-c-construir-la-búsqueda-bayesiana-sobre-hiperparámetros">Parte C: construir la búsqueda bayesiana sobre hiperparámetros</h2>
+<section id="tarea-c1-comparación-de-base-con-búsqueda-aleatoria" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-c1-comparación-de-base-con-búsqueda-aleatoria">Tarea C1: Comparación de base con búsqueda aleatoria</h3>
+<p>Antes de usar optimización bayesiana, implementa una línea base:</p>
+<ol type="1">
+<li>muestrea aleatoriamente <span class="math inline">\(N\)</span> configuraciones de hiperparámetros,</li>
+<li>evalúa el error de validación para cada configuración,</li>
+<li>guarda la mejor configuración encontrada.</li>
+</ol>
+<p>Esto servirá como comparación justa. El presupuesto debe ser el mismo que en la búsqueda bayesiana.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>presupuesto total: 20 evaluaciones.</li>
+</ul>
+</section>
+<section id="tarea-c2-inicialización" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-c2-inicialización">Tarea C2: inicialización</h3>
+<p>Comienza la búsqueda bayesiana con unas pocas evaluaciones aleatorias, por ejemplo 5.</p>
+</section>
+<section id="tarea-c3-modelo-sustituto-en-espacio-de-hiperparámetros" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-c3-modelo-sustituto-en-espacio-de-hiperparámetros">Tarea C3: modelo sustituto en espacio de hiperparámetros</h3>
+<p>Ajusta un Gaussian Process a las observaciones:</p>
+<p><span class="math display">\[
+(\lambda_i, f_i), \qquad i=1,\dots,n_{\rm obs}.
+\]</span></p>
+<p>Como los hiperparámetros tienen escalas distintas, debes normalizarlos a <span class="math inline">\([0,1]\)</span> antes de ajustar el sustituto.</p>
+<p>Nota: aunque algunos hiperparámetros sean enteros, puedes:</p>
+<ul>
+<li>optimizar en continuo dentro del sustituto,</li>
+<li>y redondear al evaluar el modelo real.</li>
+</ul>
+</section>
+<section id="tarea-c4-adquisición" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-c4-adquisición">Tarea C4: adquisición</h3>
+<p>Usa UCB:</p>
+<p><span class="math display">\[
+a(\lambda)=\mu(\lambda)+\kappa \sigma(\lambda).
+\]</span></p>
+<p>Debes explorar cómo cambia el comportamiento al variar <span class="math inline">\(\kappa\)</span>. Por ejemplo, compara:</p>
+<ul>
+<li><span class="math inline">\(\kappa=0.1\)</span>,</li>
+<li><span class="math inline">\(\kappa=1\)</span>,</li>
+<li><span class="math inline">\(\kappa=3\)</span>.</li>
+</ul>
+<p>Grafica <span class="math inline">\(a(\lambda)\)</span> en el espacio de hiperparámetros.</p>
+</section>
+<section id="tarea-c5-optimización-de-la-adquisición" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-c5-optimización-de-la-adquisición">Tarea C5: optimización de la adquisición</h3>
+<p>Como el espacio de búsqueda es pequeño, no necesitas un método sofisticado. Puedes:</p>
+<ul>
+<li>evaluar la adquisición en una grilla fina sobre el espacio de hiperparámetros,</li>
+<li>y elegir el punto que maximiza <span class="math inline">\(a(\lambda)\)</span>.</li>
+</ul>
+<p>Eso basta para este proyecto y tiene la ventaja de ser transparente.</p>
+</section>
+<section id="tarea-c6-ciclo" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-c6-ciclo">Tarea C6: ciclo</h3>
+<p>Escribe el loop de iteración donde se escoge el mejor <span class="math inline">\(\lambda\)</span> como en el paso anterior, luego se agrega el valor de la función objetivo <span class="math inline">\(f(\lambda) = -\operatorname{MSE}_{\mathrm{val}}(\lambda)\)</span> al conjunto de parejas <span class="math inline">\((\lambda, f(\lambda))\)</span>, se vuelve a ajustar el modelo sustituto y así sucesivamente. Detén el algoritmo cuando se alcance un presupuesto fijo igual al de la búsqueda aleatoria, por ejemplo 20 evaluaciones totales.</p>
+<hr>
+</section>
+</section>
+<section id="qué-debes-comparar" class="level2">
+<h2 class="anchored" data-anchor-id="qué-debes-comparar">Qué debes comparar</h2>
+<section id="evolución-del-mejor-puntaje-encontrado" class="level3">
+<h3 class="anchored" data-anchor-id="evolución-del-mejor-puntaje-encontrado">Evolución del mejor puntaje encontrado</h3>
+<p>Grafica, en función del número de evaluaciones:</p>
+<ul>
+<li>mejor valor de <span class="math inline">\(f(\lambda) = -\operatorname{MSE}_{\mathrm{val}}\)</span> encontrado por búsqueda aleatoria,</li>
+<li>mejor valor de <span class="math inline">\(f(\lambda)\)</span> encontrado por búsqueda bayesiana.</li>
+</ul>
+<p>Idealmente promedia sobre varias repeticiones con distintas semillas.</p>
+</section>
+<section id="configuración-final-elegida" class="level3">
+<h3 class="anchored" data-anchor-id="configuración-final-elegida">Configuración final elegida</h3>
+<p>Reporta:</p>
+<ul>
+<li>mejores hiperparámetros encontrados por cada método,</li>
+<li>MSE final en validación,</li>
+<li>MSE final en test.</li>
+</ul>
+</section>
+<section id="predicción-final" class="level3">
+<h3 class="anchored" data-anchor-id="predicción-final">Predicción final</h3>
+<p>Entrena el regresor final con los mejores hiperparámetros encontrados y grafica:</p>
+<ul>
+<li>predicción del modelo en función del radio <span class="math inline">\(\|x\|\)</span>,</li>
+<li>señal verdadera en función del radio,</li>
+<li>observaciones ruidosas.</li>
+</ul>
+<p>Esto conecta la optimización abstracta con el comportamiento real del modelo.</p>
+<hr>
+</section>
+</section>
+<section id="visualizaciones" class="level2">
+<h2 class="anchored" data-anchor-id="visualizaciones">Visualizaciones</h2>
+<ol type="1">
+<li><strong>Parte de juguete en 1D</strong>
+<ul>
+<li>función verdadera,</li>
+<li>surrogate,</li>
+<li>incertidumbre,</li>
+<li>adquisición,</li>
+<li>trayectoria de puntos evaluados.</li>
+</ul></li>
+<li><strong>Comparación de métodos</strong>
+<ul>
+<li>mejor puntaje vs número de evaluaciones para:
+<ul>
+<li>búsqueda aleatoria,</li>
+<li>búsqueda bayesiana.</li>
+</ul></li>
+</ul></li>
+<li><strong>Espacio de hiperparámetros</strong>
+<ul>
+<li>mapa de calor del valor de <span class="math inline">\(f(\lambda)\)</span> o del MSE de validación en una grilla 2D de hiperparámetros,</li>
+<li>puntos explorados por búsqueda aleatoria,</li>
+<li>puntos explorados por la búsqueda bayesiana.</li>
+</ul></li>
+<li><strong>Modelo final</strong>
+<ul>
+<li>predicción del bosque aleatorio en función del radio.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="preguntas-conceptuales-que-debes-responder" class="level2">
+<h2 class="anchored" data-anchor-id="preguntas-conceptuales-que-debes-responder">Preguntas conceptuales que debes responder</h2>
+<ol type="1">
+<li>¿Por qué random search suele ser mejor que grid search en dimensiones moderadas?</li>
+<li>¿Qué está “aprendiendo” el surrogate?</li>
+<li>¿Por qué la incertidumbre es útil?</li>
+<li>¿Qué pasa si <span class="math inline">\(\kappa\)</span> es muy pequeño?</li>
+<li>¿Qué pasa si <span class="math inline">\(\kappa\)</span> es muy grande?</li>
+<li>¿En qué situaciones la optimización bayesiana podría ser innecesaria o poco conveniente?</li>
+</ol>
+<hr>
+</section>
+<section id="extensiones-opcionales" class="level2">
+<h2 class="anchored" data-anchor-id="extensiones-opcionales">Extensiones opcionales</h2>
+<ol type="1">
+<li>Reemplazar UCB por <strong>Expected Improvement</strong> y comparar.</li>
+<li>Usar otro modelo que no sea el bosque aleatorio, por ejemplo <code>GradientBoostingRegressor</code>.</li>
+<li>Introducir ruido estocástico adicional en la evaluación del score y discutir cómo afecta al algoritmo.</li>
+<li>Comparar Gaussian Process como sustituto con un sustituto más simple, por ejemplo regresión polinomial o random forest.</li>
+</ol>
+<hr>
+</section>
+<section id="recomendaciones-prácticas" class="level2">
+<h2 class="anchored" data-anchor-id="recomendaciones-prácticas">Recomendaciones prácticas</h2>
+<ul>
+<li>Mantén el espacio de hiperparámetros pequeño: 2 dimensiones es ideal.</li>
+<li>No uses librerías que hagan todo automáticamente. La idea es construir el algoritmo.</li>
+<li>Normaliza los hiperparámetros antes de ajustar el GP.</li>
+<li>Usa un presupuesto fijo y justo al comparar con random search.</li>
+<li>Promedia sobre varias semillas para no sacar conclusiones a partir de un solo experimento.</li>
+</ul>
+<p>La estructura mínima esperada es:</p>
+<ol type="1">
+<li>Elegir unos pocos puntos iniciales al azar.</li>
+<li>Evaluar el modelo real en esos puntos.</li>
+<li>Ajustar un sustituto probabilístico.</li>
+<li>Construir una función de adquisición.</li>
+<li>Elegir el siguiente punto maximizando la adquisición.</li>
+<li>Evaluar ese punto.</li>
+<li>Repetir.</li>
+</ol>
+<p>En pseudocódigo:</p>
+<pre class="text"><code>inicializar conjunto D con pocos puntos aleatorios
+
+for t = 1, 2, ..., T:
+    ajustar sustituto con D
+    construir adquisición a(lambda)
+    elegir lambda_next = argmax a(lambda)
+    evaluar y_next = f(lambda_next)
+    agregar (lambda_next, y_next) a D</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/jorgenorena\.github\.io\/machine_learning_course\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

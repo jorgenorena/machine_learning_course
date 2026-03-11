@@ -192,24 +192,28 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
         <li>
-    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
- <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+    <a class="dropdown-item" href="./8_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./7_clasificacion.html">
- <span class="dropdown-text">7. Clasificación</span></a>
+    <a class="dropdown-item" href="./9_clasificacion.html">
+ <span class="dropdown-text">9. Clasificación</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
- <span class="dropdown-text">8. Selección de Modelos</span></a>
+    <a class="dropdown-item" href="./10_seleccion_de_modelos.html">
+ <span class="dropdown-text">10. Selección de Modelos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
- <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+    <a class="dropdown-item" href="./11_arboles_bosques_boosting.html">
+ <span class="dropdown-text">11. Árboles, Bosques y Boosting</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
- <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+    <a class="dropdown-item" href="./12_svm.html">
+ <span class="dropdown-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_no_supervisado.html">
+ <span class="dropdown-text">13. Aprendizaje No Supervisado</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Redes Neuronales</li>
@@ -253,6 +257,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./proyectos.html" aria-current="page"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">Acerca de</span></a>
@@ -344,32 +352,38 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  <a href="./8_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">7. Clasificación</span></a>
+  <a href="./9_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Clasificación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">8. Selección de Modelos</span></a>
+  <a href="./10_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Selección de Modelos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  <a href="./11_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Árboles, Bosques y Boosting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  <a href="./12_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Aprendizaje No Supervisado</span></a>
   </div>
 </li>
       </ul>
@@ -446,6 +460,23 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./19_Operador_Neural.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">19. Operadores Neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Evaluacion</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proyectos</span></a>
   </div>
 </li>
       </ul>
@@ -534,7 +565,7 @@ r(t) = y_\theta'(t) + y_\theta(t),
 <li><p>Resultado: Después del entrenamiento, la red neuronal <span class="math inline">\(y_\theta(t)\)</span> sirve como una solución sustituta de la EDO. Se puede evaluar <span class="math inline">\(y_\theta(t)\)</span> en cualquier <span class="math inline">\(t\)</span> deseado para obtener la solución (la red neuronal es una interpolación de la solución).</p></li>
 </ul>
 <p>Para ilustrar, a continuación se muestra un ejemplo simple usando PyTorch para la EDO <span class="math inline">\(y' + y = 0,; y(0)=1\)</span>. Definimos una red pequeña y la entrenamos con la pérdida informada por la física:</p>
-<div id="bc8b629f" class="cell" data-execution_count="2">
+<div id="08284149" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -576,49 +607,45 @@ r(t) = y_\theta'(t) + y_\theta(t),
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    optimizador.zero_grad()</span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    perdida.backward()</span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    optimizador.step()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/home/jorge/Dropbox/Academic_2026/Teaching/nn_course/machine_learning_course/.venv/lib/python3.13/site-packages/torch/autograd/graph.py:841: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 804: forward compatibility was attempted on non supported HW (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
-  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass</code></pre>
-</div>
 </div>
 <p>En este código, el término <code>torch.autograd.grad(..., create_graph=True)</code> se utiliza para calcular <span class="math inline">\(y_\theta'(t)\)</span> mediante diferenciación automática. La pérdida física impulsa a la red a satisfacer <span class="math inline">\(y' + y = 0\)</span>, mientras que la pérdida de la condición inicial hace tender <span class="math inline">\(y_\theta(0)\)</span> a <span class="math inline">\(1\)</span>. Después del entrenamiento, la salida de la red <span class="math inline">\(y_\theta(t)\)</span> se aproximará mucho a la solución verdadera <span class="math inline">\(e^{-t}\)</span>, ver figura <a href="#fig-pinn" class="quarto-xref">Figura&nbsp;1</a>. Al entrenar en puntos de colocación muestreados del dominio, la PINN efectivamente “aprende” la solución continua sin pasar explícitamente por el tiempo. Este enfoque puede manejar problemas directos (encontrar <span class="math inline">\(y(t)\)</span> dada la ecuación diferencial y la condición inicial) así como problemas inversos (por ejemplo inferir parámetros en la EDO a partir de datos) dentro del mismo marco.</p>
-<div id="cell-fig-pinn" class="cell" data-execution_count="3">
+<div id="cell-fig-pinn" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>t_vals <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>y_exact <span class="op">=</span> np.exp(<span class="op">-</span>t_vals)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar la red neuronal entrenada (modelo) en los valores de t</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>t_tensor <span class="op">=</span> torch.from_numpy(t_vals.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)).<span class="bu">float</span>()</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    y_modelo <span class="op">=</span> modelo(t_tensor).cpu().numpy().flatten()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>residuos <span class="op">=</span> np.<span class="bu">abs</span>(y_modelo <span class="op">-</span> y_exact)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>), sharex<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                       gridspec_kw<span class="op">=</span>{<span class="st">"height_ratios"</span>: [<span class="dv">2</span>, <span class="dv">1</span>]})</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel superior: Soluciones</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].plot(t_vals, y_exact, label<span class="op">=</span><span class="st">"$e^{-t}$"</span>, color<span class="op">=</span><span class="st">"C1"</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].plot(t_vals, y_modelo, label<span class="op">=</span><span class="st">"PINN $y_</span><span class="ch">\\</span><span class="st">theta(t)$"</span>, color<span class="op">=</span><span class="st">"C0"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_ylabel(<span class="st">"$y(t)$"</span>)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_title(<span class="st">"Solución exacta y PINN para $y(t) = e^{-t}$"</span>)</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].legend()</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel inferior: Residuos</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].plot(t_vals, residuos, color<span class="op">=</span><span class="st">"C2"</span>)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"gray"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_xlabel(<span class="st">"$t$"</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_ylabel(<span class="st">"Error absoluto"</span>)</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_title(<span class="st">"Residuo PINN - Exacto"</span>)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>t_vals <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>y_exact <span class="op">=</span> np.exp(<span class="op">-</span>t_vals)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar la red neuronal entrenada (modelo) en los valores de t</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>t_tensor <span class="op">=</span> torch.from_numpy(t_vals.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)).<span class="bu">float</span>()</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    y_modelo <span class="op">=</span> modelo(t_tensor).cpu().numpy().flatten()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>residuos <span class="op">=</span> np.<span class="bu">abs</span>(y_modelo <span class="op">-</span> y_exact)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>), sharex<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                       gridspec_kw<span class="op">=</span>{<span class="st">"height_ratios"</span>: [<span class="dv">2</span>, <span class="dv">1</span>]})</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel superior: Soluciones</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].plot(t_vals, y_exact, label<span class="op">=</span><span class="st">"$e^{-t}$"</span>, color<span class="op">=</span><span class="st">"C1"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].plot(t_vals, y_modelo, label<span class="op">=</span><span class="st">"PINN $y_</span><span class="ch">\\</span><span class="st">theta(t)$"</span>, color<span class="op">=</span><span class="st">"C0"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_ylabel(<span class="st">"$y(t)$"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_title(<span class="st">"Solución exacta y PINN para $y(t) = e^{-t}$"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].legend()</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel inferior: Residuos</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].plot(t_vals, residuos, color<span class="op">=</span><span class="st">"C2"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"gray"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_xlabel(<span class="st">"$t$"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_ylabel(<span class="st">"Error absoluto"</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_title(<span class="st">"Residuo PINN - Exacto"</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-pinn" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -677,34 +704,34 @@ r(t,x) \equiv \partial_t u_\theta(t,x) + \mathcal{N}[\,u_\theta(t,x)\,;\lambda],
 <section id="ejemplo-ecuación-de-burgers" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-ecuación-de-burgers">Ejemplo (ecuación de Burgers)</h2>
 <p>Para concretar, supongamos que queremos resolver la ecuación de Burgers 1D <span class="math inline">\(\partial_t u + u \partial_x u - \nu \partial_{xx} u = 0\)</span> con una PINN. Configuramos una red neuronal <span class="math inline">\(u_\theta(t,x)\)</span> e incluimos la EDP de Burgers en la pérdida. Un fragmento del código de entrenamiento podría verse así:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestrea puntos de colocación en el dominio (t en [0,T], x en [a,b])</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>t_coloc <span class="op">=</span> torch.rand(N, <span class="dv">1</span>) <span class="op">*</span> T_max</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>x_coloc <span class="op">=</span> torch.rand(N, <span class="dv">1</span>) <span class="op">*</span> (b <span class="op">-</span> a) <span class="op">+</span> a</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>t_coloc.requires_grad_(), x_coloc.requires_grad_()  <span class="co"># habilita derivadas parciales</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Salida de la PINN para estos puntos</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>u_predicho <span class="op">=</span> modelo(torch.hstack([t_coloc, x_coloc]))  <span class="co"># u_θ(t,x)</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcula derivadas parciales usando autograd</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>u_t   <span class="op">=</span> torch.autograd.grad(u_predicho, t_coloc, torch.ones_like(u_predicho), create_graph<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>u_x   <span class="op">=</span> torch.autograd.grad(u_predicho, x_coloc, torch.ones_like(u_predicho), create_graph<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>u_xx  <span class="op">=</span> torch.autograd.grad(u_x,       x_coloc, torch.ones_like(u_x),        create_graph<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Residuo de la EDP r(t,x) = u_t + u * u_x - ν * u_xx</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> u_t <span class="op">+</span> u_predicho <span class="op">*</span> u_x <span class="op">-</span> nu <span class="op">*</span> u_xx</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>perdida_fisica <span class="op">=</span> torch.mean(r<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Pérdida de la condición inicial (por ejemplo, u(0,x) = u0(x))</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>u_inicial <span class="op">=</span> modelo(torch.hstack([torch.zeros(N0,<span class="dv">1</span>), x0_muestras]))</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>perdida_ci <span class="op">=</span> torch.mean((u_inicial <span class="op">-</span> u0(x0_muestras))<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Pérdida de la condición de frontera (por ejemplo, Dirichlet u(t,a)=g1(t), u(t,b)=g2(t))</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>u_izq  <span class="op">=</span> modelo(torch.hstack([t_coloc, a<span class="op">*</span>torch.ones_like(t_coloc)]))</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>u_der  <span class="op">=</span> modelo(torch.hstack([t_coloc, b<span class="op">*</span>torch.ones_like(t_coloc)]))</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>perdida_cf <span class="op">=</span> torch.mean((u_izq <span class="op">-</span> g1(t_coloc))<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (u_der <span class="op">-</span> g2(t_coloc))<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Pérdida total: física + inicial + frontera</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>perdida_total <span class="op">=</span> perdida_fisica <span class="op">+</span> perdida_ci <span class="op">+</span> perdida_cf</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestrea puntos de colocación en el dominio (t en [0,T], x en [a,b])</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>t_coloc <span class="op">=</span> torch.rand(N, <span class="dv">1</span>) <span class="op">*</span> T_max</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x_coloc <span class="op">=</span> torch.rand(N, <span class="dv">1</span>) <span class="op">*</span> (b <span class="op">-</span> a) <span class="op">+</span> a</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>t_coloc.requires_grad_(), x_coloc.requires_grad_()  <span class="co"># habilita derivadas parciales</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Salida de la PINN para estos puntos</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>u_predicho <span class="op">=</span> modelo(torch.hstack([t_coloc, x_coloc]))  <span class="co"># u_θ(t,x)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcula derivadas parciales usando autograd</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>u_t   <span class="op">=</span> torch.autograd.grad(u_predicho, t_coloc, torch.ones_like(u_predicho), create_graph<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>u_x   <span class="op">=</span> torch.autograd.grad(u_predicho, x_coloc, torch.ones_like(u_predicho), create_graph<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>u_xx  <span class="op">=</span> torch.autograd.grad(u_x,       x_coloc, torch.ones_like(u_x),        create_graph<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Residuo de la EDP r(t,x) = u_t + u * u_x - ν * u_xx</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> u_t <span class="op">+</span> u_predicho <span class="op">*</span> u_x <span class="op">-</span> nu <span class="op">*</span> u_xx</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>perdida_fisica <span class="op">=</span> torch.mean(r<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Pérdida de la condición inicial (por ejemplo, u(0,x) = u0(x))</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>u_inicial <span class="op">=</span> modelo(torch.hstack([torch.zeros(N0,<span class="dv">1</span>), x0_muestras]))</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>perdida_ci <span class="op">=</span> torch.mean((u_inicial <span class="op">-</span> u0(x0_muestras))<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Pérdida de la condición de frontera (por ejemplo, Dirichlet u(t,a)=g1(t), u(t,b)=g2(t))</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>u_izq  <span class="op">=</span> modelo(torch.hstack([t_coloc, a<span class="op">*</span>torch.ones_like(t_coloc)]))</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>u_der  <span class="op">=</span> modelo(torch.hstack([t_coloc, b<span class="op">*</span>torch.ones_like(t_coloc)]))</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>perdida_cf <span class="op">=</span> torch.mean((u_izq <span class="op">-</span> g1(t_coloc))<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (u_der <span class="op">-</span> g2(t_coloc))<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Pérdida total: física + inicial + frontera</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>perdida_total <span class="op">=</span> perdida_fisica <span class="op">+</span> perdida_ci <span class="op">+</span> perdida_cf</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Aquí vemos cómo se utilizan los puntos de colocación <span class="math inline">\((t_{\text{colloc}},x_{\text{colloc}})\)</span> para evaluar el residuo de la EDP en todo el dominio, y cómo la diferenciación automática produce <span class="math inline">\(\partial_t u\)</span>, <span class="math inline">\(\partial_x u\)</span>, <span class="math inline">\(\partial_{xx} u\)</span> para calcular el residuo <span class="math inline">\(f(t,x)\)</span>. La función de pérdida penaliza el residuo (haciendo que la solución satisfaga la EDP) e impone las condiciones iniciales y de contorno. Al minimizar esta pérdida, la red aprende una solución <span class="math inline">\(u_\theta(t,x)\)</span> que satisface aproximadamente la EDP en todas partes y cumple aproximadamente las restricciones.</p>
 </section>
 <section id="alternativas-para-la-condición-de-contorno" class="level2">

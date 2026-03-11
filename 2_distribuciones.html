@@ -158,24 +158,28 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
         <li>
-    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
- <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+    <a class="dropdown-item" href="./8_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./7_clasificacion.html">
- <span class="dropdown-text">7. Clasificación</span></a>
+    <a class="dropdown-item" href="./9_clasificacion.html">
+ <span class="dropdown-text">9. Clasificación</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
- <span class="dropdown-text">8. Selección de Modelos</span></a>
+    <a class="dropdown-item" href="./10_seleccion_de_modelos.html">
+ <span class="dropdown-text">10. Selección de Modelos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
- <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+    <a class="dropdown-item" href="./11_arboles_bosques_boosting.html">
+ <span class="dropdown-text">11. Árboles, Bosques y Boosting</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
- <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+    <a class="dropdown-item" href="./12_svm.html">
+ <span class="dropdown-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_no_supervisado.html">
+ <span class="dropdown-text">13. Aprendizaje No Supervisado</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Redes Neuronales</li>
@@ -219,6 +223,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./proyectos.html" aria-current="page"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">Acerca de</span></a>
@@ -310,32 +318,38 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  <a href="./8_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">7. Clasificación</span></a>
+  <a href="./9_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Clasificación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">8. Selección de Modelos</span></a>
+  <a href="./10_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Selección de Modelos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  <a href="./11_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Árboles, Bosques y Boosting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  <a href="./12_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Aprendizaje No Supervisado</span></a>
   </div>
 </li>
       </ul>
@@ -416,6 +430,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Evaluacion</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proyectos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -476,38 +507,38 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="una-variable-aleatoria">Una variable aleatoria</h2>
 <section id="distribuciones-de-probabilidad" class="level3">
 <h3 class="anchored" data-anchor-id="distribuciones-de-probabilidad">Distribuciones de probabilidad</h3>
-<p>Consideremos primero una variable discreta. Decimos que la variable <span class="math inline">\(x\)</span> tiene una probabilidad <span class="math inline">\(P[x_k]\)</span> de tomar el valor <span class="math inline">\(x_k\)</span>. Este valor está dado por una <strong>distribución de probabilidad</strong>. Es decir una función <span class="math inline">\(f\)</span> tal que <span class="math display">\[
-P[x_k] = f(x_k)\,.
+<p>Consideremos primero una variable discreta. Decimos que la variable <span class="math inline">\(x\)</span> tiene una probabilidad <span class="math inline">\(P[x_k]\)</span> de tomar el valor <span class="math inline">\(x_k\)</span>. Este valor está dado por una <strong>distribución de probabilidad</strong>. Es decir una función <span class="math inline">\(p\)</span> tal que <span class="math display">\[
+P[x_k] = p(x_k)\,.
 \]</span> Esta cumple</p>
 <ul>
-<li><span class="math inline">\(f\)</span> es univaluada y <span class="math inline">\(f(x) \geq 0\)</span>.</li>
-<li>La probabilidad total es <span class="math inline">\(1\)</span>, es decir <span class="math inline">\(\sum_i f(x_i) = 1\)</span>.</li>
+<li><span class="math inline">\(p\)</span> es univaluada y <span class="math inline">\(p(x) \geq 0\)</span>.</li>
+<li>La probabilidad total es <span class="math inline">\(1\)</span>, es decir <span class="math inline">\(\sum_i p(x_i) = 1\)</span>.</li>
 </ul>
 <p>Definimos también la <strong>distribución cumulativa de probabilidad</strong> <span class="math display">\[
-F(x) = \sum_{x_k \leq x} f(x_k)\,.
+F(x) = \sum_{x_k \leq x} p(x_k)\,.
 \]</span> Es decir, es la probabilidad de obtener un valor menor a <span class="math inline">\(x\)</span>.</p>
-<p>Para variables que toman valores continuos, la probabilidad de un valor dado tiende a cero (como hay infinitos valores, la probabilidad de cada uno debe ser minúscula para que su suma sea <span class="math inline">\(1\)</span>). Por ese motivo no hablamos de una distribución de probabilidad sino de una <strong>función de densidad de probabilidad</strong> <span class="math inline">\(f(x)\)</span> tal que la probabilidad de obtener un resultado en el intervalo <span class="math inline">\([a,b]\)</span> es <span class="math display">\[
-P[a \leq x \leq b] = \int_a^bdx\,f(x)\,.
+<p>Para variables que toman valores continuos, la probabilidad de un valor dado tiende a cero (como hay infinitos valores, la probabilidad de cada uno debe ser minúscula para que su suma sea <span class="math inline">\(1\)</span>). Por ese motivo no hablamos de una distribución de probabilidad sino de una <strong>función de densidad de probabilidad</strong> <span class="math inline">\(\rho(x)\)</span> tal que la probabilidad de obtener un resultado en el intervalo <span class="math inline">\([a,b]\)</span> es <span class="math display">\[
+P[a \leq x \leq b] = \int_a^bdx\,\rho(x)\,.
 \]</span> Esta cumple</p>
 <ul>
-<li><span class="math inline">\(f\)</span> es univaluada y <span class="math inline">\(f(x) \geq 0\)</span>.</li>
-<li>La probabilidad total es <span class="math inline">\(1\)</span>, es decir <span class="math inline">\(\int_{-\infty}^\infty dx\,f(x) = 1\)</span>.</li>
+<li><span class="math inline">\(\rho\)</span> es univaluada y <span class="math inline">\(\rho(x) \geq 0\)</span>.</li>
+<li>La probabilidad total es <span class="math inline">\(1\)</span>, es decir <span class="math inline">\(\int_{-\infty}^\infty dx\,\rho(x) = 1\)</span>.</li>
 </ul>
 <p>Análogamente definimos la distribución cumulativa de probabilidad <span class="math display">\[
-F(x) = \int_{-\infty}^x dx'\,f(x')\,.
+F(x) = \int_{-\infty}^x dx'\,\rho(x')\,.
 \]</span></p>
 </section>
 <section id="valores-esperados" class="level3">
 <h3 class="anchored" data-anchor-id="valores-esperados">Valores esperados</h3>
 <p>Definimos el <strong>valor esperado</strong> de una variable discreta como <span class="math display">\[
-\langle x\rangle \equiv \sum_x xf(x)\,.
+\langle x\rangle \equiv \sum_x xp(x)\,.
 \]</span> Para una variable continua <span class="math display">\[
-\langle x\rangle \equiv \int_{-\infty}^\infty dx\,xf(x)\,.
+\langle x\rangle \equiv \int_{-\infty}^\infty dx\,x\rho(x)\,.
 \]</span></p>
 <p>De esta manera los <strong>momentos</strong> son <span class="math display">\[
-\mu'_n \equiv \langle x^n \rangle\,,
+\mu'_m \equiv \langle x^m \rangle\,,
 \]</span> y los <strong>momentos centrales</strong> <span class="math display">\[
-\mu_n \equiv \left\langle (x - \langle x\rangle)^n\right\rangle\,.
+\mu_m \equiv \left\langle (x - \langle x\rangle)^m\right\rangle\,.
 \]</span></p>
 <p>De la definición de valor esperado se puede demostrar para una constante <span class="math inline">\(c\)</span> <span class="math display">\[
 \langle cx\rangle = c\langle x\rangle\,,\quad \langle x_1 + x_2 + ... + x_n\rangle = \langle x_1\rangle + \langle x_2 \rangle + ... + \langle x_n\rangle\,.
@@ -521,23 +552,23 @@ F(x) = \int_{-\infty}^x dx'\,f(x')\,.
 <section id="distribución-de-probabilidad-conjunta" class="level3">
 <h3 class="anchored" data-anchor-id="distribución-de-probabilidad-conjunta">Distribución de probabilidad conjunta</h3>
 <p>Si tenemos varias variables aleatorias, las definiciones son muy análogas. Por ejemplo, la <strong>distribución de probabilidad conjunta</strong> <span class="math display">\[
-P[a_1\leq x_1 \leq b_1, ..., a_n \leq x_n \leq b_n] \equiv \int_{a_n}^{b_n}...\int_{a_1}^{b_1}\prod_{i=1}^n dx_i\, f(x_1, ..., x_n)\,.
+P[a_1\leq x_1 \leq b_1, ..., a_n \leq x_n \leq b_n] \equiv \int_{a_n}^{b_n}...\int_{a_1}^{b_1}\prod_{i=1}^n dx_i\, \rho(x_1, ..., x_n)\,.
 \]</span></p>
 </section>
 <section id="distribución-marginal-y-condicional" class="level3">
 <h3 class="anchored" data-anchor-id="distribución-marginal-y-condicional">Distribución marginal y condicional</h3>
 <p>Si nos preguntamos cuál es el valor de una variable, independientemente del valor que tomen todas las demás, sólo tenemos que sumar sobre todos los valores de las demás variables. Esta se llama la <strong>distribución marginal</strong> <span class="math display">\[
-f^M(x_1) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=2}^n dx_i\,f(x_1, x_2, ..., x_n)\,.
+\rho^M(x_1) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=2}^n dx_i\,\rho(x_1, x_2, ..., x_n)\,.
 \]</span> Análogamente, si queremos la probabilidad conjunta para algunas variables, marginalizamos sobre todas las demás <span class="math display">\[
-f^M(x_1, ..., x_m) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=m+1}^n dx_i\,f(x_1, x_2, ..., x_n)\,.
-\]</span></p>
+\rho^M(x_1, ..., x_m) = \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=m+1}^n dx_i\,\rho(x_1, x_2, ..., x_n)\,.
+\]</span>}</p>
 <p>Una pregunta distinta, es si <em>fijamos</em> el valor de las demás variables y nos preguntamos por la probabilidad de las restantes. Esta es la <strong>distribución condicional</strong> <span class="math display">\[
-f^C(x_1, ..., x_m| x_{m+1}, ..., x_n) \equiv \frac{f(x_1, ..., x_n)}{f^M(x_{m+1}, ..., x_n)}\,.
+\rho^C(x_1, ..., x_m| x_{m+1}, ..., x_n) \equiv \frac{\rho(x_1, ..., x_n)}{\rho^M(x_{m+1}, ..., x_n)}\,.
 \]</span></p>
 <p>Esto nos permite escribir por ejemplo la siguiente relación <span class="math display">\[
-f^C(x|y) = \frac{f^C(y|x)f^M(x)}{f^M(y)}\,,
+\rho^C(x|y) = \frac{\rho^C(y|x)\rho^M(x)}{\rho^M(y)}\,,
 \]</span> o también <span class="math display">\[
-f(x, y) = f^C(x|y)f^M(y)\,.
+\rho(x, y) = \rho^C(x|y)\rho^M(y)\,.
 \]</span> Decimos que dos variables son <strong>independientes</strong> si <span class="math display">\[
 f(x, y) = f^M(x)f^M(y)\,.
 \]</span></p>
@@ -545,14 +576,14 @@ f(x, y) = f^M(x)f^M(y)\,.
 <section id="momentos-y-valores-esperados" class="level3">
 <h3 class="anchored" data-anchor-id="momentos-y-valores-esperados">Momentos y valores esperados</h3>
 <p>Se definen de forma análoga a una variable. Por ejemplo, definimos la covarianza como el segundo momento central <span class="math display">\[
-\text{cov}(x_i, x_j) \equiv \sigma_{ij} \equiv \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=1}^n dx_i\, (x_i - \mu_i)(x_j - \mu_j) f(x_1, ..., x_n)\,.
+\text{cov}(x_i, x_j) \equiv \sigma_{ij} \equiv \int_{-\infty}^\infty...\int_{-\infty}^\infty \prod_{i=1}^n dx_i\, (x_i - \mu_i)(x_j - \mu_j) \rho(x_1, ..., x_n)\,.
 \]</span> La condición <span class="math inline">\(\sigma_{ij} = 0\)</span> es necesaria (pero no suficiente) para que dos variables sean independientes.</p>
 </section>
 </section>
 <section id="funciones-de-una-variable-aleatoria" class="level2">
 <h2 class="anchored" data-anchor-id="funciones-de-una-variable-aleatoria">Funciones de una variable aleatoria</h2>
 <p>Supongamos que la cantidad <span class="math inline">\(y\)</span> es una función de la variable aleatoria <span class="math inline">\(x\)</span>. Podemos calcular su distribución de probabilidad haciendo un simple cambio de variable <span class="math display">\[
-f(y) = \sum_{x}f(x)\left|\frac{dx}{dy}\right|\,.
+\rho(y) = \sum_{x}\rho(x)\left|\frac{dx}{dy}\right|\,.
 \]</span> Donde la suma es sobre todos los puntos tal que <span class="math inline">\(y = y(x)\)</span>.</p>
 <p>Cuando hay varias variables, usamos el Jacobiano.</p>
 </section>
@@ -561,7 +592,7 @@ f(y) = \sum_{x}f(x)\left|\frac{dx}{dy}\right|\,.
 <section id="uniforme" class="level3">
 <h3 class="anchored" data-anchor-id="uniforme">Uniforme</h3>
 <p>Si la probabilidad es la misma en todas partes dentro de un intervalo <span class="math display">\[
-f(x) \equiv u(x; a, b) = \begin{cases}
+\rho(x) \equiv u(x; a, b) = \begin{cases}
 \frac{1}{b - a}\quad a\leq x \leq b\,
 0\quad \text{de otra manera}
 \end{cases}\,.
@@ -570,7 +601,7 @@ f(x) \equiv u(x; a, b) = \begin{cases}
 <section id="normal-gaussiana" class="level3">
 <h3 class="anchored" data-anchor-id="normal-gaussiana">Normal (Gaussiana)</h3>
 <p>Ubicua en física por motivos que discutiremos en unos minutos. La famosa distribución a campana <span class="math display">\[
-f(x) \equiv n(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\,.
+\rho(x) \equiv n(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left[-\frac{(x - \mu)^2}{2\sigma^2}\right]\,.
 \]</span></p>
 <p>La utilidad de la gaussiana es que por motivos que vermos representa los errores de muchas cantidades medidas. Entonces es útil saber las probabilidades de obtener un resultado a un cierto número de desviaciones estándar de la media</p>
 <ul>
@@ -579,14 +610,14 @@ f(x) \equiv n(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left[-\frac{(x -
 <li><span class="math inline">\(3\sigma\)</span> es <span class="math inline">\(99.7\%\)</span>.</li>
 </ul>
 <p>Para varias variables es similar <span class="math display">\[
-f(\mathbf{x}) = \frac{1}{(2\pi)^{n/2}|V|^{1/2}}\exp\left[-\frac{1}{2}(\mathbf{x} - \mathbf{\mu})^T V^{-1} (\mathbf{x} - \mathbf{\mu})\right]\,.
+\rho(\mathbf{x}) = \frac{1}{(2\pi)^{n/2}|V|^{1/2}}\exp\left[-\frac{1}{2}(\mathbf{x} - \mathbf{\mu})^T V^{-1} (\mathbf{x} - \mathbf{\mu})\right]\,.
 \]</span> La covarianza es fácil de calcular y es <span class="math inline">\(\sigma_{ij} = V_{ij}\)</span>.</p>
 <p>Integrando, se puede demostrar que la distribución marginal también es una gaussiana.</p>
 </section>
 <section id="binomial" class="level3">
 <h3 class="anchored" data-anchor-id="binomial">Binomial</h3>
 <p>La distribución binomial es para una variable discreta. Representa intentar muchas veces un experimento con probabilidad de éxito <span class="math inline">\(p\)</span>. Esta distribución es la probabilidad de obtener <span class="math inline">\(r\)</span> éxitos en <span class="math inline">\(n\)</span> intentos <span class="math display">\[
-f(r; p, n) = \frac{n!}{r!(n - r)!}p^r (1 - p)^{n - r}\,.
+p(r; p, n) = \frac{n!}{r!(n - r)!}p^r (1 - p)^{n - r}\,.
 \]</span> Esta es fácil de deducir, especialmente si hacemos un ejemplo. Supongamos que realizamos el expeeimento <span class="math inline">\(4\)</span> veces. La probabilidad de obtener éxito en los primeros tres intentos y fracaso en el último (<span class="math inline">\(+++-\)</span>) es <span class="math inline">\(p^3(1 - p)^1\)</span>. Pero tenemos otras tres maneras de obtener tres éxitos: <span class="math inline">\(+-++\)</span>, <span class="math inline">\(++-+\)</span>, <span class="math inline">\(-+++\)</span>. Por lo tanto, la probabilidad de obtener <span class="math inline">\(3\)</span> éxitos es <span class="math inline">\(4p^3(1 - p)\)</span>. En general, el factor combinatorial curnta de cuántas maneradas hay de obtener <span class="math inline">\(r\)</span> éxitos en <span class="math inline">\(n\)</span> intentos.</p>
 </section>
 <section id="poisson" class="level3">
@@ -594,7 +625,7 @@ f(r; p, n) = \frac{n!}{r!(n - r)!}p^r (1 - p)^{n - r}\,.
 <p>Es muy importante en física. Representa la probabilidad de obtener <span class="math inline">\(r\)</span> éxitos cuando <span class="math inline">\(n\)</span> tiende a ser un número grande y <span class="math inline">\(p\)</span> tiende a ser pequeño tal que <span class="math inline">\(pn \equiv \lambda\)</span> permanece constante <span class="math display">\[
 \lim_{n\rightarrow \infty} \frac{1}{r!}\frac{n!}{(n-r)!}\left(\frac{\lambda}{n}\right)^r\left(1 - \frac{\lambda}{n}\right)^{n - r} = \lim_{n\rightarrow \infty}\frac{1}{r!}n^r\frac{\lambda^r}{n^r}\left(1 - \frac{\lambda}{n}\right)^n = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
 \]</span> Entonces definimos la <strong>distribución de Poisson</strong> <span class="math display">\[
-f(r; \lambda) = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
+p(r; \lambda) = \frac{1}{r!}\lambda^r e^{-\lambda}\,.
 \]</span></p>
 </section>
 </section>

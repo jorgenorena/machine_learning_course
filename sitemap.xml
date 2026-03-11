@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/17_flujos_normalizantes.html</loc>
+    <loc>https://jorgenorena.github.io/machine_learning_course/9_clasificacion.html</loc>
+    <lastmod>2026-02-10T13:43:41.176Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/11_perceptron_y_redes_conexas.html</loc>
     <lastmod>2026-02-04T15:57:40.629Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/index.html</loc>
-    <lastmod>2026-02-04T15:57:40.631Z</lastmod>
+    <loc>https://jorgenorena.github.io/machine_learning_course/7_entropia.html</loc>
+    <lastmod>2026-02-05T16:16:06.417Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/6_aprendizaje_automatico_regresion_lineal.html</loc>
-    <lastmod>2026-02-04T15:57:40.630Z</lastmod>
+    <loc>https://jorgenorena.github.io/machine_learning_course/1_probabilidad.html</loc>
+    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
   </url>
   <url>
     <loc>https://jorgenorena.github.io/machine_learning_course/14_redes_convolucionales.html</loc>
     <lastmod>2026-02-04T15:57:40.629Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/plan_de_clases.html</loc>
-    <lastmod>2026-02-04T15:57:40.631Z</lastmod>
+    <loc>https://jorgenorena.github.io/machine_learning_course/16_transformadores.html</loc>
+    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/7_clasificacion.html</loc>
-    <lastmod>2026-02-04T15:57:40.630Z</lastmod>
+    <loc>https://jorgenorena.github.io/machine_learning_course/proyecto_2_descenso_doble_en_polinomios.html</loc>
+    <lastmod>2026-03-11T21:13:43.181Z</lastmod>
   </url>
   <url>
     <loc>https://jorgenorena.github.io/machine_learning_course/13_evaluacion_y_regularizacion_de_nn.html</loc>
@@ -30,70 +34,90 @@
   </url>
   <url>
     <loc>https://jorgenorena.github.io/machine_learning_course/5_minimos_cuadrados_intervalos.html</loc>
-    <lastmod>2026-02-04T16:41:42.783Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/12_gradient_descent_and_autodiff.html</loc>
-    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/15_redes_residuales.html</loc>
-    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/6_testeo_de_hipotesis.html</loc>
-    <lastmod>2026-02-04T18:50:51.253Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/4_estimacion_verosimilitud.html</loc>
-    <lastmod>2026-02-04T16:31:54.377Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/19_Operador_Neural.html</loc>
-    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/10_svm_y_no_supervisado.html</loc>
-    <lastmod>2026-02-04T15:57:40.628Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/8_seleccion_de_modelos.html</loc>
-    <lastmod>2026-02-04T15:57:40.630Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/3_funcion_generatriz_tcl.html</loc>
-    <lastmod>2026-02-04T15:57:40.630Z</lastmod>
+    <lastmod>2026-02-05T16:15:11.998Z</lastmod>
   </url>
   <url>
     <loc>https://jorgenorena.github.io/machine_learning_course/18_PINNs.html</loc>
     <lastmod>2026-02-04T15:57:40.629Z</lastmod>
   </url>
   <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/3_funcion_generatriz_tcl.html</loc>
+    <lastmod>2026-02-05T16:12:25.588Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/15_redes_residuales.html</loc>
+    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/proyecto_1_espectro_potencias_y_arboles.html</loc>
+    <lastmod>2026-03-11T21:12:37.969Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/11_arboles_bosques_boosting.html</loc>
+    <lastmod>2026-02-10T13:43:41.176Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/12_svm.html</loc>
+    <lastmod>2026-02-10T13:56:21.432Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/19_Operador_Neural.html</loc>
+    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/4_estimacion_verosimilitud.html</loc>
+    <lastmod>2026-02-05T16:13:41.028Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/10_seleccion_de_modelos.html</loc>
+    <lastmod>2026-02-10T13:43:41.176Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/6_testeo_de_hipotesis.html</loc>
+    <lastmod>2026-02-04T18:50:51.253Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/8_aprendizaje_automatico_regresion_lineal.html</loc>
+    <lastmod>2026-02-10T13:43:41.176Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/12_gradient_descent_and_autodiff.html</loc>
+    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/proyecto_4_sesgo_varianza_en_clasificacion.html</loc>
+    <lastmod>2026-03-11T21:10:35.010Z</lastmod>
+  </url>
+  <url>
     <loc>https://jorgenorena.github.io/machine_learning_course/2_distribuciones.html</loc>
-    <lastmod>2026-02-04T15:57:40.630Z</lastmod>
+    <lastmod>2026-02-05T16:10:18.830Z</lastmod>
   </url>
   <url>
     <loc>https://jorgenorena.github.io/machine_learning_course/about.html</loc>
     <lastmod>2026-02-04T15:57:40.631Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/16_transformadores.html</loc>
-    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
+    <loc>https://jorgenorena.github.io/machine_learning_course/proyecto_3_busqueda_bayesiana_de_hiperparametros.html</loc>
+    <lastmod>2026-03-11T21:15:09.864Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/9_arboles_bosques_boosting.html</loc>
+    <loc>https://jorgenorena.github.io/machine_learning_course/plan_de_clases.html</loc>
     <lastmod>2026-02-04T15:57:40.631Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/1_probabilidad.html</loc>
-    <lastmod>2026-02-04T15:57:40.629Z</lastmod>
+    <loc>https://jorgenorena.github.io/machine_learning_course/proyectos.html</loc>
+    <lastmod>2026-03-11T21:21:44.018Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/7_entropia.html</loc>
-    <lastmod>2026-02-04T15:57:40.630Z</lastmod>
+    <loc>https://jorgenorena.github.io/machine_learning_course/13_no_supervisado.html</loc>
+    <lastmod>2026-02-10T13:57:58.921Z</lastmod>
   </url>
   <url>
-    <loc>https://jorgenorena.github.io/machine_learning_course/11_perceptron_y_redes_conexas.html</loc>
+    <loc>https://jorgenorena.github.io/machine_learning_course/index.html</loc>
+    <lastmod>2026-03-11T21:21:49.282Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jorgenorena.github.io/machine_learning_course/17_flujos_normalizantes.html</loc>
     <lastmod>2026-02-04T15:57:40.629Z</lastmod>
   </url>
 </urlset>

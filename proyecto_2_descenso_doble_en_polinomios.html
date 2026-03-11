@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Proyecto: Doble descenso en ajuste polinomial – Aprendizaje Automático para Físicos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Aprendizaje Automático para Físicos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-clases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Clases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-clases">    
+        <li class="dropdown-header">Probabilidad y Estadística</li>
+        <li>
+    <a class="dropdown-item" href="./1_probabilidad.html">
+ <span class="dropdown-text">1. Probabilidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_distribuciones.html">
+ <span class="dropdown-text">2. Distribuciones de Probabilidad</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_funcion_generatriz_tcl.html">
+ <span class="dropdown-text">3. Función generatriz y teorema central del límite</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_estimacion_verosimilitud.html">
+ <span class="dropdown-text">4. Verosimilitud y estimación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_minimos_cuadrados_intervalos.html">
+ <span class="dropdown-text">5. Mínimos Cuadrados e Intervalos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_testeo_de_hipotesis.html">
+ <span class="dropdown-text">6. Testeo de Hipótesis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_entropia.html">
+ <span class="dropdown-text">7. Entropía</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Aprendizaje Automático</li>
+        <li>
+    <a class="dropdown-item" href="./8_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_clasificacion.html">
+ <span class="dropdown-text">9. Clasificación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_seleccion_de_modelos.html">
+ <span class="dropdown-text">10. Selección de Modelos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_arboles_bosques_boosting.html">
+ <span class="dropdown-text">11. Árboles, Bosques y Boosting</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_svm.html">
+ <span class="dropdown-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_no_supervisado.html">
+ <span class="dropdown-text">13. Aprendizaje No Supervisado</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Redes Neuronales</li>
+        <li>
+    <a class="dropdown-item" href="./11_perceptron_y_redes_conexas.html">
+ <span class="dropdown-text">11. Perceptrón y Redes Conexas y Pérdidas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_gradient_descent_and_autodiff.html">
+ <span class="dropdown-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_evaluacion_y_regularizacion_de_nn.html">
+ <span class="dropdown-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_redes_convolucionales.html">
+ <span class="dropdown-text">14. Redes Convolucionales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_redes_residuales.html">
+ <span class="dropdown-text">15. Redes Residuales</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_transformadores.html">
+ <span class="dropdown-text">16. Transformadores y el mecanismo de atención</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Algunas aplicaciones</li>
+        <li>
+    <a class="dropdown-item" href="./17_flujos_normalizantes.html">
+ <span class="dropdown-text">17. Flujos Normalizantes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_PINNs.html">
+ <span class="dropdown-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_Operador_Neural.html">
+ <span class="dropdown-text">19. Operadores Neuronales</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./proyectos.html" aria-current="page"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Proyecto: Doble descenso en ajuste polinomial</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Probabilidad y Estadística</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_probabilidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Probabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_distribuciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Distribuciones de Probabilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_funcion_generatriz_tcl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Función generatriz y teorema central del límite</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_estimacion_verosimilitud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Verosimilitud y estimación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_minimos_cuadrados_intervalos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Mínimos Cuadrados e Intervalos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_testeo_de_hipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Testeo de Hipótesis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_entropia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Entropía</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Aprendizaje Automático</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Clasificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Selección de Modelos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Árboles, Bosques y Boosting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Aprendizaje No Supervisado</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Redes Neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_perceptron_y_redes_conexas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Perceptrón, Redes Conexas y Pérdidas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_gradient_descent_and_autodiff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Descenso de Gradiente y Auto-diferenciación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_evaluacion_y_regularizacion_de_nn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Evaluación y Regularización de redes neuronales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_redes_convolucionales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14. Redes Convolucionales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_redes_residuales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15. Redes Residuales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_transformadores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16. Transformadores y el mecanismo de atención</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Algunas aplicaciones</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17_flujos_normalizantes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">17. Flujos Normalizantes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18_PINNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">18. Redes Neuronales Informadas por la Física (PINNs)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19_Operador_Neural.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">19. Operadores Neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Evaluacion</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proyectos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#objetivo-y-motivación" id="toc-objetivo-y-motivación" class="nav-link active" data-scroll-target="#objetivo-y-motivación">Objetivo y motivación</a></li>
+  <li><a href="#preguntas-guía" id="toc-preguntas-guía" class="nav-link" data-scroll-target="#preguntas-guía">Preguntas guía</a></li>
+  <li><a href="#tareas-a-cumplir" id="toc-tareas-a-cumplir" class="nav-link" data-scroll-target="#tareas-a-cumplir">Tareas a cumplir</a>
+  <ul class="collapse">
+  <li><a href="#tarea-a-generación-de-datos-sintéticos" id="toc-tarea-a-generación-de-datos-sintéticos" class="nav-link" data-scroll-target="#tarea-a-generación-de-datos-sintéticos">Tarea A: Generación de datos sintéticos</a></li>
+  <li><a href="#tarea-b-modelos-ajuste-polinomial-y-regularización-ridge" id="toc-tarea-b-modelos-ajuste-polinomial-y-regularización-ridge" class="nav-link" data-scroll-target="#tarea-b-modelos-ajuste-polinomial-y-regularización-ridge">Tarea B: Modelos: ajuste polinomial y regularización ridge</a></li>
+  <li><a href="#tarea-c-barridos-en-grado" id="toc-tarea-c-barridos-en-grado" class="nav-link" data-scroll-target="#tarea-c-barridos-en-grado">Tarea C: Barridos en grado</a></li>
+  <li><a href="#implementación-de-esta-tarea-2" id="toc-implementación-de-esta-tarea-2" class="nav-link" data-scroll-target="#implementación-de-esta-tarea-2">Implementación de esta tarea</a></li>
+  <li><a href="#tarea-d-mediciones-gráficos-y-análisis" id="toc-tarea-d-mediciones-gráficos-y-análisis" class="nav-link" data-scroll-target="#tarea-d-mediciones-gráficos-y-análisis">Tarea D: Mediciones, gráficos y análisis</a></li>
+  </ul></li>
+  <li><a href="#extensiones-opcionales" id="toc-extensiones-opcionales" class="nav-link" data-scroll-target="#extensiones-opcionales">Extensiones (opcionales)</a></li>
+  <li><a href="#esqueleto-de-implementación-pistas" id="toc-esqueleto-de-implementación-pistas" class="nav-link" data-scroll-target="#esqueleto-de-implementación-pistas">Esqueleto de implementación (pistas)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Proyecto: Doble descenso en ajuste polinomial</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivo-y-motivación" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo-y-motivación">Objetivo y motivación</h2>
+<p>En regresión, la historia clásica es: al aumentar la complejidad del modelo, el error de entrenamiento baja siempre, mientras que el error de test suele seguir una curva en forma de U (sesgo vs.&nbsp;varianza). Sin embargo, en muchos modelos modernos aparece un fenómeno adicional: <strong>doble descenso</strong> (double descent). Cerca del umbral de interpolación (cuando el número de parámetros es comparable al número de datos), el error de generalización puede <strong>empeorar dramáticamente</strong> y luego <strong>mejorar otra vez</strong> al seguir aumentando la complejidad.</p>
+<p>En este proyecto estudiarás ese fenómeno en un escenario totalmente controlado:</p>
+<ul>
+<li>datos sintéticos (curva conocida + ruido),</li>
+<li>modelos polinomiales,</li>
+<li>y regularización tipo <em>ridge</em> (penalización <span class="math inline">\(L_2\)</span>).</li>
+</ul>
+<p>La parte importante es diseñar el experimento para que la estadística sea clara y los efectos numéricos no “se coman” la señal.</p>
+<hr>
+</section>
+<section id="preguntas-guía" class="level2">
+<h2 class="anchored" data-anchor-id="preguntas-guía">Preguntas guía</h2>
+<p>Al finalizar, deberías poder contestar:</p>
+<ol type="1">
+<li>¿Se observa el doble descenso en regresión polinomial?</li>
+<li>¿Qué ocurre cerca del umbral de interpolación <span class="math inline">\(d+1\approx n\)</span>?</li>
+<li>¿Cómo cambia el fenómeno al variar la regularización <span class="math inline">\(\lambda\)</span>?</li>
+<li>¿Por qué la base polinomial (monomios vs.&nbsp;Legendre) importa tanto?</li>
+<li>¿Qué es “fenómeno estadístico” y qué es “artefacto numérico” (Runge, mal condicionamiento)?</li>
+</ol>
+<hr>
+</section>
+<section id="tareas-a-cumplir" class="level2">
+<h2 class="anchored" data-anchor-id="tareas-a-cumplir">Tareas a cumplir</h2>
+<section id="tarea-a-generación-de-datos-sintéticos" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-a-generación-de-datos-sintéticos">Tarea A: Generación de datos sintéticos</h3>
+<p>Trabajaremos en el dominio: <span class="math display">\[
+x\in[-1,1].
+\]</span></p>
+<p>Escoge una de las siguientes funciones objetivo (o propón otra suave y justifícala):</p>
+<ul>
+<li><p>Opción A (periódica): <span class="math display">\[
+f(x)=\sin(2\pi x).
+\]</span></p></li>
+<li><p>Opción B (bulto localizado): <span class="math display">\[
+f(x)=\exp\!\left(-\frac{x^2}{2\sigma^2}\right),\qquad \sigma=0.25.
+\]</span></p></li>
+</ul>
+<section id="conjunto-de-entrenamiento-por-ensayo" class="level4">
+<h4 class="anchored" data-anchor-id="conjunto-de-entrenamiento-por-ensayo">Conjunto de entrenamiento (por ensayo)</h4>
+<p>Para cada ensayo (repetición estadística), genera un conjunto de entrenamiento nuevo:</p>
+<ol type="1">
+<li><p>Muestrea <span class="math inline">\(n\)</span> puntos de entrenamiento: <span class="math display">\[
+x_i \sim U(-1,1),\quad i=1,\dots,n.
+\]</span></p></li>
+<li><p>Genera etiquetas con ruido gaussiano: <span class="math display">\[
+y_i = f(x_i) + \epsilon_i,\qquad \epsilon_i\sim\mathcal N(0,\sigma_\epsilon^2).
+\]</span></p></li>
+</ol>
+</section>
+<section id="conjunto-de-prueba" class="level4">
+<h4 class="anchored" data-anchor-id="conjunto-de-prueba">Conjunto de prueba</h4>
+<p>Crea un conjunto de prueba (test) grande (fijo para todos los ensayos), por ejemplo <span class="math inline">\(N_{\rm test}=2000\)</span> puntos uniformes en <span class="math inline">\([-1,1]\)</span>.</p>
+</section>
+<section id="implementación-de-esta-tarea" class="level4">
+<h4 class="anchored" data-anchor-id="implementación-de-esta-tarea">Implementación de esta tarea</h4>
+<p>Escribe una función que genere una realización con ruido. Genera también el conjunto de prueba fijo. Verifica que las formas de los arrays sean correctas y que la función objetivo se vea razonable al graficar.</p>
+<hr>
+</section>
+</section>
+<section id="tarea-b-modelos-ajuste-polinomial-y-regularización-ridge" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-b-modelos-ajuste-polinomial-y-regularización-ridge">Tarea B: Modelos: ajuste polinomial y regularización ridge</h3>
+<p>Sea <span class="math inline">\(d\)</span> el grado máximo del polinomio, y sea <span class="math inline">\(\phi_m(x)\)</span> una base para construir features.</p>
+<section id="modelo-lineal-en-una-base-polinomial" class="level4">
+<h4 class="anchored" data-anchor-id="modelo-lineal-en-una-base-polinomial">Modelo lineal en una base polinomial</h4>
+<p><span class="math display">\[
+\hat f(x)=\sum_{m=0}^{d} a_m\,\phi_m(x).
+\]</span></p>
+<p>Define la matriz de diseño <span class="math inline">\(\Phi\)</span> o de van der Monde: <span class="math display">\[
+\Phi_{im}=\phi_m(x_i),
+\]</span></p>
+<p>donde <span class="math inline">\(x_i\)</span> son los puntos de entrenamiento para un ensayo.</p>
+</section>
+<section id="tipos-de-ajuste" class="level4">
+<h4 class="anchored" data-anchor-id="tipos-de-ajuste">Tipos de ajuste</h4>
+<section id="ajuste-sin-regularización-mínimos-cuadrados" class="level5">
+<h5 class="anchored" data-anchor-id="ajuste-sin-regularización-mínimos-cuadrados">Ajuste sin regularización (mínimos cuadrados)</h5>
+<p><span class="math display">\[
+\hat{\mathbf a}=\arg\min_{\mathbf a}\|\Phi\mathbf a-\mathbf y\|^2.
+\]</span></p>
+<p>Encuentre el mejor ajuste para cada ensayo dado. Recuerde que la solución cerrada es:</p>
+<p><span class="math display">\[
+\hat{\mathbf a}=(\Phi^T\Phi)^{-1}\Phi^T\mathbf y\,.
+\]</span></p>
+</section>
+<section id="ajuste-con-regularización-ridge-l_2" class="level5">
+<h5 class="anchored" data-anchor-id="ajuste-con-regularización-ridge-l_2">Ajuste con regularización ridge (<span class="math inline">\(L_2\)</span>)</h5>
+<p><span class="math display">\[
+\hat{\mathbf a}=\arg\min_{\mathbf a}\left(
+\|\Phi\mathbf a-\mathbf y\|^2+\lambda\|\mathbf a\|^2
+\right).
+\]</span></p>
+<p>Solución cerrada (cuando es invertible): <span class="math display">\[
+\hat{\mathbf a}=(\Phi^T\Phi+\lambda I)^{-1}\Phi^T\mathbf y.
+\]</span></p>
+<p>Encuentra el mejor ajuste para cada ensayo y cada <span class="math inline">\(\lambda\)</span>.</p>
+</section>
+</section>
+<section id="elección-de-base-monomios-vs.-legendre" class="level4">
+<h4 class="anchored" data-anchor-id="elección-de-base-monomios-vs.-legendre">Elección de base: monomios vs.&nbsp;Legendre</h4>
+<section id="base-ingenua-monomios" class="level5">
+<h5 class="anchored" data-anchor-id="base-ingenua-monomios">Base ingenua (monomios)</h5>
+<p><span class="math display">\[
+\phi_m(x)=x^m.
+\]</span></p>
+<p>Ventaja: simple.<br>
+Problema: matrices tipo Vandermonde mal condicionadas para <span class="math inline">\(d\)</span> grande; puede aparecer oscilación tipo Runge y errores numéricos graves.</p>
+</section>
+<section id="base-recomendada-legendre" class="level5">
+<h5 class="anchored" data-anchor-id="base-recomendada-legendre">Base recomendada (Legendre)</h5>
+<p>Usa los polinomios de Legendre <span class="math display">\[
+P_m(x)=\frac{1}{2^m m!}\,\frac{d^m}{dx^m}\bigl[(x^2-1)^m\bigr],\qquad m=0,1,2,\dots
+\]</span></p>
+<p>Ventajas: - mejor condicionamiento numérico (en general), - reduce oscilaciones espurias, - hace más visible el fenómeno estadístico (doble descenso) sin que todo sea dominado por errores de cálculo.</p>
+<p><strong>En este proyecto, la base principal debe ser Legendre.</strong><br>
+Luego repetirás algunos experimentos con monomios como control (para diagnosticar Runge/condicionamiento).</p>
+</section>
+</section>
+<section id="implementación-de-esta-tarea-1" class="level4">
+<h4 class="anchored" data-anchor-id="implementación-de-esta-tarea-1">Implementación de esta tarea</h4>
+<p>Para realizar esta tarea, crea funciones que realicen el ajuste polinomial. Esta función debe recibir como argumentos:</p>
+<ul>
+<li>los puntos de entrenamiento <span class="math inline">\(x_i\)</span> y etiquetas <span class="math inline">\(y_i\)</span>,</li>
+<li>el grado máximo <span class="math inline">\(d\)</span>,</li>
+<li>el tipo de base (monomios o Legendre),</li>
+<li>el valor de <span class="math inline">\(\lambda\)</span> para ridge.</li>
+</ul>
+<p>Debe devolver una función que permita evaluar <span class="math inline">\(\hat f(x)\)</span> en cualquier punto <span class="math inline">\(x\)</span>.</p>
+<p>Pon a prueba tu implementación para algunas elecciones de los parámetros y realizaciones diferentes. Grafica el ajuste obtenido junto con los puntos de entrenamiento y la función objetivo para verificar que todo funciona correctamente.</p>
+<hr>
+</section>
+</section>
+<section id="tarea-c-barridos-en-grado" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-c-barridos-en-grado">Tarea C: Barridos en grado</h3>
+<p>Ahora queremos aplicar lo anterior para los polinomios de Legendre y los monomios con varios valores de grado <span class="math inline">\(d\)</span>. Generaremos una grilla de estos parámetros y repetiremos el experimento para cada valor de <span class="math inline">\(d\)</span>. Esto se debe repetir para cada ensayo.</p>
+<section id="barrido-en-complejidad-grado" class="level4">
+<h4 class="anchored" data-anchor-id="barrido-en-complejidad-grado">Barrido en complejidad (grado)</h4>
+<p>Barrido de grados: <span class="math display">\[
+d = 0,1,2,\dots,d_{\max},
+\]</span> con <span class="math inline">\(d_{\max}\)</span> significativamente mayor que <span class="math inline">\(n\)</span>, por ejemplo <span class="math inline">\(d_{\max}=4n\)</span>.</p>
+<p>El umbral de interpolación ocurre cerca de: <span class="math display">\[
+d+1\approx n.
+\]</span></p>
+</section>
+<section id="repetición-estadística" class="level4">
+<h4 class="anchored" data-anchor-id="repetición-estadística">Repetición estadística</h4>
+<p>Para observar el fenómeno de forma robusta, repite todo en <span class="math inline">\(R\)</span> ensayos (nuevos <span class="math inline">\(x_i\)</span> y nuevo ruido).</p>
+</section>
+</section>
+<section id="implementación-de-esta-tarea-2" class="level3">
+<h3 class="anchored" data-anchor-id="implementación-de-esta-tarea-2">Implementación de esta tarea</h3>
+<p>Genera una lista de valores de <span class="math inline">\(d\)</span>. Luego, para cada ensayo, ajusta el modelo de Legendre y de monomios para <span class="math inline">\(d\)</span> y guarda los resultados (MSE de entrenamiento y test) en un <code>DataFrame</code> o estructura similar para facilitar el análisis posterior.</p>
+<hr>
+</section>
+<section id="tarea-d-mediciones-gráficos-y-análisis" class="level3">
+<h3 class="anchored" data-anchor-id="tarea-d-mediciones-gráficos-y-análisis">Tarea D: Mediciones, gráficos y análisis</h3>
+<section id="métricas" class="level4">
+<h4 class="anchored" data-anchor-id="métricas">Métricas</h4>
+<p>Para cada <span class="math inline">\(d\)</span> y cada ensayo:</p>
+<ul>
+<li>MSE de entrenamiento</li>
+<li>MSE de test</li>
+</ul>
+<p>Luego promediar sobre ensayos: <span class="math display">\[
+\overline{\mathrm{MSE}}_{\rm test}(d) = \frac{1}{R}\sum_{r=1}^R \mathrm{MSE}_{{\rm test},r}(d).
+\]</span></p>
+<p>También reporta barras de error (desviación estándar entre ensayos).</p>
+</section>
+<section id="gráficos" class="level4">
+<h4 class="anchored" data-anchor-id="gráficos">Gráficos</h4>
+<ol type="1">
+<li><p><strong>Curvas de error de test vs.&nbsp;grado</strong></p>
+<p>Aquí deberías ver:</p>
+<ul>
+<li>régimen sesgo-varianza clásico para <span class="math inline">\(d\ll n\)</span>,</li>
+<li>posible máximo cerca de <span class="math inline">\(d+1\approx n\)</span>,</li>
+<li>y el segundo descenso para <span class="math inline">\(d\gg n\)</span>.</li>
+</ul></li>
+<li><p><strong>Comparación de bases</strong>:</p>
+<ul>
+<li>repite el gráfico (1) usando monomios.</li>
+<li>discute cómo cambia la estabilidad numérica y la claridad del fenómeno.</li>
+</ul></li>
+</ol>
+</section>
+<section id="diagnóstico-numérico" class="level4">
+<h4 class="anchored" data-anchor-id="diagnóstico-numérico">Diagnóstico numérico</h4>
+<p>Grafica el número de condición de la matriz de Gram: <span class="math display">\[
+\kappa(\Phi^T\Phi)
+\]</span></p>
+<p>como función de <span class="math inline">\(d\)</span> para monomios vs legendre. Esto ayuda a separar: - “el modelo generaliza mal” (fenómeno estadístico), - de “el sistema lineal está explotando” (fenómeno numérico).</p>
+</section>
+<section id="discusión-teórica-corta-lo-mínimo-necesario" class="level4">
+<h4 class="anchored" data-anchor-id="discusión-teórica-corta-lo-mínimo-necesario">Discusión teórica corta (lo mínimo necesario)</h4>
+<p>Incluye una sección breve (unos cuantos minutos en la presentación) donde expliques:</p>
+<ol type="1">
+<li><strong>Umbral de interpolación</strong>: cuando el modelo tiene suficiente capacidad para ajustar el ruido, la solución puede volverse extremadamente sensible a pequeñas perturbaciones.</li>
+<li><strong>Por qué la base importa</strong>: los monomios generan matrices mal condicionadas; legendre es una base más estable en <span class="math inline">\([-1,1]\)</span>, por lo que el experimento revela mejor la estadística.</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="extensiones-opcionales" class="level2">
+<h2 class="anchored" data-anchor-id="extensiones-opcionales">Extensiones (opcionales)</h2>
+<ol type="1">
+<li>Comparar puntos de entrenamiento aleatorios vs.&nbsp;uniformemnte distribuídos a lo largo del eje (mostrar Runge/interpolación).</li>
+<li>Usar varios valores de <span class="math inline">\(\lambda\)</span> para mostrar cómo el doble descenso se atenúa o desaparece con regularización fuerte.</li>
+<li>Cambiar la función objetivo a una con menos suavidad (por ejemplo <span class="math inline">\(|x|\)</span>) y observar el impacto.</li>
+<li>Estudiar el rol de la distribución de <span class="math inline">\(x\)</span>: concentrada en el centro vs uniforme.</li>
+<li>Cambiar a la base de Chebyshev o de Bernstein y discutir los resultados.</li>
+</ol>
+<hr>
+</section>
+<section id="esqueleto-de-implementación-pistas" class="level2">
+<h2 class="anchored" data-anchor-id="esqueleto-de-implementación-pistas">Esqueleto de implementación (pistas)</h2>
+<ul>
+<li>Construye una función <code>design_matrix(x, d, basis="legendre")</code>.</li>
+<li>Implementa ridge con la fórmula cerrada.</li>
+<li>Haz un loop sobre ensayos <code>r</code>, grados <code>d</code>.</li>
+<li>Guarda resultados en un <code>DataFrame</code> para graficar fácilmente.</li>
+<li>Para ver claro el fenómeno, usa polinomios hasta de grado <span class="math inline">\(10^4\)</span>, pero para el número de condicionamiento, hazlo solo hasta <span class="math inline">\(d=1000\)</span> para evitar tiempos de cálculo excesivos.</li>
+</ul>
+<p>Sugerencia: comienza con legendre, valida que todo corre y recién después agrega monomios y el diagnóstico numérico.</p>
+<hr>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/jorgenorena\.github\.io\/machine_learning_course\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

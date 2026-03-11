@@ -158,24 +158,28 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
         <li>
-    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
- <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+    <a class="dropdown-item" href="./8_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./7_clasificacion.html">
- <span class="dropdown-text">7. Clasificación</span></a>
+    <a class="dropdown-item" href="./9_clasificacion.html">
+ <span class="dropdown-text">9. Clasificación</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
- <span class="dropdown-text">8. Selección de Modelos</span></a>
+    <a class="dropdown-item" href="./10_seleccion_de_modelos.html">
+ <span class="dropdown-text">10. Selección de Modelos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
- <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+    <a class="dropdown-item" href="./11_arboles_bosques_boosting.html">
+ <span class="dropdown-text">11. Árboles, Bosques y Boosting</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
- <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+    <a class="dropdown-item" href="./12_svm.html">
+ <span class="dropdown-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_no_supervisado.html">
+ <span class="dropdown-text">13. Aprendizaje No Supervisado</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Redes Neuronales</li>
@@ -219,6 +223,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./proyectos.html" aria-current="page"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">Acerca de</span></a>
@@ -310,32 +318,38 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  <a href="./8_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">7. Clasificación</span></a>
+  <a href="./9_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Clasificación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">8. Selección de Modelos</span></a>
+  <a href="./10_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Selección de Modelos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  <a href="./11_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Árboles, Bosques y Boosting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  <a href="./12_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Aprendizaje No Supervisado</span></a>
   </div>
 </li>
       </ul>
@@ -416,6 +430,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Evaluacion</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proyectos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -468,24 +499,24 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="muestras-aleatorias-y-estimadores">Muestras aleatorias y estimadores</h2>
 <p>Definimos variables <strong>independientes e idénticamente distribuídas (i.i.d.)</strong> como aquellas variables que provienen de una misma distribución de probabilidad y que además son independientes.</p>
 <p>Para nosotros una <strong>muestra aleatoria</strong> será un conjunto de variables i.i.d. Esto modela el repetir un experimento u observación muchas veces. Como son i.i.d. su distribución conjunta se escribe <span class="math display">\[
-f(x_1, ..., x_n) = f(x_1)...f(x_n)\,,
-\]</span> para alguna distribución <span class="math inline">\(f(x)\)</span>.</p>
+\rho(x_1, ..., x_N) = \rho(x_1)...\rho(x_N)\,,
+\]</span> para alguna distribución <span class="math inline">\(\rho(x)\)</span>.</p>
 </section>
 <section id="propiedades-de-estimadores" class="level2">
 <h2 class="anchored" data-anchor-id="propiedades-de-estimadores">Propiedades de estimadores</h2>
-<p>Muchas veces desconocemos la forma exacta de <span class="math inline">\(f(x)\)</span> pero tenemos un modelo para producirla. Ese modelo puede depender de unos parámetros libres (masas de partículas, varianzas, algún parámetro experimental, …) <span class="math inline">\(\mathbf{\theta} = (\theta_1, ..., \theta_m)\)</span>. Queremos sacar el valor de esos parámetros a partir de los datos. Nuestra aproximación a ese valor usando los datos se llama un <strong>estimador</strong> <span class="math inline">\(\hat{\theta}_n\)</span>, que depende del número de datos tomados <span class="math inline">\(n\)</span>.</p>
+<p>Muchas veces desconocemos la forma exacta de <span class="math inline">\(\rho(x)\)</span> pero tenemos un modelo para producirla. Ese modelo puede depender de unos parámetros libres (masas de partículas, varianzas, algún parámetro experimental, …) <span class="math inline">\(\mathbf{\theta} = (\theta_1, ..., \theta_p)\)</span>. Queremos sacar el valor de esos parámetros a partir de los datos. Nuestra aproximación a ese valor usando los datos se llama un <strong>estimador</strong> <span class="math inline">\(\hat{\theta}_N\)</span>, que depende del número de datos tomados <span class="math inline">\(N\)</span>.</p>
 <p>Puede haber muchos estimadores diferentes, dependiendo del método usado. Discutamos cómo podemos evaluar si un estimador es bueno y en qué sentido lo puede ser.</p>
 <p>Una propiedad importante de un estimador es que sea <strong>consistente</strong>. Es decir, para todo <span class="math inline">\(\epsilon &gt; 0\)</span> <span class="math display">\[
-\lim_{n\rightarrow \infty} P(|\hat{\theta}_n - \theta| &gt; \epsilon) = 0\,.
+\lim_{N\rightarrow \infty} P(|\hat{\theta}_N - \theta| &gt; \epsilon) = 0\,.
 \]</span> En lenguaje más cristiano, un estimador consistente es aquel que tiende al verdadero valor del parámetro si tenemos infinitos datos.</p>
 <p>Que un estimador sea consistente no quiere decir que para una cantidad finita de datos nos de una buena aproximación al verdadero valor. Para caracterizar cuándo es buena la aproximación definimos otro par de propiedades.</p>
 <p>Definimos el <strong>sesgo</strong> (muchas veces llamado por su nombre inglés <strong>bias</strong>) <span class="math display">\[
-b \equiv \langle \hat{\theta}_n\rangle - \theta\,.
+b \equiv \langle \hat{\theta}_N\rangle - \theta\,.
 \]</span> Un estimador <strong>no sesgado</strong> si <span class="math inline">\(b = 0\)</span>. En general nos van a interesar muchos estimadores sesgados, pero queremos tratar de mantener el sesgo bajo control.</p>
 <p>Además de un sesgo, un estimador tiene una varianza. Como es una cantidad que se obtiene operando sobre <span class="math inline">\(n\)</span> variables aleatorias, el mismo estimador es una variable aleatoria. Por lo tanto tiene una distribución de probabilidad y una varianza. Si la varianza es muy grande, el estimador puede ser problemático porque al medir obtenemos sólo un valor, y este puede estar muy lejos del valor verdadero porque la distribución es muy esparcida.</p>
 <p>Decimos que un estimador es <strong>eficiente</strong> si la varianza cae rápidamente a medida que aumentamos <span class="math inline">\(n\)</span>.</p>
 <p>Lo que nos interesa acotar en realidad es la diferencia entre el valor verdadero y el estimado. Este se relaciona con el sesgo y la varianza <span class="math display">\[
-\left\langle(\hat{\theta}_n - \theta)^2\right\rangle = \left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle+ b)^2\right\rangle = \left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle)^2\right\rangle +2b\left\langle(\hat{\theta}_n - \langle\hat{\theta}_n\rangle)\right\rangle + b^2 = \sigma^2_{\hat{\theta}} + b^2\,.
+\left\langle(\hat{\theta}_N - \theta)^2\right\rangle = \left\langle(\hat{\theta}_N - \langle\hat{\theta}_N\rangle+ b)^2\right\rangle = \left\langle(\hat{\theta}_N - \langle\hat{\theta}_N\rangle)^2\right\rangle +2b\left\langle(\hat{\theta}_N - \langle\hat{\theta}_N\rangle)\right\rangle + b^2 = \sigma^2_{\hat{\theta}} + b^2\,.
 \]</span> Entonces la varianza del error cometido es la suma de la varianza del estimador y el cuadrado del sesgo. Es decir que idealmente queremos reducir ambos para tener errores pequeños.</p>
 <p>Veremos que en muchos métodos al aumentar el sesgo disminuye la varianza y vice versa, tal que debemos buscar un equilibrio entre ambos.</p>
 </section>
@@ -493,29 +524,29 @@ b \equiv \langle \hat{\theta}_n\rangle - \theta\,.
 <h2 class="anchored" data-anchor-id="estimadores-de-la-media-y-la-varianza">Estimadores de la media y la varianza</h2>
 <p>Para dar un ejemplo, supongamos que queremos encontrar la media y la varianza de una distribución a partir de una muestra. Existen estimadores no sesgados para ambos.</p>
 <p>Para la media, el estimador es el promedio sobre la muestra <span class="math display">\[
-\hat{\mu} = \frac{1}{n}\sum_{i = 1}^n x_i \equiv \bar{x}\,.
+\hat{\mu} = \frac{1}{n}\sum_{i = 1}^N x_i \equiv \bar{x}\,.
 \]</span> Veamos que es no sesgado recordando que todos vienen de la misma distribución con media <span class="math inline">\(\mu\)</span> <span class="math display">\[
-\langle \hat{\mu}\rangle = \frac{1}{n}\sum_{i=1}^n \langle x_i\rangle = \frac{1}{n}\sum_{i=1}^n \mu = \mu\,.
+\langle \hat{\mu}\rangle = \frac{1}{N}\sum_{i=1}^N \langle x_i\rangle = \frac{1}{N}\sum_{i=1}^N \mu = \mu\,.
 \]</span></p>
 <p>Para la varianza es un poco más sutil. Queremos escribir una expresión que dependa sólo de los datos. Para obtener un estimador no sesgado necesitamos escribir <span class="math display">\[
-\hat{\sigma}^2 = \frac{1}{n - 1}\sum_{i=1}^n(x_i - \bar{x})^2\,.
+\hat{\sigma}^2 = \frac{1}{N - 1}\sum_{i=1}^N(x_i - \bar{x})^2\,.
 \]</span> Ese denominador no es lo que uno esperaría ingenuamente. Si yo no conociera este tema, habría dicho que el estimador debería ser el promedio sobre las desviaciones al cuadrado, pero el denominador no corresponde a esa intuición. Para ver de dónde viene demostremos que no es sesgado <span class="math display">\[
 \begin{align}
-\langle \hat{\sigma}^2\rangle &amp;= \frac{1}{n - 1}\sum_{i = 1}^n \left\langle(x_i - \bar{x})^2\right\rangle\\
-&amp;= \frac{1}{n - 1}\sum_{i = 1}^n \left\langle\left(x_i - \frac{1}{n}\sum_{j=1}^n x_j\right)^2\right\rangle\\
-&amp;= \frac{n}{n - 1} \left\langle\left(x_1 - \frac{1}{n}\sum_{j=1}^n x_j\right)^2\right\rangle\\
-&amp;= \frac{n}{n - 1} \left(\langle x_1^2\rangle - \frac{2}{n}\sum_{j=1}^n \langle x_1 x_j\rangle + \frac{1}{n^2}\sum_{j,k=1}^n \langle x_j x_k\rangle \right)\\
-&amp;= \frac{n}{n - 1} \left(\langle x_1^2\rangle - \frac{1}{n}\sum_{j=1}^n \langle x_1 x_j\rangle\right)\\
-&amp;= \frac{n}{n - 1} \left(\left(1 - \frac{1}{n}\right)\langle x_1^2\rangle - \frac{1}{n}\sum_{j=2}^n \langle x_1 x_j\rangle\right)\\
-&amp;= \frac{n}{n - 1} \left(\left(1 - \frac{1}{n}\right)\langle x_1^2\rangle - \frac{1}{n}\sum_{j=2}^n \langle x_1\rangle\langle x_j\rangle\right)\\
-&amp;= \frac{n}{n - 1} \left(\frac{n - 1}{n}\langle x_1^2\rangle - \frac{n - 1}{n}\mu^2\right) = \langle x^2\rangle - \mu^2 = \sigma^2\,.
+\langle \hat{\sigma}^2\rangle &amp;= \frac{1}{N - 1}\sum_{i = 1}^N \left\langle(x_i - \bar{x})^2\right\rangle\\
+&amp;= \frac{1}{N - 1}\sum_{i = 1}^N \left\langle\left(x_i - \frac{1}{N}\sum_{j=1}^N x_j\right)^2\right\rangle\\
+&amp;= \frac{N}{N - 1} \left\langle\left(x_1 - \frac{1}{N}\sum_{j=1}^N x_j\right)^2\right\rangle\\
+&amp;= \frac{N}{N - 1} \left(\langle x_1^2\rangle - \frac{2}{N}\sum_{j=1}^N \langle x_1 x_j\rangle + \frac{1}{N^2}\sum_{j,k=1}^N \langle x_j x_k\rangle \right)\\
+&amp;= \frac{N}{N - 1} \left(\langle x_1^2\rangle - \frac{1}{N}\sum_{j=1}^N \langle x_1 x_j\rangle\right)\\
+&amp;= \frac{N}{N - 1} \left(\left(1 - \frac{1}{N}\right)\langle x_1^2\rangle - \frac{1}{N}\sum_{j=2}^n \langle x_1 x_j\rangle\right)\\
+&amp;= \frac{N}{N - 1} \left(\left(1 - \frac{1}{N}\right)\langle x_1^2\rangle - \frac{1}{N}\sum_{j=2}^N \langle x_1\rangle\langle x_j\rangle\right)\\
+&amp;= \frac{N}{N - 1} \left(\frac{N - 1}{N}\langle x_1^2\rangle - \frac{N - 1}{N}\mu^2\right) = \langle x^2\rangle - \mu^2 = \sigma^2\,.
 \end{align}
 \]</span> Para ir de la segunda a la tercera igualdad hemos usado el hecho que todos los términos de la suma deben dar el mismo resultado ya que las variables son idénticamente distribuídas. Para ir de la cuarta a la quinta hemos usado ese mismo truco. Para ir de la sexta a la séptima hemos usado el hecho que las variables son independientes tal que <span class="math inline">\(\langle x_1 x_j\rangle = \langle x_1\rangle\langle x_j\rangle\)</span> para <span class="math inline">\(j\neq 1\)</span>.</p>
 </section>
 <section id="la-función-de-verosimilitud" class="level2">
 <h2 class="anchored" data-anchor-id="la-función-de-verosimilitud">La Función de Verosimilitud</h2>
-<p>Supongamos que la distribución <span class="math inline">\(f(x;\theta)\)</span> de una medición depende de un solo parámetro <span class="math inline">\(\theta\)</span>. La función de verosimilitud la habíamos definido como la probabilidad de obtener las observaciones <span class="math inline">\(x_1,...,x_n\)</span> dado un valor de <span class="math inline">\(\theta\)</span> <span class="math display">\[
-L(\theta) = f(x_1,...,x_n|\theta) = \prod_{i=1}^n f(x_i;\theta)\,,
+<p>Supongamos que la distribución <span class="math inline">\(\rho(x;\theta)\)</span> de una medición depende de un solo parámetro <span class="math inline">\(\theta\)</span>. La función de verosimilitud la habíamos definido como la probabilidad de obtener las observaciones <span class="math inline">\(x_1,...,x_N\)</span> dado un valor de <span class="math inline">\(\theta\)</span> <span class="math display">\[
+L(\theta) = \rho(x_1,...,x_N|\theta) = \prod_{i=1}^N \rho(x_i;\theta)\,,
 \]</span> donde hemos usado el hecho que las muestra es independiente.</p>
 <section id="cota-de-mínima-varianza" class="level3">
 <h3 class="anchored" data-anchor-id="cota-de-mínima-varianza">Cota de mínima varianza</h3>
@@ -573,11 +604,11 @@ Ejemplo
 <div class="callout-body-container callout-body">
 <p>Suponga que usted hace un experimento en el cual quiere medir el tiempo de vida medio de un elemento radioactivo <span class="math inline">\(\tau\)</span>. Usted observa los tiempos de decaimiento <span class="math inline">\(\{t_i\}\)</span>.</p>
 <p>Sabemos que la probabilidad de decaer en un tiempo <span class="math inline">\(t\)</span> es <span class="math inline">\(\frac{1}{\tau}e^{-t_i/\tau}\)</span>, por lo tanto la verosimilitud es <span class="math display">\[
-L(\tau) = \frac{1}{\tau^n}\prod_i e^{-t_i/\tau}\,.
+L(\tau) = \frac{1}{\tau^N}\prod_i e^{-t_i/\tau}\,.
 \]</span> Como dijimos, es más fácil trabajar con el logaritmo porque convierte las multiplicaciones en sumas y cancela los exponenciales que aparecen en muchas distribuciones <span class="math display">\[
-\ln L(\tau) = -\sum_i \frac{t_i}{\tau} - n\ln\tau\,.
+\ln L(\tau) = -\sum_i \frac{t_i}{\tau} - N\ln\tau\,.
 \]</span> Podemos calcular su derivada <span class="math display">\[
-\frac{\partial \ln L}{\partial \tau} = \sum_i \frac{t_i}{\tau^2} - n\frac{1}{\tau}\,.
+\frac{\partial \ln L}{\partial \tau} = \sum_i \frac{t_i}{\tau^2} - N\frac{1}{\tau}\,.
 \]</span> Igualando a cero obtenemos <span class="math display">\[
 \hat{\tau} = \frac{1}{N}\sum_i t_i\,.
 \]</span></p>
@@ -595,25 +626,25 @@ Ejemplo
 </div>
 <div class="callout-body-container callout-body">
 <p>Consideremos una distribución gaussiana de la cual deconocemos la media y la varianza. Es decir <span class="math display">\[
-f(x_i; \mu, \theta) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x_i - \mu)^2/2\sigma^2}\,.
+\rho(x_i; \mu, \theta) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x_i - \mu)^2/2\sigma^2}\,.
 \]</span> Busquemos el estimador de máxima verosimilitud para <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma\)</span> a partir de una muestra <span class="math inline">\(\{x_i\}\)</span>.</p>
 <p>La verosimilitud es fácil de escribir <span class="math display">\[
-\ln L = -n\ln(\sqrt{2\pi}\sigma) - \sum_i\frac{(x_i - \mu)}{2\sigma^2}\,.
+\ln L = -N\ln(\sqrt{2\pi}\sigma) - \sum_i\frac{(x_i - \mu)}{2\sigma^2}\,.
 \]</span> Tomando derivadas e igualando a cero se obtiene el sistema <span class="math display">\[
-\sum_i(x_i - \hat{\mu}) = 0\,,\quad \sum_i\frac{(x_i - \hat{\mu})^2}{\hat{\sigma}^3} - \frac{n}{\hat{\sigma}} = 0\,.
+\sum_i(x_i - \hat{\mu}) = 0\,,\quad \sum_i\frac{(x_i - \hat{\mu})^2}{\hat{\sigma}^3} - \frac{N}{\hat{\sigma}} = 0\,.
 \]</span> La solución a la primera ecuación es fácil <span class="math display">\[
-\hat{\mu} = \frac{1}{n}\sum_i x_i = \bar{x}\,.
+\hat{\mu} = \frac{1}{N}\sum_i x_i = \bar{x}\,.
 \]</span> Este es el mismo estimador no sesgado estudiado anteriormente. Reemplazamos esto en la segunda ecuación, que también se hace fácil de resolver <span class="math display">\[
-\hat{\sigma}^2 = \frac{1}{n}\sum_i(x_i - \bar{x})^2\,.
+\hat{\sigma}^2 = \frac{1}{N}\sum_i(x_i - \bar{x})^2\,.
 \]</span> Este <em>no es el estimador no sesgado</em>. La máxima verosimilitud no nos da un estimador con esta propiedad.</p>
 </div>
 </div>
-<p>Para grandes muestras esto no es un problema ya que <span class="math inline">\((n - 1) \approx n\)</span>.</p>
+<p>Para grandes muestras esto no es un problema ya que <span class="math inline">\((N - 1) \approx N\)</span>.</p>
 <p>Entonces, ¿por qué usar estimadores de máxima verosimilitud? Es porque tienen dos propiedades útiles.</p>
 <section id="invarianza-de-estimadores-de-máxima-verosimilitud" class="level3">
 <h3 class="anchored" data-anchor-id="invarianza-de-estimadores-de-máxima-verosimilitud">Invarianza de estimadores de máxima verosimilitud</h3>
-<p>Supongamos que tenemos un estimador para <span class="math inline">\(\theta\)</span>, pero para el problema que queremos resolver nos interesa más una función <span class="math inline">\(F(\theta)\)</span>. En general <span class="math inline">\(\hat{F}(\theta) \neq F(\hat{\theta})\)</span> tal que tenemos que calcular el estimador de la función.</p>
-<p>Esto sí se cumple cuando usamos el estimador de máxima verosimilitud, ya que el punto donde <span class="math inline">\(L\)</span> es máximo es el mismo independientemente de si lo escribimos en función de <span class="math inline">\(\theta\)</span> o de <span class="math inline">\(F(\theta)\)</span>.</p>
+<p>Supongamos que tenemos un estimador para <span class="math inline">\(\theta\)</span>, pero para el problema que queremos resolver nos interesa más una función <span class="math inline">\(g(\theta)\)</span>. En general <span class="math inline">\(\hat{g}(\theta) \neq g(\hat{\theta})\)</span> tal que tenemos que calcular el estimador de la función.</p>
+<p>Esto sí se cumple cuando usamos el estimador de máxima verosimilitud, ya que el punto donde <span class="math inline">\(L\)</span> es máximo es el mismo independientemente de si lo escribimos en función de <span class="math inline">\(\theta\)</span> o de <span class="math inline">\(g(\theta)\)</span>.</p>
 </section>
 <section id="cota-de-mínima-varianza-del-estimador-de-máxima-verosimilitud" class="level3">
 <h3 class="anchored" data-anchor-id="cota-de-mínima-varianza-del-estimador-de-máxima-verosimilitud">Cota de mínima varianza del estimador de máxima verosimilitud</h3>
@@ -640,7 +671,7 @@ f(x_i; \mu, \theta) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x_i - \mu)^2/2\sigma^2}\,.
 \]</span> Como nos esperamos estar cerca del verdadero valor para une muestra grande, podemos aproximar el lado izquierdo con una expansión de Taylor <span class="math display">\[
 \left.\frac{\partial \ln L}{\partial \theta}\right|_{\theta = \theta_*} + (\hat{\theta} - \theta_*)\left.\frac{\partial^2 \ln L}{\partial\theta^2}\right|_{\theta = \theta_*} = 0\,.
 \]</span></p>
-<p>Ahora bien, de la ecuación (<a href="#eq-valor-esperado-derivada-logL" class="quarto-xref">4</a>) sabemos que el valor esperado de <span class="math inline">\(\partial \ln L/\partial \theta\)</span> es cero evaluado en <span class="math inline">\(\theta_*\)</span>. Edemás, esta cantidad es la suma de <span class="math inline">\(n\)</span> valores independientes para cada <span class="math inline">\(x_i\)</span>, y por el teorema central del límite sabemos que esas sumas van a estar descritas por una gaussiana, con varianza</p>
+<p>Ahora bien, de la ecuación (<a href="#eq-valor-esperado-derivada-logL" class="quarto-xref">4</a>) sabemos que el valor esperado de <span class="math inline">\(\partial \ln L/\partial \theta\)</span> es cero evaluado en <span class="math inline">\(\theta_*\)</span>. Edemás, esta cantidad es la suma de <span class="math inline">\(N\)</span> valores independientes para cada <span class="math inline">\(x_i\)</span>, y por el teorema central del límite sabemos que esas sumas van a estar descritas por una gaussiana, con varianza</p>
 <p><span class="math display">\[
 \begin{align}
 \left\langle\left(\frac{\partial \ln L}{\partial a}\right)^2\right\rangle &amp;= \int d^n x \left(\frac{\partial \ln L}{\partial \theta}\right)^2 L = \int d^nx \frac{\partial \ln L}{\partial \theta} \frac{\partial L}{\partial\theta} \\
@@ -661,7 +692,7 @@ f(x_i; \mu, \theta) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x_i - \mu)^2/2\sigma^2}\,.
 <p>7.1, 7.3, 7.5, 7.8</p>
 <ul>
 <li>Si conocemos la media <span class="math inline">\(\mu\)</span> de una distribución, escriba un estimador para la varianza <span class="math display">\[
-\hat{\sigma}^2 = \alpha \sum_{i=1}^n (x_i - \mu)^2\,.
+\hat{\sigma}^2 = \alpha \sum_{i=1}^N (x_i - \mu)^2\,.
 \]</span> Encuentre la constante <span class="math inline">\(\alpha\)</span> para que el estimador sea no sesgado. Bonus: ¿Tiene este estimador una varianza menor a la del estimador visto en clase?</li>
 </ul>
 

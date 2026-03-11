@@ -192,24 +192,28 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Aprendizaje Automático</li>
         <li>
-    <a class="dropdown-item" href="./6_aprendizaje_automatico_regresion_lineal.html">
- <span class="dropdown-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+    <a class="dropdown-item" href="./8_aprendizaje_automatico_regresion_lineal.html">
+ <span class="dropdown-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./7_clasificacion.html">
- <span class="dropdown-text">7. Clasificación</span></a>
+    <a class="dropdown-item" href="./9_clasificacion.html">
+ <span class="dropdown-text">9. Clasificación</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./8_seleccion_de_modelos.html">
- <span class="dropdown-text">8. Selección de Modelos</span></a>
+    <a class="dropdown-item" href="./10_seleccion_de_modelos.html">
+ <span class="dropdown-text">10. Selección de Modelos</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./9_arboles_bosques_boosting.html">
- <span class="dropdown-text">9. Árboles, Bosques y Boosting</span></a>
+    <a class="dropdown-item" href="./11_arboles_bosques_boosting.html">
+ <span class="dropdown-text">11. Árboles, Bosques y Boosting</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./10_svm_y_no_supervisado.html">
- <span class="dropdown-text">10. SVM y Aprendizaje No Supervisado</span></a>
+    <a class="dropdown-item" href="./12_svm.html">
+ <span class="dropdown-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_no_supervisado.html">
+ <span class="dropdown-text">13. Aprendizaje No Supervisado</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Redes Neuronales</li>
@@ -253,6 +257,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./proyectos.html" aria-current="page"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">Acerca de</span></a>
@@ -344,32 +352,38 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./6_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">6. Aprendizaje Automático y Regresión Lineal</span></a>
+  <a href="./8_aprendizaje_automatico_regresion_lineal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Aprendizaje Automático y Regresión Lineal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./7_clasificacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">7. Clasificación</span></a>
+  <a href="./9_clasificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Clasificación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./8_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">8. Selección de Modelos</span></a>
+  <a href="./10_seleccion_de_modelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Selección de Modelos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./9_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">9. Árboles, Bosques y Boosting</span></a>
+  <a href="./11_arboles_bosques_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Árboles, Bosques y Boosting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10_svm_y_no_supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10. SVM y Aprendizaje No Supervisado</span></a>
+  <a href="./12_svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12. Máquinas de Vectores de Soporte (SVM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13. Aprendizaje No Supervisado</span></a>
   </div>
 </li>
       </ul>
@@ -450,6 +464,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Evaluacion</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proyectos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -502,9 +533,9 @@ window.Quarto = {
 <p>Definimos la <strong>función generatriz</strong> <span class="math display">\[
 M_x(t) \equiv \langle e^{xt} \rangle\,.
 \]</span> Expandiendo en Taylor tenemos que <span class="math display">\[
-M_x(t) = \left\langle1 + xt + \frac{1}{2}(xt)^2 + ...\right\rangle = \sum_{n=0}^\infty \frac{1}{n!}\mu'_n t^n\,.
+M_x(t) = \left\langle1 + xt + \frac{1}{2}(xt)^2 + ...\right\rangle = \sum_{m=0}^\infty \frac{1}{m!}\mu'_m t^m\,.
 \]</span> De esta expresión vemos que <span class="math display">\[
-\mu'_n = \left.\frac{\partial^n}{\partial t^n}M_x(t)\right|_{t=0}\,.
+\mu'_m = \left.\frac{\partial^m}{\partial t^m}M_x(t)\right|_{t=0}\,.
 \]</span> Entonces decimos que podemos <em>generar los momentos</em> de la distribución.</p>
 <p>En la mayoría de los casos, si dos distribuciones tienen la misma función generatriz, entonces son la misma distribución. Para algunas distribuciones la suma no converge, tal que se usa en cambio la <strong>función característica</strong> <span class="math display">\[
 \phi_x(t) \equiv \langle e^{itx}\rangle\,.
@@ -535,8 +566,8 @@ M_x(t) = \langle e^{xt}\rangle = e^{t\mu + \sigma^2 t^2/2}\,.
 <section id="poisson" class="level4">
 <h4 class="anchored" data-anchor-id="poisson">Poisson</h4>
 <p>Expandiendo, vemos que todos los cumulantes de la distribución de Poisson son iguales <span class="math display">\[
-\ln M_r(t) = \lambda e^t - \lambda = \sum_{n=1}^\infty \frac{1}{n!}t^n\lambda\,.
-\]</span> es decir <span class="math inline">\(\kappa_i = \lambda\)</span>. Es decir que su media es <span class="math inline">\(\lambda\)</span> y su varianza es <span class="math inline">\(\lambda\)</span>, así como todos los demás.</p>
+\ln M_r(t) = \lambda e^t - \lambda = \sum_{m=1}^\infty \frac{1}{m!}t^m\lambda\,.
+\]</span> es decir <span class="math inline">\(\kappa_m = \lambda\)</span> para todo <span class="math inline">\(m\)</span>. Es decir que su media es <span class="math inline">\(\lambda\)</span> y su varianza es <span class="math inline">\(\lambda\)</span>, así como todos los demás.</p>
 </section>
 </section>
 </section>
@@ -556,7 +587,7 @@ M_x(t) = \langle e^{xt}\rangle = e^{t\mu + \sigma^2 t^2/2}\,.
 \]</span> Por lo tanto, cuando <span class="math inline">\(N \rightarrow \infty\)</span> todos los cumulantes de <span class="math inline">\(y\)</span> desaparecen excepto el segundo tal que <span class="math display">\[
 \ln\tilde{p}_y(k) \sim -\frac{1}{2}k^2 \sigma^2\,,
 \]</span> por lo tanto <span class="math display">\[
-p(y) = \frac{1}{\sqrt{2\pi}\sigma}e^{-y^2/2\sigma^2}\,.
+\rho(y) = \frac{1}{\sqrt{2\pi}\sigma}e^{-y^2/2\sigma^2}\,.
 \]</span></p>
 <p>Podemos relajar las condiciones de que las variables sean independientes e idénticamente distribuidas. Lo que necesitamos en realidad es que todos los cumulantes caigan lo suficientemente rápido <span class="math display">\[
 \sum_{i_1,...,i_m = 1}^N \langle x_{i_1} ... x_{i_m}\rangle_c \ll \mathcal{O}(N^{m/2})\,.
@@ -582,7 +613,7 @@ Teorema central del límite
 </section>
 <section id="ejemplo" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo">Ejemplo</h2>
-<div id="5b4f724b" class="cell" data-execution_count="2">
+<div id="50d92db8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -624,10 +655,10 @@ Teorema central del límite
 <p>La variable <span class="math inline">\(\chi^2\)</span> se define <span class="math display">\[
 \chi^2 \equiv \sum_i \frac{(y_i - g(x_i))^2}{\sigma^2}
 \]</span> Si todos los errores son gaussianos, la probabilidad de obtener un cierto valor de <span class="math inline">\(\chi^2\)</span> es proporcional a <span class="math inline">\(e^{-\chi^2/2}\)</span> y además hay que integrar sobre todos los puntos que tienen un mismo valor de <span class="math inline">\(\chi\)</span> que forman una esfera, lo que nos da algo proporcional a <span class="math inline">\(\chi^{N - 1}e^{-\chi^2/2}\)</span>, donde <span class="math inline">\(N\)</span> es el número de datos. Pero además necesitamos la probabilidad de <span class="math inline">\(\chi^2\)</span> tal que <span class="math display">\[
-P(\chi^2) \propto P(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
+\rho(\chi^2) \propto \rho(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
 \]</span> Sin embargo al ajustar <span class="math inline">\(m\)</span> parámetros imponemos <span class="math inline">\(m\)</span> condiciones sobre la región considerada, una por cada derivada parcial que fijamos a cero, tal que <span class="math inline">\(N\)</span> debe ser en realidad el <em>número de grados de libertad</em> dado por <strong>el número de datos menos el número de parámetros</strong>.</p>
 <p>Nos falta solo una normalización para que la integral sea uno. Los expertos reconocerán la función gama.</p>
-<div id="6a528a38" class="cell" data-execution_count="3">
+<div id="581b49a8" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chi2(x, n):</span>
@@ -651,15 +682,15 @@ P(\chi^2) \propto P(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
 <section id="la-distribución-t-de-student" class="level3">
 <h3 class="anchored" data-anchor-id="la-distribución-t-de-student">La distribución <span class="math inline">\(t\)</span> de Student</h3>
 <p>Student es el pseudónimo de la persona que inventó esta distribución.</p>
-<p>Según el teorema central del límite, el promedio <span class="math inline">\(\bar{x}\)</span> tiene una distribución Gaussiana con media <span class="math inline">\(\mu\)</span> y varianza <span class="math inline">\(\sigma_n = \sigma/\sqrt{n}\)</span>. Esto lo podemos usar para estimar el error cometido al realizar una medición. Por ejemplo, podemos usar <span class="math inline">\(\sigma\)</span> para estimar el error y sabemos que tenemos una probabilidad de aproximadamente <span class="math inline">\(68\%\)</span> de estar a <span class="math inline">\(1\sigma\)</span> de la media, <span class="math inline">\(95\%\)</span> de estar a <span class="math inline">\(2\sigma\)</span>, y <span class="math inline">\(99\%\)</span> de estar a <span class="math inline">\(3\sigma\)</span>.</p>
+<p>Según el teorema central del límite, el promedio <span class="math inline">\(\bar{x}\)</span> tiene una distribución Gaussiana con media <span class="math inline">\(\mu\)</span> y varianza <span class="math inline">\(\sigma_N = \sigma/\sqrt{N}\)</span>. Esto lo podemos usar para estimar el error cometido al realizar una medición. Por ejemplo, podemos usar <span class="math inline">\(\sigma\)</span> para estimar el error y sabemos que tenemos una probabilidad de aproximadamente <span class="math inline">\(68\%\)</span> de estar a <span class="math inline">\(1\sigma\)</span> de la media, <span class="math inline">\(95\%\)</span> de estar a <span class="math inline">\(2\sigma\)</span>, y <span class="math inline">\(99\%\)</span> de estar a <span class="math inline">\(3\sigma\)</span>.</p>
 <p>Sin embargo no conocemos <span class="math inline">\(\sigma\)</span> en muchos casos. Entonces debemos usar algún estimador <span class="math inline">\(\hat{\sigma}\)</span> calculado usando los mismos datos.</p>
 <p>Este reemplazo sigue produciendo una distribución Gaussiana cuando tenemos muchos datos. Pero si tenemos pocos (en la práctica aproximadamente menos de <span class="math inline">\(30\)</span> datos) debemos tener cuidado.</p>
 <p>Consideremos la variable <span class="math display">\[
 u = \frac{\bar{x} - \mu}{\sigma}\,,
 \]</span> esta sigue una distribución Gaussiana con media cero y varianza uno. Si estimamos la varianza, escribimos <span class="math display">\[
-t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{n}}\,.
-\]</span> Para <span class="math inline">\(n\)</span> grande, <span class="math inline">\(t\)</span> resulta que también sigue una Gaussiana. Pero para <span class="math inline">\(n\)</span> pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.</p>
-<div id="c87b65f4" class="cell" data-execution_count="4">
+t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{N}}\,.
+\]</span> Para <span class="math inline">\(N\)</span> grande, <span class="math inline">\(t\)</span> resulta que también sigue una Gaussiana. Pero para <span class="math inline">\(N\)</span> pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.</p>
+<div id="e78e989a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Código producido por ChatGPT 4o con el siguiente prompt:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "Produce una serie de gráficos en python usando la distribución t de Student </span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y comparándola con la distribución normal. Comentarios y nombres de variables</span></span>
