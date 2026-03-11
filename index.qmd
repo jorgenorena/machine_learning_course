@@ -85,7 +85,7 @@ Estas notas son más que nada un resumen de los siguientes libros:
 
 Al final de la primera unidad se realizará una prueba escrita.
 
-Al final de la segunda unidad se presentará un proyecto sobre aprendizaje automático.
+Al final de la segunda unidad se presentará un proyecto sobre aprendizaje automático (ver [proyectos]).
 
 Al final de la tercera unidad se presentará un proyecto sobre redes neuronales con alguna aplicación a la física.
 

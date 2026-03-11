@@ -1,0 +1,382 @@
+---
+title: 'Proyecto: Búsqueda bayesiana de hiperparámetros, construida paso a paso'
+jupyter: python3
+---
+
+## Objetivo y motivación
+
+Cuando entrenamos un modelo de machine learning, rara vez basta con elegir la arquitectura o el algoritmo. También hay que escoger **hiperparámetros**: profundidad máxima de un árbol, número de estimadores, regularización, tasa de aprendizaje, etc.
+
+Una posibilidad es probar muchas combinaciones:
+
+- búsqueda en grilla,
+- búsqueda aleatoria,
+- o simplemente “prueba y error”.
+
+Pero cada evaluación puede ser costosa: entrenar el modelo, validarlo, medir su desempeño. La idea de la **optimización bayesiana** es usar de manera inteligente la información acumulada hasta el momento para decidir **qué hiperparámetro conviene probar después**.
+
+En este proyecto construirás un algoritmo simple de búsqueda bayesiana **desde cero**, paso a paso, y luego lo aplicarás a un problema concreto de clasificación.
+
+La meta no es usar una librería sofisticada, sino entender bien el mecanismo.
+
+---
+
+## Preguntas guía
+
+Al finalizar, deberías poder responder:
+
+1. ¿Qué problema resuelve la optimización bayesiana?
+2. ¿En qué se diferencia de grid search y random search?
+3. ¿Qué es un modelo sustituto (*surrogate model*)?
+4. ¿Qué papel juega la incertidumbre en la elección del siguiente punto?
+5. ¿Por qué existe una tensión entre **explorar** y **explotar**?
+6. ¿Cuándo conviene usar búsqueda bayesiana y cuándo no?
+
+---
+
+## Aclaración conceptual importante
+
+En este proyecto, “bayesiano” **no** significa que el clasificador final sea un modelo bayesiano.
+
+Aquí “bayesiano” se refiere a que modelaremos nuestra ignorancia sobre la función objetivo usando una distribución probabilística. Esa función objetivo será algo como:
+
+$$
+f(\lambda) = \text{puntaje de validación del modelo con hiperparámetros } \lambda.
+$$
+
+No conocemos $f$ en todo el espacio de hiperparámetros. Solo la observamos en unos pocos puntos, y usamos esas observaciones para construir una aproximación probabilística de $f$. Esa aproximación nos ayuda a decidir dónde evaluar después.
+
+Es decir, evaluamos $f$ (la precisión en validación) en unos pocos puntos aleatorios del espacio de hiperparámetros $\{\lambda_i\}$ y los usamos para ajustar ('fitear') un modelo que aproxime $f$ usando el conjunto $\{(\lambda_i, f(\lambda_i))\}$. Escogemos el mejor valor $\lambda$ según ese modelo y evaluamos $f$ en ese punto. Esto nos da un nuevo dato $(\lambda, f(\lambda))$ que agregamos a nuestro conjunto de observaciones. Al tener ahora más datos, ajustamos un nuevo modelo sustituto que será una mejor aproximación y repetimos el proceso.
+
+---
+
+## Estructura general del proyecto
+
+El proyecto tiene dos partes:
+
+1. **Construcción pedagógica del algoritmo** en un problema simple.
+2. **Aplicación a un problema real de hiperparámetros** en clasificación.
+
+La idea es que primero entiendas el algoritmo en un entorno donde puedas visualizar todo, y solo después lo uses en un problema de aprendizaje automático.
+
+---
+
+## Parte A: problema de juguete en una dimensión
+
+Antes de optimizar hiperparámetros reales, trabajarás con una función objetivo artificial en una dimensión, por ejemplo:
+
+$$
+f(x)=\sin(3x)+0.3x^2-0.7x,
+\qquad x\in[-2,2].
+$$
+
+También puedes agregar ruido pequeño en las evaluaciones:
+
+$$
+y = f(x) + \epsilon,
+$$
+
+donde $\epsilon$ es un ruido gaussiano con media cero y desviación estándar pequeña. Esta $f$ representa la función que queremos maximizar, pero solo podemos evaluarla en puntos específicos y con ruido. El objetivo es encontrar el máximo de $f$ con la menor cantidad de evaluaciones posibles. Para ello construiremos una función aproximante (sustituto) y una función de adquisición que nos guíe en la búsqueda.
+
+### Tarea A1: punto de partida
+
+1. Evalúa la función en unos pocos puntos iniciales aleatorios, por ejemplo 4 o 5.
+2. Grafica:
+   - la función verdadera $f$,
+   - los puntos observados $y$.
+   
+### Tarea A2: construir un modelo sustituto
+
+Debes ajustar un modelo probabilístico sencillo para aproximar la función a partir de los puntos observados. La opción recomendada es un **Gaussian Process Regressor**.
+
+El modelo sustituto debe entregar, para cada punto $x$:
+
+- una media predictiva:
+  $$
+  \mu(x),
+  $$
+- y una incertidumbre predictiva:
+  $$
+  \sigma(x).
+  $$
+
+La intuición es simple:
+
+- donde ya observaste muchos puntos, $\sigma(x)$ debe ser pequeña;
+- donde no sabes nada, $\sigma(x)$ debe ser grande.
+
+### Tarea A3: regla para elegir el siguiente punto
+
+Implementa una **función de adquisición**. La más simple y recomendada es la cota superior a la confianza o **Upper Confidence Bound** (UCB) si maximizas:
+
+$$
+a_{\rm UCB}(x)=\mu(x)+\kappa\,\sigma(x),
+$$
+
+donde $\kappa>0$ controla la tensión entre:
+
+- **explotación**: elegir donde la media parece buena,
+- **exploración**: elegir donde la incertidumbre es grande.
+
+Alternativamente, puedes usar la mejoría esperada o **Expected Improvement** (EI).
+
+### Tarea A4: ciclo iterativo
+
+Implementa el siguiente algoritmo:
+
+1. partir de unos pocos puntos iniciales,
+2. ajustar el sustituto,
+3. maximizar la función de adquisición,
+4. evaluar la función verdadera en el nuevo punto,
+5. agregar el nuevo punto al conjunto de observaciones,
+6. repetir.
+
+Haz esto durante 15 a 25 iteraciones.
+
+### Tarea A5: visualización
+
+En cada iteración (o en algunas seleccionadas), grafica:
+
+- la función verdadera,
+- la media del sustituto,
+- una banda de incertidumbre, por ejemplo $\mu(x)\pm 2\sigma(x)$,
+- la función de adquisición,
+- el punto sugerido por el algoritmo.
+
+Esta parte es clave: aquí es donde realmente se entiende el algoritmo.
+
+---
+
+## Parte B: pasar de una función artificial a hiperparámetros reales
+
+Ahora trabajaremos con el problema de la **hiperesfera gaussiana en 6 dimensiones** presentado en la clase 11 de árboles y bosques. En ese ejemplo, los datos se generan uniformemente en un hipercubo, pero la señal verdadera depende solo del radio $\|x\|$ y luego se le agrega ruido gaussiano.
+
+Esto produce una función objetivo realista para optimización de hiperparámetros: cada evaluación requiere entrenar un modelo de regresión y medir su error en validación. Como en la parte A, la evaluación es costosa y la superficie de desempeño no se conoce de antemano.
+
+### Tarea B1: Problema de regresión sugerido
+
+Usa el problema de la hiperesfera con ruido gaussiano de la clase 11:
+
+- entradas en $\mathbb{R}^6$,
+- puntos muestreados uniformemente en $[-1.5,1.5]^6$,
+- señal verdadera que depende del radio,
+- ruido gaussiano aditivo pequeño.
+
+Divide estos datos en:
+
+- entrenamiento,
+- validación,
+- prueba.
+
+La función objetivo será el desempeño en validación de un modelo de regresión entrenado con ciertos hiperparámetros.
+
+---
+
+## Modelo a optimizar
+
+Usa un bosque aleatorio de regresión `RandomForestRegressor`.
+
+Debes escoger un espacio de búsqueda pequeño pero no trivial. Una buena opción para este problema es:
+
+- `max_features` en $[1, 6]$
+- `min_samples_leaf` en $[1, 60]$
+
+Estos dos hiperparámetros afectan cuánto se promedian los árboles y qué tan local o suave es la aproximación del bosque.
+
+## Definición formal de la función objetivo
+
+Sea
+
+$$
+\lambda = (\texttt{max\_features},\,\texttt{min\_samples\_leaf}).
+$$
+
+Como queremos **minimizar** el error cuadrático medio de validación, pero la optimización bayesiana en este proyecto está formulada como un problema de **maximización**, definimos
+
+$$
+f(\lambda) = -\operatorname{MSE}_{\mathrm{val}}(\lambda).
+$$
+
+Es decir, valores más altos de $f(\lambda)$ corresponden a menor error de validación.
+
+Observa que:
+
+- $f$ es una función “caja negra”,
+- no tenemos fórmula analítica,
+- cada evaluación requiere entrenar un modelo.
+
+Ese es exactamente el escenario ideal para optimización bayesiana.
+
+## Parte C: construir la búsqueda bayesiana sobre hiperparámetros
+
+### Tarea C1: Comparación de base con búsqueda aleatoria
+
+Antes de usar optimización bayesiana, implementa una línea base:
+
+1. muestrea aleatoriamente $N$ configuraciones de hiperparámetros,
+2. evalúa el error de validación para cada configuración,
+3. guarda la mejor configuración encontrada.
+
+Esto servirá como comparación justa. El presupuesto debe ser el mismo que en la búsqueda bayesiana.
+
+Por ejemplo:
+
+- presupuesto total: 20 evaluaciones.
+
+### Tarea C2: inicialización
+
+Comienza la búsqueda bayesiana con unas pocas evaluaciones aleatorias, por ejemplo 5.
+
+### Tarea C3: modelo sustituto en espacio de hiperparámetros
+
+Ajusta un Gaussian Process a las observaciones:
+
+$$
+(\lambda_i, f_i), \qquad i=1,\dots,n_{\rm obs}.
+$$
+
+Como los hiperparámetros tienen escalas distintas, debes normalizarlos a $[0,1]$ antes de ajustar el sustituto.
+
+Nota: aunque algunos hiperparámetros sean enteros, puedes:
+
+- optimizar en continuo dentro del sustituto,
+- y redondear al evaluar el modelo real.
+
+### Tarea C4: adquisición
+
+Usa UCB:
+
+$$
+a(\lambda)=\mu(\lambda)+\kappa \sigma(\lambda).
+$$
+
+Debes explorar cómo cambia el comportamiento al variar $\kappa$. Por ejemplo, compara:
+
+- $\kappa=0.1$,
+- $\kappa=1$,
+- $\kappa=3$.
+
+Grafica $a(\lambda)$ en el espacio de hiperparámetros.
+
+### Tarea C5: optimización de la adquisición
+
+Como el espacio de búsqueda es pequeño, no necesitas un método sofisticado. Puedes:
+
+- evaluar la adquisición en una grilla fina sobre el espacio de hiperparámetros,
+- y elegir el punto que maximiza $a(\lambda)$.
+
+Eso basta para este proyecto y tiene la ventaja de ser transparente.
+
+### Tarea C6: ciclo
+
+Escribe el loop de iteración donde se escoge el mejor $\lambda$ como en el paso anterior, luego se agrega el valor de la función objetivo $f(\lambda) = -\operatorname{MSE}_{\mathrm{val}}(\lambda)$ al conjunto de parejas $(\lambda, f(\lambda))$, se vuelve a ajustar el modelo sustituto y así sucesivamente. Detén el algoritmo cuando se alcance un presupuesto fijo igual al de la búsqueda aleatoria, por ejemplo 20 evaluaciones totales.
+
+---
+
+## Qué debes comparar
+
+### Evolución del mejor puntaje encontrado
+
+Grafica, en función del número de evaluaciones:
+
+- mejor valor de $f(\lambda) = -\operatorname{MSE}_{\mathrm{val}}$ encontrado por búsqueda aleatoria,
+- mejor valor de $f(\lambda)$ encontrado por búsqueda bayesiana.
+
+Idealmente promedia sobre varias repeticiones con distintas semillas.
+
+### Configuración final elegida
+
+Reporta:
+
+- mejores hiperparámetros encontrados por cada método,
+- MSE final en validación,
+- MSE final en test.
+
+### Predicción final
+
+Entrena el regresor final con los mejores hiperparámetros encontrados y grafica:
+
+- predicción del modelo en función del radio $\|x\|$,
+- señal verdadera en función del radio,
+- observaciones ruidosas.
+
+Esto conecta la optimización abstracta con el comportamiento real del modelo.
+
+---
+
+## Visualizaciones
+
+1. **Parte de juguete en 1D**
+   - función verdadera,
+   - surrogate,
+   - incertidumbre,
+   - adquisición,
+   - trayectoria de puntos evaluados.
+
+2. **Comparación de métodos**
+   - mejor puntaje vs número de evaluaciones para:
+     - búsqueda aleatoria,
+     - búsqueda bayesiana.
+
+3. **Espacio de hiperparámetros**
+   - mapa de calor del valor de $f(\lambda)$ o del MSE de validación en una grilla 2D de hiperparámetros,
+   - puntos explorados por búsqueda aleatoria,
+   - puntos explorados por la búsqueda bayesiana.
+
+4. **Modelo final**
+   - predicción del bosque aleatorio en función del radio.
+
+---
+
+## Preguntas conceptuales que debes responder
+
+1. ¿Por qué random search suele ser mejor que grid search en dimensiones moderadas?
+2. ¿Qué está “aprendiendo” el surrogate?
+3. ¿Por qué la incertidumbre es útil?
+4. ¿Qué pasa si $\kappa$ es muy pequeño?
+5. ¿Qué pasa si $\kappa$ es muy grande?
+6. ¿En qué situaciones la optimización bayesiana podría ser innecesaria o poco conveniente?
+
+---
+
+## Extensiones opcionales
+
+1. Reemplazar UCB por **Expected Improvement** y comparar.
+2. Usar otro modelo que no sea el bosque aleatorio, por ejemplo `GradientBoostingRegressor`.
+3. Introducir ruido estocástico adicional en la evaluación del score y discutir cómo afecta al algoritmo.
+4. Comparar Gaussian Process como sustituto con un sustituto más simple, por ejemplo regresión polinomial o random forest.
+
+---
+
+## Recomendaciones prácticas
+
+- Mantén el espacio de hiperparámetros pequeño: 2 dimensiones es ideal.
+- No uses librerías que hagan todo automáticamente. La idea es construir el algoritmo.
+- Normaliza los hiperparámetros antes de ajustar el GP.
+- Usa un presupuesto fijo y justo al comparar con random search.
+- Promedia sobre varias semillas para no sacar conclusiones a partir de un solo experimento.
+
+
+La estructura mínima esperada es:
+
+1. Elegir unos pocos puntos iniciales al azar.
+2. Evaluar el modelo real en esos puntos.
+3. Ajustar un sustituto probabilístico.
+4. Construir una función de adquisición.
+5. Elegir el siguiente punto maximizando la adquisición.
+6. Evaluar ese punto.
+7. Repetir.
+
+En pseudocódigo:
+
+```text
+inicializar conjunto D con pocos puntos aleatorios
+
+for t = 1, 2, ..., T:
+    ajustar sustituto con D
+    construir adquisición a(lambda)
+    elegir lambda_next = argmax a(lambda)
+    evaluar y_next = f(lambda_next)
+    agregar (lambda_next, y_next) a D
+```
+

@@ -64,6 +64,8 @@ website:
             href: 18_PINNs.qmd
           - text: "19. Operadores Neuronales"
             href: 19_Operador_Neural.qmd
+      - href: proyectos.qmd
+        text: "Proyectos"
       - href: about.qmd
         text: "Acerca de"
   sidebar:
@@ -121,6 +123,10 @@ website:
             href: 18_PINNs.qmd
           - text: "19. Operadores Neuronales"
             href: 19_Operador_Neural.qmd
+      - section: "Evaluacion"
+        contents:
+          - text: "Proyectos"
+            href: proyectos.qmd
 format:
   html:
     theme:

@@ -1,0 +1,260 @@
+---
+title: "Proyecto: Doble descenso en ajuste polinomial"
+lang: "es"
+---
+
+## Objetivo y motivación
+
+En regresión, la historia clásica es: al aumentar la complejidad del modelo, el error de entrenamiento baja siempre, mientras que el error de test suele seguir una curva en forma de U (sesgo vs. varianza). Sin embargo, en muchos modelos modernos aparece un fenómeno adicional: **doble descenso** (double descent). Cerca del umbral de interpolación (cuando el número de parámetros es comparable al número de datos), el error de generalización puede **empeorar dramáticamente** y luego **mejorar otra vez** al seguir aumentando la complejidad.
+
+En este proyecto estudiarás ese fenómeno en un escenario totalmente controlado:
+
+- datos sintéticos (curva conocida + ruido),
+- modelos polinomiales,
+- y regularización tipo *ridge* (penalización $L_2$).
+
+La parte importante es diseñar el experimento para que la estadística sea clara y los efectos numéricos no "se coman" la señal.
+
+---
+
+## Preguntas guía
+
+Al finalizar, deberías poder contestar:
+
+1. ¿Se observa el doble descenso en regresión polinomial?
+2. ¿Qué ocurre cerca del umbral de interpolación $d+1\approx n$?
+3. ¿Cómo cambia el fenómeno al variar la regularización $\lambda$?
+4. ¿Por qué la base polinomial (monomios vs. Legendre) importa tanto?
+5. ¿Qué es "fenómeno estadístico" y qué es "artefacto numérico" (Runge, mal condicionamiento)?
+
+---
+
+## Tareas a cumplir
+
+### Tarea A: Generación de datos sintéticos 
+
+Trabajaremos en el dominio:
+$$
+x\in[-1,1].
+$$
+
+Escoge una de las siguientes funciones objetivo (o propón otra suave y justifícala):
+
+- Opción A (periódica):
+$$
+f(x)=\sin(2\pi x).
+$$
+
+- Opción B (bulto localizado):
+$$
+f(x)=\exp\!\left(-\frac{x^2}{2\sigma^2}\right),\qquad \sigma=0.25.
+$$
+
+#### Conjunto de entrenamiento (por ensayo)
+
+Para cada ensayo (repetición estadística), genera un conjunto de entrenamiento nuevo:
+
+1. Muestrea $n$ puntos de entrenamiento:
+$$
+x_i \sim U(-1,1),\quad i=1,\dots,n.
+$$
+
+2. Genera etiquetas con ruido gaussiano:
+$$
+y_i = f(x_i) + \epsilon_i,\qquad \epsilon_i\sim\mathcal N(0,\sigma_\epsilon^2).
+$$
+
+#### Conjunto de prueba
+
+Crea un conjunto de prueba (test) grande (fijo para todos los ensayos), por ejemplo $N_{\rm test}=2000$ puntos uniformes en $[-1,1]$. 
+
+#### Implementación de esta tarea
+
+Escribe una función que genere una realización con ruido. Genera también el conjunto de prueba fijo. Verifica que las formas de los arrays sean correctas y que la función objetivo se vea razonable al graficar.
+
+---
+
+### Tarea B: Modelos: ajuste polinomial y regularización ridge
+
+Sea $d$ el grado máximo del polinomio, y sea $\phi_m(x)$ una base para construir features.
+
+#### Modelo lineal en una base polinomial
+
+$$
+\hat f(x)=\sum_{m=0}^{d} a_m\,\phi_m(x).
+$$
+
+Define la matriz de diseño $\Phi$ o de van der Monde:
+$$
+\Phi_{im}=\phi_m(x_i),
+$$
+
+donde $x_i$ son los puntos de entrenamiento para un ensayo.
+
+#### Tipos de ajuste
+
+##### Ajuste sin regularización (mínimos cuadrados)
+
+$$
+\hat{\mathbf a}=\arg\min_{\mathbf a}\|\Phi\mathbf a-\mathbf y\|^2.
+$$
+
+Encuentre el mejor ajuste para cada ensayo dado. Recuerde que la solución cerrada es:
+
+$$
+\hat{\mathbf a}=(\Phi^T\Phi)^{-1}\Phi^T\mathbf y\,.
+$$
+
+##### Ajuste con regularización ridge ($L_2$)
+
+$$
+\hat{\mathbf a}=\arg\min_{\mathbf a}\left(
+\|\Phi\mathbf a-\mathbf y\|^2+\lambda\|\mathbf a\|^2
+\right).
+$$
+
+Solución cerrada (cuando es invertible):
+$$
+\hat{\mathbf a}=(\Phi^T\Phi+\lambda I)^{-1}\Phi^T\mathbf y.
+$$
+
+Encuentra el mejor ajuste para cada ensayo y cada $\lambda$.
+
+#### Elección de base: monomios vs. Legendre
+
+##### Base ingenua (monomios)
+
+$$
+\phi_m(x)=x^m.
+$$
+
+Ventaja: simple.  
+Problema: matrices tipo Vandermonde mal condicionadas para $d$ grande; puede aparecer oscilación tipo Runge y errores numéricos graves.
+
+##### Base recomendada (Legendre)
+
+Usa los polinomios de Legendre
+$$
+P_m(x)=\frac{1}{2^m m!}\,\frac{d^m}{dx^m}\bigl[(x^2-1)^m\bigr],\qquad m=0,1,2,\dots
+$$
+
+Ventajas:
+- mejor condicionamiento numérico (en general),
+- reduce oscilaciones espurias,
+- hace más visible el fenómeno estadístico (doble descenso) sin que todo sea dominado por errores de cálculo.
+
+**En este proyecto, la base principal debe ser Legendre.**  
+Luego repetirás algunos experimentos con monomios como control (para diagnosticar Runge/condicionamiento).
+
+#### Implementación de esta tarea
+
+Para realizar esta tarea, crea funciones que realicen el ajuste polinomial. Esta función debe recibir como argumentos:
+
+- los puntos de entrenamiento $x_i$ y etiquetas $y_i$,
+- el grado máximo $d$,
+- el tipo de base (monomios o Legendre),
+- el valor de $\lambda$ para ridge.
+
+Debe devolver una función que permita evaluar $\hat f(x)$ en cualquier punto $x$.
+
+Pon a prueba tu implementación para algunas elecciones de los parámetros y realizaciones diferentes. Grafica el ajuste obtenido junto con los puntos de entrenamiento y la función objetivo para verificar que todo funciona correctamente.
+
+---
+
+### Tarea C: Barridos en grado 
+
+Ahora queremos aplicar lo anterior para los polinomios de Legendre y los monomios con varios valores de grado $d$. Generaremos una grilla de estos parámetros y repetiremos el experimento para cada valor de $d$. Esto se debe repetir para cada ensayo.
+
+#### Barrido en complejidad (grado)
+
+Barrido de grados:
+$$
+d = 0,1,2,\dots,d_{\max},
+$$
+con $d_{\max}$ significativamente mayor que $n$, por ejemplo $d_{\max}=4n$.
+
+El umbral de interpolación ocurre cerca de:
+$$
+d+1\approx n.
+$$
+
+#### Repetición estadística
+
+Para observar el fenómeno de forma robusta, repite todo en $R$ ensayos (nuevos $x_i$ y nuevo ruido).
+
+### Implementación de esta tarea
+
+Genera una lista de valores de $d$. Luego, para cada ensayo, ajusta el modelo de Legendre y de monomios para $d$ y guarda los resultados (MSE de entrenamiento y test) en un `DataFrame` o estructura similar para facilitar el análisis posterior.
+
+---
+
+### Tarea D: Mediciones, gráficos y análisis
+
+#### Métricas
+
+Para cada $d$ y cada ensayo:
+
+- MSE de entrenamiento
+- MSE de test
+
+Luego promediar sobre ensayos:
+$$
+\overline{\mathrm{MSE}}_{\rm test}(d) = \frac{1}{R}\sum_{r=1}^R \mathrm{MSE}_{{\rm test},r}(d).
+$$
+
+También reporta barras de error (desviación estándar entre ensayos).
+
+#### Gráficos
+
+1. **Curvas de error de test vs. grado**
+
+   Aquí deberías ver:
+   - régimen sesgo-varianza clásico para $d\ll n$,
+   - posible máximo cerca de $d+1\approx n$,
+   - y el segundo descenso para $d\gg n$.
+
+2. **Comparación de bases**:
+   - repite el gráfico (1) usando monomios. 
+   - discute cómo cambia la estabilidad numérica y la claridad del fenómeno.
+
+#### Diagnóstico numérico
+
+Grafica el número de condición de la matriz de Gram:
+$$
+\kappa(\Phi^T\Phi)
+$$
+
+como función de $d$ para monomios vs legendre. Esto ayuda a separar:
+- “el modelo generaliza mal” (fenómeno estadístico),
+- de “el sistema lineal está explotando” (fenómeno numérico).
+
+#### Discusión teórica corta (lo mínimo necesario)
+
+Incluye una sección breve (unos cuantos minutos en la presentación) donde expliques:
+
+1. **Umbral de interpolación**: cuando el modelo tiene suficiente capacidad para ajustar el ruido, la solución puede volverse extremadamente sensible a pequeñas perturbaciones.
+2. **Por qué la base importa**: los monomios generan matrices mal condicionadas; legendre es una base más estable en $[-1,1]$, por lo que el experimento revela mejor la estadística.
+
+---
+
+## Extensiones (opcionales)
+
+1. Comparar puntos de entrenamiento aleatorios vs. uniformemnte distribuídos a lo largo del eje (mostrar Runge/interpolación).
+2. Usar varios valores de $\lambda$ para mostrar cómo el doble descenso se atenúa o desaparece con regularización fuerte.
+3. Cambiar la función objetivo a una con menos suavidad (por ejemplo $|x|$) y observar el impacto.
+4. Estudiar el rol de la distribución de $x$: concentrada en el centro vs uniforme.
+5. Cambiar a la base de Chebyshev o de Bernstein y discutir los resultados.
+
+---
+
+## Esqueleto de implementación (pistas)
+
+- Construye una función `design_matrix(x, d, basis="legendre")`.
+- Implementa ridge con la fórmula cerrada.
+- Haz un loop sobre ensayos `r`, grados `d`.
+- Guarda resultados en un `DataFrame` para graficar fácilmente.
+- Para ver claro el fenómeno, usa polinomios hasta de grado $10^4$, pero para el número de condicionamiento, hazlo solo hasta $d=1000$ para evitar tiempos de cálculo excesivos.
+
+Sugerencia: comienza con legendre, valida que todo corre y recién después agrega monomios y el diagnóstico numérico.
+
+---

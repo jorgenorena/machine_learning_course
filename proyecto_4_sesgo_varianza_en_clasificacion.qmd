@@ -1,0 +1,493 @@
+---
+title: 'Proyecto: Descomposición sesgo-varianza en clasificación con pérdida de entropía cruzada'
+jupyter: python3
+---
+
+
+## Objetivo y motivación
+
+En regresión con error cuadrático, la descomposición sesgo-varianza es un resultado clásico. En clasificación, en cambio, muchos estudiantes aprenden a usar la *entropía cruzada* sin detenerse a pensar si existe una descomposición análoga, qué forma tiene, y qué significa realmente el “sesgo” o la “varianza” cuando el modelo predice **probabilidades** y no solo etiquetas.
+
+En este proyecto vas a:
+
+1. **derivar** una descomposición exacta del riesgo con pérdida de entropía cruzada;
+2. **interpretar** los términos resultantes;
+3. **verificar numéricamente** la identidad en un problema sintético donde la distribución verdadera $p^*(y\mid x)$ es conocida;
+4. **explorar** cómo cambian los términos al variar el tamaño del conjunto de entrenamiento y la regularización.
+
+La idea central es: en clasificación probabilística, la noción correcta de “predictor promedio” no es simplemente el promedio aritmético de las probabilidades predichas. La pérdida logarítmica obliga a usar un promedio distinto, y eso cambia toda la estructura de la descomposición.
+
+---
+
+## Preguntas guía
+
+Al finalizar, deberías poder responder:
+
+1. ¿Qué mide exactamente la entropía cruzada en clasificación?
+2. ¿Cuál es el análogo del término irreducible (“ruido”) en este contexto?
+3. ¿Qué significa “sesgo” cuando el modelo produce distribuciones de probabilidad?
+4. ¿Qué significa “varianza” entre distintos conjuntos de entrenamiento?
+5. ¿Por qué el promedio aritmético de las probabilidades no es, en general, el objeto correcto para esta descomposición?
+6. ¿Qué papel juega la divergencia de Kullback-Leibler (KL)?
+7. ¿Qué cambia al variar el tamaño muestral o la regularización?
+
+---
+
+## Preparación conceptual
+
+Sea $X$ una variable de entrada y $Y\in\{1,\dots,K\}$ una etiqueta de clase.
+
+Supondremos que existe una distribución verdadera condicional
+$$
+p^*(y\mid x),
+$$
+y que un algoritmo de aprendizaje, entrenado sobre un conjunto aleatorio $D$, produce un predictor probabilístico
+$$
+q_D(y\mid x).
+$$
+
+La pérdida para una observación $(x,y)$ será la entropía cruzada:
+$$
+\ell(q_D;x,y)=-\log q_D(y\mid x).
+$$
+
+El riesgo promedio que nos interesa es
+$$
+\mathcal R
+=
+\mathbb E_D\,
+\mathbb E_{x,y}\big[-\log q_D(y\mid x)\big].
+$$
+
+Aquí el promedio es doble:
+
+- sobre los datos $(x,y)$,
+- y sobre los posibles conjuntos de entrenamiento $D$.
+
+---
+
+## Idea del proyecto
+
+En regresión con error cuadrático, la descomposición sesgo-varianza se escribe alrededor del promedio aritmético del predictor.
+
+En clasificación con pérdida logarítmica, el objeto natural no es el promedio aritmético de $q_D$, sino un promedio en **espacio logarítmico**. Esa es una de las ideas principales del proyecto.
+
+Dicho de otra manera: la geometría inducida por la entropía cruzada es distinta de la del error cuadrático.
+
+---
+
+## Parte A: derivación teórica paso a paso
+
+Esta parte debe quedar escrita con claridad en el informe. No basta con citar el resultado final.
+
+### Tarea A1: separar un término irreducible
+
+Empieza desde
+$$
+\mathcal R
+=
+\mathbb E_D\,
+\mathbb E_x\,
+\mathbb E_{y\mid x}\big[-\log q_D(y\mid x)\big].
+$$
+
+Para $x$ fijo, muestra que
+$$
+\mathbb E_{y\mid x}\big[-\log q_D(y\mid x)\big]
+=
+H\!\left(p^*(\cdot\mid x)\right)
++
+\mathrm{KL}\!\left(
+p^*(\cdot\mid x)\,\|\,q_D(\cdot\mid x)
+\right),
+$$
+donde
+$$
+H(p^*)=-\sum_y p^*(y\mid x)\log p^*(y\mid x)
+$$
+es la entropía de la distribución verdader y
+$$
+\mathrm{KL}\!\left(
+p^*(\cdot\mid x)\,\|\,q_D(\cdot\mid x)
+\right) = \sum_y p^*(y\mid x) \log\left(\frac{p^*(y \mid x)}{q_D(y\mid x)}\right)
+$$
+es la distancia de Kullback Lieber entre dos distribuciones de probabilidad
+
+Interpreta el resultado:
+
+- el término $H(p^*)$ es el análogo del “ruido irreducible”;
+- el exceso de riesgo está controlado por una divergencia KL entre la verdad y el predictor aprendido.
+
+
+### Tarea A2: definir el predictor promedio correcto
+
+Para cada $x$, define
+$$
+\tilde q(y\mid x)
+\propto
+\exp\!\Big(
+\mathbb E_D[\log q_D(y\mid x)]
+\Big).
+$$
+
+Es decir,
+$$
+\tilde q(y\mid x)
+=
+\frac{
+\exp\!\big(\mathbb E_D[\log q_D(y\mid x)]\big)
+}{
+\sum_{y'}
+\exp\!\big(\mathbb E_D[\log q_D(y'\mid x)]\big)
+}.
+$$
+
+Debes explicar por qué este predictor no coincide, en general, con el promedio aritmético
+$$
+\bar q(y\mid x)=\mathbb E_D[q_D(y\mid x)].
+$$
+
+Pista conceptual: la pérdida logarítmica convierte sumas de logs en productos, y por eso aparece una especie de media geométrica normalizada.
+
+### Tarea A3: derivar la descomposición exacta
+
+Debes demostrar que, para cada $x$,
+$$
+\mathbb E_D
+\Big[
+\mathrm{KL}(p^*\|q_D)
+\Big]
+=
+\mathrm{KL}(p^*\|\tilde q)
++
+\mathbb E_D
+\Big[
+\mathrm{KL}(\tilde q\|q_D)
+\Big].
+$$
+
+Aquí, para abreviar notación, se entiende que todas las distribuciones están condicionadas en $x$.
+
+Luego promedia sobre $x$, y obtén:
+$$
+\mathcal R
+=
+\underbrace{
+\mathbb E_x\big[H(p^*(\cdot\mid x))\big]
+}_{\text{ruido}}
++
+\underbrace{
+\mathbb E_x\big[
+\mathrm{KL}(p^*(\cdot\mid x)\|\tilde q(\cdot\mid x))
+\big]
+}_{\text{sesgo}}
++
+\underbrace{
+\mathbb E_x\mathbb E_D\big[
+\mathrm{KL}(\tilde q(\cdot\mid x)\|q_D(\cdot\mid x))
+\big]
+}_{\text{varianza}}.
+$$
+
+### Tarea A4: interpretación física y estadística
+
+Escribe una breve discusión en tus propias palabras:
+
+- **Ruido**: incertidumbre intrínseca del problema; incluso el mejor predictor posible no puede eliminarla.
+- **Sesgo**: distancia entre la distribución verdadera $p^*$ y el predictor promedio correcto $\tilde q$.
+- **Varianza**: cuánto fluctúan los predictores entrenados con distintos conjuntos de datos alrededor de $\tilde q$.
+
+---
+
+## Parte B: elegir un problema sintético donde $p^*(y\mid x)$ sea conocida
+
+Para verificar la identidad empíricamente, necesitas conocer explícitamente la distribución verdadera $p^*(y\mid x)$. Por eso **no** debes usar un dataset real como MNIST en la parte principal del proyecto.
+
+### Opción recomendada: clasificación binaria logística
+
+Toma
+$$
+x\in\mathbb R^d,\qquad x\sim \mathcal N(0,I_d),
+$$
+y define
+$$
+p^*(y=1\mid x)=\sigma(w^T x+b),
+$$
+donde
+$$
+\sigma(z)=\frac{1}{1+e^{-z}}.
+$$
+
+Luego genera parejas $(x, y)$ donde $y$ vale $1$ con probabilidad $p^*(y=1\mid x)$ o si no vale $0$.
+
+Ventajas:
+
+- el problema es simple;
+- $p^*(y\mid x)$ se conoce exactamente;
+- puedes calcular la entropía verdadera en cada $x$;
+- el análisis es limpio.
+
+---
+
+## Parte C: definir el algoritmo de aprendizaje
+
+Debes escoger un modelo probabilístico que entregue probabilidades $q_D(y\mid x)$. 
+Usa **regresión logística regularizada**, porque:
+
+- es fácil de entrenar;
+- las probabilidades son naturales;
+- la interpretación del sesgo y la varianza es limpia;
+- permite estudiar directamente el efecto de la regularización.
+
+Luego, como extensión opcional, puedes comparar con una red pequeña o con árboles.
+
+---
+
+## Parte D: protocolo empírico paso a paso
+
+### Tarea D1: generar un gran conjunto de prueba
+
+Genera un conjunto de prueba grande:
+$$
+\{x_i\}_{i=1}^{N_{\rm prueba}},
+$$
+con $N_{\rm prueba}$ suficientemente grande, por ejemplo 5000 o 10000.
+
+Para cada $x_i$, debes poder calcular:
+
+- $p^*(y\mid x_i)$,
+- $H(p^*(\cdot\mid x_i))$.
+
+Este conjunto servirá para aproximar promedios sobre $x$.
+
+### Tarea D2: repetir entrenamiento sobre muchos conjuntos de datos
+
+Fija un tamaño de entrenamiento $n$. Luego repite para
+$$
+j=1,\dots,M
+$$
+con $M$ por ejemplo entre 50 y 200:
+
+1. genera un nuevo conjunto de entrenamiento $D_j$ de tamaño $n$;
+2. entrena el clasificador;
+3. evalúa las probabilidades predichas $q_{D_j}(y\mid x_i)$ sobre todo el conjunto de prueba.
+
+Al final tendrás, para cada punto $x_i$, muchas predicciones probabilísticas provenientes de distintos consjuntos de datos de entrenamiento.
+
+### Tarea D3: construir el predictor promedio correcto
+
+Para cada punto de prueba $x_i$, define
+$$
+\tilde q(y\mid x_i)
+\propto
+\exp\!\left(
+\frac{1}{M}\sum_{j=1}^M \log q_{D_j}(y\mid x_i)
+\right).
+$$
+
+En clasificación binaria esto se reduce a construir $\tilde q(1\mid x_i)$ y $\tilde q(0\mid x_i)$ con esa fórmula y luego normalizar.
+
+**Advertencia importante:** si alguna predicción es exactamente 0 o 1, el logaritmo explota. Debes evitarlo usando una regularización numérica, por ejemplo:
+$$
+q \leftarrow \mathrm{clip}(q,\varepsilon,1-\varepsilon),
+$$
+con $\varepsilon\sim 10^{-10}$ o $10^{-8}$.
+
+### Tarea D4: estimar los tres términos
+
+Debes estimar numéricamente los términos de la descomposición.
+
+#### Ruido
+
+$$
+\widehat{\mathrm{Ruido}}
+=
+\frac{1}{N_{\rm test}}
+\sum_{i=1}^{N_{\rm test}}
+H(p^*(\cdot\mid x_i)).
+$$
+
+#### Sesgo
+
+$$
+\widehat{\mathrm{Sesgo}}
+=
+\frac{1}{N_{\rm test}}
+\sum_{i=1}^{N_{\rm test}}
+\mathrm{KL}\!\left(
+p^*(\cdot\mid x_i)\,\|\,\tilde q(\cdot\mid x_i)
+\right).
+$$
+
+#### Varianza
+
+$$
+\widehat{\mathrm{Varianza}}
+=
+\frac{1}{M\,N_{\rm test}}
+\sum_{j=1}^{M}
+\sum_{i=1}^{N_{\rm test}}
+\mathrm{KL}\!\left(
+\tilde q(\cdot\mid x_i)\,\|\,q_{D_j}(\cdot\mid x_i)
+\right).
+$$
+
+### Tarea D5: estimar el riesgo total
+
+Como conoces $p^*(y\mid x)$, no necesitas muestrear etiquetas para calcular el riesgo esperado. Puedes evaluarlo exactamente en cada $x_i$:
+
+$$
+\widehat{\mathcal R}
+=
+\frac{1}{M\,N_{\rm test}}
+\sum_{j=1}^{M}
+\sum_{i=1}^{N_{\rm test}}
+\left[
+-\sum_y p^*(y\mid x_i)\log q_{D_j}(y\mid x_i)
+\right].
+$$
+
+
+### Tarea D6: verificar la identidad
+
+Comprueba numéricamente que
+$$
+\widehat{\mathcal R}
+\approx
+\widehat{\mathrm{Ruido}}
++
+\widehat{\mathrm{Sesgo}}
++
+\widehat{\mathrm{Varianza}}.
+$$
+
+Debes reportar el residuo
+$$
+\Delta
+=
+\widehat{\mathcal R}
+-
+\left(
+\widehat{\mathrm{Ruido}}
++
+\widehat{\mathrm{Sesgo}}
++
+\widehat{\mathrm{Varianza}}
+\right),
+$$
+y discutir por qué no es exactamente cero en la práctica (precisión finita, clipping, error Monte Carlo, etc.).
+
+---
+
+## Parte E: experimentos numéricos
+
+### Experimento E1: variar el tamaño del conjunto de entrenamiento
+
+Elige varios tamaños:
+$$
+n\in\{20,50,100,200,500\}
+$$
+(o algo parecido, según tu tiempo computacional).
+
+Para cada $n$, repite todo el protocolo y grafica:
+
+- ruido,
+- sesgo,
+- varianza,
+- riesgo total,
+
+como función de $n$.
+
+Pregunta a responder:
+
+- ¿cómo cambian sesgo y varianza al aumentar la cantidad de datos?
+
+### Experimento E2: variar la regularización
+
+En regresión logística con penalización $L_2$, explora varios valores del parámetro de regularización.
+
+Debes graficar los tres términos como función de la fuerza de regularización.
+
+Pregunta a responder:
+
+- ¿qué le hace la regularización al sesgo?
+- ¿qué le hace la regularización a la varianza?
+
+
+### Experimento E3: comparar predictor promedio correcto vs promedio aritmético
+
+Construye también
+$$
+\bar q(y\mid x_i)
+=
+\frac{1}{M}\sum_{j=1}^M q_{D_j}(y\mid x_i).
+$$
+
+Luego compara:
+
+- la descomposición correcta usando $\tilde q$,
+- con un intento ingenuo de reemplazar $\tilde q$ por $\bar q$.
+
+Debes mostrar explícitamente que el promedio aritmético no reproduce la identidad exacta.
+
+Este experimento es importante: obliga a entender por qué la media geométrica normalizada aparece de manera natural.
+
+---
+
+## Preguntas conceptuales que debes responder en la presentación
+
+1. ¿Por qué la entropía verdadera $H(p^*)$ juega el papel de ruido irreducible?
+2. ¿Por qué la divergencia KL aparece de forma natural?
+3. ¿Por qué la noción correcta de predictor promedio depende de la pérdida elegida?
+4. ¿Qué interpretación intuitiva tiene el término de varianza?
+5. ¿Qué pasa con la descomposición si el modelo devuelve probabilidades exactamente 0 o 1?
+6. ¿En qué sentido esta descomposición se parece y en qué sentido se diferencia de la clásica para error cuadrático?
+
+---
+
+
+## Recomendaciones prácticas
+
+- Empieza con un problema **binario** y de baja dimensión.
+- Usa un conjunto de test grande para aproximar bien los promedios sobre $x$.
+- Repite sobre muchos datasets de entrenamiento: si $M$ es muy pequeño, la estimación de la varianza será ruidosa.
+- Haz clipping de probabilidades antes de tomar logaritmos.
+- Primero verifica la identidad en un setup simple; recién después agregues complejidad.
+
+---
+
+## Esqueleto conceptual del algoritmo
+
+La lógica computacional del proyecto es:
+
+1. fijar un problema sintético con $p^*(y\mid x)$ conocida;
+2. generar un conjunto grande de test;
+3. repetir entrenamiento sobre muchos datasets independientes;
+4. guardar todas las probabilidades predichas en test;
+5. construir $\tilde q$;
+6. calcular ruido, sesgo, varianza y riesgo;
+7. verificar la identidad;
+8. repetir al variar $n$ y la regularización.
+
+En pseudocódigo:
+
+```text
+generar conjunto de test grande
+
+for cada tamaño n:
+    for cada valor de regularización lambda:
+        inicializar lista de predicciones vacía
+
+        for j = 1, ..., M:
+            generar dataset de entrenamiento D_j
+            entrenar clasificador con tamaño n y regularización lambda
+            evaluar probabilidades q_{D_j}(y|x_i) en el test
+            guardar predicciones
+
+        construir q_tilde a partir del promedio de log-probabilidades
+        calcular ruido
+        calcular sesgo
+        calcular varianza
+        calcular riesgo total
+        verificar identidad
+

@@ -1,30 +1,26 @@
 ---
-title: "Proyecto 1: Contenido de información en el espectro de potencias usando métodos de árboles"
+title: "Proyecto: Contenido de información en el espectro de potencias usando métodos de árboles"
 lang: es
 ---
-
-Nota para mí mismo: Revisar a partir de tarea C
 
 ## ¿Qué es el espectro de potencias? (para estudiantes no cosmólogos)
 
 Supongamos que tenemos un campo fluctuante en el espacio, podría ser una temperatura en una habitación o en nuestro ejemplo la densidad de materia oscura del universo
-\[
+$$
 \delta(\mathbf{x}) \equiv \frac{\rho(\mathbf{x})-\bar\rho}{\bar\rho}.
-\]
+$$
 
 Una forma natural de describir **cómo varía el campo en distintas escalas espaciales** es transformarlo a espacio de Fourier:
-\[
+$$
 \delta(\mathbf{k}) = \int d^3x\, e^{-i\mathbf{k}\cdot \mathbf{x}}\,\delta(\mathbf{x}).
-\]
+$$
 
 El **espectro de potencias** se define (a parte convenciones) como la varianza de los modos de Fourier:
-\[
-\langle \delta(\mathbf{k})\delta^*(\mathbf{k}')\rangle
-= (2\pi)^3\delta_D(\mathbf{k}-\mathbf{k}')\,P(k),
+$$
+\langle \delta(\mathbf{k})\delta(\mathbf{k}')\rangle
+= (2\pi)^3\delta_D(\mathbf{k}+\mathbf{k})\,P(k),
 \quad k=|\mathbf{k}|.
-\]
-
-Interpretación física:
+$$
 
 La transformada de Fourier descompone un campo en ondas planas. Cada modo de Fourier representa una onda con longitud de onda $2\pi/k$. Por lo tanto:
 
@@ -33,10 +29,14 @@ La transformada de Fourier descompone un campo en ondas planas. Cada modo de Fou
 - $P(k)$ indica cuánta "estructura" hay en cada escala.
 
 En un experimento real no se mide $P(k)$ continuamente, sino en **bins**:
-\[
+$$
 P_b \equiv P(k_b),
-\]
-promediando dentro de un rango de $k$ centrado en $k_b$.
+$$
+promediando dentro de un rango de $k$ centrado en $k_b$. Es decir
+
+$$
+P_b = \frac{1}{\Delta k_b}\int_{k_b-\Delta k_b/2}^{k_b+\Delta k_b/2} P(k) dk.
+$$
 
 ---
 
@@ -44,9 +44,9 @@ promediando dentro de un rango de $k$ centrado en $k_b$.
 
 Simularás mediciones tipo "survey" del espectro de potencias de materia oscura, binned y con **covarianza Gaussiana**, entrenarás métodos de árboles para inferir dos parámetros cosmológicos
 
-\[
+$$
 \theta = (\Omega_m,\ A_s),
-\]
+$$
 
 y finalmente identificarás **qué bins en $k$ contienen mayor información** sobre cada parámetro.
 
@@ -60,10 +60,8 @@ La idea central es invertir el flujo tradicional:
 
 ## Parámetros y rangos
 
-Trabajaremos con:
-
 - Para cada muestra $\Omega_m$ toma valores aleatorios en el rango $(0.20, 0.40)$
-- $A_s$ toma valores aleatorios en el rango $U(1.5\times 10^{-9},\, 3.5\times 10^{-9})$
+- $A_s$ toma valores aleatorios en el rango $(1.5\times 10^{-9},\, 3.5\times 10^{-9})$
 
 Los demás parámetros se mantienen fijos:
 
@@ -75,37 +73,37 @@ Los demás parámetros se mantienen fijos:
 
 ## Aproximación pedagógica explícita para el espectro de potencias
 
-No se espera que uses un código numérico para simular el espectro de potencias. Utilizaremos un modelo analítico estándar y controlado.
+No se espera que uses un código numérico para simular el espectro de potencias. Utilizaremos un modelo analítico que es usado a veces en la literatura para entender el comportamiento del espectro de potencias.
 
 ### Forma lineal básica
 
 Tomamos:
 
-\[
+$$
 P_{\rm lin}(k;\theta) = A_s\,k^{n_s}\,T^2(k;\Omega_m),
-\]
+$$
 
 donde la dependencia en $\Omega_m$ entra a través de la función de transferencia BBKS:
 
-\[
+$$
 T(q) =
 \frac{\ln(1+2.34q)}{2.34q}
 \left[1+3.89q+(16.1q)^2+(5.46q)^3+(6.71q)^4\right]^{-1/4}.
-\]
+$$
 
 Definimos
 
-\[
+$$
 q \equiv \frac{k}{\Gamma},
-\]
+$$
 
 con el parámetro de forma
 
-\[
+$$
 \Gamma(\Omega_m) =
 \Omega_m\,h\,
 \exp\!\left[-\Omega_b\left(1+\frac{\sqrt{2h}}{\Omega_m}\right)\right].
-\]
+$$
 
 Interpretación:
 
@@ -116,18 +114,18 @@ Interpretación:
 
 Para hacer más realista el comportamiento en escalas pequeñas, aplicamos un “boost” suave:
 
-\[
+$$
 P_{\rm nl}(k) =
 P_{\rm lin}(k)
 \left[1 + \left(\frac{k}{k_{\rm nl}}\right)^{\alpha}\right],
-\]
+$$
 
 con valores fijos:
 
 - $k_{\rm nl} = 0.25\ h\,{\rm Mpc}^{-1}$
 - $\alpha = 1.5$
 
-Esto hace que las escalas pequeñas tengan más potencia, lo que también hará que tengan mayor error. Esto ocurre en lis datos reales, aunque no sigue esta forma sino una relación comolicada y difícil de calcular. Nos interesa aquí hacer un ejemplo fácil (pero fácil de extender a un espectro de potencias realista).
+Esto hace que las escalas pequeñas tengan más potencia, lo que también hará que tengan mayor error. Esto ocurre en los datos reales, aunque no sigue esta forma sino una relación comolicada y difícil de calcular. Nos interesa aquí hacer un ejemplo fácil (pero fácil de extender a un espectro de potencias realista).
 
 ---
 
@@ -155,138 +153,34 @@ Calcular $P_b$ como el promedio dentro del bin. Esto se puede hacer promediando 
 
 Modelo base (diagonal):
 
-\[
+$$
 \mathrm{Cov}(P_b,P_{b'}) =
 \delta_{bb'}\,\frac{2\,P_b^2}{N_b^{\rm modes}},
-\]
+$$
 
 con
 
-\[
+$$
 N_b^{\rm modes} \approx
 \frac{V}{2\pi^2}\,k_b^2\,\Delta k_b.
-\]
+$$
 
 Usar un volumen efectivo, por ejemplo
 
-\[
+$$
 V = 5\,(h^{-1}{\rm Gpc})^3.
-\]
+$$
 
 Recordar que:
 
-\[
+$$
 1\,(h^{-1}{\rm Gpc})^3 =
 10^9\,(h^{-1}{\rm Mpc})^3.
-\]
+$$
 
----
+## Código para generar el espectro de potencias y los mocks
 
-## Tareas
-
-### Tarea A: Generar mocks
-
-1. Muestrear $(\Omega_m, A_s)$.
-2. Calcular $P_b(\theta)$.
-3. Generar observaciones ruidosas. Para ello agréguele a cada bin un ruido gaussiano con varianza $C_{bb}$.
-4. Separar en training y test.
-
-Sugerencia:
-
-- $N_{\rm train}=5000$
-- $N_{\rm test}=2000$
-
-Donde $N$ es el número de espectros de potencias generados, cada uno con diferentes valores de $(\Omega_m, A_s)$ y diferente realización del ruido. No debe haber contaminación entre entrenamiento.
-
----
-
-### Tarea B: Entrenar modelos de árboles
-
-Entrenar al menos:
-
-- Random Forest Regressor
-- Gradient Boosted Trees
-
-Entradas: $\log \hat P_b$ 
-Salidas: $(\Omega_m, A_s)$
-
-Reportar:
-
-- RMSE
-- MAE
-- $R^2$
-- gráficos predicho vs real con residuales
-
----
-
-### Tarea C: Identificar bins informativos
-
-Usar al menos dos métodos:
-
-1. **Permutation importance**
-2. **SHAP values** (preferido)
-
-Graficar:
-
-- Importancia vs $k$ para $\Omega_m$
-- Importancia vs $k$ para $A_s$
-
-Interpretar físicamente:
-
-- ¿Escalas grandes o pequeñas dominan?
-- ¿$\Omega_m$ y $A_s$ usan las mismas escalas?
-
----
-
-### Tarea D: Curvas de ablación
-
-1. Ordenar bins por importancia.
-2. Reentrenar usando solo los $m$ bins más importantes.
-3. Graficar RMSE vs $m$.
-
-Responder:
-
-¿Cuántos bins contienen la mayor parte de la información?
-
----
-
-### Tarea E: Chequeo tipo Fisher
-
-Calcular derivadas numéricas:
-
-\[
-\frac{\partial P_b}{\partial \theta_\alpha}
-\approx
-\frac{P_b(\theta_\alpha+\Delta)-P_b(\theta_\alpha-\Delta)}{2\Delta}.
-\]
-
-Matriz de Fisher:
-
-\[
-F_{\alpha\beta} =
-\frac{\partial \mathbf{P}^T}{\partial \theta_\alpha}
-\mathbf{C}^{-1}
-\frac{\partial \mathbf{P}}{\partial \theta_\beta}.
-\]
-
-Definir proxy por bin:
-
-\[
-I_b(\theta_\alpha)
-\propto
-\left(
-\frac{\partial P_b}{\partial \theta_\alpha}
-\right)^2
-/ C_{bb}.
-\]
-
-Comparar con la importancia derivada del ML.
-
----
-
-## Código base
-
-```{.python}
+```{python}
 import numpy as np
 
 h = 0.67
@@ -316,5 +210,86 @@ def make_kbins(kmin=0.01, kmax=0.5, nbins=30):
     widths = edges[1:] - edges[:-1]
     return edges, centers, widths
 ```
+
+---
+
+## Tareas a cumplir
+
+### Tarea A: Generar mocks
+
+1. Muestrear $(\Omega_m, A_s)$.
+2. Calcular $P_b(\theta)$.
+3. Generar observaciones ruidosas. Para ello agréguele a cada bin un ruido gaussiano con varianza $C_{bb}$.
+4. Separar en training y test.
+
+Sugerencia:
+
+- $N_{\rm train}=5000$ espectros de potencias ruidosos en el conjunto de entrenamiento.
+- $N_{\rm test}=2000$ espectros de potencias ruidosos en el conjunto de test.
+
+Donde $N$ es el número de espectros de potencias generados, cada uno con diferentes valores de $(\Omega_m, A_s)$ y diferente realización del ruido.
+
+---
+
+### Tarea B: Entrenar modelos de árboles
+
+Entrenar al menos:
+
+- Random Forest Regressor
+- Gradient Boosted Trees
+
+Entradas: $\log \hat P_b$ en cada bin. 
+Salidas: $(\Omega_m, A_s)$.
+
+Pista: La escala de las variables que se intentan predecir es muy diferente, lo que puede ser problemático para algunos modelos. Encuentre una forma de resolver este problema.
+
+Reportar:
+
+- RMSE
+- MAE
+- $R^2$
+- gráficos predicho vs real con residuales
+
+---
+
+### Tarea C: Identificar bins informativos
+
+Usar al menos dos métodos:
+
+1. **Permutation importance** (Investigar en qué consiste)
+2. **Importancia por impureza (MDI)** con `feature_importances_` de árboles
+
+Graficar:
+
+- Importancia vs $k$ para $\Omega_m$
+- Importancia vs $k$ para $A_s$
+
+Interpretar físicamente:
+
+- ¿Dominan las escalas grandes o pequeñas?
+- ¿$\Omega_m$ y $A_s$ usan las mismas escalas?
+
+#### Interpretación física (Tarea C)
+
+Observa los gráficos:
+
+- **¿Dominan las escalas grandes o pequeñas?** Mira dónde están los máximos en los gráficos (pequeño $k$ o grande $k$).
+- **¿$\Omega_m$ y $A_s$ usan las mismas escalas?** Compara los patrones entre los dos parámetros.
+- **¿Hay diferencia entre RF y GB?** Ambos métodos deberían coincidir aproximadamente en qué bins son importantes.
+
+---
+
+### Tarea D: Curvas de ablación
+
+1. Ordenar bins por importancia.
+2. Reentrenar usando solo los $m$ bins más importantes.
+3. Graficar RMSE vs $m$.
+
+Responder:
+
+¿Cuántos bins contienen la mayor parte de la información?
+
+---
+
 
 
