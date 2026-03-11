@@ -544,7 +544,7 @@ Figura&nbsp;1: Errores de entrenamiento y prueba para redes de diferente profund
 <h2 class="anchored" data-anchor-id="gradientes-fragmentados-shattered-gradients">Gradientes fragmentados (shattered gradients)</h2>
 <p>Parece que este fenómeno aún no se entiende del todo bien. Una hipótesis es que los gradientes respecto a los parámetros de las primeras capas cambian muy rápidamente. Como el entrenamiento usa una aproximación que asume que los gradientes son suaves, esto induce un error grande.</p>
 <p>Para verlo, seguimos un ejemplo tomado del libro (donde he cambiado la inicialización de Glorot a He).</p>
-<div id="cell-fig-shattered-gradients" class="cell" data-execution_count="1">
+<div id="cell-fig-shattered-gradients" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>

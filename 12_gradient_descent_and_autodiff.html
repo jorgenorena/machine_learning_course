@@ -550,7 +550,7 @@ window.Quarto = {
 <p>Antes de aplicar el descenso de gradiente a una red neuronal, empezamos por hacerlo en un caso sencillo que es fácil de visualizar: la regresión lineal simple. En este caso queremos ajustar la pendiente y el intercepto de una recta <span class="math inline">\(y = m x + b\)</span> a un conjunto de datos <span class="math inline">\((x_i, y_i)\)</span>. La función de pérdida (MSE) a minimizar es: <span class="math display">\[
 \mathcal{J}(m,b) = \frac{1}{N}\sum_{i=1}^N (y_i - (m x_i + b))^2.
 \]</span> donde <span class="math inline">\(N\)</span> es el número total de puntos de datos. Notemos que la función de pérdida es una función de dos variables, <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span>. Por eso la podemos graficar fácilmente.</p>
-<div id="cell-fig-linreg-loss" class="cell" data-execution_count="1">
+<div id="cell-fig-linreg-loss" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -625,7 +625,7 @@ b &amp;\leftarrow b - \eta \,\frac{\partial \mathcal{L}}{\partial b},
 \frac{\partial \mathcal{J}}{\partial b}
 = -\frac{2}{N}\sum_{i=1}^N (y_i - (m x_i + b)).
 \]</span></p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.animation <span class="im">as</span> animation</span>
@@ -700,7 +700,7 @@ b &amp;\leftarrow b - \eta \,\frac{\partial \mathcal{L}}{\partial b},
 <span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>HTML(ani.to_jshtml())</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-linreg-gradient-descent" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="2">
+<div id="fig-linreg-gradient-descent" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-linreg-gradient-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div id="fig-linreg-gradient-descent-1" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="2">
@@ -25522,7 +25522,7 @@ f(x; \phi_0,\phi_1) = e^{-\frac{(\phi_0 + \phi_1 x)^2}{32}}\cos(\phi_0 + \phi_1 
 \mathcal{L}(\phi_0,\phi_1) = \frac{1}{N}\sum_{i=1}^N (y_i - f(x_i; \phi_0,\phi_1))^2.
 \]</span> La naturaleza oscilatoria del término <span class="math inline">\(\cos(\phi_0 + \phi_1 x + \phi)\)</span>, multiplicada por la amplitud <span class="math inline">\(A\)</span>, crea un paisaje de pérdida no convexo con múltiples valles (mínimos locales) y puntos de silla.</p>
 <p>Para entender el paisaje de la pérdida, generamos un gráfico de contorno de <span class="math inline">\(\mathcal{L}(\phi_0,\phi_1)\)</span> evaluando la pérdida en una rejilla de valores de <span class="math inline">\(\phi_0\)</span> y <span class="math inline">\(\phi_1\)</span>. Este gráfico muestra las regiones de baja pérdida (valles) y las zonas de puntos de silla. Adicionalmente, se pueden trazar las trayectorias seguidas por el algoritmo de Descenso de Gradiente partiendo desde diferentes puntos iniciales <span class="math inline">\((\phi_{0,0}, \phi_{1,0})\)</span>.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir función de Gabor y generar datos</span></span>
@@ -25636,7 +25636,7 @@ f(x; \phi_0,\phi_1) = e^{-\frac{(\phi_0 + \phi_1 x)^2}{32}}\cos(\phi_0 + \phi_1 
 <span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>HTML(ani.to_jshtml())</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-gabor-gradient-descent" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
+<div id="fig-gabor-gradient-descent" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gabor-gradient-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div id="fig-gabor-gradient-descent-1" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
@@ -114128,7 +114128,7 @@ z^{(1)} = W^{(1)} x + b^{(1)}, \quad a^{(1)} = \sigma(z^{(1)}), \quad z^{(2)} = 
 <li><strong>He (<span class="math inline">\(\sigma^2 = 2 / D_\ell\)</span>)</strong>: Diseñada específicamente para ReLU. Mantiene la varianza de las activaciones aproximadamente constante a lo largo de las capas. El factor 2 extra (comparado con Xavier) compensa el hecho de que ReLU anula ~la mitad de las entradas (las negativas), lo que de otro modo reduciría la varianza.</li>
 <li><strong>Grande (<span class="math inline">\(\sigma^2 = 5 / D_\ell\)</span>)</strong>: La varianza explota brutalmente, saliéndose de escala y haciendo inviable el aprendizaje.</li>
 </ul>
-<div id="cell-fig_varianza_activaciones" class="cell" data-execution_count="4">
+<div id="cell-fig_varianza_activaciones" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -114309,7 +114309,7 @@ Derivación de la relación entre varianzas
 <p>Otro ejemplo típico es la clasificación de dígitos escritos, el llamado MNIST. Consiste en un conjunto de imágenes en blanco y negro que representan dígitos escritos a mano. Se entrena una red para identificar a cuál dígito corresponde cada imagen.</p>
 <p>Primero cargamos los datos. Note que necesitamos normalizarlos. En general las redes neuronales funcionan mejor si los datos tienen media cero y varianza unitaria. Por eso dividimos la media y la desviación estándar del conjunto de entrenamiento y usamos esas para normalizar el conjunto de entrenamiento y el de prueba.</p>
 <p>Para lograrlo, primero cargamos los datos sin normalizar, les calculamos su media y varianza, y finalmente usamos <code>transforms.Normalize</code> para normalizar los datos.</p>
-<div id="91a8c3a8" class="cell" data-execution_count="5">
+<div id="91a8c3a8" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
@@ -114346,7 +114346,7 @@ Derivación de la relación entre varianzas
 <span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>test_loader <span class="op">=</span> torch.utils.data.DataLoader(test_dataset, batch_size<span class="op">=</span><span class="dv">1000</span>, shuffle<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Podemos graficar algunas de las imágenes del conjunto de entrenamiento.</p>
-<div id="5f5b3c18" class="cell" data-execution_count="6">
+<div id="5f5b3c18" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar algunas imágenes del conjunto de entrenamiento</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -114372,7 +114372,7 @@ Derivación de la relación entre varianzas
 </div>
 </div>
 <p>Ahora vamos a entrenar un perceptrón multicapa para clasificar las imágenes.</p>
-<div id="fc265a74" class="cell" data-execution_count="7">
+<div id="fc265a74" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una red neuronal MLP simple</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MLP(nn.Module):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
@@ -114467,7 +114467,7 @@ Derivación de la relación entre varianzas
 <span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       f'Test Loss: {test_loss:.4f}, Test Acc: {test_accuracy:.4f}')</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Después de entrenar, graficamos las pérdidas y la precisión en el conjunto de entrenamiento y prueba.</p>
-<div id="710db420" class="cell" data-execution_count="8">
+<div id="710db420" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>

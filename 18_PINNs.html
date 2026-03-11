@@ -565,7 +565,7 @@ r(t) = y_\theta'(t) + y_\theta(t),
 <li><p>Resultado: Después del entrenamiento, la red neuronal <span class="math inline">\(y_\theta(t)\)</span> sirve como una solución sustituta de la EDO. Se puede evaluar <span class="math inline">\(y_\theta(t)\)</span> en cualquier <span class="math inline">\(t\)</span> deseado para obtener la solución (la red neuronal es una interpolación de la solución).</p></li>
 </ul>
 <p>Para ilustrar, a continuación se muestra un ejemplo simple usando PyTorch para la EDO <span class="math inline">\(y' + y = 0,; y(0)=1\)</span>. Definimos una red pequeña y la entrenamos con la pérdida informada por la física:</p>
-<div id="08284149" class="cell" data-execution_count="1">
+<div id="08284149" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -609,7 +609,7 @@ r(t) = y_\theta'(t) + y_\theta(t),
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    optimizador.step()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>En este código, el término <code>torch.autograd.grad(..., create_graph=True)</code> se utiliza para calcular <span class="math inline">\(y_\theta'(t)\)</span> mediante diferenciación automática. La pérdida física impulsa a la red a satisfacer <span class="math inline">\(y' + y = 0\)</span>, mientras que la pérdida de la condición inicial hace tender <span class="math inline">\(y_\theta(0)\)</span> a <span class="math inline">\(1\)</span>. Después del entrenamiento, la salida de la red <span class="math inline">\(y_\theta(t)\)</span> se aproximará mucho a la solución verdadera <span class="math inline">\(e^{-t}\)</span>, ver figura <a href="#fig-pinn" class="quarto-xref">Figura&nbsp;1</a>. Al entrenar en puntos de colocación muestreados del dominio, la PINN efectivamente “aprende” la solución continua sin pasar explícitamente por el tiempo. Este enfoque puede manejar problemas directos (encontrar <span class="math inline">\(y(t)\)</span> dada la ecuación diferencial y la condición inicial) así como problemas inversos (por ejemplo inferir parámetros en la EDO a partir de datos) dentro del mismo marco.</p>
-<div id="cell-fig-pinn" class="cell" data-execution_count="2">
+<div id="cell-fig-pinn" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>

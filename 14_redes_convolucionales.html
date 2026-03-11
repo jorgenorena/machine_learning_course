@@ -601,7 +601,7 @@ h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k \sum_{c' = 1}^{C'} w_{cc',mn} x
 <h1>Ejemplo con MNIST</h1>
 <p>Ahora repetimos el ejemplo de MNIST pero usando capas convolucionales.</p>
 <p>Primero cargamos los datos. Recuerde que debemos normaliarlos.</p>
-<div id="e509f745" class="cell" data-execution_count="1">
+<div id="e509f745" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
@@ -638,7 +638,7 @@ h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k \sum_{c' = 1}^{C'} w_{cc',mn} x
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>test_loader <span class="op">=</span> torch.utils.data.DataLoader(test_dataset, batch_size<span class="op">=</span><span class="dv">1000</span>, shuffle<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ahora vamos a entrenar un perceptrón multicapa para clasificar las imágenes.</p>
-<div id="a2d8c6bf" class="cell" data-execution_count="2">
+<div id="a2d8c6bf" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una red neuronal MLP simple</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CNN(nn.Module):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
@@ -746,7 +746,7 @@ h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k \sum_{c' = 1}^{C'} w_{cc',mn} x
 <span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       f'Test Loss: {test_loss:.4f}, Test Acc: {test_accuracy:.4f}')</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Después de entrenar, graficamos las pérdidas y la precisión en el conjunto de entrenamiento y prueba.</p>
-<div id="cell-fig-conv-loss" class="cell" data-execution_count="3">
+<div id="cell-fig-conv-loss" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -783,7 +783,7 @@ Figura&nbsp;1: Pérdida y precisión en el conjunto de entrenamiento y prueba
 </div>
 <p>En la figura <span class="citation" data-cites="ref">@ref</span>(fig-conv-loss) vemos que a pesar de que todos los dígitos están centrados, alcanzamos una precisión mayor que el <a href="11_perceptron_y_redes_conexas.html">perceptrón multicapa</a> y con muy poco esfuerzo (la primera arquitectura que intenté). Esto es porque los filtros además capturan la correlación entre pixeles.</p>
 <p>Para entender mejor cómo la red procesa la imagen, podemos visualizar las salidas (mapas de características o <em>feature maps</em>) de cada capa convolucional para una imagen de entrada específica.</p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure model is in evaluation mode and on the CPU</span></span>
@@ -875,7 +875,7 @@ Figura&nbsp;1: Pérdida y precisión en el conjunto de entrenamiento y prueba
 <span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>fig_fm_conv2.tight_layout(rect<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.95</span>])</span>
 <span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-feature-maps" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
+<div id="fig-feature-maps" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-feature-maps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">

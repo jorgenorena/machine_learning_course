@@ -597,7 +597,7 @@ Z_1 = \mathbf{X}\boldsymbol{\phi}_1
 <section id="ejemplo-de-pca-para-compresión-de-imágenes" class="level3">
 <h3 class="anchored" data-anchor-id="ejemplo-de-pca-para-compresión-de-imágenes">Ejemplo de PCA para compresión de imágenes</h3>
 <p>En este ejemplo, usamos PCA para comprimir una imagen de un dígito escrito a mano. Usamos los datos de dígitos del paquete <code>sklearn</code>.</p>
-<div id="cell-fig-digitos" class="cell" data-execution_count="1">
+<div id="cell-fig-digitos" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -630,7 +630,7 @@ Figura&nbsp;1: Dígitos de MNIST
 </div>
 </div>
 <p>En scikit-learn, el PCA se puede aplicar con la clase <code>PCA</code> del módulo <code>decomposition</code>. Podemos especificar que el número de componentes principales explique una proporción de la varianza. Pediremos el 95% de la varianza.</p>
-<div id="cell-fig-pca-digitos" class="cell" data-execution_count="2">
+<div id="cell-fig-pca-digitos" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
@@ -703,7 +703,7 @@ Figura&nbsp;2: PCA para compresión de imágenes
 </section>
 <section id="ejemplo-de-clustering-k-means" class="level3">
 <h3 class="anchored" data-anchor-id="ejemplo-de-clustering-k-means">Ejemplo de clustering K-means</h3>
-<div id="cell-fig-clustering-kmeans-blobs" class="cell" data-execution_count="3">
+<div id="cell-fig-clustering-kmeans-blobs" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
@@ -758,7 +758,7 @@ Figura&nbsp;3: Clustering K-means para datos ficticios
 <section id="ejemplo-de-clustering-para-segmentación-de-imágenes" class="level3">
 <h3 class="anchored" data-anchor-id="ejemplo-de-clustering-para-segmentación-de-imágenes">Ejemplo de clustering para segmentación de imágenes</h3>
 <p>Ahora queremos segmentar imágenes. Es decir, queremos agrupar píxeles similares entre sí. Esto ocurre frecuentemente en física, donde podemos tener imágenes de un experimento y nos gustaría identificar objetos o regiones. Nuestro ejemplo será reducir los colores de una imagen. Cada píxel tiene un color, que es un vector de tres componentes (rojo, verde, azul). Queremos agrupar píxeles similares entre sí en el espacio de colores.</p>
-<div id="cell-fig-ladybug" class="cell" data-execution_count="4">
+<div id="cell-fig-ladybug" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
@@ -785,7 +785,7 @@ Figura&nbsp;4: Imagen de muestra que queremos segmentar
 </div>
 </div>
 <p>En la figura <a href="#fig-ladybug" class="quarto-xref">Figura&nbsp;4</a> se muestra una imagen de muestra que queremos segmentar.</p>
-<div id="cell-fig-ladybug-segmented-10" class="cell" data-execution_count="5">
+<div id="cell-fig-ladybug-segmented-10" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cluster_image(n_clusters):</span>
@@ -812,7 +812,7 @@ Figura&nbsp;5: Imagen segmentada en 10 clusters, coloreada con los centroides de
 </div>
 </div>
 <p>En la figura <a href="#fig-ladybug-segmented-10" class="quarto-xref">Figura&nbsp;5</a> se muestra el resultado del clustering K-means para la imagen de la figura <a href="#fig-ladybug" class="quarto-xref">Figura&nbsp;4</a>. Cada cluster se colorea con el color del centroide, es decir, con el color del punto central del cluster. Hagámoslo para menos clusters</p>
-<div id="cell-fig-ladybug-segmented-5" class="cell" data-execution_count="6">
+<div id="cell-fig-ladybug-segmented-5" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cluster_image(<span class="dv">5</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>

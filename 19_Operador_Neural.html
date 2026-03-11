@@ -563,7 +563,7 @@ u(t,x) = \frac{1}{2}\Big[\,f(x - c\,t) + f(x + c\,t)\Big] +
 <section id="generación-de-datos" class="level2">
 <h2 class="anchored" data-anchor-id="generación-de-datos">1. Generación de Datos</h2>
 <p>Primero, establecemos los parámetros del problema y creamos un conjunto de datos. Elegimos una cuadrícula espacial de tamaño <span class="math inline">\(N=100\)</span> (puntos en <span class="math inline">\([0,1]\)</span>), consideramos <span class="math inline">\(c=1\)</span> y un tiempo final <span class="math inline">\(T=0.25\)</span>. Generamos funciones de desplazamiento inicial aleatorio <span class="math inline">\(f(x)\)</span> superponiendo algunos modos de Fourier aleatorios para obtener funciones suaves y periódicas. Luego calculamos el correspondiente <span class="math inline">\(u(T,x)\)</span> usando la solución analítica. Esto nos da pares <span class="math inline">\((f, u_T)\)</span> para entrenamiento.</p>
-<div id="548167e2" class="cell" data-execution_count="1">
+<div id="548167e2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parametros</span></span>
@@ -616,7 +616,7 @@ u(t,x) = \frac{1}{2}\Big[\,f(x - c\,t) + f(x + c\,t)\Big] +
 <section id="definición-del-modelo-de-operador-neuronal" class="level2">
 <h2 class="anchored" data-anchor-id="definición-del-modelo-de-operador-neuronal">2. Definición del Modelo de Operador Neuronal</h2>
 <p>Usaremos una <em>red neuronal totalmente conectada</em>. Esta red toma un vector de longitud <span class="math inline">\(N\)</span> (la condición inicial discretizada <span class="math inline">\(f\)</span>) y produce un vector de longitud <span class="math inline">\(N\)</span> (la solución predicha <span class="math inline">\(u_T\)</span>). Aunque es esencialmente una red estándar (sin imponer estructura especial de operador), aún puede aprender el mapeo de <span class="math inline">\(f\)</span> a <span class="math inline">\(u_T\)</span> dada suficiente capacidad y datos. Modelos más sofisticados podrían usar convoluciones o compartir pesos para aprovechar simetrías, pero aquí usamos este enfoque básico por claridad.</p>
-<div id="4e3ae844" class="cell" data-execution_count="2">
+<div id="4e3ae844" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> OperadorNeuronal1D(nn.Module):</span>
@@ -638,7 +638,7 @@ u(t,x) = \frac{1}{2}\Big[\,f(x - c\,t) + f(x + c\,t)\Big] +
 <section id="entrenamiento-del-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="entrenamiento-del-modelo">3. Entrenamiento del Modelo</h2>
 <p>Entrenamos el operador neuronal usando el error cuadrático medio (MSE) entre la salida de la red y la solución verdadera <span class="math inline">\(u_T(x)\)</span>, mediante descenso de gradiente (optimizador Adam). En cada época hacemos una pasada completa sobre los datos (por simplicidad, no usamos minibatches aquí, pero podría hacerse).</p>
-<div id="93ae9125" class="cell" data-execution_count="3">
+<div id="93ae9125" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Funcion de perdida y optimizador</span></span>
@@ -671,7 +671,7 @@ Epoca 400: perdida de entrenamiento = 0.000135</code></pre>
 <section id="prueba-del-operador-aprendido" class="level2">
 <h2 class="anchored" data-anchor-id="prueba-del-operador-aprendido">4. Prueba del Operador Aprendido</h2>
 <p>Tras entrenar, evaluamos el modelo sobre condiciones iniciales de prueba no vistas. Calculamos el error relativo para ver cuán bien se aprendió el operador y comparamos visualmente para un ejemplo.</p>
-<div id="fdb96eb2" class="cell" data-execution_count="4">
+<div id="fdb96eb2" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar en datos de prueba</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>modelo.<span class="bu">eval</span>()  <span class="co"># modo evaluacion</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>

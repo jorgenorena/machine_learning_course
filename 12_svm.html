@@ -536,7 +536,7 @@ window.Quarto = {
 \text{maximizar } M \quad\text{sujeto a}\quad \sum_{j=1}^{p} \beta_j^2 = 1, \quad y_i(\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip}) \geq M\,,
 \]</span></p>
 <p>donde <span class="math inline">\(M\)</span> es el margen y <span class="math inline">\(y_i\)</span> es la clase de la observación <span class="math inline">\(i\)</span> (<span class="math inline">\(y_i \in \{-1, 1\}\)</span>).</p>
-<div id="cell-fig-svm-lineal" class="cell" data-execution_count="1">
+<div id="cell-fig-svm-lineal" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -620,7 +620,7 @@ Figura&nbsp;1: Clasificador de margen máximo
 \end{align}
 \]</span></p>
 <p>En la <a href="#fig-svm-soft-margin" class="quarto-xref">Figura&nbsp;2</a> se muestra el clasificador de margen suave para un conjunto de datos sintéticos. Vemos que el margen es más ancho y permite algunas violaciones del margen.</p>
-<div id="cell-fig-svm-soft-margin" class="cell" data-execution_count="2">
+<div id="cell-fig-svm-soft-margin" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -723,7 +723,7 @@ Advertencia
 <h2 class="anchored" data-anchor-id="máquinas-de-vectores-de-soporte-svm-no-lineales">Máquinas de Vectores de Soporte (SVM) no lineales</h2>
 <p>Las Máquinas de Vectores de Soporte (SVM) extienden el clasificador de vectores soporte usando kernels para manejar problemas de clasificación no lineales.</p>
 <p>Para casos no lineales, el espacio de características se amplía con funciones de los predictores (por ejemplo, términos cuadráticos).</p>
-<div id="cell-fig-svm-no-lineal" class="cell" data-execution_count="3">
+<div id="cell-fig-svm-no-lineal" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_moons</span>
@@ -811,7 +811,7 @@ f(x) = \beta_0 + \sum_{i \in S} \alpha_i K(x, x_i)
 <p>Esto es equivalente al hiperplano <span class="math inline">\(\beta_0 + \sum_{j=1}^{p} \beta_j \phi_j(x) = 0\)</span> en el espacio de características transformado.</p>
 <p>Como antes, solo los vectores soporte (observaciones cercanas al margen o que lo violan) afectan el límite de decisión.</p>
 <p>En pocas palabras, el núcleo o kernel es equivalente a calcular el producto punto en un espacio de dimensión elevada. Este producto se usa en lugar de calcular la transformación explícita. No lo demostramos aquí por falta de tiempo, pero el producto punto es lo único que se necesita para calcular la frontera de decisión.</p>
-<div id="cell-fig-svm-rbf" class="cell" data-execution_count="4">
+<div id="cell-fig-svm-rbf" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.svm <span class="im">import</span> SVC</span>

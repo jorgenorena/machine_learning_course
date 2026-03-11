@@ -537,7 +537,7 @@ window.Quarto = {
 <p>Por otro lado si tiene poca libertad no logrará capturar los patrones en los datos, lo que se llama <strong>poca expresividad</strong> del modelo, y cometerá un error grande al predecir (gran sesgo).</p>
 <p>En esta clase veremos cómo hacer para evaluar modelos buscando el equilibrio entre la complejidad del modelo y el error de generalización. En otras palabras el equilibrio entre sesgo y varianza.</p>
 <p>Cuando el número de parámetros es grande (dada una cantidad de datos), podemos intenar reducir su varianza. Esto se llama <strong>regularización</strong> que será muy importante cuando estudiemos redes neuronales. Introduciremos por ahora un par de métodos de regularización.</p>
-<div id="cell-fig-mse" class="cell" data-execution_count="1">
+<div id="cell-fig-mse" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -619,7 +619,7 @@ D_{KL}(f || p) = \int dy\,f(y)\log\left(\frac{f(y)}{L(y|\theta)}\right) \\ = \in
 AIC = 2p -2\log\hat{L}\,.
 \]</span> Un menor <span class="math inline">\(AIC\)</span> representa un mejor ajuste en el sentido que la distribución de probabilidad es más cercana a la subyacente.</p>
 <p>El valor de <span class="math inline">\(AIC\)</span> no es importante, lo importante es la diferencia de valores entre modelos. En general una diferencia de <span class="math inline">\(AIC\)</span> de <span class="math inline">\(2\)</span> o menos indica que los modelos son equivalentes. Una diferencia entre 4 y 7 es una evidencia moderada de que el modelo con el <span class="math inline">\(AIC\)</span> más alto no describe los datos. Una diferencia mayor a <span class="math inline">\(10\)</span> suele indicar una evidencia más fuerte. En general <span class="math inline">\(\exp((AIC_{min} - AIC)/2)\)</span> es proporcional a la probabilidad de que el modelo minimice la pérdida de información.</p>
-<div id="cell-fig-aic" class="cell" data-execution_count="2">
+<div id="cell-fig-aic" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -713,7 +713,7 @@ P(D|M) \approx \int d^p\beta\,e^{\ln L(\boldsymbol{\beta})} \approx \int d^p\bet
 </div>
 </div>
 </div>
-<div id="cell-fig-bic" class="cell" data-execution_count="3">
+<div id="cell-fig-bic" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -788,7 +788,7 @@ Figura&nbsp;3: BIC para datos sintéticos generados a partir de tres predictores
 <li>Evaluar el modelo en el conjunto de validación.</li>
 </ol>
 <p>En general, la estima del error de generalización obtenida de esta manera tendrá un sesgo porque usamos sólo un subconjunto de datos para entrenar el modelo. Un modelo entrenado en más datos funcionará mejor con un error menor generalización. En este sentido es una estima pesimista. Además tendrá una varianza ya que el subconjunto de validación es aleatorio.</p>
-<div id="cell-fig-val" class="cell" data-execution_count="4">
+<div id="cell-fig-val" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -866,7 +866,7 @@ Figura&nbsp;4: Error con varios conjuntos de validación.
 <li>Repetir <span class="math inline">\(k\)</span> veces hasta usar todas las partes como validación.</li>
 </ol>
 <p>Esto nos permite promediar sobre los <span class="math inline">\(k\)</span> valores obtenidos para el error, esperando tener una varianza menor. A mayor <span class="math inline">\(k\)</span>, mayor será el conjunto de datos usado para entrenar y por lo tanto más cercano al modelo completo. Pero al aumentar <span class="math inline">\(k\)</span> los valores obtenidos para la estima del error estarán más correlacionados ya que los diferentes conjuntos usados para entrenar se parecerán más, lo que aumenta la varianza. En la práctica se usa <span class="math inline">\(k\)</span> entre <span class="math inline">\(3\)</span> y <span class="math inline">\(10\)</span>.</p>
-<div id="cell-fig-cv" class="cell" data-execution_count="5">
+<div id="cell-fig-cv" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reimportar bibliotecas necesarias tras el reinicio</span></span>
@@ -983,7 +983,7 @@ Figura&nbsp;5: Error con validación cruzada para varios valores de <span class=
 \mathcal{L} = \sum_{i=1}^n\left[y_i - \beta_0 - \sum_{j=1}^q\beta_j x_j\right]^2 + \alpha\sum_{j=0}^q\beta_j^2\,.
 \]</span> Aquí <span class="math inline">\(\alpha\)</span> es un hiperparámetro que controla cuánto paga el modelo por encender coeficientes. Para <span class="math inline">\(\alpha\)</span> que tiende a infinito todos los coeficientes tenderán cero, para <span class="math inline">\(\alpha\)</span> cero regresamos al ajuste lineal de antes. Tomamos los cuadrados porque nos interesa que los coeficientes poco importantes sean cercanos a cero.</p>
 <p>Para escoger <span class="math inline">\(\alpha\)</span> podemos usar validación cruzada.</p>
-<div id="cell-fig-ridge" class="cell" data-execution_count="6">
+<div id="cell-fig-ridge" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
@@ -1044,7 +1044,7 @@ Figura&nbsp;6: Error de validación cruzada con <span class="math inline">\(k = 
 </div>
 </div>
 <p>En la <a href="#fig-ridge" class="quarto-xref">Figura&nbsp;6</a> vemos que el error decrece inicialmente al aumentar <span class="math inline">\(\alpha\)</span> ya que los coeficientes de las variables poco importantes son suprimidos. Luego alcanza un valor mínimo a partir del cual vuelve a crecer porque el modelo pierde expresividad.</p>
-<div id="cell-fig-ridge-coeffs" class="cell" data-execution_count="7">
+<div id="cell-fig-ridge-coeffs" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nuevos valores de alpha en escala logarítmica, extendidos hasta valores grandes</span></span>
@@ -1097,7 +1097,7 @@ Figura&nbsp;7: Coeficientes en función de <span class="math inline">\(\alpha\)<
 <p>Una alternativa es usar la suma de valores absolutos <span class="math display">\[
 \mathcal{L} = \sum_{i=1}^n\left[y_i - \beta_0 - \sum_{j=1}^q\beta_j x_j\right]^2 + \alpha\sum_{j=0}^q|\beta_j|\,.
 \]</span></p>
-<div id="cell-fig-lasso" class="cell" data-execution_count="8">
+<div id="cell-fig-lasso" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
@@ -1154,7 +1154,7 @@ Figura&nbsp;8: Error de validación cruzada con <span class="math inline">\(k = 
 </div>
 </div>
 </div>
-<div id="cell-fig-lasso-coeffs" class="cell" data-execution_count="9">
+<div id="cell-fig-lasso-coeffs" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nuevos valores de alpha en escala logarítmica, extendidos hasta valores grandes</span></span>

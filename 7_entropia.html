@@ -560,7 +560,7 @@ Ejemplo
 -\frac{2}{3} \log \frac{2}{3} - \frac{1}{3} \log \frac{1}{3}\,.
 \]</span></p>
 <p>Esta es la <strong>entropía de Shannon</strong> de este sistema.</p>
-<div id="43187bb1" class="cell" data-execution_count="1">
+<div id="43187bb1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -670,14 +670,14 @@ r(0) = 1\,,\quad r(10) = 2\,,\quad r(1100) = 3\,,\quad r(1101)= 4\,,\\ \quad r(1
 \end{multline}
 \]</span> Es verdad que los símbolos menos probables son representados por más de 3 bits. Pero en promedio un mensaje tendrá longitud</li>
 </ol>
-<div id="49d8cf0d" class="cell" data-execution_count="2">
+<div id="49d8cf0d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.5</span><span class="op">*</span><span class="dv">1</span><span class="op">+</span><span class="fl">0.3</span><span class="op">*</span><span class="dv">2</span><span class="op">+</span><span class="fl">0.1</span><span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="fl">0.05</span><span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="fl">0.025</span><span class="op">*</span><span class="dv">4</span><span class="op">+</span><span class="fl">0.0125</span><span class="op">*</span><span class="dv">5</span><span class="op">+</span><span class="fl">0.0065</span><span class="op">*</span><span class="dv">6</span><span class="op">+</span><span class="fl">0.006</span><span class="op">*</span><span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>1.7875000000000003</code></pre>
 </div>
 </div>
 <p>Comparemos con el valor de la entropía y veamos que se acerca.</p>
-<div id="b502c95e" class="cell" data-execution_count="3">
+<div id="b502c95e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>np.log(<span class="fl">0.5</span>)<span class="op">-</span><span class="fl">0.3</span><span class="op">*</span>np.log(<span class="fl">0.3</span>)<span class="op">-</span><span class="fl">0.1</span><span class="op">*</span>np.log(<span class="fl">0.1</span>)<span class="op">-</span><span class="fl">0.05</span><span class="op">*</span>np.log(<span class="fl">0.05</span>)<span class="op">\</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span><span class="fl">0.025</span><span class="op">*</span>np.log(<span class="fl">0.025</span>)<span class="op">-</span><span class="fl">0.0125</span><span class="op">*</span>np.log(<span class="fl">0.0125</span>)<span class="op">\</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span><span class="fl">0.0065</span><span class="op">*</span>np.log(<span class="fl">0.0065</span>)<span class="op">-</span><span class="fl">0.006</span><span class="op">*</span>np.log(<span class="fl">0.006</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

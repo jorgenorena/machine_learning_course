@@ -570,7 +570,7 @@ L = \sum_{i=1}^N(y_i - mx_i)^2\,,
 \]</span> Estos tienen varianza <em>y covarianza</em> <span class="math display">\[
 \sigma^2_m = \frac{\sigma^2}{N(\overline{(x^2)} - \bar{x}^2)}\,,\quad \sigma^2_a = \frac{\sigma^2\overline{(x^2)}}{N(\overline{(x^2)} - \bar{x}^2)}\,,\quad \sigma_{ma} = -\frac{\sigma^2\bar{x}}{N(\overline{(x^2)} - \bar{x}^2)}\,.
 \]</span> Aprendemos que en general cuando estimamos varios parámetros de los mismos datos, estos estarán correlacionados.</p>
-<div id="33afe120" class="cell" data-execution_count="1">
+<div id="33afe120" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -686,7 +686,7 @@ P[\theta_- \leq \theta \leq \theta_+] = \int_{x_-}^{x_+} dx\,\rho(x) = C\,.
 <section id="frecuentista-el-intervalo-de-confianza." class="level2">
 <h2 class="anchored" data-anchor-id="frecuentista-el-intervalo-de-confianza.">Frecuentista: El intervalo de confianza.</h2>
 <p>Para cada valor del parámetro <span class="math inline">\(\theta\)</span> tenemos una probabilidad de obtener un valor <span class="math inline">\(\hat{\theta}\)</span> al aplicar un estimador <span class="math inline">\(P(\hat{\theta}|\theta)\)</span>. De esta forma, para cada valor verdadero de <span class="math inline">\(\theta\)</span> podemos calcular un intervalo <span class="math inline">\([\hat{\theta}_-, \hat{\theta}_+]\)</span> tal que la probabilidad de obtener el valor medido en ese intervalo es <span class="math inline">\(C\)</span>. Podemos graficar las curvas <span class="math inline">\(\hat{\theta}_-\)</span> y <span class="math inline">\(\hat{\theta}_+\)</span> como funciones de <span class="math inline">\(\theta\)</span>.</p>
-<div id="8d1c7649" class="cell" data-execution_count="2">
+<div id="8d1c7649" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -696,7 +696,7 @@ P[\theta_- \leq \theta \leq \theta_+] = \int_{x_-}^{x_+} dx\,\rho(x) = C\,.
 </div>
 </div>
 <p>Pero ¡No conocemos el valor de <span class="math inline">\(\theta\)</span>! Sólo conocemos el valor medido <span class="math inline">\(\hat{\theta}\)</span>. Entonces lo que podemos hacer es buscar la intersección de la línea vertical <span class="math inline">\(\hat{\theta}\)</span> con <span class="math inline">\(\hat{\theta}_+\)</span> y <span class="math inline">\(\hat{\theta}_-\)</span>. Esto nos dará los valores <span class="math inline">\(\theta_+\)</span> y <span class="math inline">\(\theta_-\)</span> que podemos reportar como los extremos de nuestro intervalo de confianza para el parámetro.</p>
-<div id="aff10af2" class="cell" data-execution_count="3">
+<div id="aff10af2" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
