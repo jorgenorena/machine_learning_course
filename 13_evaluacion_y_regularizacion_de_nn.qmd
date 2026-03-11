@@ -191,7 +191,7 @@ Este método consiste en detener el entrenamiento antes de que el modelo comienc
 
 **Ensamblado**
 
-Esta técnica implica combinar múltiples modelos para hacer predicciones. Cada modelo se entrena de manera independiente y luego sus predicciones se combinan, generalmente mediante promedio o votación. Esto reduce la varianza y mejora la generalización, ya que los errores de los modelos individuales tienden a cancelarse entre sí. Esto lo vimos cuando estudiamo árboles de decisión. Como se discutió [en esa clase](9_arboles_bosques_boosting.qmd), las principales técnicas son bagging y boosting.
+Esta técnica implica combinar múltiples modelos para hacer predicciones. Cada modelo se entrena de manera independiente y luego sus predicciones se combinan, generalmente mediante promedio o votación. Esto reduce la varianza y mejora la generalización, ya que los errores de los modelos individuales tienden a cancelarse entre sí. Esto lo vimos cuando estudiamo árboles de decisión. Como se discutió [en esa clase](11_arboles_bosques_boosting.qmd), las principales técnicas son bagging y boosting.
 
 **Aumentación de datos**
 

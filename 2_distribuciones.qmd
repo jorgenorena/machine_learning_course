@@ -101,7 +101,7 @@ $$
 $$
 Decimos que dos variables son **independientes** si
 $$
-f(x, y) = f^M(x)f^M(y)\,.
+\rho(x, y) = \rho^M(x)\rho^M(y)\,.
 $$
 
 ### Momentos y valores esperados 

@@ -5,7 +5,7 @@ lang: es
 
 ## Unidad 2: Aprendizaje Automático Clásico
 
-- Proyecto 1: [proyecto_1_espectro_de_potencias_y_arboles]
-- Proyecto 2: [proyecto_2_descenso_doble_en_polinomios]
-- Proyecto 3: [proyecto_3_busqueda_bayesiana_de_hiperparametros]
-- Proyecto 4: [proyecto_4_sesgo_varianza_en_clasificacion]
+- Proyecto 1: [Espectro de potencias en cosmología y contenido de información](proyecto_1_espectro_potencias_y_arboles.qmd)
+- Proyecto 2: [Descenso doble en polinomios](proyecto_2_descenso_doble_en_polinomios.qmd)
+- Proyecto 3: [Búsqueda bayesiana de hiperparámetros](proyecto_3_busqueda_bayesiana_de_hiperparametros.qmd)
+- Proyecto 4: [Sesgo, varianza y riesgo en problemas de clasificación](proyecto_4_sesgo_varianza_en_clasificacion.qmd)

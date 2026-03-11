@@ -75,9 +75,9 @@ Estas notas son más que nada un resumen de los siguientes libros:
 
 - "Statistics: A Guide to the Use of Statistical Methods in the Physical Sciences", Barlow, Wiley (1989).
 
-- "An Introduction to Statistical Learning", James, Witten, Hastie, Tibshirani, Taylor, Springer (2023). Disponible libremente en [Aprendizaje Automático](https://www.statlearning.com/) (Aprendizaje automático)
+- "An Introduction to Statistical Learning", James, Witten, Hastie, Tibshirani, Taylor, Springer (2023). Disponible libremente en [este enlace](https://www.statlearning.com/) (Aprendizaje automático)
 
-- "Understanding Deep Learning", J.D. Prince, MIT Press (2023). Disponible libremente en [Redes Neuronales](https://udlbook.github.io/udlbook/) (Redes neronales)
+- "Understanding Deep Learning", J.D. Prince, MIT Press (2023). Disponible libremente en [este enlace](https://udlbook.github.io/udlbook/) (Redes neronales)
 
 - "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow", Géron, O'Reilly (2022).
 
@@ -85,7 +85,7 @@ Estas notas son más que nada un resumen de los siguientes libros:
 
 Al final de la primera unidad se realizará una prueba escrita.
 
-Al final de la segunda unidad se presentará un proyecto sobre aprendizaje automático (ver [proyectos]).
+Al final de la segunda unidad se presentará un proyecto sobre aprendizaje automático (ver los [proyectos](proyectos)).
 
 Al final de la tercera unidad se presentará un proyecto sobre redes neuronales con alguna aplicación a la física.
 
@@ -99,7 +99,7 @@ Al final de cada clase hay ejercicios sugeridos. Los números se refieren al lib
 
 - "Deep Learning", I. Goodfellow, Y. Bengio, A. Courville, MIT Press (2016). 
 
-- "Dive into Deep Learning", A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en [https://d2l.ai/]
+- "Dive into Deep Learning", A. Chen, S. Bird, L. Catlett, Dive into Deep Learning (2021). Disponible libremente en [este sitio](https://d2l.ai/).
 
 ## Otros recursos
 
