@@ -3,9 +3,9 @@ title: El perceptrón, redes completamente conexas y pérdidas
 lang: es
 ---
 
-# Introducción
+## Introducción a las redes neuronales
 
-## Arquitecturas importantes
+### Arquitecturas importantes
 
 Cada una de estas arquitecturas responde a una estructura de datos o problema específico, y se han vuelto herramientas clave en física computacional:
 
@@ -15,7 +15,7 @@ Cada una de estas arquitecturas responde a una estructura de datos o problema es
 - **Redes residuales y profundas**: introducen conexiones identitarias (skip connections) que permiten pasar información sin alteración a capas posteriores. Facilitan el entrenamiento de redes muy profundas al evitar el problema del desvanecimiento del gradiente. Son utilizadas en física para modelos predictivos muy complejos con datos jerárquicos o multiescalares.
 - **Transformadores**: utilizan mecanismos de atención que asignan pesos a diferentes partes de la entrada según su relevancia contextual. Son la arquitectura dominante para datos secuenciales, procesamiento de lenguaje y más allá. Recientemente aplicados en física para modelar correlaciones de largo alcance y aprendizaje de representaciones de sistemas físicos.
 
-## Aplicaciones a la física
+### Aplicaciones a la física
 
 Cada una de las siguientes áreas ha sido impulsada recientemente por el uso de redes neuronales, en muchos casos superando métodos tradicionales:
 
@@ -24,11 +24,11 @@ Cada una de las siguientes áreas ha sido impulsada recientemente por el uso de 
 - **Reducción de ruido en datos experimentales (e.g., espectros)**: redes autoencoder y convolucionales permiten eliminar ruido instrumental y mejorar la calidad de señales físicas.
 - **Resolución de EDPs en geometrías complejas**: métodos como PINNs (Physics-Informed Neural Networks) resuelven ecuaciones diferenciales directamente en dominios arbitrarios, incluyendo condiciones de frontera no triviales.
 
-# El Perceptrón y Redes Neuronales Superficiales
+## El Perceptrón y Redes Neuronales Superficiales
 
 Ahora introducimos el perceptrón como bloque fundamental y extendemos la idea a redes neuronales superficiales (con una capa oculta).
 
-## El Perceptrón: Definición y Clasificación Lineal
+### El Perceptrón: Definición y Clasificación Lineal
 
 El perceptrón, es un algoritmo para clasificación binaria supervisada. Calcula una *salida* $z$ como una combinación lineal de las entradas $\mathbf{x} \in \mathbb{R}^d$, más un sesgo $b$:
 
@@ -56,7 +56,7 @@ $$
 
 *Nota: Otras activaciones comunes incluyen la sigmoide y la tangente hiperbólica (tanh), aunque ReLU y sus variantes son a menudo preferidas en redes profundas.*
 
-## Redes con Una Capa Oculta
+### Redes con Una Capa Oculta
 
 Combinando múltiples neuronas (usualmente con activaciones como ReLU) en una "capa oculta", podemos construir redes más potentes. Una red neuronal superficial (shallow network) con una capa oculta de $H$ neuronas y una capa de salida con una única neurona (para regresión o clasificación binaria) calcula:
 
@@ -65,6 +65,7 @@ $$
 $$
 
 donde:
+
 - $\mathbf{W}_{(1)} \in \mathbb{R}^{H \times d}$ y $\mathbf{b}_{(1)} \in \mathbb{R}^H$ son los pesos y sesgos de la *capa oculta*.
 - $\phi$ es la función de activación (e.g., ReLU), aplicada elemento a elemento.
 - $\mathbf{W}_{(2)} \in \mathbb{R}^H$ y $b_{(2)} \in \mathbb{R}$ son los pesos y el sesgo de la *capa de salida*.
@@ -79,7 +80,7 @@ R(d,H) = \sum_{k=0}^d \binom{H}{k}\,,
 $$
 Al aumentar el número de neuronas $H$, la red puede aproximar funciones cada vez más complejas.
 
-## Teorema de Aproximación Universal para Redes Superficiales
+### Teorema de Aproximación Universal para Redes Superficiales
 
 La capacidad de las redes neuronales para aproximar funciones está formalizada por el **Teorema de Aproximación Universal**. Para redes superficiales (una capa oculta), establece (informalmente):
 
@@ -99,7 +100,7 @@ No demostramos el teorema, pero damos una intuición: En una dimensión, cualqui
 Este es un teorema de **existencia**: garantiza que *existe* una red capaz de la aproximación, pero no dice cómo encontrar sus pesos y sesgos ni cuál es el número mínimo de neuronas $H$ necesario (que puede ser muy grande, potencialmente creciendo exponencialmente con la dimensión $d$ o la complejidad de $f$).
 
 
-## Redes Superficiales con Múltiples Salidas (MLP de una Capa Oculta)
+### Redes Superficiales con Múltiples Salidas (MLP de una Capa Oculta)
 
 Existen muchos casos en los que queremos predecir más de un valor, por ejemplo, predecir la temperatura y la humedad en un punto, o predecir la posición de un objeto en un video. A esto se lo llama regresión vectorial. Otro ejemplo es cuando tenemos varias clases y queremos predecir la probabilidad de pertenecer a cada una.
 
@@ -237,11 +238,11 @@ plt.ylim(yy.min(), yy.max())
 plt.show()
 ```
 
-# Perceptrones Multicapa (MLPs) Profundos
+## Perceptrones Multicapa (MLPs) Profundos
 
 Extendemos el concepto de redes superficiales a arquitecturas profundas, compuestas por múltiples capas ocultas.
 
-## Arquitectura Multicapa
+### Arquitectura Multicapa
 
 Un Perceptrón Multicapa (MLP) profundo consta de una secuencia de capas. Si consideramos $L$ capas en total (incluyendo la de salida), la estructura es:
 
@@ -309,7 +310,7 @@ plt.show()
 ```
 ::: {.callout-note icon=false}
 
-## Ejemplo: Pase Hacia Adelante Manual (Forward Pass)
+### Ejemplo: Pase Hacia Adelante Manual (Forward Pass)
 
 Consideremos una MLP pequeña con $L=3$:
 
@@ -406,7 +407,7 @@ Supongamos los siguientes valores para los parámetros (matrices por filas):
 
 :::
 
-## MLPs con ReLU como Funciones Afines por Tramos (Piecewise Affine)
+### MLPs con ReLU como Funciones Afines por Tramos (Piecewise Affine)
 
 Cuando se utiliza la activación ReLU, cada neurona $i$ en la capa $\ell$ calcula $ReLU = \max(0, \mathbf{w}_i^{(\ell)} \cdot \mathbf{a}^{(\ell-1)} + b_i^{(\ell)})$. La condición $\mathbf{w}_i^{(\ell)} \cdot \mathbf{a}^{(\ell-1)} + b_i^{(\ell)} = 0$ define un hiperplano en el espacio de las activaciones de la capa anterior $\mathbf{a}^{(\ell-1)}$.
 
@@ -414,7 +415,7 @@ La composición de múltiples capas de estas operaciones (transformación afín 
 
 La configuración de qué neuronas están activas ($\mathbf{z}_i^{(\ell)} > 0$) o inactivas ($\mathbf{z}_i^{(\ell)} \le 0$) para una entrada $\mathbf{x}$ dada define el **patrón de activación**. Cada patrón de activación distinto corresponde (potencialmente) a una región diferente en el espacio de entrada donde la función es localmente afín.
 
-## Capacidad de Representación: Parámetros vs. Regiones Lineales
+### Capacidad de Representación: Parámetros vs. Regiones Lineales
 
 Las redes multicapa tienen mucha más capacidad de representación que las redes con una sola capa oculta. Esto se debe a que pueden alcanzar una mayor complejidad con un número menor de parámetros. Además, las redes multicapa pueden aprender representaciones jerárquicas de los datos: Las capas iniciales detectan características simples y las capas posteriores las combinan en conceptos más complejos. 
 
@@ -513,95 +514,6 @@ En la @fig-mlp-regions se muestra el crecimiento exponencial del número de regi
 Este crecimiento exponencial sugiere que las **redes profundas (mayor $L$) pueden ser exponencialmente más eficientes en términos de representación que las redes superficiales (mayor $n_\ell$ pero $L=1$ o $L=2$)**. Es decir, una red profunda podría representar funciones con un número muy grande de regiones lineales (alta complejidad) usando comparativamente menos parámetros que una red superficial que intente lograr la misma complejidad solo aumentando su ancho. Esta es una de las principales motivaciones teóricas para usar arquitecturas profundas.
 
 
-# Funciones de Pérdida
+## Ejercicios sugeridos
 
-Vimos qué es una red neuronal y cómo, dado un conjunto de pesos y sesgos, la red puede transformar una entrada en una salida. Esta salida debe ser útil para algo. Por ejemplo, si la red es un clasificador, la salida debe ser la probabilidad de que la entrada pertenezca a una clase. Si la red es un regresor, la salida debe ser el valor verdadero de la variable que se está prediciendo. Esto lo logramos ajustando los parámetros de la red para que la salida sea lo más cercana posible a la salida verdadera. Al hablar de una salida "lo más cercana posible", necesitamos una manera de cuantificar la discrepancia. Cuando estudiamos la regresión lineal minimizamos una función de pérdida que dedujimos de la máxima verosimilitud. Ahora veremos cómo lograr eso en general para redes neuronales. Muchas funciones de pérdida estándar pueden derivarse elegantemente del principio de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE).
-
-## Derivación General desde Máxima Verosimilitud
-
-La idea central de la estimación de máxima verosimilitud es encontrar los parámetros del modelo $\boldsymbol{W}, \boldsymbol{b}$ que hacen que los datos observados sean lo más probables posible. Asumimos que tenemos un conjunto de datos de $N$ muestras $(\mathbf{x}_i, y_i)$, que son independientes e identicamente distribuidas (i.i.d.), y una distribución de probabilidad $p(y | \mathbf{x}; \boldsymbol{W}, \boldsymbol{b})$ que define la probabilidad de observar la salida $y$ dada la entrada $\mathbf{x}$ y los parámetros $\boldsymbol{W}, \boldsymbol{b}$.
-
-Debido a la independencia, la probabilidad conjunta de observar todas las $y_i$ dadas las $\mathbf{x}_i$ es el producto de las probabilidades individuales:
-$$
-\mathcal{L}(\boldsymbol{W}, \boldsymbol{b}) \equiv p(\mathbf{y} | \mathbf{X}; \boldsymbol{W}, \boldsymbol{b}) = \prod_{i=1}^N p(y_i | \mathbf{x}_i; )\boldsymbol{W}, \boldsymbol{b}
-$$
-Queremos encontrar los $\boldsymbol{W}, \boldsymbol{b}$ que maximizan $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b})$.
-
-Maximizar $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b})$ es equivalente a maximizar su logaritmo (ya que $\log$ es una función monotóna creciente). Esto simplifica los cálculos:
-    $$
-    \ell(\boldsymbol{W}, \boldsymbol{b}) = \log \mathcal{L}(\boldsymbol{W}, \boldsymbol{b}) = \log \prod_{i=1}^N p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \sum_{i=1}^N \log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})
-    $$
-
-Los algoritmos de optimización típicamente *minimizan* una función. Por lo tanto, definimos la función de pérdida $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b})$ como la **Log-Verosimilitud Negativa (NLL)**:
-    $$
-    \mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = -\ell(\boldsymbol{W}, \boldsymbol{b}) = -\sum_{i=1}^N \log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})
-    $$
-  Minimizar $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b})$ es equivalente a maximizar la verosimilitud $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b})$. A menudo, se utiliza la pérdida *promedio* por muestra: $-\frac{1}{N}\sum_{i=1}^N \log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$.
-
-Trabajar con $\ell(\boldsymbol{W}, \boldsymbol{b})$ o $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b})$ en lugar de $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b})$ directamente tiene sus ventajas:
-
-- **Estabilidad Numérica:** El producto de muchas probabilidades (que suelen ser < 1) puede llevar a underflow numérico. La suma de logaritmos es mucho más estable.
-- **Simplicidad Matemática:** Las derivadas del logaritmo suelen ser más manejables, facilitando la optimización basada en gradientes. Por ejemplo, el logaritmo convierte exponentes (como en la Gaussiana) en factores y multiplicaciones en sumas.
-
-Ahora aplicaremos esta lógica para derivar algunas funciones de pérdida comunes.
-
-## Entropía Cruzada para Clasificación (Cross-Entropy Loss)
-
-La entropía cruzada surge naturalmente de la estimación de máxima verosimilitud para problemas de clasificación.
-
-### Clasificación Binaria:
-
-  - **Modelo Probabilístico:** Asumimos que la etiqueta $y_i \in \{0, 1\}$ sigue una distribución de Bernoulli, donde la probabilidad de éxito ($y_i=1$) es la salida del modelo $\hat{y}_i$, típicamente obtenida aplicando una sigmoide a la salida lineal de la red: $\hat{y}_i = \sigma(z_i) = p(y_i=1 | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$.
-  - $p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = (\hat{y}_i)^{y_i} (1 - \hat{y}_i)^{1-y_i}$
-  - **Pérdida (NLL por muestra):**
-      $$
-      \ell_i(\boldsymbol{W}, \boldsymbol{b}) = -\log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = -[y_i \log \hat{y}_i + (1-y_i) \log(1 - \hat{y}_i)]
-      $$
-      Esta es la **pérdida de entropía cruzada binaria** para la muestra $i$. La pérdida total es $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = \sum_i \ell_i(\boldsymbol{W}, \boldsymbol{b})$ (o el promedio).
-
-- **Clasificación Multiclase:**
-
-    - **Modelo Probabilístico:** Asumimos que la etiqueta $y_i$ es un vector *one-hot* (e.g., $[0, 1, 0]$ si la clase verdadera es la 2 de entre 3 clases) y sigue una distribución Categórica (o Multinoulli). El modelo produce un vector de probabilidades $\hat{\mathbf{y}}_i = (\hat{y}_{i,1}, ..., \hat{y}_{i,C})$ (típicamente usando Softmax) donde $\hat{y}_{i,c} = p(y_{i,c}=1 | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$. Donde $C$ es el número de clases.
-    - $p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \prod_{c=1}^C (\hat{y}_{i,c})^{y_{i,c}}$ (donde $y_{i,c}$ es 1 para la clase verdadera, 0 para las demás).
-    - **Pérdida (NLL por muestra):**
-        $$
-        \ell_i(\boldsymbol{W}, \boldsymbol{b}) = -\log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = -\sum_{c=1}^C y_{i,c} \log \hat{y}_{i,c}
-        $$
-        Esta es la **pérdida de entropía cruzada categórica** para la muestra $i$. La pérdida total es $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = \sum_i \ell_i(\boldsymbol{W}, \boldsymbol{b})$ (o el promedio).
-
-## Error Cuadrático Medio (MSE) para Regresión
-
-El MSE es la pérdida estándar para regresión y también deriva de la estimación de máxima verosimilitud bajo la suposición de un ruido Gaussiano.
-
-- **Modelo Probabilístico:** Asumimos que la etiqueta verdadera $y_i$ es igual a la predicción determinista del modelo $\hat{y}_i = f(\mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$ más un ruido Gaussiano $\varepsilon_i$ con media cero y varianza constante $\sigma^2$:
-
-    - $y_i = \hat{y}_i + \varepsilon_i$, donde $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$.
-    - Esto implica que $y_i$ sigue una distribución Gaussiana centrada en la predicción del modelo: $p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) \sim \mathcal{N}(y_i | \hat{y}_i, \sigma^2)$.
-    - $p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y_i - \hat{y}_i)^2}{2\sigma^2}\right)$
-- **Pérdida (NLL por muestra):**
-    $$
-    \ell_i(\boldsymbol{W}, \boldsymbol{b}) = -\log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \frac{(y_i - \hat{y}_i)^2}{2\sigma^2} + \frac{1}{2}\log(2\pi\sigma^2)
-    $$
-- **Simplificación a MSE:** Para encontrar el $\boldsymbol{W}, \boldsymbol{b}$ óptimo, podemos ignorar los términos que no dependen de $\boldsymbol{W}, \boldsymbol{b}$. Si asumimos $\sigma^2$ fija (o la estimamos por separado), minimizar la NLL es equivalente a minimizar:
-  $$
-  \sum_{i=1}^N (y_i - \hat{y}_i)^2 \quad \text{o} \quad \frac{1}{N}\sum_{i=1}^N (y_i - \hat{y}_i)^2
-  $$
-  Este último es el **Error Cuadrático Medio (Mean Squared Error, MSE)**.
-
-## Receta General para Construir Funciones de Pérdida usando la estimación de máxima verosimilitud
-
-Puedes diseñar funciones de pérdida adaptadas a problemas específicos siguiendo estos pasos:
-
-1. **Elegir un Modelo Probabilístico:** Define $p(y | \mathbf{x}; \boldsymbol{W}, \boldsymbol{b})$ que capture las características de tus datos y el proceso de generación (e.g., tipo de ruido, distribución de la salida).
-2. **Escribir la Verosimilitud:** Asumiendo datos i.i.d., la verosimilitud es $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b}) = \prod_i p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$.
-3. **Calcular la Negativa Log-Verosimilitud (NLL):** $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = -\sum_i \log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$. Esta es tu función de pérdida base.
-4. **Simplificar (Opcional):** Elimina términos aditivos o factores multiplicativos constantes que no dependan de $\boldsymbol{W}, \boldsymbol{b}$, ya que no afectan la ubicación del mínimo.
-5. **Añadir Regularización (Opcional):** Para prevenir el sobreajuste o incorporar conocimiento previo, puedes añadir un término de penalización sobre los parámetros $\boldsymbol{W}, \boldsymbol{b}$:
-   $$
-   \mathcal{J}_{\text{reg}}(\boldsymbol{W}, \boldsymbol{b}) = \mathcal{J}_{\text{NLL}}(\boldsymbol{W}, \boldsymbol{b}) + \lambda R(\boldsymbol{W}, \boldsymbol{b})
-   $$
-   Donde $R(\boldsymbol{W}, \boldsymbol{b})$ es el regularizador (e.g., $R(\boldsymbol{W}, \boldsymbol{b}) = \|\boldsymbol{W}\|^2 + \|\boldsymbol{b}\|^2$ para regularización L2/Ridge, o $R(\boldsymbol{W}, \boldsymbol{b}) = \|\dots\|_1$ para L1/LASSO) y $\lambda > 0$ es el hiperparámetro de regularización.
-
-# Ejercicios sugeridos
-
-3.10, 3.16, 4.6, 4.11, 5.3
+3.10, 3.16, 4.6, 4.11, 4.7

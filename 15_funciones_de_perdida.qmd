@@ -1,0 +1,94 @@
+---
+title: "Funciones de Pérdida para Redes Neuronales"
+lang: es
+---
+
+NOTA PARA MI: Incluir una visualización de la verosimilitud en cada caso. Hablar de cómo se podría estimar la varianza en el caso de regresión. Incluir ejemplos de funciones de pérdida para otros modelos probabilísticos (e.g., Poisson para conteos, Beta para variables entre 0 y 1, etc.). Escoger ejercicios.
+
+Vimos qué es una red neuronal y cómo, dado un conjunto de pesos y sesgos, la red puede transformar una entrada en una salida. Esta salida debe ser útil para algo. Por ejemplo, si la red es un clasificador, la salida debe ser la probabilidad de que la entrada pertenezca a una clase. Si la red es un regresor, la salida debe ser el valor verdadero de la variable que se está prediciendo. Esto lo logramos ajustando los parámetros de la red para que la salida sea lo más cercana posible a la salida verdadera. Al hablar de una salida "lo más cercana posible", necesitamos una manera de cuantificar la discrepancia. Cuando estudiamos la regresión lineal minimizamos una función de pérdida que dedujimos de la máxima verosimilitud. Ahora veremos cómo lograr eso en general para redes neuronales. Muchas funciones de pérdida estándar pueden derivarse elegantemente del principio de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE).
+
+## Derivación General desde Máxima Verosimilitud
+
+La idea central de la estimación de máxima verosimilitud es encontrar los parámetros del modelo $\boldsymbol{W}, \boldsymbol{b}$ que hacen que los datos observados sean lo más probables posible. Asumimos que tenemos un conjunto de datos de $N$ muestras $(\mathbf{x}_i, y_i)$, que son independientes e identicamente distribuidas (i.i.d.), y una distribución de probabilidad $p(y | \mathbf{x}; \boldsymbol{W}, \boldsymbol{b})$ que define la probabilidad de observar la salida $y$ dada la entrada $\mathbf{x}$ y los parámetros $\boldsymbol{W}, \boldsymbol{b}$.
+
+Debido a la independencia, la probabilidad conjunta de observar todas las $y_i$ dadas las $\mathbf{x}_i$ es el producto de las probabilidades individuales:
+$$
+\mathcal{L}(\boldsymbol{W}, \boldsymbol{b}) \equiv p(\mathbf{y} | \mathbf{X}; \boldsymbol{W}, \boldsymbol{b}) = \prod_{i=1}^N p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})
+$$
+Queremos encontrar los $\boldsymbol{W}, \boldsymbol{b}$ que maximizan $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b})$.
+
+Maximizar $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b})$ es equivalente a maximizar su logaritmo (ya que $\log$ es una función monotóna creciente). Esto simplifica los cálculos:
+    $$
+    \log \mathcal{L}(\boldsymbol{W}, \boldsymbol{b}) = \log \prod_{i=1}^N p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \sum_{i=1}^N \log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})
+    $$
+
+Los algoritmos de optimización típicamente *minimizan* una función. Por lo tanto, definimos la función de pérdida $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b})$ como la **Log-Verosimilitud Negativa (NLL)**:
+    $$
+    \mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = -\log\mathcal{L}(\boldsymbol{W}, \boldsymbol{b}) = -\sum_{i=1}^N \log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \sum_{i=1}^N \ell_i(\boldsymbol{W}, \boldsymbol{b})
+    $$
+  Minimizar $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b})$ es equivalente a maximizar la verosimilitud $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b})$. A menudo, se utiliza la pérdida *promedio* por muestra: $-\frac{1}{N}\sum_{i=1}^N \log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$.
+
+Trabajar con $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b})$ en lugar de $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b})$ directamente tiene sus ventajas:
+
+- **Estabilidad Numérica:** El producto de muchas probabilidades (que suelen ser < 1) puede llevar a underflow numérico. La suma de logaritmos es mucho más estable.
+- **Simplicidad Matemática:** Las derivadas del logaritmo suelen ser más manejables, facilitando la optimización basada en gradientes. Por ejemplo, el logaritmo convierte exponentes (como en la Gaussiana) en factores y multiplicaciones en sumas.
+
+Ahora aplicaremos esta lógica para derivar algunas funciones de pérdida comunes.
+
+
+## Error Cuadrático Medio (MSE) para Regresión
+
+El MSE es la pérdida estándar para regresión y también deriva de la estimación de máxima verosimilitud bajo la suposición de un ruido Gaussiano.
+
+- **Modelo Probabilístico:** Asumimos que la etiqueta verdadera $y_i$ es igual a la predicción determinista del modelo $\hat{y}_i = f(\mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$ más un ruido Gaussiano $\varepsilon_i$ con media cero y varianza constante $\sigma^2$:
+
+    - $y_i = \hat{y}_i + \varepsilon_i$, donde $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$.
+    - Esto implica que $y_i$ sigue una distribución Gaussiana centrada en la predicción del modelo: $p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) \sim \mathcal{N}(y_i | \hat{y}_i, \sigma^2)$.
+    - $p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y_i - \hat{y}_i)^2}{2\sigma^2}\right)$
+- **Pérdida (NLL por muestra):**
+    $$
+    \ell_i(\boldsymbol{W}, \boldsymbol{b}) = -\log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \frac{(y_i - \hat{y}_i)^2}{2\sigma^2} + \frac{1}{2}\log(2\pi\sigma^2)
+    $$
+- **Simplificación a MSE:** Para encontrar el $\boldsymbol{W}, \boldsymbol{b}$ óptimo, podemos ignorar los términos que no dependen de $\boldsymbol{W}, \boldsymbol{b}$. Si asumimos $\sigma^2$ fija (o la estimamos por separado), minimizar la NLL es equivalente a minimizar:
+  $$
+  \sum_{i=1}^N (y_i - \hat{y}_i)^2 \quad \text{o} \quad \frac{1}{N}\sum_{i=1}^N (y_i - \hat{y}_i)^2
+  $$
+  Este último es el **Error Cuadrático Medio (Mean Squared Error, MSE)**.
+
+## Entropía Cruzada para Clasificación (Cross-Entropy Loss)
+
+La entropía cruzada surge naturalmente de la estimación de máxima verosimilitud para problemas de clasificación.
+
+### Clasificación Binaria:
+
+  - **Modelo Probabilístico:** Asumimos que la etiqueta $y_i \in \{0, 1\}$ sigue una distribución de Bernoulli, donde la probabilidad de éxito ($y_i=1$) es la salida del modelo $\hat{y}_i$, típicamente obtenida aplicando una sigmoide a la salida lineal de la red: $\hat{y}_i = \sigma(z_i) = p(y_i=1 | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$.
+  - $p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = (\hat{y}_i)^{y_i} (1 - \hat{y}_i)^{1-y_i}$
+  - **Pérdida (NLL por muestra):**
+      $$
+      \ell_i(\boldsymbol{W}, \boldsymbol{b}) = -\log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = -[y_i \log \hat{y}_i + (1-y_i) \log(1 - \hat{y}_i)]
+      $$
+      Esta es la **pérdida de entropía cruzada binaria** para la muestra $i$. La pérdida total es $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = \sum_i \ell_i(\boldsymbol{W}, \boldsymbol{b})$ (o el promedio).
+
+- **Clasificación Multiclase:**
+
+    - **Modelo Probabilístico:** Asumimos que la etiqueta $y_i$ es un vector *one-hot* (e.g., $[0, 1, 0]$ si la clase verdadera es la 2 de entre 3 clases) y sigue una distribución Categórica (o Multinoulli). El modelo produce un vector de probabilidades $\hat{\mathbf{y}}_i = (\hat{y}_{i,1}, ..., \hat{y}_{i,C})$ (típicamente usando Softmax) donde $\hat{y}_{i,c} = p(y_{i,c}=1 | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$. Donde $C$ es el número de clases.
+    - $p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \prod_{c=1}^C (\hat{y}_{i,c})^{y_{i,c}}$ (donde $y_{i,c}$ es 1 para la clase verdadera, 0 para las demás).
+    - **Pérdida (NLL por muestra):**
+        $$
+        \ell_i(\boldsymbol{W}, \boldsymbol{b}) = -\log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = -\sum_{c=1}^C y_{i,c} \log \hat{y}_{i,c}
+        $$
+        Esta es la **pérdida de entropía cruzada categórica** para la muestra $i$. La pérdida total es $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = \sum_i \ell_i(\boldsymbol{W}, \boldsymbol{b})$ (o el promedio).
+        
+## Receta General para Construir Funciones de Pérdida usando la estimación de máxima verosimilitud
+
+Puedes diseñar funciones de pérdida adaptadas a problemas específicos siguiendo estos pasos:
+
+1. **Elegir un Modelo Probabilístico:** Define $p(y | \mathbf{x}; \boldsymbol{W}, \boldsymbol{b})$ que capture las características de tus datos y el proceso de generación (e.g., tipo de ruido, distribución de la salida).
+2. **Escribir la Verosimilitud:** Asumiendo datos i.i.d., la verosimilitud es $\mathcal{L}(\boldsymbol{W}, \boldsymbol{b}) = \prod_i p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$.
+3. **Calcular la Negativa Log-Verosimilitud (NLL):** $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = -\sum_i \log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})$. Esta es tu función de pérdida base.
+4. **Simplificar (Opcional):** Elimina términos aditivos o factores multiplicativos constantes que no dependan de $\boldsymbol{W}, \boldsymbol{b}$, ya que no afectan la ubicación del mínimo.
+5. **Añadir Regularización (Opcional):** Para prevenir el sobreajuste o incorporar conocimiento previo, puedes añadir un término de penalización sobre los parámetros $\boldsymbol{W}, \boldsymbol{b}$:
+   $$
+   \mathcal{J}_{\text{reg}}(\boldsymbol{W}, \boldsymbol{b}) = \mathcal{J}_{\text{NLL}}(\boldsymbol{W}, \boldsymbol{b}) + \lambda R(\boldsymbol{W}, \boldsymbol{b})
+   $$
+   Donde $R(\boldsymbol{W}, \boldsymbol{b})$ es el regularizador (e.g., $R(\boldsymbol{W}, \boldsymbol{b}) = \|\boldsymbol{W}\|^2 + \|\boldsymbol{b}\|^2$ para regularización L2/Ridge, o $R(\boldsymbol{W}, \boldsymbol{b}) = \|\dots\|_1$ para L1/LASSO) y $\lambda > 0$ es el hiperparámetro de regularización.
