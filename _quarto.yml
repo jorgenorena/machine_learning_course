@@ -44,26 +44,18 @@ website:
             href: 13_no_supervisado.qmd
           - text: "------"
           - text: "Redes Neuronales"
-          - text: "11. Perceptrón y Redes Conexas y Pérdidas"
-            href: 11_perceptron_y_redes_conexas.qmd
-          - text: "12. Descenso de Gradiente y Auto-diferenciación"
-            href: 12_gradient_descent_and_autodiff.qmd
-          - text: "13. Evaluación y Regularización de redes neuronales"
-            href: 13_evaluacion_y_regularizacion_de_nn.qmd
-          - text: "14. Redes Convolucionales"
-            href: 14_redes_convolucionales.qmd
-          - text: "15. Redes Residuales"
-            href: 15_redes_residuales.qmd
-          - text: "16. Transformadores y el mecanismo de atención"
-            href: 16_transformadores.qmd
-          - text: "------"
-          - text: "Algunas aplicaciones"
-          - text: "17. Flujos Normalizantes"
-            href: "17_flujos_normalizantes.qmd"
-          - text: "18. Redes Neuronales Informadas por la Física (PINNs)"
-            href: 18_PINNs.qmd
-          - text: "19. Operadores Neuronales"
-            href: 19_Operador_Neural.qmd
+          - text: "14. Perceptrón y Redes Conexas y Pérdidas"
+            href: 14_perceptron_y_redes_conexas.qmd
+          - text: "15. Descenso de Gradiente y Auto-diferenciación"
+            href: 15_gradient_descent_and_autodiff.qmd
+          - text: "16. Evaluación y Regularización de redes neuronales"
+            href: 16_evaluacion_y_regularizacion_de_nn.qmd
+          - text: "17. Redes Convolucionales"
+            href: 17_redes_convolucionales.qmd
+          - text: "18. Redes Residuales"
+            href: 18_redes_residuales.qmd
+          - text: "19. Transformadores y el mecanismo de atención"
+            href: 19_transformadores.qmd
       - href: proyectos.qmd
         text: "Proyectos"
       - href: about.qmd
@@ -103,26 +95,18 @@ website:
             href: 13_no_supervisado.qmd
       - section: "Redes Neuronales"
         contents:
-          - text: "11. Perceptrón, Redes Conexas y Pérdidas"
-            href: 11_perceptron_y_redes_conexas.qmd
-          - text: "12. Descenso de Gradiente y Auto-diferenciación"
-            href: 12_gradient_descent_and_autodiff.qmd
-          - text: "13. Evaluación y Regularización de redes neuronales"
-            href: 13_evaluacion_y_regularizacion_de_nn.qmd
-          - text: "14. Redes Convolucionales"
-            href: 14_redes_convolucionales.qmd
-          - text: "15. Redes Residuales"
-            href: 15_redes_residuales.qmd
-          - text: "16. Transformadores y el mecanismo de atención"
-            href: 16_transformadores.qmd
-      - section: "Algunas aplicaciones"
-        contents:
-          - text: "17. Flujos Normalizantes"
-            href: 17_flujos_normalizantes.qmd
-          - text: "18. Redes Neuronales Informadas por la Física (PINNs)"
-            href: 18_PINNs.qmd
-          - text: "19. Operadores Neuronales"
-            href: 19_Operador_Neural.qmd
+          - text: "14. Perceptrón, Redes Conexas y Pérdidas"
+            href: 14_perceptron_y_redes_conexas.qmd
+          - text: "15. Descenso de Gradiente y Auto-diferenciación"
+            href: 15_gradient_descent_and_autodiff.qmd
+          - text: "16. Evaluación y Regularización de redes neuronales"
+            href: 16_evaluacion_y_regularizacion_de_nn.qmd
+          - text: "17. Redes Convolucionales"
+            href: 17_redes_convolucionales.qmd
+          - text: "18. Redes Residuales"
+            href: 18_redes_residuales.qmd
+          - text: "19. Transformadores y el mecanismo de atención"
+            href: 19_transformadores.qmd
       - section: "Evaluacion"
         contents:
           - text: "Proyectos"
