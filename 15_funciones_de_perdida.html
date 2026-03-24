@@ -431,6 +431,11 @@ window.Quarto = {
   <li><a href="#clasificación-binaria" id="toc-clasificación-binaria" class="nav-link" data-scroll-target="#clasificación-binaria">Clasificación Binaria:</a></li>
   </ul></li>
   <li><a href="#receta-general-para-construir-funciones-de-pérdida-usando-la-estimación-de-máxima-verosimilitud" id="toc-receta-general-para-construir-funciones-de-pérdida-usando-la-estimación-de-máxima-verosimilitud" class="nav-link" data-scroll-target="#receta-general-para-construir-funciones-de-pérdida-usando-la-estimación-de-máxima-verosimilitud">Receta General para Construir Funciones de Pérdida usando la estimación de máxima verosimilitud</a></li>
+  <li><a href="#otros-modelos-probabilísticos-y-funciones-de-pérdida" id="toc-otros-modelos-probabilísticos-y-funciones-de-pérdida" class="nav-link" data-scroll-target="#otros-modelos-probabilísticos-y-funciones-de-pérdida">Otros Modelos Probabilísticos y Funciones de Pérdida</a>
+  <ul class="collapse">
+  <li><a href="#conteos-poisson" id="toc-conteos-poisson" class="nav-link" data-scroll-target="#conteos-poisson">Conteos Poisson</a></li>
+  </ul></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
     </div>
@@ -456,7 +461,6 @@ window.Quarto = {
 </header>
 
 
-<p>NOTA PARA MI: Incluir una visualización de la verosimilitud en cada caso. Hablar de cómo se podría estimar la varianza en el caso de regresión. Incluir ejemplos de funciones de pérdida para otros modelos probabilísticos (e.g., Poisson para conteos, Beta para variables entre 0 y 1, etc.). Escoger ejercicios.</p>
 <p>Vimos qué es una red neuronal y cómo, dado un conjunto de pesos y sesgos, la red puede transformar una entrada en una salida. Esta salida debe ser útil para algo. Por ejemplo, si la red es un clasificador, la salida debe ser la probabilidad de que la entrada pertenezca a una clase. Si la red es un regresor, la salida debe ser el valor verdadero de la variable que se está prediciendo. Esto lo logramos ajustando los parámetros de la red para que la salida sea lo más cercana posible a la salida verdadera. Al hablar de una salida “lo más cercana posible”, necesitamos una manera de cuantificar la discrepancia. Cuando estudiamos la regresión lineal minimizamos una función de pérdida que dedujimos de la máxima verosimilitud. Ahora veremos cómo lograr eso en general para redes neuronales. Muchas funciones de pérdida estándar pueden derivarse elegantemente del principio de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE).</p>
 <section id="derivación-general-desde-máxima-verosimilitud" class="level2">
 <h2 class="anchored" data-anchor-id="derivación-general-desde-máxima-verosimilitud">Derivación General desde Máxima Verosimilitud</h2>
@@ -494,6 +498,19 @@ window.Quarto = {
 \sum_{i=1}^N (y_i - \hat{y}_i)^2 \quad \text{o} \quad \frac{1}{N}\sum_{i=1}^N (y_i - \hat{y}_i)^2
 \]</span> Este último es el <strong>Error Cuadrático Medio (Mean Squared Error, MSE)</strong>.</p></li>
 </ul>
+<p>Podemos visualizar esta equivalencia fijando una observación <span class="math inline">\(y_i\)</span> y dejando variar la predicción <span class="math inline">\(\hat{y}_i\)</span>. En ese caso, la verosimilitud Gaussiana es máxima cuando <span class="math inline">\(\hat{y}_i = y_i\)</span>, mientras que la pérdida negativa log-verosimilitud es mínima exactamente en el mismo punto. La diferencia entre la NLL y el error cuadrático es sólo una constante aditiva y un factor multiplicativo si <span class="math inline">\(\sigma^2\)</span> es fija.</p>
+<div id="87f74923" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="15_funciones_de_perdida_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>En regresion con ruido gaussiano, la verosimilitud es maxima y la NLL es minima en la misma prediccion.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>En la figura de la derecha, la curva verde es máxima en <span class="math inline">\(\hat{y}_i = y_i\)</span> y las curvas roja y naranjo son mínimas en ese mismo punto. Eso es justamente lo que hace que minimizar MSE sea equivalente a hacer máxima verosimilitud en regresión con ruido Gaussiano y varianza constante.</p>
+<p>Cuando no asumimos que <span class="math inline">\(\sigma^2\)</span> es constante, podemos generalizar el modelo probabilístico para que la varianza también dependa de la entrada, es decir, <span class="math inline">\(y_i \sim \mathcal{N}(\hat{y}_i, \sigma^2(\mathbf{x}_i))\)</span>. En ese caso, la función de pérdida resultante es una versión ponderada del MSE donde cada término se divide por la varianza correspondiente.</p>
 </section>
 <section id="entropía-cruzada-para-clasificación-cross-entropy-loss" class="level2">
 <h2 class="anchored" data-anchor-id="entropía-cruzada-para-clasificación-cross-entropy-loss">Entropía Cruzada para Clasificación (Cross-Entropy Loss)</h2>
@@ -501,11 +518,25 @@ window.Quarto = {
 <section id="clasificación-binaria" class="level3">
 <h3 class="anchored" data-anchor-id="clasificación-binaria">Clasificación Binaria:</h3>
 <ul>
-<li><p><strong>Modelo Probabilístico:</strong> Asumimos que la etiqueta <span class="math inline">\(y_i \in \{0, 1\}\)</span> sigue una distribución de Bernoulli, donde la probabilidad de éxito (<span class="math inline">\(y_i=1\)</span>) es la salida del modelo <span class="math inline">\(\hat{y}_i\)</span>, típicamente obtenida aplicando una sigmoide a la salida lineal de la red: <span class="math inline">\(\hat{y}_i = \sigma(z_i) = p(y_i=1 | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})\)</span>.</p></li>
-<li><p><span class="math inline">\(p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = (\hat{y}_i)^{y_i} (1 - \hat{y}_i)^{1-y_i}\)</span></p></li>
-<li><p><strong>Pérdida (NLL por muestra):</strong> <span class="math display">\[
+<li><strong>Modelo Probabilístico:</strong> Asumimos que la etiqueta <span class="math inline">\(y_i \in \{0, 1\}\)</span> sigue una distribución de Bernoulli, donde la probabilidad de éxito (<span class="math inline">\(y_i=1\)</span>) es la salida del modelo <span class="math inline">\(\hat{y}_i\)</span>, típicamente obtenida aplicando una sigmoide a la salida lineal de la red: <span class="math inline">\(\hat{y}_i = \sigma(z_i) = p(y_i=1 | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})\)</span>.</li>
+<li><span class="math inline">\(p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = (\hat{y}_i)^{y_i} (1 - \hat{y}_i)^{1-y_i}\)</span></li>
+<li><strong>Pérdida (NLL por muestra):</strong> <span class="math display">\[
   \ell_i(\boldsymbol{W}, \boldsymbol{b}) = -\log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = -[y_i \log \hat{y}_i + (1-y_i) \log(1 - \hat{y}_i)]
-  \]</span> Esta es la <strong>pérdida de entropía cruzada binaria</strong> para la muestra <span class="math inline">\(i\)</span>. La pérdida total es <span class="math inline">\(\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = \sum_i \ell_i(\boldsymbol{W}, \boldsymbol{b})\)</span> (o el promedio).</p></li>
+  \]</span> Esta es la <strong>pérdida de entropía cruzada binaria</strong> para la muestra <span class="math inline">\(i\)</span>. La pérdida total es <span class="math inline">\(\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = \sum_i \ell_i(\boldsymbol{W}, \boldsymbol{b})\)</span> (o el promedio).</li>
+</ul>
+<p>Podemos visualizar esta pérdida dejando fija la etiqueta verdadera <span class="math inline">\(y_i\)</span> y variando la probabilidad predicha <span class="math inline">\(\hat{y}_i = p(y_i = 1 \mid \mathbf{x}_i)\)</span>. Si <span class="math inline">\(y_i = 1\)</span>, la verosimilitud es simplemente <span class="math inline">\(\hat{y}_i\)</span>, por lo que conviene llevarla cerca de <span class="math inline">\(1\)</span>. Si <span class="math inline">\(y_i = 0\)</span>, la verosimilitud es <span class="math inline">\(1-\hat{y}_i\)</span>, por lo que conviene llevarla cerca de <span class="math inline">\(0\)</span>. La entropía cruzada penaliza con mucha fuerza las predicciones muy seguras pero incorrectas.</p>
+<div id="f4565c94" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="15_funciones_de_perdida_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>En clasificacion binaria, la entropia cruzada favorece probabilidades altas para la clase correcta y castiga con fuerza las predicciones seguras pero incorrectas.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>En la izquierda vemos que la verosimilitud es grande cuando el modelo asigna alta probabilidad a la clase verdadera. En la derecha vemos la misma idea expresada como pérdida: para <span class="math inline">\(y_i=1\)</span>, la pérdida <span class="math inline">\(-\log \hat{y}_i\)</span> cae a cero cuando <span class="math inline">\(\hat{y}_i \to 1\)</span>; para <span class="math inline">\(y_i=0\)</span>, la pérdida <span class="math inline">\(-\log(1-\hat{y}_i)\)</span> cae a cero cuando <span class="math inline">\(\hat{y}_i \to 0\)</span>.</p>
+<ul>
 <li><p><strong>Clasificación Multiclase:</strong></p>
 <ul>
 <li><strong>Modelo Probabilístico:</strong> Asumimos que la etiqueta <span class="math inline">\(y_i\)</span> es un vector <em>one-hot</em> (e.g., <span class="math inline">\([0, 1, 0]\)</span> si la clase verdadera es la 2 de entre 3 clases) y sigue una distribución Categórica (o Multinoulli). El modelo produce un vector de probabilidades <span class="math inline">\(\hat{\mathbf{y}}_i = (\hat{y}_{i,1}, ..., \hat{y}_{i,C})\)</span> (típicamente usando Softmax) donde <span class="math inline">\(\hat{y}_{i,c} = p(y_{i,c}=1 | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b})\)</span>. Donde <span class="math inline">\(C\)</span> es el número de clases.</li>
@@ -529,6 +560,30 @@ window.Quarto = {
 \mathcal{J}_{\text{reg}}(\boldsymbol{W}, \boldsymbol{b}) = \mathcal{J}_{\text{NLL}}(\boldsymbol{W}, \boldsymbol{b}) + \lambda R(\boldsymbol{W}, \boldsymbol{b})
 \]</span> Donde <span class="math inline">\(R(\boldsymbol{W}, \boldsymbol{b})\)</span> es el regularizador (e.g., <span class="math inline">\(R(\boldsymbol{W}, \boldsymbol{b}) = \|\boldsymbol{W}\|^2 + \|\boldsymbol{b}\|^2\)</span> para regularización L2/Ridge, o <span class="math inline">\(R(\boldsymbol{W}, \boldsymbol{b}) = \|\dots\|_1\)</span> para L1/LASSO) y <span class="math inline">\(\lambda &gt; 0\)</span> es el hiperparámetro de regularización.</li>
 </ol>
+</section>
+<section id="otros-modelos-probabilísticos-y-funciones-de-pérdida" class="level2">
+<h2 class="anchored" data-anchor-id="otros-modelos-probabilísticos-y-funciones-de-pérdida">Otros Modelos Probabilísticos y Funciones de Pérdida</h2>
+<p>Si nuestro sistema se describe mejor con otro tipo de distribución, podemos seguir el mismo procedimiento para derivar la función de pérdida correspondiente. Por ejemplo, si estamos modelando conteos, podemos usar una distribución de Poisson.</p>
+<section id="conteos-poisson" class="level3">
+<h3 class="anchored" data-anchor-id="conteos-poisson">Conteos Poisson</h3>
+<p>Si <span class="math inline">\(y_i \in \{0,1,2,\dots\}\)</span> representa un conteo, un modelo natural es <span class="math display">\[
+y_i \mid \mathbf{x}_i \sim \operatorname{Poisson}(\lambda_i), \qquad \lambda_i = f(\mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) &gt; 0.
+\]</span></p>
+<p>Su función de distribución de probabilidad es <span class="math display">\[
+p(y_i \mid \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \frac{e^{-\lambda_i}\lambda_i^{y_i}}{y_i!}.
+\]</span></p>
+<p>La negativa log-verosimilitud por muestra es entonces <span class="math display">\[
+\ell_i = -\log p(y_i \mid \mathbf{x}_i) = \lambda_i - y_i \log \lambda_i + \log(y_i!).
+\]</span></p>
+<p>Como <span class="math inline">\(\log(y_i!)\)</span> no depende de los parámetros, minimizar la NLL equivale a minimizar <span class="math display">\[
+\ell_i^{\text{Poisson}} = \lambda_i - y_i \log \lambda_i.
+\]</span></p>
+<p>Esta es la pérdida de Poisson. En la práctica suele parametrizarse <span class="math inline">\(\lambda_i = \exp(z_i)\)</span> para garantizar que <span class="math inline">\(\lambda_i &gt; 0\)</span>, donde <span class="math inline">\(z_i\)</span> es nuestro modelo (red neuronal u otro). Este tipo de pérdida aparece por ejemplo en física de partículas donde se modelan detecciones de eventos raros (conteos de partículas en un detector).</p>
+</section>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<p>5.5, 5.6, 5.8, 5.9</p>
 
 
 </section>
