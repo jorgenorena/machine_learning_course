@@ -3,8 +3,6 @@ title: "Funciones de Pérdida para Redes Neuronales"
 lang: es
 ---
 
-NOTA PARA MI: Incluir una visualización de la verosimilitud en cada caso. Hablar de cómo se podría estimar la varianza en el caso de regresión. Incluir ejemplos de funciones de pérdida para otros modelos probabilísticos (e.g., Poisson para conteos, Beta para variables entre 0 y 1, etc.). Escoger ejercicios.
-
 Vimos qué es una red neuronal y cómo, dado un conjunto de pesos y sesgos, la red puede transformar una entrada en una salida. Esta salida debe ser útil para algo. Por ejemplo, si la red es un clasificador, la salida debe ser la probabilidad de que la entrada pertenezca a una clase. Si la red es un regresor, la salida debe ser el valor verdadero de la variable que se está prediciendo. Esto lo logramos ajustando los parámetros de la red para que la salida sea lo más cercana posible a la salida verdadera. Al hablar de una salida "lo más cercana posible", necesitamos una manera de cuantificar la discrepancia. Cuando estudiamos la regresión lineal minimizamos una función de pérdida que dedujimos de la máxima verosimilitud. Ahora veremos cómo lograr eso en general para redes neuronales. Muchas funciones de pérdida estándar pueden derivarse elegantemente del principio de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE).
 
 ## Derivación General desde Máxima Verosimilitud
@@ -55,6 +53,61 @@ El MSE es la pérdida estándar para regresión y también deriva de la estimaci
   $$
   Este último es el **Error Cuadrático Medio (Mean Squared Error, MSE)**.
 
+Podemos visualizar esta equivalencia fijando una observación $y_i$ y dejando variar la predicción $\hat{y}_i$. En ese caso, la verosimilitud Gaussiana es máxima cuando $\hat{y}_i = y_i$, mientras que la pérdida negativa log-verosimilitud es mínima exactamente en el mismo punto. La diferencia entre la NLL y el error cuadrático es sólo una constante aditiva y un factor multiplicativo si $\sigma^2$ es fija.
+
+```{python}
+#| echo: false
+#| fig-cap: "En regresion con ruido gaussiano, la verosimilitud es maxima y la NLL es minima en la misma prediccion."
+import numpy as np
+import matplotlib.pyplot as plt
+
+y_obs = 1.5
+sigma = 0.8
+
+y_grid = np.linspace(-1.0, 4.0, 500)
+yhat_grid = np.linspace(-1.0, 4.0, 500)
+
+gaussian_density = (
+    1 / np.sqrt(2 * np.pi * sigma**2)
+) * np.exp(-(y_grid - y_obs) ** 2 / (2 * sigma**2))
+
+nll = (y_obs - yhat_grid) ** 2 / (2 * sigma**2) + 0.5 * np.log(2 * np.pi * sigma**2)
+scaled_mse = (y_obs - yhat_grid) ** 2 / (2 * sigma**2)
+likelihood_as_function_of_prediction = (
+    1 / np.sqrt(2 * np.pi * sigma**2)
+) * np.exp(-(y_obs - yhat_grid) ** 2 / (2 * sigma**2))
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 4.2))
+
+axes[0].plot(y_grid, gaussian_density, color="tab:blue", lw=2)
+axes[0].axvline(y_obs, color="black", ls="--", lw=1.5, label=fr"$y_i={y_obs}$")
+axes[0].set_xlabel(r"Valor posible de $y$")
+axes[0].set_ylabel(r"$p(y_i \mid \mathbf{x}_i)$")
+axes[0].set_title(r"Modelo gaussiano para $y_i$")
+axes[0].legend(frameon=False)
+
+axes[1].plot(
+    yhat_grid,
+    likelihood_as_function_of_prediction,
+    color="tab:green",
+    lw=2,
+    label="Verosimilitud",
+)
+axes[1].plot(yhat_grid, nll, color="tab:red", lw=2, label="NLL")
+axes[1].plot(yhat_grid, scaled_mse, color="tab:orange", lw=2, ls="--", label="MSE reescalado")
+axes[1].axvline(y_obs, color="black", ls="--", lw=1.5)
+axes[1].set_xlabel(r"Prediccion $\hat{y}_i$")
+axes[1].set_title(r"Verosimilitud y perdida vs. $\hat{y}_i$")
+axes[1].legend(frameon=False)
+
+plt.tight_layout()
+plt.show()
+```
+
+En la figura de la derecha, la curva verde es máxima en $\hat{y}_i = y_i$ y las curvas roja y naranjo son mínimas en ese mismo punto. Eso es justamente lo que hace que minimizar MSE sea equivalente a hacer máxima verosimilitud en regresión con ruido Gaussiano y varianza constante.
+
+Cuando no asumimos que $\sigma^2$ es constante, podemos generalizar el modelo probabilístico para que la varianza también dependa de la entrada, es decir, $y_i \sim \mathcal{N}(\hat{y}_i, \sigma^2(\mathbf{x}_i))$. En ese caso, la función de pérdida resultante es una versión ponderada del MSE donde cada término se divide por la varianza correspondiente.
+
 ## Entropía Cruzada para Clasificación (Cross-Entropy Loss)
 
 La entropía cruzada surge naturalmente de la estimación de máxima verosimilitud para problemas de clasificación.
@@ -68,6 +121,46 @@ La entropía cruzada surge naturalmente de la estimación de máxima verosimilit
       \ell_i(\boldsymbol{W}, \boldsymbol{b}) = -\log p(y_i | \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = -[y_i \log \hat{y}_i + (1-y_i) \log(1 - \hat{y}_i)]
       $$
       Esta es la **pérdida de entropía cruzada binaria** para la muestra $i$. La pérdida total es $\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = \sum_i \ell_i(\boldsymbol{W}, \boldsymbol{b})$ (o el promedio).
+
+Podemos visualizar esta pérdida dejando fija la etiqueta verdadera $y_i$ y variando la probabilidad predicha $\hat{y}_i = p(y_i = 1 \mid \mathbf{x}_i)$. Si $y_i = 1$, la verosimilitud es simplemente $\hat{y}_i$, por lo que conviene llevarla cerca de $1$. Si $y_i = 0$, la verosimilitud es $1-\hat{y}_i$, por lo que conviene llevarla cerca de $0$. La entropía cruzada penaliza con mucha fuerza las predicciones muy seguras pero incorrectas.
+
+```{python}
+#| echo: false
+#| fig-cap: "En clasificacion binaria, la entropia cruzada favorece probabilidades altas para la clase correcta y castiga con fuerza las predicciones seguras pero incorrectas."
+import numpy as np
+import matplotlib.pyplot as plt
+
+eps = 1e-4
+p_grid = np.linspace(eps, 1 - eps, 500)
+
+lik_y1 = p_grid
+lik_y0 = 1 - p_grid
+
+ce_y1 = -np.log(p_grid)
+ce_y0 = -np.log(1 - p_grid)
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 4.2))
+
+axes[0].plot(p_grid, lik_y1, color="tab:blue", lw=2, label=r"$y_i=1$")
+axes[0].plot(p_grid, lik_y0, color="tab:orange", lw=2, label=r"$y_i=0$")
+axes[0].set_xlabel(r"Probabilidad predicha $\hat{y}_i$")
+axes[0].set_ylabel("Verosimilitud")
+axes[0].set_title("Verosimilitud Bernoulli")
+axes[0].legend(frameon=False)
+
+axes[1].plot(p_grid, ce_y1, color="tab:blue", lw=2, label=r"$y_i=1$")
+axes[1].plot(p_grid, ce_y0, color="tab:orange", lw=2, label=r"$y_i=0$")
+axes[1].set_xlabel(r"Probabilidad predicha $\hat{y}_i$")
+axes[1].set_ylabel("Perdida")
+axes[1].set_title("Entropia cruzada binaria")
+axes[1].set_ylim(0, 9.5)
+axes[1].legend(frameon=False)
+
+plt.tight_layout()
+plt.show()
+```
+
+En la izquierda vemos que la verosimilitud es grande cuando el modelo asigna alta probabilidad a la clase verdadera. En la derecha vemos la misma idea expresada como pérdida: para $y_i=1$, la pérdida $-\log \hat{y}_i$ cae a cero cuando $\hat{y}_i \to 1$; para $y_i=0$, la pérdida $-\log(1-\hat{y}_i)$ cae a cero cuando $\hat{y}_i \to 0$.
 
 - **Clasificación Multiclase:**
 
@@ -92,3 +185,35 @@ Puedes diseñar funciones de pérdida adaptadas a problemas específicos siguien
    \mathcal{J}_{\text{reg}}(\boldsymbol{W}, \boldsymbol{b}) = \mathcal{J}_{\text{NLL}}(\boldsymbol{W}, \boldsymbol{b}) + \lambda R(\boldsymbol{W}, \boldsymbol{b})
    $$
    Donde $R(\boldsymbol{W}, \boldsymbol{b})$ es el regularizador (e.g., $R(\boldsymbol{W}, \boldsymbol{b}) = \|\boldsymbol{W}\|^2 + \|\boldsymbol{b}\|^2$ para regularización L2/Ridge, o $R(\boldsymbol{W}, \boldsymbol{b}) = \|\dots\|_1$ para L1/LASSO) y $\lambda > 0$ es el hiperparámetro de regularización.
+
+## Otros Modelos Probabilísticos y Funciones de Pérdida
+
+Si nuestro sistema se describe mejor con otro tipo de distribución, podemos seguir el mismo procedimiento para derivar la función de pérdida correspondiente. Por ejemplo, si estamos modelando conteos, podemos usar una distribución de Poisson.
+
+### Conteos Poisson
+
+Si $y_i \in \{0,1,2,\dots\}$ representa un conteo, un modelo natural es
+$$
+y_i \mid \mathbf{x}_i \sim \operatorname{Poisson}(\lambda_i), \qquad \lambda_i = f(\mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) > 0.
+$$
+
+Su función de distribución de probabilidad es
+$$
+p(y_i \mid \mathbf{x}_i; \boldsymbol{W}, \boldsymbol{b}) = \frac{e^{-\lambda_i}\lambda_i^{y_i}}{y_i!}.
+$$
+
+La negativa log-verosimilitud por muestra es entonces
+$$
+\ell_i = -\log p(y_i \mid \mathbf{x}_i) = \lambda_i - y_i \log \lambda_i + \log(y_i!).
+$$
+
+Como $\log(y_i!)$ no depende de los parámetros, minimizar la NLL equivale a minimizar
+$$
+\ell_i^{\text{Poisson}} = \lambda_i - y_i \log \lambda_i.
+$$
+
+Esta es la pérdida de Poisson. En la práctica suele parametrizarse $\lambda_i = \exp(z_i)$ para garantizar que $\lambda_i > 0$, donde $z_i$ es nuestro modelo (red neuronal u otro). Este tipo de pérdida aparece por ejemplo en física de partículas donde se modelan detecciones de eventos raros (conteos de partículas en un detector).
+
+## Ejercicios
+
+5.5, 5.6, 5.8, 5.9
