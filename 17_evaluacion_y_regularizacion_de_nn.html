@@ -35,10 +35,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4379b0ccadffce622b03caf4c46266b3.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-686b15c34b244653d4c55e362e50c6f0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -224,6 +226,7 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -426,22 +429,14 @@ window.Quarto = {
   <ul>
   <li><a href="#evaluación-de-modelos" id="toc-evaluación-de-modelos" class="nav-link active" data-scroll-target="#evaluación-de-modelos">Evaluación de modelos</a>
   <ul class="collapse">
-  <li><a href="#repaso-de-varianza-sesgo-y-error-irreducible" id="toc-repaso-de-varianza-sesgo-y-error-irreducible" class="nav-link" data-scroll-target="#repaso-de-varianza-sesgo-y-error-irreducible">Repaso de varianza, sesgo y error irreducible</a>
-  <ul class="collapse">
-  <li><a href="#intuición" id="toc-intuición" class="nav-link" data-scroll-target="#intuición">Intuición</a></li>
-  <li><a href="#formulación-matemática" id="toc-formulación-matemática" class="nav-link" data-scroll-target="#formulación-matemática">Formulación matemática</a></li>
-  <li><a href="#tensión-entre-sesgo-y-varianza" id="toc-tensión-entre-sesgo-y-varianza" class="nav-link" data-scroll-target="#tensión-entre-sesgo-y-varianza">Tensión entre sesgo y varianza</a></li>
-  </ul></li>
+  <li><a href="#repaso-de-varianza-sesgo-y-error-irreducible" id="toc-repaso-de-varianza-sesgo-y-error-irreducible" class="nav-link" data-scroll-target="#repaso-de-varianza-sesgo-y-error-irreducible">Repaso de varianza, sesgo y error irreducible</a></li>
   <li><a href="#descenso-doble-double-descent" id="toc-descenso-doble-double-descent" class="nav-link" data-scroll-target="#descenso-doble-double-descent">Descenso doble (Double descent)</a></li>
   <li><a href="#búsqueda-de-hiperparámetros" id="toc-búsqueda-de-hiperparámetros" class="nav-link" data-scroll-target="#búsqueda-de-hiperparámetros">Búsqueda de hiperparámetros</a></li>
   </ul></li>
   <li><a href="#regularización" id="toc-regularización" class="nav-link" data-scroll-target="#regularización">Regularización</a>
   <ul class="collapse">
   <li><a href="#regularización-explícita" id="toc-regularización-explícita" class="nav-link" data-scroll-target="#regularización-explícita">Regularización explícita</a></li>
-  <li><a href="#regularización-implícita" id="toc-regularización-implícita" class="nav-link" data-scroll-target="#regularización-implícita">Regularización implícita</a>
-  <ul class="collapse">
-  <li><a href="#regularización-por-descenso-de-gradiente" id="toc-regularización-por-descenso-de-gradiente" class="nav-link" data-scroll-target="#regularización-por-descenso-de-gradiente">Regularización por descenso de gradiente</a></li>
-  </ul></li>
+  <li><a href="#regularización-implícita" id="toc-regularización-implícita" class="nav-link" data-scroll-target="#regularización-implícita">Regularización implícita</a></li>
   <li><a href="#métodos-para-reducir-el-error-de-generalización" id="toc-métodos-para-reducir-el-error-de-generalización" class="nav-link" data-scroll-target="#métodos-para-reducir-el-error-de-generalización">Métodos para reducir el error de generalización</a></li>
   </ul></li>
   <li><a href="#ejercicios-sugeridos" id="toc-ejercicios-sugeridos" class="nav-link" data-scroll-target="#ejercicios-sugeridos">Ejercicios sugeridos</a></li>
@@ -470,20 +465,20 @@ window.Quarto = {
 </header>
 
 
-<section id="evaluación-de-modelos" class="level1">
-<h1>Evaluación de modelos</h1>
+<section id="evaluación-de-modelos" class="level2">
+<h2 class="anchored" data-anchor-id="evaluación-de-modelos">Evaluación de modelos</h2>
 <p>Hemos visto cómo entrenar una red neuronal para que aprenda a predecir. Ahora vamos a repasar cómo evaluar el rendimiento de una red neuronal. Usaremos las mismas técnicas que vimos para evaluar el rendimiento de cualquier modelo de aprendizaje supervisado. Sin embargo, las redes neuronales tienen un par de particularidades, como el llamado “descenso doble” (double descent).</p>
 <p>Luego veremos cómo regularizar las redes neuronales para evitar el sobreajuste y mejorar su generalización. De nuevo empezaremos con un repaso de lo visto para cualquier modelo de aprendizaje supervisado. En el sentido estricto, la regularización se refiere a métodos para restringir el espacio de búsqueda de modelos, es decir, para limitar la complejidad del modelo. Sin embargo, en la práctica, la regularización suele referirse a métodos que reducen el error de generalización. Veremos algunos de esos métodos al final de estas notas.</p>
-<section id="repaso-de-varianza-sesgo-y-error-irreducible" class="level2">
-<h2 class="anchored" data-anchor-id="repaso-de-varianza-sesgo-y-error-irreducible">Repaso de varianza, sesgo y error irreducible</h2>
+<section id="repaso-de-varianza-sesgo-y-error-irreducible" class="level3">
+<h3 class="anchored" data-anchor-id="repaso-de-varianza-sesgo-y-error-irreducible">Repaso de varianza, sesgo y error irreducible</h3>
 <p>Recordemos que el error de generalización consiste en el error que comete un modelo entrenado con un conjunto de datos al intentar predecir el valor de una nueva observación. Este error viene de tres fuentes:</p>
 <ol type="1">
 <li><strong>Varianza</strong>: Mide la variabilidad del modelo.</li>
 <li><strong>Sesgo</strong>: Mide el error sistemático del modelo.</li>
 <li><strong>Error irreducible</strong>: Mide el error que no puede ser reducido por el modelo.</li>
 </ol>
-<section id="intuición" class="level3">
-<h3 class="anchored" data-anchor-id="intuición">Intuición</h3>
+<section id="intuición" class="level4">
+<h4 class="anchored" data-anchor-id="intuición">Intuición</h4>
 <p>Primero repasemos de manera intuitiva cada una de estas fuentes de error.</p>
 <ul>
 <li><p><strong>Varianza</strong>: Mide la variabilidad del modelo. Es decir, cuánto cambia la predicción del modelo al cambiar el conjunto de datos de entrenamiento. Un modelo con alta varianza es poco fiable: El hecho que la predicción cambie mucho al cambiar el conjunto de datos de entrenamiento indica que el modelo está ajustando demasiado a las particularidades de esos datos. No nos esperamos que haga una buena predicción en un dato no visto.</p></li>
@@ -491,8 +486,8 @@ window.Quarto = {
 <li><p><strong>Error irreducible</strong>: Mide el error que no puede ser reducido por el modelo. Es decir, el error que existiría incluso si tuviéramos acceso a un conjunto de datos infinito. Este error es intrínseco al problema que estamos modelando. Este puede venir por errores en las mediciones de las variables, o porque la respuesta que queremos predecir depende de variables no observadas, o tiene una naturaleza estocástica.</p></li>
 </ul>
 </section>
-<section id="formulación-matemática" class="level3">
-<h3 class="anchored" data-anchor-id="formulación-matemática">Formulación matemática</h3>
+<section id="formulación-matemática" class="level4">
+<h4 class="anchored" data-anchor-id="formulación-matemática">Formulación matemática</h4>
 <p>Veamos matemáticamente cómo aparecen estas tres fuentes de error. Supongamos que tenemos un conjunto de datos de entrenamiento <span class="math inline">\(D = \{(x_i, y_i)\}_{i=1}^n\)</span>, donde <span class="math inline">\(x_i\)</span> es un vector de características y <span class="math inline">\(y_i\)</span> es la respuesta que queremos predecir. Supongamos que la respuesta <span class="math inline">\(y\)</span> sigue una distribución de probabilidad <span class="math inline">\(P(y|x)\)</span> con media <span class="math inline">\(\mu(x)\)</span> y varianza fija <span class="math inline">\(\sigma^2\)</span>. Calculemos la pérdida de error cuadrático medio (MSE) de un modelo <span class="math inline">\(h\)</span> que intenta predecir <span class="math inline">\(y\)</span> a partir de <span class="math inline">\(x\)</span>. La predicción del modelo <span class="math inline">\(f(x;\theta)\)</span> es una función de los parámetros <span class="math inline">\(\theta\)</span> del modelo.</p>
 <p><span class="math display">\[
 \begin{multline}
@@ -506,17 +501,27 @@ window.Quarto = {
 \]</span></p>
 <p>El primer término representa la fluctuación de la predicción del modelo alrededor de su valor esperado. Es decir, mide la varianza del modelo o cuánto cambia la predicción del modelo al cambiar el conjunto de datos de entrenamiento. El segundo término representa el error sistemático del modelo, es decir, cuánto se desvía la predicción del modelo de la verdadera relación entre las variables. Este representa el sesgo del modelo.</p>
 </section>
-<section id="tensión-entre-sesgo-y-varianza" class="level3">
-<h3 class="anchored" data-anchor-id="tensión-entre-sesgo-y-varianza">Tensión entre sesgo y varianza</h3>
+<section id="tensión-entre-sesgo-y-varianza" class="level4">
+<h4 class="anchored" data-anchor-id="tensión-entre-sesgo-y-varianza">Tensión entre sesgo y varianza</h4>
 <p>Podemos intentar reducir el error debido al sesgo y la varianza. Para obtener un mejor sesgo, podemos usar un modelo más complejo. Sin embargo, un modelo más complejo tiende a ajustarse a las particularidades del conjunto de datos de entrenamiento, lo que aumenta la varianza. La manera de resolver este problema es mediante el uso de modelos más sencillos que no sobreajusten, o mediante el uso de técnicas de regularización que amortigüen el efecto de los muchos parámetros libres de los modelos más complejos.</p>
 <p>Una alternativa que reduce la varianza es aumentar el conjunto de datos de entrenamiento. Esto mejora los resultados ya que la varianza se reduce con más datos.</p>
 <p>Recientemente se ha observado un fenómeno conocido como “descenso doble” (double descent), en el cual el modelo tiene un menor error de generalización para algunos modelos extremadamente complejos. Se cree que esto se debe a una regularización implícita, como discutimos en la siguiente sección.</p>
 </section>
 </section>
-<section id="descenso-doble-double-descent" class="level2">
-<h2 class="anchored" data-anchor-id="descenso-doble-double-descent">Descenso doble (Double descent)</h2>
+<section id="descenso-doble-double-descent" class="level3">
+<h3 class="anchored" data-anchor-id="descenso-doble-double-descent">Descenso doble (Double descent)</h3>
 <p>Para las redes neuronales, la tensión entre sesgo y varianza tiene un aspecto interesante. Lo que dice el aprendizaje automático clásico es que al aumentar el número de parámetros del modelo, éste se ajusta más al ruido y por lo tanto el error de generalización aumenta. Esto podría ser un problema para las redes neuronales que tienen un número enorme de parámetros, a veces mucho mayor que el número de observaciones de entrenamiento.</p>
-<p>Sin embargo, se ha observado que para ciertos modelos, el error de generalización puede disminuir con el aumento del número de parámetros. Esto se llama “descenso doble” (double descent). Es decir, el error de generalización tiene tres regiones:</p>
+<div id="fig-double-descent-polynomial" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-double-descent-polynomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/double_descent_polynomial.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-double-descent-polynomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Error de generalización para el ajuste de un polinomio de Legendre en función del grado.
+</figcaption>
+</figure>
+</div>
+<p>Sin embargo, se ha observado que para ciertos modelos, el error de generalización puede disminuir con el aumento del número de parámetros. Un ejemplo se puede ver en la figura <a href="#fig-double-descent-polynomial" class="quarto-xref">Figura&nbsp;1</a>, donde he graficado el error de prueba para el ajuste de un polinomio de Legendre en función del grado (sacado de mi solución a uno de los <a href="proyectos">proyectos</a>). Esto se llama “descenso doble” (double descent). Es decir, el error de generalización tiene tres regiones:</p>
 <ul>
 <li><p>Cuando la red tiene muy pocos parámetros, el error de generalización es alto debido a que el modelo no tiene suficiente libertad para ajustarse a los datos. El modelo tiene un alto sesgo. A medida que se aumentan el número de parámetros, el sesgo baja y el error de generalización disminuye hasta un mínimo.</p></li>
 <li><p>Si se sigue aumentando el número de parámetros, el error de generalización aumenta. Esto se debe a que el modelo se ajusta más al ruido y por lo tanto el error de generalización aumenta. El modelo tiene una alta varianza. Esto ocurre hasta un punto en el que el número de parámetros es comparable al número de datos.</p></li>
@@ -527,8 +532,8 @@ window.Quarto = {
 <p><strong>Regularización implícita</strong>: Cuando el número de parámetros es muy grande, las redes neuronales tienden a producir funciones suaves en las regiones donde los datos son escasos. Arriba dijimos que cuando la dimensión es alta la red se ve obligada a interpolar ya que un dato típico está lejos de todos los datos de entrenamiento. Por lo tanto, la interpolación para un nuevo dato será en una región donde el modelo da una función suave con poca varianza. Por esto el error de generalización es menor de lo esperado. Aún no se sabe del todo bien por qué las redes neuronales tienden a producir funciones suaves en las regiones de interpolación.</p>
 <p>La figura 8.10 del libro ilustra el fenómeno de descenso doble.</p>
 </section>
-<section id="búsqueda-de-hiperparámetros" class="level2">
-<h2 class="anchored" data-anchor-id="búsqueda-de-hiperparámetros">Búsqueda de hiperparámetros</h2>
+<section id="búsqueda-de-hiperparámetros" class="level3">
+<h3 class="anchored" data-anchor-id="búsqueda-de-hiperparámetros">Búsqueda de hiperparámetros</h3>
 <p>Las redes neuronales que hemos visto tienen varios hiperparámetros: Número de capas escondidas, número de neuronas por cada capa, tasa de aprendizaje y otros dependiendo del algoritmo de descenso de gradiente. Además veremos muchas otras arquitecturas que pueden ser usadas para diferentes problemas. Entonces necesitamos alguna manera de escoger la arquitectura y los hiperparámetros adecuados para cada caso.</p>
 <p>El problema es que el espacio de parámetros es de una dimensión muy alta y además algunos de estos no son continuos (no podemos tener 3.58 capas escondidas). Esto hace que no podamos usar algo como descenso de gradiente en dicho espacio.</p>
 <p>Una manera de hacerlo es estimar la distribución de probabilidad del error de generalización como función de los parámetros. Es decir, asumimos que dado un conjunto de hiperparámetros <span class="math inline">\(p\)</span>, el error de generalización es una variable aleatoria dada por una distribución. Si tuviéramos una manera de estimarla, podríamos escoger los que maximizan esa probabilidad. Lamentablemente, esto es un problema extremadamente difícil.</p>
@@ -537,22 +542,22 @@ window.Quarto = {
 <p>Existen librerías que implementan ambos métodos.</p>
 </section>
 </section>
-<section id="regularización" class="level1">
-<h1>Regularización</h1>
+<section id="regularización" class="level2">
+<h2 class="anchored" data-anchor-id="regularización">Regularización</h2>
 <p>Cuando estudiamos la regresión lineal, vimos que podemos restringir los valores de los parámetros usando un término de regularización en la función de pérdida. Esto tiene el efecto de disminuir la libertad del modelo a pesar de tener un número grande de hiperparámetros. Eso reduce el sobreajuste.</p>
 <p>Podemos aplicar la misma estrategia a las redes neuronales. Resulta que además se ha demostrado que estas ya están regularizadas de forma natural, lo que se llama regularización implícita. El término regularización se ha ampliado para incluír varias estrategias que reducen el sobreajuste.</p>
-<section id="regularización-explícita" class="level2">
-<h2 class="anchored" data-anchor-id="regularización-explícita">Regularización explícita</h2>
+<section id="regularización-explícita" class="level3">
+<h3 class="anchored" data-anchor-id="regularización-explícita">Regularización explícita</h3>
 <p>La regularización explícita consiste en agregarle términos a la función de pérdida que penalicen los parámetros que se salen de un cierto rango. Por ejemplo, vimos la regularización L2. En redes neuronales, es frecuente usar la pérdida modificadoa <span class="math display">\[
 \mathcal{J} + \lambda \sum_{ij} W_{ij}^2\,.
 \]</span> Esto hace que la red prefiera pesos pequeños. Es decir, el modelo tiene un rango restringido para los pesos. Al reducir su libertad, ayudamos a que no haga sobreajuste.</p>
 <p>Matemáticamente la regularización se puede ver como una probabilidad previa para los parámetros. Es decir, nuestra verosimilitud ahora consiste en <span class="math inline">\(e^{-\mathcal{J}}P(W)\)</span>, donde <span class="math inline">\(P(W)\)</span> es la distribución previa de los pesos (gaussiana en el caso de L2).</p>
 </section>
-<section id="regularización-implícita" class="level2">
-<h2 class="anchored" data-anchor-id="regularización-implícita">Regularización implícita</h2>
+<section id="regularización-implícita" class="level3">
+<h3 class="anchored" data-anchor-id="regularización-implícita">Regularización implícita</h3>
 <p>Para las redes neuronales se cree que además hay una regularización implícita. Es decir, la red aprende a regularizar los pesos en el sentido discutido en la sección de doble descenso. Además, el método de descenso de gradiente también contribuye a esta regularización.</p>
-<section id="regularización-por-descenso-de-gradiente" class="level3">
-<h3 class="anchored" data-anchor-id="regularización-por-descenso-de-gradiente">Regularización por descenso de gradiente</h3>
+<section id="regularización-por-descenso-de-gradiente" class="level4">
+<h4 class="anchored" data-anchor-id="regularización-por-descenso-de-gradiente">Regularización por descenso de gradiente</h4>
 <p>Recordemos que el descenso de gradiente consiste en seguir la dirección de máximo descenso en el espacio de parámetros. Estrictamente esto es resolver la ecuación diferencial <span class="math display">\[
 \frac{d \theta_i}{dt} = -\nabla_i \mathcal{J}\,,
 \]</span> donde <span class="math inline">\(\theta_i\)</span> son los parámetros. Esto se aproxima actualizando los parámetros haciendo <span class="math inline">\(\theta_{i+1} = \theta_i - \eta\nabla_i \mathcal{J}\)</span> (corresponde al método de Euler). Pero resulta que esa aproximación tiene un error tal que no se sigue la trayectoria exactamente. Demostramos más abajo que la trayectoria minimiza la pérdida modificada <span id="eq-perdida-modificada"><span class="math display">\[
@@ -609,8 +614,8 @@ Deducción de la <a href="#eq-perdida-modificada" class="quarto-xref">Ecuación&
 </div>
 </section>
 </section>
-<section id="métodos-para-reducir-el-error-de-generalización" class="level2">
-<h2 class="anchored" data-anchor-id="métodos-para-reducir-el-error-de-generalización">Métodos para reducir el error de generalización</h2>
+<section id="métodos-para-reducir-el-error-de-generalización" class="level3">
+<h3 class="anchored" data-anchor-id="métodos-para-reducir-el-error-de-generalización">Métodos para reducir el error de generalización</h3>
 <p>El término regularización se ha extendido para referirse a técnicas que reducen el error de generalización. Algunas de las más usadas son:</p>
 <p><strong>Parado temprano (early stopping)</strong></p>
 <p>Este método consiste en detener el entrenamiento antes de que el modelo comience a sobreajustarse. Podemos usar un conjunto de validación para monitorear el rendimiento del modelo, es decir, medimos la pérdida en el conjunto de validación como aproximación al error de generalización. La pérdida sobre el conjunto de entrenamiento seguirá disminuyendo durante el entrenamiento, mientras que la pérdida sobre el conjunto de validación comenzará a aumentar cuando el modelo comienza a sobreajustarse o permanecerá constante cuando el modelo no está ganando más información. Para evitar ese sobreajuste, podemos detener el entrenamiento cuando observamos que la pérdida sobre el conjunto de validación comienza a aumentar o deja de mejorar.</p>
@@ -626,8 +631,8 @@ Deducción de la <a href="#eq-perdida-modificada" class="quarto-xref">Ecuación&
 <p>El transfer learning consiste en utilizar un modelo pre-entrenado en una tarea similar y ajustarlo para la tarea específica, aprovechando así el conocimiento adquirido previamente. El multi-task learning implica entrenar un modelo para realizar múltiples tareas simultáneamente, lo que puede mejorar la generalización al forzar al modelo a aprender representaciones más generales y robustas. Veremos ejemplos de esto en clases posteriores.</p>
 </section>
 </section>
-<section id="ejercicios-sugeridos" class="level1">
-<h1>Ejercicios sugeridos</h1>
+<section id="ejercicios-sugeridos" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-sugeridos">Ejercicios sugeridos</h2>
 <p>8.3, 8.4, 8.5, 9.1, 9.5</p>
 
 
@@ -654,6 +659,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

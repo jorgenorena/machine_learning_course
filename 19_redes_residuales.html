@@ -69,10 +69,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4379b0ccadffce622b03caf4c46266b3.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-686b15c34b244653d4c55e362e50c6f0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -258,6 +260,7 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -505,10 +508,10 @@ Figura&nbsp;1: Errores de entrenamiento y prueba para redes de diferente profund
 </figcaption>
 </figure>
 </div>
-<section id="problemas-de-optimización-en-redes-profundas" class="level1">
-<h1>Problemas de Optimización en Redes Profundas</h1>
-<section id="gradientes-fragmentados-shattered-gradients" class="level2">
-<h2 class="anchored" data-anchor-id="gradientes-fragmentados-shattered-gradients">Gradientes fragmentados (shattered gradients)</h2>
+<section id="problemas-de-optimización-en-redes-profundas" class="level2">
+<h2 class="anchored" data-anchor-id="problemas-de-optimización-en-redes-profundas">Problemas de Optimización en Redes Profundas</h2>
+<section id="gradientes-fragmentados-shattered-gradients" class="level3">
+<h3 class="anchored" data-anchor-id="gradientes-fragmentados-shattered-gradients">Gradientes fragmentados (shattered gradients)</h3>
 <p>Parece que este fenómeno aún no se entiende del todo bien. Una hipótesis es que los gradientes respecto a los parámetros de las primeras capas cambian muy rápidamente. Como el entrenamiento usa una aproximación que asume que los gradientes son suaves, esto induce un error grande.</p>
 <p>Para verlo, seguimos un ejemplo tomado del libro (donde he cambiado la inicialización de Glorot a He).</p>
 <div id="cell-fig-shattered-gradients" class="cell" data-execution_count="2">
@@ -657,8 +660,8 @@ Figura&nbsp;2: Se muestran los gradientes respecto a las entradas para dos redes
 \]</span></p>
 </section>
 </section>
-<section id="aprendizaje-residual-residual-learning" class="level1">
-<h1>Aprendizaje Residual (Residual Learning)</h1>
+<section id="aprendizaje-residual-residual-learning" class="level2">
+<h2 class="anchored" data-anchor-id="aprendizaje-residual-residual-learning">Aprendizaje Residual (Residual Learning)</h2>
 <p>La solución fue hacer que cada nueva capa aprendiera la diferencia entre la entrada y la salida esperada. Esto se llama aprendizaje residual. Para lograrlo, se guarda la entrada a la capa y se suma con la salida.</p>
 <p>En lugar de esperar que una pila de capas aprenda directamente una función subyacente <span class="math inline">\(f(x)\)</span>, se les permite aprender una función residual <span class="math inline">\(h(x) = f(x) - x\)</span>. Aquí <span class="math inline">\(h(x)\)</span> es la salida del bloque residual y <span class="math inline">\(f(x)\)</span> es la salida de la red.</p>
 <p>La salida del llamado <em>bloque residual</em> es entonces: <span class="math display">\[
@@ -679,8 +682,8 @@ Figura&nbsp;2: Se muestran los gradientes respecto a las entradas para dos redes
 <p>donde vemos que contribuyen varios términos que no son la multiplicación de una gran cantidad de derivadas aproximadas. Se puede verificar explícitamente que estos gradientes son más estables que los de una red no residual con la misma cantidad de capas.</p>
 <p>Otra ventaja es que si la identidad es la transformación óptima para una parte de la red, es más fácil para las capas aprender <span class="math inline">\(h(x) = x\)</span> que forzar a múltiples capas no lineales a aproximar la identidad directamente.</p>
 <p>Las redes residuales permiten entrenar redes más profundas. Pero se observa que los gradientes explotan cuando son demasiado grandes. Más abajo vemos cómo atacar ese problema.</p>
-<section id="orden-de-las-operaciones-pre-activación" class="level2">
-<h2 class="anchored" data-anchor-id="orden-de-las-operaciones-pre-activación">Orden de las Operaciones: Pre-activación</h2>
+<section id="orden-de-las-operaciones-pre-activación" class="level3">
+<h3 class="anchored" data-anchor-id="orden-de-las-operaciones-pre-activación">Orden de las Operaciones: Pre-activación</h3>
 <p>En las redes residuales, aplicar la activación después de la transformación lineal hace que la salida <span class="math inline">\(f(x)\)</span> sea cero cuando la pre-activación es negativa. Esto hace que el bloque no modifique la entrada.</p>
 <p>Para no perder flexibilidad de esa manera, se suele invertir el orden de las operaciones:</p>
 <ol type="1">
@@ -690,14 +693,14 @@ Figura&nbsp;2: Se muestran los gradientes respecto a las entradas para dos redes
 <p>Este orden (ReLU antes de la convolución) puede parecer contraintuitivo desde el punto de vista de una red tradicional (que aplicaría primero la transformación lineal y luego la no linealidad), pero en redes residuales puede ayudar a mejorar el flujo del gradiente y evitar la desaparición de información. También se ha explorado el orden inverso (lineal seguido de ReLU), y la elección puede depender de detalles específicos de la arquitectura o del problema.</p>
 </section>
 </section>
-<section id="crecimiento-de-varianza-en-redes-residuales" class="level1">
-<h1>Crecimiento de varianza en redes residuales</h1>
+<section id="crecimiento-de-varianza-en-redes-residuales" class="level2">
+<h2 class="anchored" data-anchor-id="crecimiento-de-varianza-en-redes-residuales">Crecimiento de varianza en redes residuales</h2>
 <p>Cuando vimos inicialización de parámetros, vimos que debemos escoger la varianza de la inicialización aleatoria para que la composición de capas no haga que los gradientes crezcan exponencialmente.</p>
 <p>En las redes residuales eso sigue siendo válido, pero surge un nuevo efecto. Si la entrada de una capa tiene varianza <span class="math inline">\(\sigma^2\)</span>, la salida de la capa va a tener una varianza del orden de <span class="math inline">\(2\sigma^2\)</span> ya que es la varianza de la suma de dos variables: la entrada y la salida de <span class="math inline">\(f(x)\)</span>. Por lo tanto, al componer varias capas tendremos varianzas del orden de <span class="math inline">\(2^n\sigma^2\)</span>. Esto hace que se pueda alcanzar el límite de la representación de los números de punto flotante en la computadora para un número de capas suficientemente grande.</p>
 <p>Una posible solución es reescalar las activaciones de las neuronas para reducir este factor. Basta multiplicar todas las salidas por <span class="math inline">\(1/\sqrt{2}\)</span>. Sin embargo en la práctica se usa una técnica llamada <em>Batch Normalization</em> que tiene el mismo efecto.</p>
 </section>
-<section id="batch-normalization" class="level1">
-<h1>Batch Normalization</h1>
+<section id="batch-normalization" class="level2">
+<h2 class="anchored" data-anchor-id="batch-normalization">Batch Normalization</h2>
 <p>La Batch Normalization es una técnica que normaliza las activaciones de una capa para que tengan varianza 1. Esto se hace dividiendo las activaciones por la varianza de la capa y multiplicando por la desviación estándar.</p>
 <p>Es decir, para cada mini-lote durante el entrenamiento se calcula <span class="math display">\[
 \mu_B = \frac{1}{B} \sum_{i=1}^B h_i\,,
@@ -828,8 +831,8 @@ Figura&nbsp;2: Se muestran los gradientes respecto a las entradas para dos redes
 <p>En el libro se encuentran descripciones de redes residuales usadas para problemas con imágenes.</p>
 <p>El estado del arte usa además arquitecturas de transformadores. Esto lo veremos la próxima clase.</p>
 </section>
-<section id="ejercicios-sugeridos" class="level1">
-<h1>Ejercicios Sugeridos</h1>
+<section id="ejercicios-sugeridos" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-sugeridos">Ejercicios Sugeridos</h2>
 <p>11.1, 11.2, 11.6, 11.7</p>
 
 
@@ -856,6 +859,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

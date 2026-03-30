@@ -69,10 +69,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4379b0ccadffce622b03caf4c46266b3.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-686b15c34b244653d4c55e362e50c6f0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -258,6 +260,7 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -498,35 +501,37 @@ window.Quarto = {
 <p>Hasta ahora hemos estudiado los perceptrones multicapa, en las cuales las neuronas de una capa están conectadas a todas las neuronas de la capa anterior. Estas redes pueden en principio “aprender” cualquier conexión entre las diferentes capas. Sin embargo, en general un modelo que incorpora más información sobre el problema de interés funciona mejor.</p>
 <p>Un ejemplo famoso es la clasificación de imágenes. Si queremos clasificar un objeto en una imagen la posición de este objeto no es relevante para la clasificación. Así mismo, en el estudio de análisis de imágenes se usan <em>filtros</em> que procesan pixeles cercanos entre sí, lo que permite capturar patrones locales. Las <em>redes convolucionales</em> combinan estas intuiciones.</p>
 <p>Este tipo de redes dio uno de los primeros éxitos de las redes neuronales. Se aplicaron a la clasificación de dígitos escritos por humanos (el problema de la base de datos MNIST), durante los años 90.</p>
-<section id="invariancia-y-equivariancia" class="level1">
-<h1>Invariancia y Equivariancia</h1>
+<section id="invariancia-y-equivariancia" class="level2">
+<h2 class="anchored" data-anchor-id="invariancia-y-equivariancia">Invariancia y Equivariancia</h2>
 <p>En el caso de las imágenes, la posición de un objeto no es relevante para la clasificación. Esto se llama <strong>invariancia</strong>. Decimos que una función <span class="math inline">\(\boldsymbol{f}\)</span> es invariante bajo una transformación <span class="math inline">\(\boldsymbol{t}\)</span> si <span class="math inline">\(\boldsymbol{f}(\boldsymbol{t}(\boldsymbol{x})) = \boldsymbol{f}(\boldsymbol{x})\)</span> para todo <span class="math inline">\(\boldsymbol{x}\)</span>.</p>
 <p>Un ejemplo es la invarianza bajo traslaciones. Queremos que una red que identifica si una imagen contiene un gato sea invariante bajo traslaciones tal que no importe la posición del gato.</p>
 <p>Si queremos <em>segmentar</em> la imagen, es decir, identificar los píxeles que corresponden a un gato, queremos que al trasladar el gato, los pixeles identificados se trasladen con él. Esto se llama <strong>equivariancia</strong>. Decimos que una función <span class="math inline">\(\boldsymbol{f}\)</span> es equivariancia bajo una transformación <span class="math inline">\(\boldsymbol{t}\)</span> si <span class="math inline">\(\boldsymbol{f}(\boldsymbol{t}(\boldsymbol{x})) = \boldsymbol{t}(\boldsymbol{f}(\boldsymbol{x}))\)</span> para todo <span class="math inline">\(\boldsymbol{x}\)</span>.</p>
 <p>Veremos cómo las redes convolucionales implementan esta idea primero en el caso más sencillo de una dimensión.</p>
 </section>
-<section id="redes-convolucionales-en-una-dimensión" class="level1">
-<h1>Redes convolucionales en una dimensión</h1>
-<section id="convolución-en-una-dimensión" class="level2">
-<h2 class="anchored" data-anchor-id="convolución-en-una-dimensión">Convolución en una dimensión</h2>
-<p>Una convolución transforma un vector de entrada <span class="math inline">\(\boldsymbol{x}\)</span> en un vector de salida <span class="math inline">\(\boldsymbol{z}\)</span> de la misma dimensión tal que <span class="math display">\[
-z_i = \sum_{j = -k}^k w_j x_{i+j}
-\]</span> {#eq:convolucion-1d} para todo <span class="math inline">\(i\)</span>. El vector <span class="math inline">\(\boldsymbol{w}\)</span> se llama <strong>kernel</strong> (núcleo) o <strong>filtro</strong>. El rango de valores de <span class="math inline">\(j\)</span> está dado por <span class="math inline">\([-k, k]\)</span>, y su <strong>tamaño</strong> es <span class="math inline">\(2k+1\)</span>. Se usan kernels relativamente pequeños, típicamente de tamaño 3 o 5.</p>
+<section id="redes-convolucionales-en-una-dimensión" class="level2">
+<h2 class="anchored" data-anchor-id="redes-convolucionales-en-una-dimensión">Redes convolucionales en una dimensión</h2>
+<section id="convolución-en-una-dimensión" class="level3">
+<h3 class="anchored" data-anchor-id="convolución-en-una-dimensión">Convolución en una dimensión</h3>
+<p>Una convolución transforma un vector de entrada <span class="math inline">\(\boldsymbol{x}\)</span> en un vector de salida <span class="math inline">\(\boldsymbol{z}\)</span> de la misma dimensión tal que</p>
+<p><span id="eq-convolucion-1d"><span class="math display">\[
+z_i = \sum_{j = -k}^k w_j x_{i+j} + b\,.
+\tag{1}\]</span></span></p>
+<p>para todo <span class="math inline">\(i\)</span>. El vector <span class="math inline">\(\boldsymbol{w}\)</span> se llama <strong>kernel</strong> (núcleo) o <strong>filtro</strong>. El rango de valores de <span class="math inline">\(j\)</span> está dado por <span class="math inline">\([-k, k]\)</span>, y su <strong>tamaño</strong> es <span class="math inline">\(2k+1\)</span>. Se usan kernels relativamente pequeños, típicamente de tamaño 3 o 5.</p>
 <p>Este tipo de operaciones es muy usada en el análisis de series temporales. Es decir, el elemento <span class="math inline">\(x_i\)</span> del vector <span class="math inline">\(\boldsymbol{x}\)</span> es la medición de una variable física en el instante <span class="math inline">\(t_i\)</span>. Este tipo de filtros y convoluciones ayudan a extraer patrones locales en ese tipo de series o señales.</p>
 <p>Este tipo de convolución se ilustra en la figura 10.2 (a) y (b) del libro. Un ejemplo de un kernel con otro tamaño es el de la figura 10.3 (c) del libro.</p>
 <p>Vemos que los pesos <span class="math inline">\(w_j\)</span> son los mismos para todo <span class="math inline">\(i\)</span>. Esto hace que la convolución sea invariante bajo traslaciones.</p>
 <p>La idea de esta operación es que producimos varios filtros de la señal <span class="math inline">\(\boldsymbol{x}\)</span>, cada uno con un kernel diferente. En análisis de señales clásico, se usan filtros específicos para extraer ciertas características. En este caso dejamos libres los pesos <span class="math inline">\(w_j\)</span> para que la red aprenda los filtros que mejor se ajusten al problema.</p>
 </section>
-<section id="padding-rellenado" class="level2">
-<h2 class="anchored" data-anchor-id="padding-rellenado">Padding (Rellenado)</h2>
-<p>Al ver la <span class="citation" data-cites="eq:convolucion-1d">@eq:convolucion-1d</span>, notamos que los primeros elementos del vector <span class="math inline">\(\boldsymbol{z}\)</span> pueden depender de elementos de vector <span class="math inline">\(\boldsymbol{x}\)</span> que no están definidos. Por ejemplo, <span class="math inline">\(z_0\)</span> depende de <span class="math inline">\(x_{-1}\)</span> que no está definido. Existen varias estrategias para lidiar con este problema:</p>
+<section id="padding-rellenado" class="level3">
+<h3 class="anchored" data-anchor-id="padding-rellenado">Padding (Rellenado)</h3>
+<p>Al ver la <a href="#eq-convolucion-1d" class="quarto-xref">Ecuación&nbsp;1</a>, notamos que los primeros elementos del vector <span class="math inline">\(\boldsymbol{z}\)</span> pueden depender de elementos de vector <span class="math inline">\(\boldsymbol{x}\)</span> que no están definidos. Por ejemplo, <span class="math inline">\(z_0\)</span> depende de <span class="math inline">\(x_{-1}\)</span> que no está definido. Existen varias estrategias para lidiar con este problema:</p>
 <ul>
 <li><p><strong>Rellenado válido</strong>: Se llama así porque se usan sólo los elementos de <span class="math inline">\(\boldsymbol{x}\)</span> que están definidos. Si algún elemento de <span class="math inline">\(\boldsymbol{z}\)</span> depende de un elemento de <span class="math inline">\(\boldsymbol{x}\)</span> que no está definido, se descarta. Esto se ilustra en la figura 10.2 (d) del libro.</p></li>
 <li><p><strong>Rellenado de ceros</strong>: Se llama así porque se agregan ceros a los bordes de <span class="math inline">\(\boldsymbol{x}\)</span> para que todos los elementos de <span class="math inline">\(\boldsymbol{z}\)</span> dependan de elementos de <span class="math inline">\(\boldsymbol{x}\)</span> que están definidos. Esto se ilustra en la figura 10.2 (c) del libro.</p></li>
 </ul>
 </section>
-<section id="paso-stride-y-agrupamiento-pooling." class="level2">
-<h2 class="anchored" data-anchor-id="paso-stride-y-agrupamiento-pooling.">Paso (stride) y agrupamiento (pooling).</h2>
+<section id="paso-stride-y-agrupamiento-pooling." class="level3">
+<h3 class="anchored" data-anchor-id="paso-stride-y-agrupamiento-pooling.">Paso (stride) y agrupamiento (pooling).</h3>
 <p>Como discutiremos más adelante, es usual que el vector <span class="math inline">\(\boldsymbol{z}\)</span> tenga menos elementos que el vector <span class="math inline">\(\boldsymbol{x}\)</span>. Esto se puede hacer de dos maneras:</p>
 <ul>
 <li><p><strong>Paso (stride)</strong>: Como cada elemento de <span class="math inline">\(\boldsymbol{z}\)</span> depende de <span class="math inline">\(2k+1\)</span> elementos de <span class="math inline">\(\boldsymbol{x}\)</span>, no perdemos mucha información si calculamos sólo algunos de los elementos de <span class="math inline">\(\boldsymbol{z}\)</span>. Es decir, definimos <span class="math inline">\(z_i = \sum_{j = -k}^k w_j x_{i\cdot p-j}\)</span> donde <span class="math inline">\(p\)</span> es el <strong>paso</strong>. Como vemos, <span class="math inline">\(\boldsymbol{z}\)</span> tendrá aproximadamente <span class="math inline">\(\frac{n}{p}\)</span> elementos. Esto se ilustra en las figuras 10.3 (a) y (b) del libro.</p></li>
@@ -537,35 +542,35 @@ z_i = \sum_{j = -k}^k w_j x_{i+j}
 </ul></li>
 </ul>
 </section>
-<section id="capas-convolucionales" class="level2">
-<h2 class="anchored" data-anchor-id="capas-convolucionales">Capas convolucionales</h2>
-<p>Una capa convolucional consiste en realizar una convolución de la señal de entrada <span class="math inline">\(\boldsymbol{x}\)</span> con un kernel <span class="math inline">\(\boldsymbol{w}\)</span>, sumar un sesgo <span class="math inline">\(\beta\)</span> y aplicar una función de activación <span class="math inline">\(a\)</span> para producir la salida <span class="math inline">\(h\)</span>. En realidad se producen varios <em>canales</em> <span class="math inline">\(h_i\)</span> a partir de la misma señal de entrada <span class="math inline">\(\boldsymbol{x}\)</span>, cada uno con un kernel diferente: <span class="math display">\[
-h_{ic} = a\left(\sum_{j = -k}^k w_{cj} x_{i+j} + \beta_{c}\right)\,,
+<section id="capas-convolucionales" class="level3">
+<h3 class="anchored" data-anchor-id="capas-convolucionales">Capas convolucionales</h3>
+<p>Una capa convolucional consiste en realizar una convolución de la señal de entrada <span class="math inline">\(\boldsymbol{x}\)</span> con un kernel <span class="math inline">\(\boldsymbol{w}\)</span>, sumar un sesgo <span class="math inline">\(b_i\)</span> y aplicar una función de activación <span class="math inline">\(a\)</span> para producir la salida <span class="math inline">\(h\)</span>. En realidad se producen varios <em>canales</em> <span class="math inline">\(h_i\)</span> a partir de la misma señal de entrada <span class="math inline">\(\boldsymbol{x}\)</span>, cada uno con un kernel diferente: <span class="math display">\[
+h_{ic} = a\left(\sum_{j = -k}^k w_{cj} x_{i+j} + b_{c}\right)\,,
 \]</span> donde <span class="math inline">\(c\)</span> es el canal, <span class="math inline">\(i\)</span> se refiere a cada pixel, y <span class="math inline">\(j\)</span> es el índice de la convolución. Esto se ilustra en la figura 10.5 del libro.</p>
 <p>Si tenemos <span class="math inline">\(C\)</span> canales de salida, y un tamaño de kernel <span class="math inline">\(2k+1\)</span>, entonces la capa convolucional tiene <span class="math inline">\(C(2k+2)\)</span> parámetros. Si comparamos con una capa densa, que tiene <span class="math inline">\(C\)</span> neuronas y <span class="math inline">\(n\)</span> entradas, entonces la capa densa tiene <span class="math inline">\(C(n + 1)\)</span> parámetros. El tamaño del kernel es mucho menor que el tamaño de la señal de entrada <span class="math inline">\(2k+1 \ll n\)</span>. Por lo tanto, la capa convolucional tiene muchos menos parámetros que la capa densa. A pesar de tener menos parámetros, logra capturar la forma de las señales locales de forma mucho más eficaz. Esto es porque le hemos dado información adicional sobre el problema: La invarianza bajo traslaciones. Esta diferencia se ilustra en la figura 10.4 del libro.</p>
 <p>En el libro se ilustra un ejemplo que llama MNIST-1D. Nosotros usaremos el ejemplo más clásico con los datos MNIST usual en 2D.</p>
 </section>
-<section id="campo-receptivo-receptive-field" class="level2">
-<h2 class="anchored" data-anchor-id="campo-receptivo-receptive-field">Campo receptivo (receptive field)</h2>
+<section id="campo-receptivo-receptive-field" class="level3">
+<h3 class="anchored" data-anchor-id="campo-receptivo-receptive-field">Campo receptivo (receptive field)</h3>
 <p>El campo receptivo es el área de la imagen que se utiliza para calcular el valor de una neurona. En el caso de una capa densa (completamente conectada), el campo receptivo es toda la imagen.</p>
 <p>En el caso de una sola capa convolucional, un pixel dado <span class="math inline">\(i,j\)</span> depende de un área de los canales de entrada de tamaño <span class="math inline">\(2k+1\)</span>. Por lo tanto, el campo receptivo es de tamaño <span class="math inline">\(2k+1\)</span>. Si hay más capas convolucionales, el campo receptivo crece porque cada pixel de un filtro de entrada a su vez depende de varios pixeles de la capa anterior.</p>
 </section>
 </section>
-<section id="redes-convolucionales-en-dos-dimensiones" class="level1">
-<h1>Redes Convolucionales en Dos Dimensiones</h1>
+<section id="redes-convolucionales-en-dos-dimensiones" class="level2">
+<h2 class="anchored" data-anchor-id="redes-convolucionales-en-dos-dimensiones">Redes Convolucionales en Dos Dimensiones</h2>
 <p>La generalización a dos dimensiones es directa, sólo requiere aceptar más índices. El filtro para el pixel <span class="math inline">\((i,j)\)</span> es: <span class="math display">\[
-h_{ij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k w_{mn} x_{i+m, j+n} + \beta\right)\,,
+h_{ij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k w_{mn} x_{i+m, j+n} + b\right)\,,
 \]</span></p>
 <p>Un típico filtro de este tipo se ilustra en la figura 10.9 del libro.</p>
 <p>Si tenemos varios filtros, escribimos <span class="math display">\[
-h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k w_{cmn} x_{i+m, j+n} + \beta_c\right)\,.
+h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k w_{cmn} x_{i+m, j+n} + b_c\right)\,.
 \]</span> Vemos entonces que es natural trabajar con objetos que tienen más de dos índices, es decir tensores.</p>
 <p>Como las capas convolucionales se apilan, la entrada de la capa anterior también consistirá en varios filtros. A estos los llamamos los canales de entrada. De hecho, para imágenes digitales, la entrada de la primerísima capa convolucional será la imagen original, que tiene tres canales: rojo, verde y azul. En astronomía podría incluso tener más canales correspondientes a diferentes longitudes de onda. En general, nuestros filtros también pueden mezclar diferentes canales de entrada, entonces la capa convolucional se escribe <span class="math display">\[
-h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k \sum_{c' = 1}^{C'} w_{cc',mn} x_{c', i+m, j+n} + \beta_c\right)\,.
+h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k \sum_{c' = 1}^{C'} w_{cc',mn} x_{c', i+m, j+n} + b_c\right)\,.
 \]</span> Donde <span class="math inline">\(C'\)</span> es el número de canales de entrada.</p>
 </section>
-<section id="ejemplo-con-mnist" class="level1">
-<h1>Ejemplo con MNIST</h1>
+<section id="ejemplo-con-mnist" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-con-mnist">Ejemplo con MNIST</h2>
 <p>Ahora repetimos el ejemplo de MNIST pero usando capas convolucionales.</p>
 <p>Primero cargamos los datos. Recuerde que debemos normaliarlos.</p>
 <div id="e509f745" class="cell" data-execution_count="2">
@@ -917,6 +922,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

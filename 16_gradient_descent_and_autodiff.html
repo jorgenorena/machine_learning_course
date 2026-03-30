@@ -69,10 +69,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4379b0ccadffce622b03caf4c46266b3.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9eb995e8644016eb670a0cb3bf478a26.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-686b15c34b244653d4c55e362e50c6f0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -261,6 +263,7 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -469,10 +472,10 @@ window.Quarto = {
   <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
   <li><a href="#adam-adaptive-moment-estimation" id="toc-adam-adaptive-moment-estimation" class="nav-link" data-scroll-target="#adam-adaptive-moment-estimation">Adam (Adaptive Moment Estimation)</a></li>
   </ul></li>
-  <li><a href="#diferenciación-automática-ad" id="toc-diferenciación-automática-ad" class="nav-link" data-scroll-target="#diferenciación-automática-ad">Diferenciación Automática (AD)</a>
-  <ul class="collapse">
-  <li><a href="#algoritmo-de-backpropagation-modo-reverso-de-ad" id="toc-algoritmo-de-backpropagation-modo-reverso-de-ad" class="nav-link" data-scroll-target="#algoritmo-de-backpropagation-modo-reverso-de-ad">Algoritmo de Backpropagation (Modo Reverso de AD)</a></li>
-  </ul></li>
+  <li><a href="#diferenciación-automática-ad" id="toc-diferenciación-automática-ad" class="nav-link" data-scroll-target="#diferenciación-automática-ad">Diferenciación Automática (AD)</a></li>
+  <li><a href="#la-idea-detrás-de-la-autodiferenciación" id="toc-la-idea-detrás-de-la-autodiferenciación" class="nav-link" data-scroll-target="#la-idea-detrás-de-la-autodiferenciación">La idea detrás de la autodiferenciación</a></li>
+  <li><a href="#autodiferenciación-en-modo-directo" id="toc-autodiferenciación-en-modo-directo" class="nav-link" data-scroll-target="#autodiferenciación-en-modo-directo">Autodiferenciación en modo directo</a></li>
+  <li><a href="#autodiferenciación-en-modo-inverso" id="toc-autodiferenciación-en-modo-inverso" class="nav-link" data-scroll-target="#autodiferenciación-en-modo-inverso">Autodiferenciación en modo inverso</a></li>
   <li><a href="#inicialización-de-parámetros" id="toc-inicialización-de-parámetros" class="nav-link" data-scroll-target="#inicialización-de-parámetros">Inicialización de parámetros</a>
   <ul class="collapse">
   <li><a href="#el-problema-de-la-varianza-grande-o-pequeña" id="toc-el-problema-de-la-varianza-grande-o-pequeña" class="nav-link" data-scroll-target="#el-problema-de-la-varianza-grande-o-pequeña">El problema de la varianza grande o pequeña</a></li>
@@ -510,10 +513,10 @@ window.Quarto = {
 <p>Ahora queremos estudiar cómo encontrar los parámetros óptimos de un modelo para minimizar una función de pérdida. Existen muchos algoritmos de optimización. Uno de los que converge en menos pasos es el método de Newton, pero su costo computacional crece rápidamente con el número de parámetros. Las redes neuronales pueden involucrar billones de parámetros, lo que hace que el método de Newton y otros similares sean imposibles de aplicar. Por lo tanto se usa el Descenso de Gradiente (Gradient Descent, GD) al entrenar redes neuronales.</p>
 <p>El descenso de gradiente consiste en tomar el gradiente de la función de pérdida en el espacio de parámetros. La idea es ir en la dirección opuesta al gradiente, ya que el gradiente apunta en la dirección de máximo crecimiento de la función (y su opuesto en la dirección de máximo descenso). Cuando llegamos a un mínimo de la función, el gradiente será cero.</p>
 <p>En esta sección veremos primero cómo aplicar el descenso de gradiente para un perceptrón multicapa asumiendo que el gradiente de la función de pérdida con respecto a los parámetros de la red es conocido. Luego veremos cómo calcular el gradiente de la función de pérdida con respecto a los parámetros de la red de manera eficiente. Finalmente discutiremos algunos detalles de cómo escoger el punto inicial en el espacio de parámetros para inciar el descenso de gradiente.</p>
-<section id="descenso-de-gradiente" class="level1">
-<h1>Descenso de Gradiente</h1>
-<section id="ejemplo-de-regresión-lineal-simple-con-descenso-de-gradiente" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-de-regresión-lineal-simple-con-descenso-de-gradiente">Ejemplo de Regresión Lineal Simple con Descenso de Gradiente</h2>
+<section id="descenso-de-gradiente" class="level2">
+<h2 class="anchored" data-anchor-id="descenso-de-gradiente">Descenso de Gradiente</h2>
+<section id="ejemplo-de-regresión-lineal-simple-con-descenso-de-gradiente" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-de-regresión-lineal-simple-con-descenso-de-gradiente">Ejemplo de Regresión Lineal Simple con Descenso de Gradiente</h3>
 <p>Antes de aplicar el descenso de gradiente a una red neuronal, empezamos por hacerlo en un caso sencillo que es fácil de visualizar: la regresión lineal simple. En este caso queremos ajustar la pendiente y el intercepto de una recta <span class="math inline">\(y = m x + b\)</span> a un conjunto de datos <span class="math inline">\((x_i, y_i)\)</span>. La función de pérdida (MSE) a minimizar es: <span class="math display">\[
 \mathcal{J}(m,b) = \frac{1}{N}\sum_{i=1}^N (y_i - (m x_i + b))^2.
 \]</span> donde <span class="math inline">\(N\)</span> es el número total de puntos de datos. Notemos que la función de pérdida es una función de dos variables, <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span>. Por eso la podemos graficar fácilmente.</p>
@@ -857,36 +860,36 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img7c680db3ccb840c7b93a8b2f04211db2" class="figure-img">
+  <img id="_anim_img3aabcb9cdf7f43d28525d5820fb3f29e" class="figure-img">
   <div class="anim-controls">
-    <input id="_anim_slider7c680db3ccb840c7b93a8b2f04211db2" type="range" class="anim-slider" name="points" min="0" max="1" step="1" value="0" oninput="anim7c680db3ccb840c7b93a8b2f04211db2.set_frame(parseInt(this.value));">
+    <input id="_anim_slider3aabcb9cdf7f43d28525d5820fb3f29e" type="range" class="anim-slider" name="points" min="0" max="1" step="1" value="0" oninput="anim3aabcb9cdf7f43d28525d5820fb3f29e.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.play_animation()">
+      <button title="Play" aria-label="Play" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim7c680db3ccb840c7b93a8b2f04211db2.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="anim3aabcb9cdf7f43d28525d5820fb3f29e.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select7c680db3ccb840c7b93a8b2f04211db2" class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_7c680db3ccb840c7b93a8b2f04211db2">
-      <label for="_anim_radio1_7c680db3ccb840c7b93a8b2f04211db2">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_7c680db3ccb840c7b93a8b2f04211db2" checked="">
-      <label for="_anim_radio2_7c680db3ccb840c7b93a8b2f04211db2">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_7c680db3ccb840c7b93a8b2f04211db2">
-      <label for="_anim_radio3_7c680db3ccb840c7b93a8b2f04211db2">Reflect</label>
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select3aabcb9cdf7f43d28525d5820fb3f29e" class="anim-state">
+      <input type="radio" name="state" value="once" id="_anim_radio1_3aabcb9cdf7f43d28525d5820fb3f29e">
+      <label for="_anim_radio1_3aabcb9cdf7f43d28525d5820fb3f29e">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_3aabcb9cdf7f43d28525d5820fb3f29e" checked="">
+      <label for="_anim_radio2_3aabcb9cdf7f43d28525d5820fb3f29e">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_3aabcb9cdf7f43d28525d5820fb3f29e">
+      <label for="_anim_radio3_3aabcb9cdf7f43d28525d5820fb3f29e">Reflect</label>
     </form>
   </div>
 </div>
@@ -896,9 +899,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img7c680db3ccb840c7b93a8b2f04211db2";
-    var slider_id = "_anim_slider7c680db3ccb840c7b93a8b2f04211db2";
-    var loop_select_id = "_anim_loop_select7c680db3ccb840c7b93a8b2f04211db2";
+    var img_id = "_anim_img3aabcb9cdf7f43d28525d5820fb3f29e";
+    var slider_id = "_anim_slider3aabcb9cdf7f43d28525d5820fb3f29e";
+    var loop_select_id = "_anim_loop_select3aabcb9cdf7f43d28525d5820fb3f29e";
     var frames = new Array(16);
     
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8AAAAJACAYAAABCEQ/3AAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -25447,7 +25450,7 @@ AABJRU5ErkJggg==\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim7c680db3ccb840c7b93a8b2f04211db2 = new Animation(frames, img_id, slider_id, 299.0,
+        anim3aabcb9cdf7f43d28525d5820fb3f29e = new Animation(frames, img_id, slider_id, 299.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -25479,15 +25482,15 @@ Figura&nbsp;2
 </div>
 <p>En la <a href="#fig-linreg-gradient-descent" class="quarto-xref">Figura&nbsp;2</a> se muestra el descenso de gradiente para regresión lineal. Graficamos unos pocos pasos del descenso de gradiente. Ya podemos apreciar un posible problema: El descenso avanza rápidamente en la dirección de la pendiente, pero luego se detiene y avanza lentamente en la dirección del intercepto. Esto es porque el gradiente es más pronunciado en la dirección de la pendiente que en la dirección del intercepto. Veremos más adelante cómo intentar mejorar esto.</p>
 </section>
-<section id="ejemplo-2d-de-modelo-gabor-paisajes-con-mínimos-locales" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-2d-de-modelo-gabor-paisajes-con-mínimos-locales">Ejemplo 2D de modelo Gabor: paisajes con mínimos locales</h2>
+<section id="ejemplo-2d-de-modelo-gabor-paisajes-con-mínimos-locales" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-2d-de-modelo-gabor-paisajes-con-mínimos-locales">Ejemplo 2D de modelo Gabor: paisajes con mínimos locales</h3>
 <p>El ejemplo de arriba fue para una función de pérdida convexa. En general las funciones de pérdida de las redes neuronales no tienen esta propiedad. Por lo tanto, el “paisaje” de la pérdida puede ser complejo, presentando múltiples mínimos locales y puntos de silla (saddle points). Esto dificulta la optimización, ya que el Descenso de Gradiente puede quedar atrapado en un mínimo local que no es el mínimo global. Usaremos una función sencilla con esas características llamada función de Gabor para ilustrar el problema.</p>
-<p>Usamos una función Gabor 1D como modelo, donde ajustaremos dos de sus parámetros. Consideramos <span class="math inline">\(\sigma\)</span> y <span class="math inline">\(\omega\)</span> como parámetros fijos conocidos. Optimizaremos la amplitud <span class="math inline">\(A\)</span> y la fase <span class="math inline">\(\phi\)</span>: <span class="math display">\[
+<p>Usamos una función Gabor 1D como modelo, donde ajustaremos dos de sus parámetros. Definimos la función <span class="math display">\[
 f(x; \phi_0,\phi_1) = e^{-\frac{(\phi_0 + \phi_1 x)^2}{32}}\cos(\phi_0 + \phi_1 x + \phi).
 \]</span> Ajustamos <span class="math inline">\((\phi_0,\phi_1)\)</span> a datos <span class="math inline">\((x_i, y_i)\)</span> generados usando valores verdaderos <span class="math inline">\((\phi_0^*,\phi_1^*)\)</span>, en este ejemplo.</p>
 <p>Minimizamos el Error Cuadrático Medio entre las predicciones del modelo Gabor y los datos <span class="math inline">\(y_i\)</span>. Siendo <span class="math inline">\(N\)</span> el número de puntos <span class="math inline">\(x_i\)</span>: <span class="math display">\[
 \mathcal{L}(\phi_0,\phi_1) = \frac{1}{N}\sum_{i=1}^N (y_i - f(x_i; \phi_0,\phi_1))^2.
-\]</span> La naturaleza oscilatoria del término <span class="math inline">\(\cos(\phi_0 + \phi_1 x + \phi)\)</span>, multiplicada por la amplitud <span class="math inline">\(A\)</span>, crea un paisaje de pérdida no convexo con múltiples valles (mínimos locales) y puntos de silla.</p>
+\]</span> La naturaleza oscilatoria del término <span class="math inline">\(\cos(\phi_0 + \phi_1 x + \phi)\)</span> crea un paisaje de pérdida no convexo con múltiples valles (mínimos locales) y puntos de silla.</p>
 <p>Para entender el paisaje de la pérdida, generamos un gráfico de contorno de <span class="math inline">\(\mathcal{L}(\phi_0,\phi_1)\)</span> evaluando la pérdida en una rejilla de valores de <span class="math inline">\(\phi_0\)</span> y <span class="math inline">\(\phi_1\)</span>. Este gráfico muestra las regiones de baja pérdida (valles) y las zonas de puntos de silla. Adicionalmente, se pueden trazar las trayectorias seguidas por el algoritmo de Descenso de Gradiente partiendo desde diferentes puntos iniciales <span class="math inline">\((\phi_{0,0}, \phi_{1,0})\)</span>.</p>
 <div class="cell" data-execution_count="4">
 <details class="code-fold">
@@ -25793,36 +25796,36 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img548eed5c38e64ce0881284b47a04c90d" class="figure-img">
+  <img id="_anim_imgdf92411e361f4bf7b750c03552f3569e" class="figure-img">
   <div class="anim-controls">
-    <input id="_anim_slider548eed5c38e64ce0881284b47a04c90d" type="range" class="anim-slider" name="points" min="0" max="1" step="1" value="0" oninput="anim548eed5c38e64ce0881284b47a04c90d.set_frame(parseInt(this.value));">
+    <input id="_anim_sliderdf92411e361f4bf7b750c03552f3569e" type="range" class="anim-slider" name="points" min="0" max="1" step="1" value="0" oninput="animdf92411e361f4bf7b750c03552f3569e.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim548eed5c38e64ce0881284b47a04c90d.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="animdf92411e361f4bf7b750c03552f3569e.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim548eed5c38e64ce0881284b47a04c90d.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="animdf92411e361f4bf7b750c03552f3569e.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim548eed5c38e64ce0881284b47a04c90d.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="animdf92411e361f4bf7b750c03552f3569e.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim548eed5c38e64ce0881284b47a04c90d.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="animdf92411e361f4bf7b750c03552f3569e.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim548eed5c38e64ce0881284b47a04c90d.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="animdf92411e361f4bf7b750c03552f3569e.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim548eed5c38e64ce0881284b47a04c90d.play_animation()">
+      <button title="Play" aria-label="Play" onclick="animdf92411e361f4bf7b750c03552f3569e.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim548eed5c38e64ce0881284b47a04c90d.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="animdf92411e361f4bf7b750c03552f3569e.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim548eed5c38e64ce0881284b47a04c90d.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="animdf92411e361f4bf7b750c03552f3569e.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim548eed5c38e64ce0881284b47a04c90d.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="animdf92411e361f4bf7b750c03552f3569e.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select548eed5c38e64ce0881284b47a04c90d" class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_548eed5c38e64ce0881284b47a04c90d">
-      <label for="_anim_radio1_548eed5c38e64ce0881284b47a04c90d">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_548eed5c38e64ce0881284b47a04c90d" checked="">
-      <label for="_anim_radio2_548eed5c38e64ce0881284b47a04c90d">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_548eed5c38e64ce0881284b47a04c90d">
-      <label for="_anim_radio3_548eed5c38e64ce0881284b47a04c90d">Reflect</label>
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectdf92411e361f4bf7b750c03552f3569e" class="anim-state">
+      <input type="radio" name="state" value="once" id="_anim_radio1_df92411e361f4bf7b750c03552f3569e">
+      <label for="_anim_radio1_df92411e361f4bf7b750c03552f3569e">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_df92411e361f4bf7b750c03552f3569e" checked="">
+      <label for="_anim_radio2_df92411e361f4bf7b750c03552f3569e">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_df92411e361f4bf7b750c03552f3569e">
+      <label for="_anim_radio3_df92411e361f4bf7b750c03552f3569e">Reflect</label>
     </form>
   </div>
 </div>
@@ -25832,9 +25835,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img548eed5c38e64ce0881284b47a04c90d";
-    var slider_id = "_anim_slider548eed5c38e64ce0881284b47a04c90d";
-    var loop_select_id = "_anim_loop_select548eed5c38e64ce0881284b47a04c90d";
+    var img_id = "_anim_imgdf92411e361f4bf7b750c03552f3569e";
+    var slider_id = "_anim_sliderdf92411e361f4bf7b750c03552f3569e";
+    var loop_select_id = "_anim_loop_selectdf92411e361f4bf7b750c03552f3569e";
     var frames = new Array(31);
     
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8AAAAJACAYAAABCEQ/3AAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -113811,7 +113814,7 @@ giAIwpJABFgQBEEQBEEQBEFYEogAC4IgCIIgCIIgCEuC/x/gf+1i5r6oOwAAAABJRU5ErkJggg==\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim548eed5c38e64ce0881284b47a04c90d = new Animation(frames, img_id, slider_id, 299.0,
+        animdf92411e361f4bf7b750c03552f3569e = new Animation(frames, img_id, slider_id, 299.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -113843,11 +113846,11 @@ Figura&nbsp;3
 </div>
 <p>En la <a href="#fig-gabor-gradient-descent" class="quarto-xref">Figura&nbsp;3</a> se muestra el paisaje de la pérdida para el modelo Gabor, y las trayectorias de convergencia para diferentes puntos iniciales. Vemos que diferentes puntos van hacia diferentes mínimos locales, lo que dificulta la convergencia al mínimo global.</p>
 </section>
-<section id="descenso-de-gradiente-estocástico-sgd-y-por-mini-lotes" class="level2">
-<h2 class="anchored" data-anchor-id="descenso-de-gradiente-estocástico-sgd-y-por-mini-lotes">Descenso de Gradiente Estocástico (SGD) y por mini-lotes</h2>
+<section id="descenso-de-gradiente-estocástico-sgd-y-por-mini-lotes" class="level3">
+<h3 class="anchored" data-anchor-id="descenso-de-gradiente-estocástico-sgd-y-por-mini-lotes">Descenso de Gradiente Estocástico (SGD) y por mini-lotes</h3>
 <p>Cuando el conjunto de datos es muy grande, calcular el gradiente sobre todos los <span class="math inline">\(N\)</span> ejemplos en cada paso puede ser computacionalmente muy costoso. Por ello, se utilizan variantes del GD que usan un subconjunto de los datos para aproximar el gradiente a cada paso. Esta será sólo una aproximación, y nos da una estima ruidosa del gradiente de la pérdida ideal. Pero esto tiene una gran ventaja: Ese ruido puede empujar el algoritmo a saltar de mínimos locales poco profundos. Veamos dos variaciones de esa idea:</p>
 <ul>
-<li><strong>Descenso de Gradiente Estocástico (SGD)</strong> Realiza una actualización de parámetros por <em>cada</em> ejemplo individual <span class="math inline">\((x_i, y_i)\)</span>. En cada paso, el gradiente se estima usando solo ese único ejemplo: <span class="math inline">\(\theta \leftarrow \theta - \eta \nabla_{\theta} \mathcal{L}_{\text{indiv}}(\theta; x_i, y_i)\)</span>, donde <span class="math inline">\(\mathcal{L}_{\text{indiv}}\)</span> es la pérdida calculada para ese punto. Luego repite para todos los puntos <span class="math inline">\((x_i, y_i)\)</span> y vuelve a empezar.
+<li><strong>Descenso de Gradiente Estocástico (SGD)</strong> Realiza una actualización de parámetros por <em>cada</em> ejemplo individual <span class="math inline">\((x_i, y_i)\)</span>. En cada paso, el gradiente se estima usando solo ese único ejemplo: <span class="math inline">\(\theta \leftarrow \theta - \eta \nabla_{\theta} \mathcal{j}(\theta; x_i, y_i)\)</span>, donde <span class="math inline">\(\mathcal{j}\)</span> es la pérdida calculada para ese punto. Luego repite para todos los puntos <span class="math inline">\((x_i, y_i)\)</span> y vuelve a empezar.
 <ul>
 <li><em>Ventajas:</em> Actualizaciones muy rápidas y bajo coste computacional por actualización. La alta varianza en la estimación del gradiente puede ayudar a escapar de mínimos locales “malos”.</li>
 <li><em>Desventajas:</em> Al usar un único dato para calcular el gradiente, la trayectoria de convergencia es muy ruidosa (alta varianza). Puede que nunca converja exactamente al mínimo, sino que oscile alrededor de este.</li>
@@ -113876,24 +113879,24 @@ Figura&nbsp;3
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Actualizar parámetros</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        theta <span class="op">=</span> theta <span class="op">-</span> eta <span class="op">*</span> grad</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="momentum" class="level2">
-<h2 class="anchored" data-anchor-id="momentum">Momentum</h2>
+<section id="momentum" class="level3">
+<h3 class="anchored" data-anchor-id="momentum">Momentum</h3>
 <p>Otra estrategia para atacar el problema de los mínimos locales y la oscilación alrededor de mínimos, es cambiar el proceso de aprendizaje. Es decir, modificamos la forma como se actualizan los pesos a cada paso.</p>
 <p>El método de Momentum introduce un término de “velocidad” <span class="math inline">\(v\)</span> que acumula una media móvil exponencial de los gradientes pasados. Ayuda a acelerar el descenso en direcciones consistentes y amortigua las oscilaciones en direcciones donde el gradiente cambia rápidamente (típico en valles estrechos y alargados).</p>
 <p>La actualización se modifica como sigue (donde <span class="math inline">\(\theta\)</span> representa los parámetros del modelo, como <span class="math inline">\(m\)</span> y <span class="math inline">\(b\)</span>):</p>
 <p><span class="math display">\[
 \begin{aligned}
-v_t &amp;\leftarrow \beta\,v_{t-1} + (1-\beta)\,\nabla\mathcal{L}(\theta_{t-1}),\\
+v_t &amp;\leftarrow \beta\,v_{t-1} + (1-\beta)\,\nabla\mathcal{J}(\theta_{t-1}),\\
 \theta_t &amp;\leftarrow \theta_{t-1} - \eta\,v_t.
 \end{aligned}
 \]</span></p>
 <ul>
 <li><span class="math inline">\(v_t\)</span> es el vector de velocidad en el paso <span class="math inline">\(t\)</span>.</li>
 <li><span class="math inline">\(\beta\)</span> es el coeficiente de momentum (usualmente cercano a 0.9). Controla cuánto del momentum anterior se conserva. Un <span class="math inline">\(\beta\)</span> alto significa que los gradientes pasados tienen más influencia.</li>
-<li><span class="math inline">\(\nabla\mathcal{L}(\theta_{t-1})\)</span> es el gradiente calculado en el paso actual (puede ser batch, mini-batch o stochastic).</li>
+<li><span class="math inline">\(\nabla\mathcal{J}(\theta_{t-1})\)</span> es el gradiente calculado en el paso actual (puede ser batch, mini-batch o stochastic).</li>
 </ul>
 <p>A cantidades que se acumulan de la manera como lo hace <span class="math inline">\(v_t\)</span> se les llama <strong>media móvil exponencial</strong>.</p>
-<p>Esto es burdamente similar a una bola pesada rodando por una pendiente. Acumula momento, lo que le permite pasar por pequeños baches y acelerar en las bajadas consistentes. A pesar de llamarse momentum, no es exactamente el momentum definido en la física.</p>
+<p>Esto es burdamente similar a una bola pesada rodando por una pendiente. Acumula momento, lo que le permite pasar por pequeños baches y acelerar en las bajadas consistentes. Cabe aclarar que a pesar de llamarse momentum, no corresponde exactamente al momentum definido en la física.</p>
 <p>A continuación el pseudocódigo para el descenso de gradiente con momentum en el problema de regresión lineal:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializar velocidades</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v_m, v_b <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
@@ -113914,8 +113917,8 @@ v_t &amp;\leftarrow \beta\,v_{t-1} + (1-\beta)\,\nabla\mathcal{L}(\theta_{t-1}),
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    m <span class="op">-=</span> eta <span class="op">*</span> v_m</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    b <span class="op">-=</span> eta <span class="op">*</span> v_b</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="adam-adaptive-moment-estimation" class="level2">
-<h2 class="anchored" data-anchor-id="adam-adaptive-moment-estimation">Adam (Adaptive Moment Estimation)</h2>
+<section id="adam-adaptive-moment-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="adam-adaptive-moment-estimation">Adam (Adaptive Moment Estimation)</h3>
 <p>Cuando hicimos el ejemplo de regresión lineal, vimos que la convergencia hacia el mínimo en una dimensión era mucho más rápida que en la otra. Adam es un optimizador que intenta resolver este problema ajustando automáticamente la tasa de aprendizaje para cada parámetro individualmente.</p>
 <p>Adam es un optimizador muy popular que combina dos ideas principales:</p>
 <ol type="1">
@@ -113969,119 +113972,158 @@ v_t &amp;= \beta_2 v_{t-1} + (1-\beta_2)\,g_t^2 &amp; \text{(Estimación del 2do
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    b <span class="op">-=</span> eta <span class="op">*</span> m_b_corrected <span class="op">/</span> (np.sqrt(v_b_corrected) <span class="op">+</span> epsilon)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="diferenciación-automática-ad" class="level1">
-<h1>Diferenciación Automática (AD)</h1>
+<section id="diferenciación-automática-ad" class="level2">
+<h2 class="anchored" data-anchor-id="diferenciación-automática-ad">Diferenciación Automática (AD)</h2>
 <p>Vimos que el descenso de gradiente y los algoritmos inspirados en este usan la derivada de la función de pérdida con respecto a los parámetros de la red. Las redes neuronales tienen hasta billones de parámetros, por lo que calcular la derivada de la función de pérdida con respecto a cada uno de ellos puede ser bastante costoso. Sin embargo, se han desarrollado técnicas que atacan este problema de forma bastante ingeniosa.</p>
 <p>La diferenciación automática (AD) es un conjunto de técnicas que permite calcular de forma exacta y eficiente derivadas de funciones definidas por programas informáticos. Es crucial distinguirla de la <em>diferenciación simbólica</em> (que puede llevar a expresiones muy complejas) y de la <em>diferenciación numérica</em> (que usa aproximaciones por diferencias finitas y sufre de errores de truncamiento y redondeo). AD calcula derivadas exactas (hasta la precisión de la máquina) con una eficiencia comparable a la evaluación de la propia función.</p>
-<section id="algoritmo-de-backpropagation-modo-reverso-de-ad" class="level2">
-<h2 class="anchored" data-anchor-id="algoritmo-de-backpropagation-modo-reverso-de-ad">Algoritmo de Backpropagation (Modo Reverso de AD)</h2>
-<p>En redes neuronales y otros modelos con muchos parámetros, la diferenciación automática se implementa de forma eficiente mediante el <strong>modo reverso</strong> (reverse mode), cuyo algoritmo más conocido es <strong>backpropagation</strong>. Existe también el <strong>modo directo</strong> (forward mode), que es menos eficiente pero puede ser útil en ciertas situaciones, y no lo veremos aquí por falta de tiempo.</p>
-<p>El modo reverso calcula todas las derivadas de una única salida (escalar, como la función de pérdida <span class="math inline">\(\mathcal{J}\)</span>) con respecto a todas las entradas y parámetros intermedios. Lo hace propagando las derivadas hacia atrás, desde la salida hacia la entrada, aplicando eficientemente la <strong>regla de la cadena</strong> sobre el <strong>grafo computacional</strong> definido por la evaluación de la función (el forward pass).</p>
-<p>El proceso tiene dos fases:</p>
-<ol type="1">
-<li><strong>Forward pass (Paso hacia adelante)</strong>
-<ul>
-<li>Partimos de la entrada <span class="math inline">\(x\)</span> y calculamos, capa a capa, las activaciones intermedias y la salida final (y la pérdida <span class="math inline">\(\mathcal{J}\)</span>). <span class="math display">\[
-z^{(1)} = W^{(1)} x + b^{(1)}, \quad a^{(1)} = \sigma(z^{(1)}), \quad z^{(2)} = W^{(2)} a^{(1)} + b^{(2)}, \dots, \quad \mathcal{J} = \text{Loss}(\text{output}, \text{target})
-\]</span></li>
-<li>Se <strong>almacenan</strong> en memoria todas las variables intermedias (<span class="math inline">\(z^{(\ell)}\)</span>, <span class="math inline">\(a^{(\ell)}\)</span>, <span class="math inline">\(W^{(\ell)}\)</span>, <span class="math inline">\(x\)</span>) que influyen en el resultado final, ya que serán necesarias para calcular las derivadas en el paso inverso.</li>
-</ul></li>
-<li><strong>Backward pass (Paso hacia atrás)</strong>
-<ul>
-<li>Se inicializa con el gradiente de la pérdida respecto a sí misma (<span class="math inline">\(\frac{\partial \mathcal{J}}{\partial \mathcal{J}} = 1\)</span>) o respecto a la salida final de la red antes de la función de pérdida.</li>
-<li>Se propaga el gradiente hacia atrás capa por capa (<span class="math inline">\(\ell = L, L-1, \dots, 1\)</span>). Para cada capa <span class="math inline">\(\ell\)</span>:
-<ul>
-<li>Se parte del gradiente respecto a la activación de la capa, <span class="math inline">\(\frac{\partial \mathcal{J}}{\partial a^{(\ell)}}\)</span> (obtenido de la capa <span class="math inline">\(\ell+1\)</span>, o inicial si <span class="math inline">\(\ell=L\)</span>).</li>
-<li>Se calcula el gradiente respecto a la entrada lineal de la capa <span class="math inline">\(\ell\)</span>, denotado <span class="math inline">\(\delta^{(\ell)}\)</span>: <span class="math display">\[
-\delta^{(\ell)} = \frac{\partial \mathcal{J}}{\partial z^{(\ell)}} = \frac{\partial \mathcal{J}}{\partial a^{(\ell)}} \odot \sigma'(z^{(\ell)})
-\]</span> donde <span class="math inline">\(\odot\)</span> es el producto elemento a elemento (Hadamard) y <span class="math inline">\(\sigma'\)</span> es la derivada de la función de activación <span class="math inline">\(\sigma\)</span> aplicada elemento a elemento a <span class="math inline">\(z^{(\ell)}\)</span>. En el caso de ReLU, <span class="math inline">\(\sigma'(z^{(\ell)}) = 1\)</span> para <span class="math inline">\(z^{(\ell)} &gt; 0\)</span> y <span class="math inline">\(\sigma'(z^{(\ell)}) = 0\)</span> para <span class="math inline">\(z^{(\ell)} \leq 0\)</span>.</li>
-<li>Se calculan los gradientes respecto a los parámetros de la capa <span class="math inline">\(\ell\)</span> usando <span class="math inline">\(\delta^{(\ell)}\)</span> y la activación de la capa anterior <span class="math inline">\(a^{(\ell-1)}\)</span> (guardada durante el forward pass): <span class="math display">\[
-\frac{\partial \mathcal{J}}{\partial W^{(\ell)}} = \delta^{(\ell)} \, (a^{(\ell-1)})^T
-\]</span> <span class="math display">\[
-\frac{\partial \mathcal{J}}{\partial b^{(\ell)}} = \delta^{(\ell)} \quad \text{(sumado sobre las muestras del batch si aplica)}
-\]</span></li>
-<li>Se calcula el gradiente que se propagará a la capa anterior <span class="math inline">\(\ell-1\)</span>: <span class="math display">\[
-\frac{\partial \mathcal{J}}{\partial a^{(\ell-1)}} = (W^{(\ell)})^T \, \delta^{(\ell)}
-\]</span> Este <span class="math inline">\(\frac{\partial \mathcal{J}}{\partial a^{(\ell-1)}}\)</span> será el punto de partida para los cálculos de la capa <span class="math inline">\(\ell-1\)</span>.</li>
-</ul></li>
-<li>Este proceso continúa hasta calcular los gradientes respecto a todos los parámetros <span class="math inline">\(W^{(\ell)}, b^{(\ell)}\)</span> de la red (y respecto a la entrada <span class="math inline">\(x\)</span> si fuera necesario).</li>
-</ul></li>
-</ol>
-<p><strong>Eficiencia:</strong> Backpropagation (modo reverso) es muy eficiente cuando tenemos muchas variables de entrada (parámetros) y una única salida escalar (la pérdida), ya que calcula todos los gradientes <span class="math inline">\(\frac{\partial L}{\partial \theta_i}\)</span> con un coste computacional bajo (aproximadamente entre 2 y 3 veces el coste del forward pass). Por eso es el método estándar para entrenar redes neuronales.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de activación y su derivada</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> relu(x):</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.maximum(<span class="dv">0</span>, x)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> drelu(x):</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (x <span class="op">&gt;</span> <span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Dimensiones de la red</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>dim_entrada <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>dim_oculta <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>dim_salida <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo de entrada y objetivo</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([[<span class="fl">0.5</span>]])  <span class="co"># forma (1, 1)</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>y_real <span class="op">=</span> np.array([[<span class="fl">1.0</span>]])  <span class="co"># forma (1, 1)</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros (inicialización aleatoria para demostración)</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>W1 <span class="op">=</span> np.random.randn(dim_oculta, dim_entrada)  <span class="co"># (2, 1)</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> np.random.randn(dim_oculta, <span class="dv">1</span>)            <span class="co"># (2, 1)</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>W2 <span class="op">=</span> np.random.randn(dim_oculta, dim_oculta)   <span class="co"># (2, 2)</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> np.random.randn(dim_oculta, <span class="dv">1</span>)            <span class="co"># (2, 1)</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>W3 <span class="op">=</span> np.random.randn(dim_salida, dim_oculta)   <span class="co"># (1, 2)</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>b3 <span class="op">=</span> np.random.randn(dim_salida, <span class="dv">1</span>)            <span class="co"># (1, 1)</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># ----- Paso hacia adelante (forward) -----</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>z1 <span class="op">=</span> W1 <span class="op">@</span> x <span class="op">+</span> b1         <span class="co"># (2, 1)</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>a1 <span class="op">=</span> relu(z1)            <span class="co"># (2, 1)</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>z2 <span class="op">=</span> W2 <span class="op">@</span> a1 <span class="op">+</span> b2        <span class="co"># (2, 1)</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>a2 <span class="op">=</span> relu(z2)            <span class="co"># (2, 1)</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>z3 <span class="op">=</span> W3 <span class="op">@</span> a2 <span class="op">+</span> b3        <span class="co"># (1, 1)</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> z3              <span class="co"># (1, 1)</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Pérdida: Error cuadrático medio</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>perdida <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.<span class="bu">sum</span>((y_pred <span class="op">-</span> y_real) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># ----- Paso hacia atrás (backward) -----</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co"># dJ/dy_pred</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>dJ_dy_pred <span class="op">=</span> y_pred <span class="op">-</span> y_real  <span class="co"># (1, 1)</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradientes de la capa de salida</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># y_pred = z3</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>dJ_dz3 <span class="op">=</span> dJ_dy_pred           <span class="co"># (1, 1)</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>dJ_dW3 <span class="op">=</span> dJ_dz3 <span class="op">@</span> a2.T        <span class="co"># (1, 2)</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>dJ_db3 <span class="op">=</span> dJ_dz3               <span class="co"># (1, 1)</span></span>
+</section>
+<section id="la-idea-detrás-de-la-autodiferenciación" class="level2">
+<h2 class="anchored" data-anchor-id="la-idea-detrás-de-la-autodiferenciación">La idea detrás de la autodiferenciación</h2>
+<p>La idea es sencilla: Conocemos las derivadas de cualquier función sencilla y para las demás usamos la regla de la cadena.</p>
+<p>Por ejemplo, supongamos que queremos tomar la derivada del coseno. Existen librerías que tuenen tabuladas las derivadas para muchas funciones. Aquí usamos <code>jax</code>.</p>
+<div id="440aa8ba" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># derivada_cos_autodiff_vs_finitas.py</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparar derivadas con autodiff (JAX) y con diferencias finitas para cos(x)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> jax</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> jax.numpy <span class="im">as</span> jnp</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> jax <span class="im">import</span> grad, vmap</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Función ---</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jnp.cos(x)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Derivada con autodiff (JAX) ---</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>df_dx_scalar <span class="op">=</span> grad(f)          <span class="co"># derivada escalar</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>df_dx_ad <span class="op">=</span> vmap(df_dx_scalar)   <span class="co"># vectorizar para arreglos</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Malla y verdad analítica ---</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">400</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>f_real <span class="op">=</span> np.cos(x)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>df_real <span class="op">=</span> <span class="op">-</span>np.sin(x)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Diferencias finitas (central, con np.gradient) ---</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>df_fd <span class="op">=</span> np.gradient(f_real, x)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Derivada con autodiff ---</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>df_ad <span class="op">=</span> np.array(df_dx_ad(jnp.array(x)))</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Gráfico ---</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">4</span>))</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>plt.plot(x, df_fd<span class="op">/</span>df_real <span class="op">-</span> <span class="dv">1</span>,   <span class="st">"--"</span>, label<span class="op">=</span><span class="st">"Diferencias finitas (np.gradient)"</span>)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>plt.plot(x, df_ad<span class="op">/</span>df_real <span class="op">-</span> <span class="dv">1</span>,   <span class="st">":"</span>, label<span class="op">=</span><span class="st">"Autodiff con JAX (grad)"</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"derivada"</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Error relativo de la derivada de cos(x)"</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Errores L2 ---</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> error_L2(a, b):</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sqrt(np.mean((a <span class="op">-</span> b)<span class="op">**</span><span class="dv">2</span>))</span>
 <span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Segunda capa oculta</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>da2_dz2 <span class="op">=</span> drelu(z2)           <span class="co"># (2, 1)</span></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>dJ_da2 <span class="op">=</span> W3.T <span class="op">@</span> dJ_dz3        <span class="co"># (2, 1)</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>dJ_dz2 <span class="op">=</span> dJ_da2 <span class="op">*</span> da2_dz2     <span class="co"># (2, 1)</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>dJ_dW2 <span class="op">=</span> dJ_dz2 <span class="op">@</span> a1.T        <span class="co"># (2, 2)</span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>dJ_db2 <span class="op">=</span> dJ_dz2               <span class="co"># (2, 1)</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Primera capa oculta</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>da1_dz1 <span class="op">=</span> drelu(z1)           <span class="co"># (2, 1)</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>dJ_da1 <span class="op">=</span> W2.T <span class="op">@</span> dJ_dz2        <span class="co"># (2, 1)</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>dJ_dz1 <span class="op">=</span> dJ_da1 <span class="op">*</span> da1_dz1     <span class="co"># (2, 1)</span></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>dJ_dW1 <span class="op">=</span> dJ_dz1 <span class="op">@</span> x.T         <span class="co"># (2, 1)</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>dJ_db1 <span class="op">=</span> dJ_dz1               <span class="co"># (2, 1)</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Ahora dJ_dW1, dJ_db1, dJ_dW2, dJ_db2, dJ_dW3, dJ_db3 son los gradientes para todos los parámetros</span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dJ/dW1:"</span>, dJ_dW1)</span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dJ/db1:"</span>, dJ_db1)</span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dJ/dW2:"</span>, dJ_dW2)</span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dJ/db2:"</span>, dJ_db2)</span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dJ/dW3:"</span>, dJ_dW3)</span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dJ/db3:"</span>, dJ_db3)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Error L2 comparado con -sin(x):"</span>)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Diferencias finitas : </span><span class="sc">{</span>error_L2(df_fd, df_real)<span class="sc">:.3e}</span><span class="ss">"</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Autodiff (JAX)      : </span><span class="sc">{</span>error_L2(df_ad, df_real)<span class="sc">:.3e}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="16_gradient_descent_and_autodiff_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error L2 comparado con -sin(x):
+  Diferencias finitas : 1.120e-03
+  Autodiff (JAX)      : 6.453e-08</code></pre>
+</div>
+</div>
+<p>¿Qué pasa cuando tenemos una función más complicada? En ese caso usamos la regla de la cadena. Por ejemplo, si tenemos una función <span class="math inline">\(f(w(x), v(x))\)</span> y queremos calcular la derivada respecto a <span class="math inline">\(x\)</span> hacemos</p>
+<p><span class="math display">\[
+\frac{d}{dx}f = \frac{\partial f}{\partial w}\frac{dw}{dx} + \frac{\partial f}{\partial v}\frac{dv}{dx}\,.
+\]</span></p>
+<p>Para poner un ejemplo más concreto, si queremos derivar <span class="math inline">\(f(x) = \cos(x)e^x + \sin(x)\)</span>, usamos</p>
+<p><span class="math display">\[
+\frac{d}{dx} (f + g) = \frac{d}{dx} f + \frac{d}{dx} g\,,
+\]</span></p>
+<p><span class="math display">\[
+\frac{d}{dx}(fg) = f \frac{d}{dx} g + g \frac{d}{dx} f\,,
+\]</span></p>
+<p><span class="math display">\[
+\frac{d}{dx}\cos(x) = -\sin(x)\,,\quad \frac{d}{dx}\sin(x) = \cos(x)\,,\quad \frac{d}{dx}e^x = e^x\,.
+\]</span></p>
+<p>Entonces</p>
+<p><span class="math display">\[
+\frac{d}{dx}((\cos(x)e^x) + \sin(x)) = \frac{d}{dx}(\cos(x)e^x) + \frac{d}{dx}(\sin(x))\,,
+\]</span></p>
+<p>Ahora seguimos aplicando la regla de la cadena</p>
+<p><span class="math display">\[
+\frac{d}{dx}(\cos(x)e^x + \sin(x)) = \cos(x)\frac{d}{dx}e^x + e^x\frac{d}{dx}\cos(x) + \cos(x) = e^x\cos(x) - \sin(x)e^x + \cos(x)\,,
+\]</span></p>
+</section>
+<section id="autodiferenciación-en-modo-directo" class="level2">
+<h2 class="anchored" data-anchor-id="autodiferenciación-en-modo-directo">Autodiferenciación en modo directo</h2>
+<p>La autodiferenciación se usa cuando tenemos que calcular un gran número de derivadas. Esto ocurre por ejemplo en la solución numérica de ecuaciones diferenciales parciales, o en el aprendizaje automático donde se toma el gradiente de una función de costo respecto a miles de millones de parámetros.</p>
+<p>En general, estos problemas se reducen a tomar la derivada del vector <span class="math inline">\(\vec{f} = (f_1, f_2, \ldots, f_n)\)</span> con respecto a muchos parámetros <span class="math inline">\(\vec{x} = (x_1, x_2, \ldots, x_m)\)</span>, esto es</p>
+<p><span class="math display">\[
+\frac{\partial \vec{f}}{\partial \vec{x}} = \begin{pmatrix}
+\frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \ldots &amp; \frac{\partial f_1}{\partial x_m}\\
+\frac{\partial f_2}{\partial x_1} &amp; \frac{\partial f_2}{\partial x_2} &amp; \ldots &amp; \frac{\partial f_2}{\partial x_m}\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+\frac{\partial f_n}{\partial x_1} &amp; \frac{\partial f_n}{\partial x_2} &amp; \ldots &amp; \frac{\partial f_n}{\partial x_m}
+\end{pmatrix}\,.
+\]</span></p>
+<p>Esta <span class="math inline">\(f\)</span> puede ser por ejemplo una red neuronal. En general, esta es una función complicada que se expresa como la composición de varias funciones simples, por ejemplo <span class="math inline">\(\vec{f}(w_1(\vec{x}), w_2(\vec{x}), \ldots, w_\ell(\vec{x}))\)</span>. Entonces nuestra derivada toma la forma</p>
+<p><span class="math display">\[
+\frac{\partial f_i}{\partial x_j} = \sum_k\frac{\partial f_i}{\partial w_k}\frac{\partial w_k}{\partial x_j}\,.
+\]</span></p>
+<p>Esta no es otra que una multiplicación de matrices. En general</p>
+<p><span class="math display">\[
+\frac{\partial \vec{f}}{\partial \vec{x}} = \frac{\partial \vec{f}}{\partial \vec{w}^{(1)}}\frac{\partial \vec{w}^{(1)}}{\partial \vec{w}^{(2)}}\ldots\frac{\partial \vec{w}^{(s)}}{\partial \vec{x}}\,.
+\]</span></p>
+<p>Esto parece un ejemplo artificial, pero algo así puede ocurrir en ecuaciones diferenciales. Por ejemplo supongamos que queremos modelar algunas características de un fluido <span class="math inline">\(\vec{f}\)</span> (presión, temperatura, etc) que a su vez van a depender de una serie de variables termodinámicas <span class="math inline">\(\vec{w}\)</span>, que a su vez dependen de la posición del elemento de fluido <span class="math inline">\(\vec{x}\)</span> que depende del tiempo <span class="math inline">\(t\)</span>. Por simplicidad tomemos <span class="math inline">\(\vec{f}, \vec{w}\)</span> y <span class="math inline">\(\vec{x}\)</span> como vectores de dimensión 3. Queremos calcular la derivada</p>
+<p><span class="math display">\[
+\frac{d\vec{f}}{dt} =
+\underbrace{\frac{\partial \vec{f}}{\partial \vec{w}}}_{3\times 3}
+\;\underbrace{\frac{\partial \vec{w}}{\partial \vec{x}}}_{3\times 3}
+\;\underbrace{\frac{d\vec{x}}{dt}}_{3\times 1}
+\]</span></p>
+<p>Como estamos estudiando métodos numéricos, queremos minimizar la cantidad de operaciones. Cada fila por columna de una multiplicación matricial son <span class="math inline">\(3\)</span> multiplicaciones y <span class="math inline">\(3\)</span> sumas.</p>
+<p>La manera más eficiente sería multiplicar primero la matriz por el vector a la derecha. De esta forma tenemos un nuevo vector para multiplicar por la matriz restante. El total de operaciones es <span class="math inline">\(3\times 6 + 3\times 6 = 36\)</span>. En cambio si empezamos por multiplicar las dos matrices de la izquierda, el total de operaciones sería <span class="math inline">\(3\times 3\times 6 + 3\times 6 = 72\)</span>. La diferencia es más pronunciada aún si aumentamos el número de variables o dimensiones.</p>
+<p>Empezar por la derecha se llama “autodiferenciación en modo directo” (forward mode autodiff). Es el modo más eficiente si tenemos una función de muchos componentes (<span class="math inline">\(\vec{f}\)</span> en nuestro caso) que depende de pocos parámetros (<span class="math inline">\(t\)</span> en nuestro caso). Además usa menos RAM que el modo inverso.</p>
+</section>
+<section id="autodiferenciación-en-modo-inverso" class="level2">
+<h2 class="anchored" data-anchor-id="autodiferenciación-en-modo-inverso">Autodiferenciación en modo inverso</h2>
+<p>En aprendizaje automático tenemos usualmente lo contrario: Una función de pocas componentes que depende de muchos parámetros. En este caso es más eficiente multiplicar desde la derecha, lo que se llama autodiferenciación en modo inverso (reverse mode autodiff). Para un ejemplo sencillo, supongamos que <span class="math inline">\(f\)</span> (con una sola componente) depende de tres cantidades <span class="math inline">\(\vec{w}^{(1)}\)</span> que a su vez dependen de otras tres cantidades <span class="math inline">\(\vec{w}^{(2)}\)</span> que a su vez dependen de tres entradas <span class="math inline">\(\vec{x}\)</span></p>
+<p><span class="math display">\[
+\frac{\partial f}{\partial\vec{x}} =
+\underbrace{\frac{\partial f}{\partial\vec{w}^{(1)}}}_{1\times 3}
+\underbrace{\frac{\partial\vec{w}^{(1)}}{\partial\vec{w}^{(2)}}}_{3\times 3}
+\underbrace{\frac{\partial\vec{w}^{(2)}}{\partial\vec{x}}}_{3\times 3}\,.
+\]</span></p>
+<p>Vemos que en este caso es más eficiente ultipicar primero por la derecha, obteniendo <span class="math inline">\(36\)</span> operaciones en vez de <span class="math inline">\(72\)</span>. Cuando aumenta el número de variables y parámetros la diferencia es aún mayor. La autodiferenciación en modo inverso es más eficiente cuando tenemos una función de pocos componentes que depende de muchas variables o parámetros. Por ejemplo en redes neuronales pueden ser miles de millones de parámetros tal que aplicar el modo inverso es crucial.</p>
+<p>Sin embargo hay una dificultad. Para entenderla, consideremos la función compuesta <span class="math inline">\(f(g(h(x)))\)</span>. Cuando la queremos evaluar empezamos desde la derecha, es decir evaluamos primero <span class="math inline">\(z = h(x)\)</span>, luego <span class="math inline">\(y = g(z)\)</span> y finalmente <span class="math inline">\(f(y)\)</span>. Es decir, evualuamos la función desde la derecha.</p>
+<p>Para derivar aplicamos la regla de la cadena</p>
+<p><span class="math display">\[
+\frac{d}{dx} f(g(h(x))) = f'(g(h(x)))\times g'(h(x))\times h'(x)\,.
+\]</span></p>
+<p>Vemos que si queremos efectuar diferenciación en modo incerso, necesitamos primero calcular <span class="math inline">\(f'(g(h(x)))\)</span>, para lo cual necesitamos <span class="math inline">\(g(h(x))\)</span>. Después debemos calcular <span class="math inline">\(g'(h(x))\)</span> para lo cual necesitamos saber <span class="math inline">\(h(x)\)</span>, y así sucesivamente. En pocas palabras, necesitamos los pasos intermedios de la evaluación de la función compuesta.</p>
+<p>Para lograrlo, primero hacemos un paso hacia adelante (“forward pass”) donde evaluamos <span class="math inline">\(f(g(h(x)))\)</span>. En este, guatdamos en memoria todos los resultados intermedios (<span class="math inline">\(g(h(x)), h(x),\)</span>) en la memoria (en una estructura llamada “tape”). Luego hacemos un paso hacia atrás (“reverse pass”) donde evaluamos <span class="math inline">\(f'(g(h(x)))\)</span> usando los resultados guardados en la memoria.</p>
 <p><em>(Nota: Librerías modernas como PyTorch, TensorFlow y JAX implementan AD de forma automática. El usuario define el paso hacia adelante (la estructura del modelo y el cálculo), y la librería se encarga de calcular los gradientes eficientemente usando backpropagation.)</em></p>
 </section>
-</section>
-<section id="inicialización-de-parámetros" class="level1">
-<h1>Inicialización de parámetros</h1>
+<section id="inicialización-de-parámetros" class="level2">
+<h2 class="anchored" data-anchor-id="inicialización-de-parámetros">Inicialización de parámetros</h2>
 <p>La forma en que inicializamos los pesos (<span class="math inline">\(W\)</span>) y sesgos (<span class="math inline">\(b\)</span>) de una red neuronal es sorprendentemente importante, sobre todo en redes profundas (con muchas capas). Una mala inicialización puede impedir que la red aprenda.</p>
 <p>No podemos inicializar todos los pesos y sesgos a cero, ya que permanecerán iguales a lo largo del entrenamiento. En cambio inicializamos todos los sesgos a cero y los pesos de forma aleatoria. Pero esto tiene una sutileza.</p>
-<section id="el-problema-de-la-varianza-grande-o-pequeña" class="level2">
-<h2 class="anchored" data-anchor-id="el-problema-de-la-varianza-grande-o-pequeña">El problema de la varianza grande o pequeña</h2>
+<section id="el-problema-de-la-varianza-grande-o-pequeña" class="level3">
+<h3 class="anchored" data-anchor-id="el-problema-de-la-varianza-grande-o-pequeña">El problema de la varianza grande o pequeña</h3>
 <p>La clave está en controlar la <strong>varianza</strong> de las salidas de cada capa (activaciones) y de los gradientes que fluyen hacia atrás. Aquí, <span class="math inline">\(D_\ell\)</span> representa el <strong>‘fan-in’</strong> de la capa <span class="math inline">\(\ell\)</span>, es decir, el número de neuronas en la capa anterior que alimentan a una neurona de la capa <span class="math inline">\(\ell\)</span>.</p>
 <p>Los pesos se inicializan de forma aleatoria, lo que significa que los pesos tendrán una varianza <span class="math inline">\(\sigma^2\)</span>, que podemos escoger y puede ser distinta para cada capa. Resulta que el valor de esta varianza es importante para el entrenamiento de redes profundas ya que:</p>
 <ul>
@@ -114095,60 +114137,60 @@ z^{(1)} = W^{(1)} x + b^{(1)}, \quad a^{(1)} = \sigma(z^{(1)}), \quad z^{(2)} = 
 <li><strong>He (<span class="math inline">\(\sigma^2 = 2 / D_\ell\)</span>)</strong>: Diseñada específicamente para ReLU. Mantiene la varianza de las activaciones aproximadamente constante a lo largo de las capas. El factor 2 extra (comparado con Xavier) compensa el hecho de que ReLU anula ~la mitad de las entradas (las negativas), lo que de otro modo reduciría la varianza.</li>
 <li><strong>Grande (<span class="math inline">\(\sigma^2 = 5 / D_\ell\)</span>)</strong>: La varianza explota brutalmente, saliéndose de escala y haciendo inviable el aprendizaje.</li>
 </ul>
-<div id="cell-fig_varianza_activaciones" class="cell" data-execution_count="5">
+<div id="cell-fig_varianza_activaciones" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>n_layers <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>fan_in <span class="op">=</span> <span class="dv">100</span>  <span class="co"># D_\ell</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Variance schemes to compare</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>init_schemes <span class="op">=</span> {</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Pequeña ($0.1/D_\ell$)"</span>: <span class="fl">0.1</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Xavier/Glorot ($1/D_\ell$)"</span>: <span class="fl">1.0</span>,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"He ($2/D_\ell$)"</span>: <span class="fl">2.0</span>,</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Grande ($5/D_\ell$)"</span>: <span class="fl">5.0</span>,</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"gray"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"red"</span>]</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Store results</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>all_variances <span class="op">=</span> {}</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate for each scheme</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (label, scale), color <span class="kw">in</span> <span class="bu">zip</span>(init_schemes.items(), colors):</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    variances <span class="op">=</span> []</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Input: standard normal</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.random.randn(fan_in, n_samples)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    var <span class="op">=</span> np.var(x)</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    variances.append(var)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> <span class="bu">range</span>(n_layers):</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize weights for this layer</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>        W <span class="op">=</span> np.random.randn(fan_in, fan_in) <span class="op">*</span> np.sqrt(scale <span class="op">/</span> fan_in)</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Linear + ReLU</span></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> W <span class="op">@</span> x</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> np.maximum(<span class="dv">0</span>, x)</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>        var <span class="op">=</span> np.var(x)</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>        variances.append(var)</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    all_variances[label] <span class="op">=</span> variances</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, color <span class="kw">in</span> <span class="bu">zip</span>(init_schemes.keys(), colors):</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    plt.plot(all_variances[label], label<span class="op">=</span>label, color<span class="op">=</span>color, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Capa (layer)"</span>)</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Varianza de activaciones"</span>)</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Evolución de la varianza de activaciones según inicialización (ReLU)"</span>)</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">'log'</span>)</span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>n_layers <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>fan_in <span class="op">=</span> <span class="dv">100</span>  <span class="co"># D_\ell</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Variance schemes to compare</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>init_schemes <span class="op">=</span> {</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Pequeña ($0.1/D_\ell$)"</span>: <span class="fl">0.1</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Xavier/Glorot ($1/D_\ell$)"</span>: <span class="fl">1.0</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"He ($2/D_\ell$)"</span>: <span class="fl">2.0</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Grande ($5/D_\ell$)"</span>: <span class="fl">5.0</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"gray"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"red"</span>]</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Store results</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>all_variances <span class="op">=</span> {}</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate for each scheme</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (label, scale), color <span class="kw">in</span> <span class="bu">zip</span>(init_schemes.items(), colors):</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    variances <span class="op">=</span> []</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Input: standard normal</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.random.randn(fan_in, n_samples)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    var <span class="op">=</span> np.var(x)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    variances.append(var)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> <span class="bu">range</span>(n_layers):</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize weights for this layer</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>        W <span class="op">=</span> np.random.randn(fan_in, fan_in) <span class="op">*</span> np.sqrt(scale <span class="op">/</span> fan_in)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Linear + ReLU</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> W <span class="op">@</span> x</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> np.maximum(<span class="dv">0</span>, x)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        var <span class="op">=</span> np.var(x)</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        variances.append(var)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    all_variances[label] <span class="op">=</span> variances</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, color <span class="kw">in</span> <span class="bu">zip</span>(init_schemes.keys(), colors):</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    plt.plot(all_variances[label], label<span class="op">=</span>label, color<span class="op">=</span>color, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Capa (layer)"</span>)</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Varianza de activaciones"</span>)</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Evolución de la varianza de activaciones según inicialización (ReLU)"</span>)</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">'log'</span>)</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig_varianza_activaciones" class="quarto-figure quarto-figure-center anchored">
@@ -114193,16 +114235,16 @@ Derivación de la relación entre varianzas
 </div>
 </div>
 </section>
-<section id="inicialización-para-el-forward-pass-sigma_ell2-2d_ell" class="level2">
-<h2 class="anchored" data-anchor-id="inicialización-para-el-forward-pass-sigma_ell2-2d_ell">Inicialización para el forward pass: <span class="math inline">\(\sigma_\ell^2 = 2/D_\ell\)</span></h2>
+<section id="inicialización-para-el-forward-pass-sigma_ell2-2d_ell" class="level3">
+<h3 class="anchored" data-anchor-id="inicialización-para-el-forward-pass-sigma_ell2-2d_ell">Inicialización para el forward pass: <span class="math inline">\(\sigma_\ell^2 = 2/D_\ell\)</span></h3>
 <p>Para asegurar que la varianza de las activaciones <span class="math inline">\(a^{(\ell)}\)</span> se mantenga aproximadamente constante durante el <em>forward pass</em> (al pasar de la capa <span class="math inline">\(\ell\)</span> a <span class="math inline">\(\ell+1\)</span>) cuando se usa la activación <strong>ReLU</strong>, Kaiming He et al.&nbsp;propusieron inicializar los pesos <span class="math inline">\(W^{(\ell)}\)</span> muestreando de una distribución con media 0 y varianza:</p>
 <p><span class="math display">\[
 \sigma_\ell^2 = \text{Var}(W_{ij}^{(\ell)}) = \frac{2}{D_\ell}
 \]</span></p>
 <p>donde <span class="math inline">\(D_\ell\)</span> es el fan-in de la capa <span class="math inline">\(\ell\)</span>. Si reemplazamos esto en la <span class="citation" data-cites="eq_varianza_z">@eq_varianza_z</span> obtenemos <span class="math inline">\(\sigma_{z^{(\ell)}}^2 = \sigma_{z^{(\ell - 1)}}^2\)</span>, tal que la varianza es estable.</p>
 </section>
-<section id="inicialización-para-el-backward-pass-sigma2-2d_ell1" class="level2">
-<h2 class="anchored" data-anchor-id="inicialización-para-el-backward-pass-sigma2-2d_ell1">Inicialización para el backward pass: <span class="math inline">\(\sigma^2 = 2/D_{\ell+1}\)</span></h2>
+<section id="inicialización-para-el-backward-pass-sigma2-2d_ell1" class="level3">
+<h3 class="anchored" data-anchor-id="inicialización-para-el-backward-pass-sigma2-2d_ell1">Inicialización para el backward pass: <span class="math inline">\(\sigma^2 = 2/D_{\ell+1}\)</span></h3>
 <p>De forma análoga, si analizamos el <em>backward pass</em>, para que la varianza de los gradientes <span class="math inline">\(\frac{\partial \mathcal{J}}{\partial z^{(\ell)}}\)</span> se mantenga estable al retropropagar desde la capa <span class="math inline">\(\ell+1\)</span> a la capa <span class="math inline">\(\ell\)</span> (asumiendo activación ReLU), la condición requiere una varianza basada en el <strong>‘fan-out’</strong>:</p>
 <p><span class="math display">\[
 \sigma^2 = \text{Var}(W_{ij}^{(\ell)}) = \frac{2}{D_{\ell+1}}
@@ -114211,255 +114253,255 @@ Derivación de la relación entre varianzas
 <p><em>Nota:</em> Cuando la activación es tanh o sigmoide, la derivación de la relación entre las varianzas sugiere usar <span class="math inline">\(\sigma_\ell^2 = \frac{1}{D_h}\)</span>, que se llama inicialización de Xavier/Glorot.</p>
 </section>
 </section>
-<section id="ejemplo-de-código-de-entrenamiento" class="level1">
-<h1>Ejemplo de código de entrenamiento</h1>
+<section id="ejemplo-de-código-de-entrenamiento" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-de-código-de-entrenamiento">Ejemplo de código de entrenamiento</h2>
 <p>Existen librerías que implementan todos los pasos de este entrenamiento. La más popular es tal vez <code>PyTorch</code>. Este curso no está enfocado en implementar el código ya que este cambia constantemente, y el simple uso de librerías se puede lograr leyendo la documentación, pidiendo ayuda en foros como StackOverflow o preguntándole a una IA. Sin embargo, damos algunos ejemplos, empezando por un ejemplo de cómo se implementaría lo visto hasta ahora usando <code>PyTorch</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch, torch.nn <span class="im">as</span> nn</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> TensorDataset, DataLoader</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.optim.lr_scheduler <span class="im">import</span> StepLR</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir el tamaño de la entrada, el tamaño de las capas ocultas y el tamaño de la salida</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>D_i, D_k, D_o <span class="op">=</span> <span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">5</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># crear el modelo con dos capas ocultas</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> nn.Sequential(</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    nn.Linear(D_i, D_k),</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    nn.ReLU(),</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    nn.Linear(D_k, D_k),</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    nn.ReLU(),</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    nn.Linear(D_k, D_o)</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicialización de He</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ini_pesos(capa_in):</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(capa_in, nn.Linear):</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        nn.init.kaiming_normal_(capa_in.weight, nonlinearity<span class="op">=</span><span class="st">'relu'</span>)</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        capa_in.bias.data.fill_(<span class="fl">0.0</span>)</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">apply</span>(ini_pesos)</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de pérdida ECM</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> nn.MSELoss()</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Construir el optimizador por SDG e inicializar la tasa de aprendizaje y el momentum</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>, momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Objeto que reduce la tasa de aprendizaje por la mitad cada 10 épocas</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>scheduler <span class="op">=</span> StepLR(optimizer, step_size<span class="op">=</span><span class="dv">10</span>, gamma<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear 100 muestras aleatorias</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch.randn(<span class="dv">100</span>, D_i)</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> torch.randn(<span class="dv">100</span>, D_o)</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>dataloader <span class="op">=</span> DataLoader(TensorDataset(x, y), batch_size<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar el modelo, pasando 100 veces por los datos</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    epoch_loss <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, data <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>        x_batch, y_batch <span class="op">=</span> data</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Poner a cero los gradientes</span></span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Forward pass</span></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span> model(x_batch)</span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calcular la pérdida</span></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> criterion(y_pred, y_batch)</span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Backward pass</span></span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Actualizar los pesos</span></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Actualizar la pérdida</span></span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>        epoch_loss <span class="op">+=</span> loss.item()</span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Imprimir la pérdida</span></span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="sc">:5d}</span><span class="ss">, Loss: </span><span class="sc">{</span>epoch_loss<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Actualizar la tasa de aprendizaje</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>    scheduler.step()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch, torch.nn <span class="im">as</span> nn</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> TensorDataset, DataLoader</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.optim.lr_scheduler <span class="im">import</span> StepLR</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir el tamaño de la entrada, el tamaño de las capas ocultas y el tamaño de la salida</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>D_i, D_k, D_o <span class="op">=</span> <span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">5</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># crear el modelo con dos capas ocultas</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> nn.Sequential(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    nn.Linear(D_i, D_k),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    nn.ReLU(),</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    nn.Linear(D_k, D_k),</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    nn.ReLU(),</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    nn.Linear(D_k, D_o)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicialización de He</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ini_pesos(capa_in):</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(capa_in, nn.Linear):</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        nn.init.kaiming_normal_(capa_in.weight, nonlinearity<span class="op">=</span><span class="st">'relu'</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        capa_in.bias.data.fill_(<span class="fl">0.0</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">apply</span>(ini_pesos)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de pérdida ECM</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> nn.MSELoss()</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Construir el optimizador por SDG e inicializar la tasa de aprendizaje y el momentum</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>, momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Objeto que reduce la tasa de aprendizaje por la mitad cada 10 épocas</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>scheduler <span class="op">=</span> StepLR(optimizer, step_size<span class="op">=</span><span class="dv">10</span>, gamma<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear 100 muestras aleatorias</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch.randn(<span class="dv">100</span>, D_i)</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> torch.randn(<span class="dv">100</span>, D_o)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>dataloader <span class="op">=</span> DataLoader(TensorDataset(x, y), batch_size<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar el modelo, pasando 100 veces por los datos</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    epoch_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, data <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        x_batch, y_batch <span class="op">=</span> data</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Poner a cero los gradientes</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Forward pass</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span> model(x_batch)</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calcular la pérdida</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> criterion(y_pred, y_batch)</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Backward pass</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Actualizar los pesos</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Actualizar la pérdida</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>        epoch_loss <span class="op">+=</span> loss.item()</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Imprimir la pérdida</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="sc">:5d}</span><span class="ss">, Loss: </span><span class="sc">{</span>epoch_loss<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Actualizar la tasa de aprendizaje</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>    scheduler.step()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="ejemplo-aplicado-de-una-red-neuronal" class="level1">
-<h1>Ejemplo aplicado de una red neuronal</h1>
+<section id="ejemplo-aplicado-de-una-red-neuronal" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-aplicado-de-una-red-neuronal">Ejemplo aplicado de una red neuronal</h2>
 <p>En el libro hay un ejemplo para un problema de clasificación con 40 características. Recomiendo leerlo.</p>
 <p>Otro ejemplo típico es la clasificación de dígitos escritos, el llamado MNIST. Consiste en un conjunto de imágenes en blanco y negro que representan dígitos escritos a mano. Se entrena una red para identificar a cuál dígito corresponde cada imagen.</p>
 <p>Primero cargamos los datos. Note que necesitamos normalizarlos. En general las redes neuronales funcionan mejor si los datos tienen media cero y varianza unitaria. Por eso dividimos la media y la desviación estándar del conjunto de entrenamiento y usamos esas para normalizar el conjunto de entrenamiento y el de prueba.</p>
 <p>Para lograrlo, primero cargamos los datos sin normalizar, les calculamos su media y varianza, y finalmente usamos <code>transforms.Normalize</code> para normalizar los datos.</p>
-<div id="91a8c3a8" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision <span class="im">import</span> datasets, transforms</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir transformaciones para los datos</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>transform <span class="op">=</span> transforms.Compose([</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    transforms.ToTensor()</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar datos de MNIST</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> datasets.MNIST(<span class="st">'./data'</span>, train<span class="op">=</span><span class="va">True</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>transform)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> datasets.MNIST(<span class="st">'./data'</span>, train<span class="op">=</span><span class="va">False</span>, transform<span class="op">=</span>transform)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular media y desviación estándar del conjunto de entrenamiento</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>train_loader_temp <span class="op">=</span> torch.utils.data.DataLoader(train_dataset, batch_size<span class="op">=</span><span class="bu">len</span>(train_dataset))</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_loader_temp))[<span class="dv">0</span>]</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> data.mean().item()</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> data.std().item()</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Aplicar normalización con los valores calculados</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>transform_norm <span class="op">=</span> transforms.Compose([</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    transforms.ToTensor(),</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    transforms.Normalize((mean,), (std,))</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Recargar los datasets con la normalización correcta</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> datasets.MNIST(<span class="st">'./data'</span>, train<span class="op">=</span><span class="va">True</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>transform_norm)</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> datasets.MNIST(<span class="st">'./data'</span>, train<span class="op">=</span><span class="va">False</span>, transform<span class="op">=</span>transform_norm)</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir dataloaders</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>train_loader <span class="op">=</span> torch.utils.data.DataLoader(train_dataset, batch_size<span class="op">=</span><span class="dv">64</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>test_loader <span class="op">=</span> torch.utils.data.DataLoader(test_dataset, batch_size<span class="op">=</span><span class="dv">1000</span>, shuffle<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b1440e30" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision <span class="im">import</span> datasets, transforms</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir transformaciones para los datos</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>transform <span class="op">=</span> transforms.Compose([</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    transforms.ToTensor()</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar datos de MNIST</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> datasets.MNIST(<span class="st">'./data'</span>, train<span class="op">=</span><span class="va">True</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>transform)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> datasets.MNIST(<span class="st">'./data'</span>, train<span class="op">=</span><span class="va">False</span>, transform<span class="op">=</span>transform)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular media y desviación estándar del conjunto de entrenamiento</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>train_loader_temp <span class="op">=</span> torch.utils.data.DataLoader(train_dataset, batch_size<span class="op">=</span><span class="bu">len</span>(train_dataset))</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_loader_temp))[<span class="dv">0</span>]</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>mean <span class="op">=</span> data.mean().item()</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> data.std().item()</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Aplicar normalización con los valores calculados</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>transform_norm <span class="op">=</span> transforms.Compose([</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    transforms.ToTensor(),</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    transforms.Normalize((mean,), (std,))</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Recargar los datasets con la normalización correcta</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> datasets.MNIST(<span class="st">'./data'</span>, train<span class="op">=</span><span class="va">True</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>transform_norm)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> datasets.MNIST(<span class="st">'./data'</span>, train<span class="op">=</span><span class="va">False</span>, transform<span class="op">=</span>transform_norm)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir dataloaders</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>train_loader <span class="op">=</span> torch.utils.data.DataLoader(train_dataset, batch_size<span class="op">=</span><span class="dv">64</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>test_loader <span class="op">=</span> torch.utils.data.DataLoader(test_dataset, batch_size<span class="op">=</span><span class="dv">1000</span>, shuffle<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Podemos graficar algunas de las imágenes del conjunto de entrenamiento.</p>
-<div id="5f5b3c18" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar algunas imágenes del conjunto de entrenamiento</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar 16 imágenes del conjunto de entrenamiento</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>images, labels <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_loader))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>images <span class="op">=</span> images[:<span class="dv">16</span>]</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> labels[:<span class="dv">16</span>]</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar las imágenes</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>):</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">4</span>, <span class="dv">4</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    plt.imshow(images[i].numpy().squeeze(), cmap<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    plt.title(labels[i].item())</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">'off'</span>)</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a667caa3" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar algunas imágenes del conjunto de entrenamiento</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar 16 imágenes del conjunto de entrenamiento</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>images, labels <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_loader))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>images <span class="op">=</span> images[:<span class="dv">16</span>]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> labels[:<span class="dv">16</span>]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar las imágenes</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>):</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">4</span>, <span class="dv">4</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    plt.imshow(images[i].numpy().squeeze(), cmap<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    plt.title(labels[i].item())</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="16_gradient_descent_and_autodiff_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="16_gradient_descent_and_autodiff_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Ahora vamos a entrenar un perceptrón multicapa para clasificar las imágenes.</p>
-<div id="fc265a74" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una red neuronal MLP simple</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MLP(nn.Module):</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(MLP, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.layers <span class="op">=</span> nn.Sequential(</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            nn.Linear(<span class="dv">28</span> <span class="op">*</span> <span class="dv">28</span>, <span class="dv">128</span>),</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            nn.ReLU(),</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            nn.Linear(<span class="dv">128</span>, <span class="dv">64</span>),</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            nn.ReLU(),</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            nn.Linear(<span class="dv">64</span>, <span class="dv">10</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.layers(x)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializar modelo, función de pérdida y optimizador</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> torch.device(<span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co"># # Diagnóstico para disponibilidad de la GPU</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Calculando en: ", device)</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Dispositivo disponible: ", torch.cuda.is_available())</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co"># if torch.cuda.is_available():</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     print("Dispositivo actual: ", torch.cuda.current_device())</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     print("Nombre del dispositivo: ", torch.cuda.get_device_name(torch.cuda.current_device()))</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> MLP().to(device)</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> nn.CrossEntropyLoss()</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>, momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para evaluar el modelo</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate(model, data_loader, criterion, device):</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    total_loss <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    correct <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> data, target <span class="kw">in</span> data_loader:</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>            data, target <span class="op">=</span> data.to(device), target.to(device)</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> model(data)</span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>            total_loss <span class="op">+=</span> criterion(output, target).item() <span class="op">*</span> data.size(<span class="dv">0</span>)</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>            _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(output.data, <span class="dv">1</span>)</span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>            total <span class="op">+=</span> target.size(<span class="dv">0</span>)</span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>            correct <span class="op">+=</span> (predicted <span class="op">==</span> target).<span class="bu">sum</span>().item()</span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total_loss <span class="op">/</span> total, correct <span class="op">/</span> total</span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenamiento</span></span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>epochs <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>train_losses <span class="op">=</span> []</span>
-<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>test_losses <span class="op">=</span> []</span>
-<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>train_accuracies <span class="op">=</span> []</span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>test_accuracies <span class="op">=</span> []</span>
-<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
-<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
-<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    running_loss <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    correct <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> data, target <span class="kw">in</span> train_loader:</span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>        data, target <span class="op">=</span> data.to(device), target.to(device)</span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> model(data)</span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> criterion(output, target)</span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
-<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
-<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>        running_loss <span class="op">+=</span> loss.item() <span class="op">*</span> data.size(<span class="dv">0</span>)</span>
-<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>        _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(output.data, <span class="dv">1</span>)</span>
-<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> target.size(<span class="dv">0</span>)</span>
-<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>        correct <span class="op">+=</span> (predicted <span class="op">==</span> target).<span class="bu">sum</span>().item()</span>
-<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>    train_loss <span class="op">=</span> running_loss <span class="op">/</span> <span class="bu">len</span>(train_loader.dataset)</span>
-<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>    train_accuracy <span class="op">=</span> correct <span class="op">/</span> total</span>
-<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluar en conjunto de prueba</span></span>
-<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    test_loss, test_accuracy <span class="op">=</span> evaluate(model, test_loader, criterion, device)</span>
-<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Guardar métricas</span></span>
-<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>    train_losses.append(train_loss)</span>
-<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>    test_losses.append(test_loss)</span>
-<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>    train_accuracies.append(train_accuracy)</span>
-<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>    test_accuracies.append(test_accuracy)</span>
-<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # Para ver el progreso del entrenamiento</span></span>
-<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # comentarlo a la hora de producir el sitio web</span></span>
-<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f'Epoch {epoch+1}/{epochs}: '</span></span>
-<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       f'Train Loss: {train_loss:.4f}, Train Acc: {train_accuracy:.4f}, '</span></span>
-<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       f'Test Loss: {test_loss:.4f}, Test Acc: {test_accuracy:.4f}')</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="167ba537" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una red neuronal MLP simple</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MLP(nn.Module):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(MLP, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.layers <span class="op">=</span> nn.Sequential(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            nn.Linear(<span class="dv">28</span> <span class="op">*</span> <span class="dv">28</span>, <span class="dv">128</span>),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>            nn.ReLU(),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>            nn.Linear(<span class="dv">128</span>, <span class="dv">64</span>),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>            nn.ReLU(),</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>            nn.Linear(<span class="dv">64</span>, <span class="dv">10</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.layers(x)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializar modelo, función de pérdida y optimizador</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> torch.device(<span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co"># # Diagnóstico para disponibilidad de la GPU</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Calculando en: ", device)</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Dispositivo disponible: ", torch.cuda.is_available())</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co"># if torch.cuda.is_available():</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     print("Dispositivo actual: ", torch.cuda.current_device())</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     print("Nombre del dispositivo: ", torch.cuda.get_device_name(torch.cuda.current_device()))</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> MLP().to(device)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>, momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para evaluar el modelo</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate(model, data_loader, criterion, device):</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    total_loss <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    correct <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> data, target <span class="kw">in</span> data_loader:</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>            data, target <span class="op">=</span> data.to(device), target.to(device)</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> model(data)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>            total_loss <span class="op">+=</span> criterion(output, target).item() <span class="op">*</span> data.size(<span class="dv">0</span>)</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>            _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(output.data, <span class="dv">1</span>)</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>            total <span class="op">+=</span> target.size(<span class="dv">0</span>)</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>            correct <span class="op">+=</span> (predicted <span class="op">==</span> target).<span class="bu">sum</span>().item()</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total_loss <span class="op">/</span> total, correct <span class="op">/</span> total</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenamiento</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>epochs <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>train_losses <span class="op">=</span> []</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>test_losses <span class="op">=</span> []</span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>train_accuracies <span class="op">=</span> []</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>test_accuracies <span class="op">=</span> []</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    running_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    correct <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> data, target <span class="kw">in</span> train_loader:</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>        data, target <span class="op">=</span> data.to(device), target.to(device)</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> model(data)</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> criterion(output, target)</span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>        running_loss <span class="op">+=</span> loss.item() <span class="op">*</span> data.size(<span class="dv">0</span>)</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>        _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(output.data, <span class="dv">1</span>)</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> target.size(<span class="dv">0</span>)</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>        correct <span class="op">+=</span> (predicted <span class="op">==</span> target).<span class="bu">sum</span>().item()</span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>    train_loss <span class="op">=</span> running_loss <span class="op">/</span> <span class="bu">len</span>(train_loader.dataset)</span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>    train_accuracy <span class="op">=</span> correct <span class="op">/</span> total</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluar en conjunto de prueba</span></span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>    test_loss, test_accuracy <span class="op">=</span> evaluate(model, test_loader, criterion, device)</span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Guardar métricas</span></span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>    train_losses.append(train_loss)</span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>    test_losses.append(test_loss)</span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>    train_accuracies.append(train_accuracy)</span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>    test_accuracies.append(test_accuracy)</span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # Para ver el progreso del entrenamiento</span></span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # comentarlo a la hora de producir el sitio web</span></span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f'Epoch {epoch+1}/{epochs}: '</span></span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       f'Train Loss: {train_loss:.4f}, Train Acc: {train_accuracy:.4f}, '</span></span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       f'Test Loss: {test_loss:.4f}, Test Acc: {test_accuracy:.4f}')</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Después de entrenar, graficamos las pérdidas y la precisión en el conjunto de entrenamiento y prueba.</p>
-<div id="710db420" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.plot(train_losses, label<span class="op">=</span><span class="st">'Pérdida en entrenamiento'</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plt.plot(test_losses, label<span class="op">=</span><span class="st">'Pérdida en prueba'</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Época'</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Pérdida'</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Pérdida vs. Época'</span>)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>plt.plot(train_accuracies, label<span class="op">=</span><span class="st">'Precisión en entrenamiento'</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>plt.plot(test_accuracies, label<span class="op">=</span><span class="st">'Precisión en prueba'</span>)</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Época'</span>)</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Precisión'</span>)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Precisión vs. Época'</span>)</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="997b7573" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.plot(train_losses, label<span class="op">=</span><span class="st">'Pérdida en entrenamiento'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.plot(test_losses, label<span class="op">=</span><span class="st">'Pérdida en prueba'</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Época'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Pérdida'</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Pérdida vs. Época'</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.plot(train_accuracies, label<span class="op">=</span><span class="st">'Precisión en entrenamiento'</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plt.plot(test_accuracies, label<span class="op">=</span><span class="st">'Precisión en prueba'</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Época'</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Precisión'</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Precisión vs. Época'</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="16_gradient_descent_and_autodiff_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="16_gradient_descent_and_autodiff_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -114493,6 +114535,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
