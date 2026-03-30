@@ -8,3 +8,6 @@
 /_site/
 _publish.yml
 .jupyter_cache/
+
+# Don't track figures!
+/figs

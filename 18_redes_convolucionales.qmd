@@ -9,7 +9,7 @@ Un ejemplo famoso es la clasificación de imágenes. Si queremos clasificar un o
 
 Este tipo de redes dio uno de los primeros éxitos de las redes neuronales. Se aplicaron a la clasificación de dígitos escritos por humanos (el problema de la base de datos MNIST), durante los años 90. 
 
-# Invariancia y Equivariancia
+## Invariancia y Equivariancia
 
 En el caso de las imágenes, la posición de un objeto no es relevante para la clasificación. Esto se llama **invariancia**. Decimos que una función $\boldsymbol{f}$ es invariante bajo una transformación $\boldsymbol{t}$ si $\boldsymbol{f}(\boldsymbol{t}(\boldsymbol{x})) = \boldsymbol{f}(\boldsymbol{x})$ para todo $\boldsymbol{x}$. 
 
@@ -19,14 +19,16 @@ Si queremos *segmentar* la imagen, es decir, identificar los píxeles que corres
 
 Veremos cómo las redes convolucionales implementan esta idea primero en el caso más sencillo de una dimensión.
 
-# Redes convolucionales en una dimensión
+## Redes convolucionales en una dimensión
 
-## Convolución en una dimensión
+### Convolución en una dimensión
 
 Una convolución transforma un vector de entrada $\boldsymbol{x}$ en un vector de salida $\boldsymbol{z}$ de la misma dimensión tal que 
+
 $$
-z_i = \sum_{j = -k}^k w_j x_{i+j}
-$$ {#eq:convolucion-1d}
+z_i = \sum_{j = -k}^k w_j x_{i+j} + b\,.
+$$ {#eq-convolucion-1d}
+
 para todo $i$. El vector $\boldsymbol{w}$ se llama **kernel** (núcleo) o **filtro**. El rango de valores de $j$ está dado por $[-k, k]$, y su **tamaño** es $2k+1$. Se usan kernels relativamente pequeños, típicamente de tamaño 3 o 5.
 
 Este tipo de operaciones es muy usada en el análisis de series temporales. Es decir, el elemento $x_i$ del vector $\boldsymbol{x}$ es la medición de una variable física en el instante $t_i$. Este tipo de filtros y convoluciones ayudan a extraer patrones locales en ese tipo de series o señales.
@@ -37,15 +39,15 @@ Vemos que los pesos $w_j$ son los mismos para todo $i$. Esto hace que la convolu
 
 La idea de esta operación es que producimos varios filtros de la señal $\boldsymbol{x}$, cada uno con un kernel diferente. En análisis de señales clásico, se usan filtros específicos para extraer ciertas características. En este caso dejamos libres los pesos $w_j$ para que la red aprenda los filtros que mejor se ajusten al problema.
 
-## Padding (Rellenado)
+### Padding (Rellenado)
 
-Al ver la @eq:convolucion-1d, notamos que los primeros elementos del vector $\boldsymbol{z}$ pueden depender de elementos de vector $\boldsymbol{x}$ que no están definidos. Por ejemplo, $z_0$ depende de $x_{-1}$ que no está definido. Existen varias estrategias para lidiar con este problema:
+Al ver la @eq-convolucion-1d, notamos que los primeros elementos del vector $\boldsymbol{z}$ pueden depender de elementos de vector $\boldsymbol{x}$ que no están definidos. Por ejemplo, $z_0$ depende de $x_{-1}$ que no está definido. Existen varias estrategias para lidiar con este problema:
 
 - **Rellenado válido**: Se llama así porque se usan sólo los elementos de $\boldsymbol{x}$ que están definidos. Si algún elemento de $\boldsymbol{z}$ depende de un elemento de $\boldsymbol{x}$ que no está definido, se descarta. Esto se ilustra en la figura 10.2 (d) del libro.
 
 - **Rellenado de ceros**: Se llama así porque se agregan ceros a los bordes de $\boldsymbol{x}$ para que todos los elementos de $\boldsymbol{z}$ dependan de elementos de $\boldsymbol{x}$ que están definidos. Esto se ilustra en la figura 10.2 (c) del libro.
 
-## Paso (stride) y agrupamiento (pooling).
+### Paso (stride) y agrupamiento (pooling).
 
 Como discutiremos más adelante, es usual que el vector $\boldsymbol{z}$ tenga menos elementos que el vector $\boldsymbol{x}$. Esto se puede hacer de dos maneras:
 
@@ -57,11 +59,11 @@ Como discutiremos más adelante, es usual que el vector $\boldsymbol{z}$ tenga m
 
   - **Average pooling**: Se obtiene $z_i = \frac{1}{2k+1} \sum_{j = -k}^k y_{i\cdot p-j}$, donde $y$ es el resultado de una convolución con un kernel de tamaño $2k+1$. Es decir, se toma el promedio de la convolución.
     
-## Capas convolucionales
+### Capas convolucionales
 
-Una capa convolucional consiste en realizar una convolución de la señal de entrada $\boldsymbol{x}$ con un kernel $\boldsymbol{w}$, sumar un sesgo $\beta$ y aplicar una función de activación $a$ para producir la salida $h$. En realidad se producen varios *canales* $h_i$ a partir de la misma señal de entrada $\boldsymbol{x}$, cada uno con un kernel diferente:
+Una capa convolucional consiste en realizar una convolución de la señal de entrada $\boldsymbol{x}$ con un kernel $\boldsymbol{w}$, sumar un sesgo $b_i$ y aplicar una función de activación $a$ para producir la salida $h$. En realidad se producen varios *canales* $h_i$ a partir de la misma señal de entrada $\boldsymbol{x}$, cada uno con un kernel diferente:
 $$
-h_{ic} = a\left(\sum_{j = -k}^k w_{cj} x_{i+j} + \beta_{c}\right)\,,
+h_{ic} = a\left(\sum_{j = -k}^k w_{cj} x_{i+j} + b_{c}\right)\,,
 $$
 donde $c$ es el canal, $i$ se refiere a cada pixel, y $j$ es el índice de la convolución. Esto se ilustra en la figura 10.5 del libro.
 
@@ -69,34 +71,34 @@ Si tenemos $C$ canales de salida, y un tamaño de kernel $2k+1$, entonces la cap
 
 En el libro se ilustra un ejemplo que llama MNIST-1D. Nosotros usaremos el ejemplo más clásico con los datos MNIST usual en 2D.
 
-## Campo receptivo (receptive field)
+### Campo receptivo (receptive field)
 
 El campo receptivo es el área de la imagen que se utiliza para calcular el valor de una neurona. En el caso de una capa densa (completamente conectada), el campo receptivo es toda la imagen.
 
 En el caso de una sola capa convolucional, un pixel dado $i,j$ depende de un área de los canales de entrada de tamaño $2k+1$. Por lo tanto, el campo receptivo es de tamaño $2k+1$. Si hay más capas convolucionales, el campo receptivo crece porque cada pixel de un filtro de entrada a su vez depende de varios pixeles de la capa anterior.
 
-# Redes Convolucionales en Dos Dimensiones
+## Redes Convolucionales en Dos Dimensiones
 
 La generalización a dos dimensiones es directa, sólo requiere aceptar más índices. El filtro para el pixel $(i,j)$ es:
 $$
-h_{ij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k w_{mn} x_{i+m, j+n} + \beta\right)\,,
+h_{ij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k w_{mn} x_{i+m, j+n} + b\right)\,,
 $$
 
 Un típico filtro de este tipo se ilustra en la figura 10.9 del libro.
 
 Si tenemos varios filtros, escribimos
 $$
-h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k w_{cmn} x_{i+m, j+n} + \beta_c\right)\,.
+h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k w_{cmn} x_{i+m, j+n} + b_c\right)\,.
 $$
 Vemos entonces que es natural trabajar con objetos que tienen más de dos índices, es decir tensores.
 
 Como las capas convolucionales se apilan, la entrada de la capa anterior también consistirá en varios filtros. A estos los llamamos los canales de entrada. De hecho, para imágenes digitales, la entrada de la primerísima capa convolucional será la imagen original, que tiene tres canales: rojo, verde y azul. En astronomía podría incluso tener más canales correspondientes a diferentes longitudes de onda. En general, nuestros filtros también pueden mezclar diferentes canales de entrada, entonces la capa convolucional se escribe
 $$
-h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k \sum_{c' = 1}^{C'} w_{cc',mn} x_{c', i+m, j+n} + \beta_c\right)\,.
+h_{cij} = a\left(\sum_{m = -k}^k \sum_{n = -k}^k \sum_{c' = 1}^{C'} w_{cc',mn} x_{c', i+m, j+n} + b_c\right)\,.
 $$
 Donde $C'$ es el número de canales de entrada.
 
-# Ejemplo con MNIST
+## Ejemplo con MNIST
 
 Ahora repetimos el ejemplo de MNIST pero usando capas convolucionales.
 

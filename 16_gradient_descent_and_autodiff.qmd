@@ -10,9 +10,9 @@ El descenso de gradiente consiste en tomar el gradiente de la función de pérdi
 
 En esta sección veremos primero cómo aplicar el descenso de gradiente para un perceptrón multicapa asumiendo que el gradiente de la función de pérdida con respecto a los parámetros de la red es conocido. Luego veremos cómo calcular el gradiente de la función de pérdida con respecto a los parámetros de la red de manera eficiente. Finalmente discutiremos algunos detalles de cómo escoger el punto inicial en el espacio de parámetros para inciar el descenso de gradiente.
 
-# Descenso de Gradiente
+## Descenso de Gradiente
 
-## Ejemplo de Regresión Lineal Simple con Descenso de Gradiente
+### Ejemplo de Regresión Lineal Simple con Descenso de Gradiente
 
 Antes de aplicar el descenso de gradiente a una red neuronal, empezamos por hacerlo en un caso sencillo que es fácil de visualizar: la regresión lineal simple. En este caso queremos ajustar la pendiente y el intercepto de una recta $y = m x + b$ a un conjunto de datos $(x_i, y_i)$. La función de pérdida (MSE) a minimizar es:
 $$
@@ -172,11 +172,11 @@ HTML(ani.to_jshtml())
 
 En la @fig-linreg-gradient-descent se muestra el descenso de gradiente para regresión lineal. Graficamos unos pocos pasos del descenso de gradiente. Ya podemos apreciar un posible problema: El descenso avanza rápidamente en la dirección de la pendiente, pero luego se detiene y avanza lentamente en la dirección del intercepto. Esto es porque el gradiente es más pronunciado en la dirección de la pendiente que en la dirección del intercepto. Veremos más adelante cómo intentar mejorar esto.
 
-## Ejemplo 2D de modelo Gabor: paisajes con mínimos locales
+### Ejemplo 2D de modelo Gabor: paisajes con mínimos locales
 
 El ejemplo de arriba fue para una función de pérdida convexa. En general las funciones de pérdida de las redes neuronales no tienen esta propiedad. Por lo tanto, el "paisaje" de la pérdida puede ser complejo, presentando múltiples mínimos locales y puntos de silla (saddle points). Esto dificulta la optimización, ya que el Descenso de Gradiente puede quedar atrapado en un mínimo local que no es el mínimo global. Usaremos una función sencilla con esas características llamada función de Gabor para ilustrar el problema.
 
-Usamos una función Gabor 1D como modelo, donde ajustaremos dos de sus parámetros. Consideramos $\sigma$ y $\omega$ como parámetros fijos conocidos. Optimizaremos la amplitud $A$ y la fase $\phi$:
+Usamos una función Gabor 1D como modelo, donde ajustaremos dos de sus parámetros. Definimos la función
 $$
 f(x; \phi_0,\phi_1) = e^{-\frac{(\phi_0 + \phi_1 x)^2}{32}}\cos(\phi_0 + \phi_1 x + \phi).
 $$
@@ -186,7 +186,7 @@ Minimizamos el Error Cuadrático Medio entre las predicciones del modelo Gabor y
 $$
 \mathcal{L}(\phi_0,\phi_1) = \frac{1}{N}\sum_{i=1}^N (y_i - f(x_i; \phi_0,\phi_1))^2.
 $$
-La naturaleza oscilatoria del término $\cos(\phi_0 + \phi_1 x + \phi)$, multiplicada por la amplitud $A$, crea un paisaje de pérdida no convexo con múltiples valles (mínimos locales) y puntos de silla.
+La naturaleza oscilatoria del término $\cos(\phi_0 + \phi_1 x + \phi)$ crea un paisaje de pérdida no convexo con múltiples valles (mínimos locales) y puntos de silla.
 
 Para entender el paisaje de la pérdida, generamos un gráfico de contorno de $\mathcal{L}(\phi_0,\phi_1)$ evaluando la pérdida en una rejilla de valores de $\phi_0$ y $\phi_1$. Este gráfico muestra las regiones de baja pérdida (valles) y las zonas de puntos de silla. Adicionalmente, se pueden trazar las trayectorias seguidas por el algoritmo de Descenso de Gradiente partiendo desde diferentes puntos iniciales $(\phi_{0,0}, \phi_{1,0})$.
 
@@ -310,11 +310,11 @@ HTML(ani.to_jshtml())
 
 En la @fig-gabor-gradient-descent se muestra el paisaje de la pérdida para el modelo Gabor, y las trayectorias de convergencia para diferentes puntos iniciales. Vemos que diferentes puntos van hacia diferentes mínimos locales, lo que dificulta la convergencia al mínimo global.
 
-## Descenso de Gradiente Estocástico (SGD) y por mini-lotes
+### Descenso de Gradiente Estocástico (SGD) y por mini-lotes
 
 Cuando el conjunto de datos es muy grande, calcular el gradiente sobre todos los $N$ ejemplos en cada paso puede ser computacionalmente muy costoso. Por ello, se utilizan variantes del GD que usan un subconjunto de los datos para aproximar el gradiente a cada paso. Esta será sólo una aproximación, y nos da una estima ruidosa del gradiente de la pérdida ideal. Pero esto tiene una gran ventaja: Ese ruido puede empujar el algoritmo a saltar de mínimos locales poco profundos. Veamos dos variaciones de esa idea:
 
--   **Descenso de Gradiente Estocástico (SGD)** Realiza una actualización de parámetros por *cada* ejemplo individual $(x_i, y_i)$. En cada paso, el gradiente se estima usando solo ese único ejemplo: $\theta \leftarrow \theta - \eta \nabla_{\theta} \mathcal{L}_{\text{indiv}}(\theta; x_i, y_i)$, donde $\mathcal{L}_{\text{indiv}}$ es la pérdida calculada para ese punto. Luego repite para todos los puntos $(x_i, y_i)$ y vuelve a empezar. 
+-   **Descenso de Gradiente Estocástico (SGD)** Realiza una actualización de parámetros por *cada* ejemplo individual $(x_i, y_i)$. En cada paso, el gradiente se estima usando solo ese único ejemplo: $\theta \leftarrow \theta - \eta \nabla_{\theta} \mathcal{j}(\theta; x_i, y_i)$, donde $\mathcal{j}$ es la pérdida calculada para ese punto. Luego repite para todos los puntos $(x_i, y_i)$ y vuelve a empezar. 
     *   *Ventajas:* Actualizaciones muy rápidas y bajo coste computacional por actualización. La alta varianza en la estimación del gradiente puede ayudar a escapar de mínimos locales "malos".
     *   *Desventajas:* Al usar un único dato para calcular el gradiente, la trayectoria de convergencia es muy ruidosa (alta varianza). Puede que nunca converja exactamente al mínimo, sino que oscile alrededor de este.
 
@@ -344,7 +344,7 @@ for epoch in range(num_epochs):
         theta = theta - eta * grad
 ```
 
-## Momentum
+### Momentum
 
 Otra estrategia para atacar el problema de los mínimos locales y la oscilación alrededor de mínimos, es cambiar el proceso de aprendizaje. Es decir, modificamos la forma como se actualizan los pesos a cada paso.
 
@@ -354,18 +354,18 @@ La actualización se modifica como sigue (donde $\theta$ representa los parámet
 
 $$
 \begin{aligned}
-v_t &\leftarrow \beta\,v_{t-1} + (1-\beta)\,\nabla\mathcal{L}(\theta_{t-1}),\\
+v_t &\leftarrow \beta\,v_{t-1} + (1-\beta)\,\nabla\mathcal{J}(\theta_{t-1}),\\
 \theta_t &\leftarrow \theta_{t-1} - \eta\,v_t.
 \end{aligned}
 $$
 
 *   $v_t$ es el vector de velocidad en el paso $t$.
 *   $\beta$ es el coeficiente de momentum (usualmente cercano a 0.9). Controla cuánto del momentum anterior se conserva. Un $\beta$ alto significa que los gradientes pasados tienen más influencia.
-*   $\nabla\mathcal{L}(\theta_{t-1})$ es el gradiente calculado en el paso actual (puede ser batch, mini-batch o stochastic).
+*   $\nabla\mathcal{J}(\theta_{t-1})$ es el gradiente calculado en el paso actual (puede ser batch, mini-batch o stochastic).
 
 A cantidades que se acumulan de la manera como lo hace $v_t$ se les llama **media móvil exponencial**.
 
-Esto es burdamente similar a una bola pesada rodando por una pendiente. Acumula momento, lo que le permite pasar por pequeños baches y acelerar en las bajadas consistentes. A pesar de llamarse momentum, no es exactamente el momentum definido en la física.
+Esto es burdamente similar a una bola pesada rodando por una pendiente. Acumula momento, lo que le permite pasar por pequeños baches y acelerar en las bajadas consistentes. Cabe aclarar que a pesar de llamarse momentum, no corresponde exactamente al momentum definido en la física.
 
 A continuación el pseudocódigo para el descenso de gradiente con momentum en el problema de regresión lineal:
 
@@ -390,7 +390,7 @@ for iteration in range(num_iterations):
     b -= eta * v_b
 ```
 
-## Adam (Adaptive Moment Estimation)
+### Adam (Adaptive Moment Estimation)
 
 Cuando hicimos el ejemplo de regresión lineal, vimos que la convergencia hacia el mínimo en una dimensión era mucho más rápida que en la otra. Adam es un optimizador que intenta resolver este problema ajustando automáticamente la tasa de aprendizaje para cada parámetro individualmente.
 
@@ -458,129 +458,176 @@ for iteration in range(num_iterations):
     b -= eta * m_b_corrected / (np.sqrt(v_b_corrected) + epsilon)
 ```
 
-# Diferenciación Automática (AD)
+## Diferenciación Automática (AD)
 
 Vimos que el descenso de gradiente y los algoritmos inspirados en este usan la derivada de la función de pérdida con respecto a los parámetros de la red. Las redes neuronales tienen hasta billones de parámetros, por lo que calcular la derivada de la función de pérdida con respecto a cada uno de ellos puede ser bastante costoso. Sin embargo, se han desarrollado técnicas que atacan este problema de forma bastante ingeniosa.
 
 La diferenciación automática (AD) es un conjunto de técnicas que permite calcular de forma exacta y eficiente derivadas de funciones definidas por programas informáticos. Es crucial distinguirla de la *diferenciación simbólica* (que puede llevar a expresiones muy complejas) y de la *diferenciación numérica* (que usa aproximaciones por diferencias finitas y sufre de errores de truncamiento y redondeo). AD calcula derivadas exactas (hasta la precisión de la máquina) con una eficiencia comparable a la evaluación de la propia función.
 
-## Algoritmo de Backpropagation (Modo Reverso de AD)
+## La idea detrás de la autodiferenciación
 
-En redes neuronales y otros modelos con muchos parámetros, la diferenciación automática se implementa de forma eficiente mediante el **modo reverso** (reverse mode), cuyo algoritmo más conocido es **backpropagation**. Existe también el **modo directo** (forward mode), que es menos eficiente pero puede ser útil en ciertas situaciones, y no lo veremos aquí por falta de tiempo.
+La idea es sencilla: Conocemos las derivadas de cualquier función sencilla y para las demás usamos la regla de la cadena.
 
-El modo reverso calcula todas las derivadas de una única salida (escalar, como la función de pérdida $\mathcal{J}$) con respecto a todas las entradas y parámetros intermedios. Lo hace propagando las derivadas hacia atrás, desde la salida hacia la entrada, aplicando eficientemente la **regla de la cadena** sobre el **grafo computacional** definido por la evaluación de la función (el forward pass).
+Por ejemplo, supongamos que queremos tomar la derivada del coseno. Existen librerías que tuenen tabuladas las derivadas para muchas funciones. Aquí usamos `jax`.
 
-El proceso tiene dos fases:
+```{python}
+# derivada_cos_autodiff_vs_finitas.py
+# Comparar derivadas con autodiff (JAX) y con diferencias finitas para cos(x)
 
-1.  **Forward pass (Paso hacia adelante)**
-    *   Partimos de la entrada $x$ y calculamos, capa a capa, las activaciones intermedias y la salida final (y la pérdida $\mathcal{J}$).
-        $$
-        z^{(1)} = W^{(1)} x + b^{(1)}, \quad a^{(1)} = \sigma(z^{(1)}), \quad z^{(2)} = W^{(2)} a^{(1)} + b^{(2)}, \dots, \quad \mathcal{J} = \text{Loss}(\text{output}, \text{target})
-        $$
-    *   Se **almacenan** en memoria todas las variables intermedias ($z^{(\ell)}$, $a^{(\ell)}$, $W^{(\ell)}$, $x$) que influyen en el resultado final, ya que serán necesarias para calcular las derivadas en el paso inverso.
+import numpy as np
+import matplotlib.pyplot as plt
+import jax
+import jax.numpy as jnp
+from jax import grad, vmap
 
-2.  **Backward pass (Paso hacia atrás)**
-    *   Se inicializa con el gradiente de la pérdida respecto a sí misma ($\frac{\partial \mathcal{J}}{\partial \mathcal{J}} = 1$) o respecto a la salida final de la red antes de la función de pérdida.
-    *   Se propaga el gradiente hacia atrás capa por capa ($\ell = L, L-1, \dots, 1$). Para cada capa $\ell$:
-        *   Se parte del gradiente respecto a la activación de la capa, $\frac{\partial \mathcal{J}}{\partial a^{(\ell)}}$ (obtenido de la capa $\ell+1$, o inicial si $\ell=L$).
-        *   Se calcula el gradiente respecto a la entrada lineal de la capa $\ell$, denotado $\delta^{(\ell)}$:
-            $$
-            \delta^{(\ell)} = \frac{\partial \mathcal{J}}{\partial z^{(\ell)}} = \frac{\partial \mathcal{J}}{\partial a^{(\ell)}} \odot \sigma'(z^{(\ell)})
-            $$
-            donde $\odot$ es el producto elemento a elemento (Hadamard) y $\sigma'$ es la derivada de la función de activación $\sigma$ aplicada elemento a elemento a $z^{(\ell)}$. En el caso de ReLU, $\sigma'(z^{(\ell)}) = 1$ para $z^{(\ell)} > 0$ y $\sigma'(z^{(\ell)}) = 0$ para $z^{(\ell)} \leq 0$.
-        *   Se calculan los gradientes respecto a los parámetros de la capa $\ell$ usando $\delta^{(\ell)}$ y la activación de la capa anterior $a^{(\ell-1)}$ (guardada durante el forward pass):
-            $$
-            \frac{\partial \mathcal{J}}{\partial W^{(\ell)}} = \delta^{(\ell)} \, (a^{(\ell-1)})^T
-            $$
-            $$
-            \frac{\partial \mathcal{J}}{\partial b^{(\ell)}} = \delta^{(\ell)} \quad \text{(sumado sobre las muestras del batch si aplica)}
-            $$
-        *   Se calcula el gradiente que se propagará a la capa anterior $\ell-1$:
-            $$
-            \frac{\partial \mathcal{J}}{\partial a^{(\ell-1)}} = (W^{(\ell)})^T \, \delta^{(\ell)}
-            $$
-            Este $\frac{\partial \mathcal{J}}{\partial a^{(\ell-1)}}$ será el punto de partida para los cálculos de la capa $\ell-1$.
-    *   Este proceso continúa hasta calcular los gradientes respecto a todos los parámetros $W^{(\ell)}, b^{(\ell)}$ de la red (y respecto a la entrada $x$ si fuera necesario).
+# --- Función ---
+def f(x):
+    return jnp.cos(x)
 
-**Eficiencia:** Backpropagation (modo reverso) es muy eficiente cuando tenemos muchas variables de entrada (parámetros) y una única salida escalar (la pérdida), ya que calcula todos los gradientes $\frac{\partial L}{\partial \theta_i}$ con un coste computacional bajo (aproximadamente entre 2 y 3 veces el coste del forward pass). Por eso es el método estándar para entrenar redes neuronales.
+# --- Derivada con autodiff (JAX) ---
+df_dx_scalar = grad(f)          # derivada escalar
+df_dx_ad = vmap(df_dx_scalar)   # vectorizar para arreglos
 
-```{.python}
-# Función de activación y su derivada
-def relu(x):
-    return np.maximum(0, x)
-def drelu(x):
-    return (x > 0).astype(int)
+# --- Malla y verdad analítica ---
+x = np.linspace(-2*np.pi, 2*np.pi, 400)
+f_real = np.cos(x)
+df_real = -np.sin(x)
 
-# Dimensiones de la red
-dim_entrada = 1
-dim_oculta = 2
-dim_salida = 1
+# --- Diferencias finitas (central, con np.gradient) ---
+df_fd = np.gradient(f_real, x)
 
-# Ejemplo de entrada y objetivo
-x = np.array([[0.5]])  # forma (1, 1)
-y_real = np.array([[1.0]])  # forma (1, 1)
+# --- Derivada con autodiff ---
+df_ad = np.array(df_dx_ad(jnp.array(x)))
 
-# Parámetros (inicialización aleatoria para demostración)
-W1 = np.random.randn(dim_oculta, dim_entrada)  # (2, 1)
-b1 = np.random.randn(dim_oculta, 1)            # (2, 1)
-W2 = np.random.randn(dim_oculta, dim_oculta)   # (2, 2)
-b2 = np.random.randn(dim_oculta, 1)            # (2, 1)
-W3 = np.random.randn(dim_salida, dim_oculta)   # (1, 2)
-b3 = np.random.randn(dim_salida, 1)            # (1, 1)
+# --- Gráfico ---
+plt.figure(figsize=(7,4))
+plt.plot(x, df_fd/df_real - 1,   "--", label="Diferencias finitas (np.gradient)")
+plt.plot(x, df_ad/df_real - 1,   ":", label="Autodiff con JAX (grad)")
 
-# ----- Paso hacia adelante (forward) -----
-z1 = W1 @ x + b1         # (2, 1)
-a1 = relu(z1)            # (2, 1)
-z2 = W2 @ a1 + b2        # (2, 1)
-a2 = relu(z2)            # (2, 1)
-z3 = W3 @ a2 + b3        # (1, 1)
-y_pred = z3              # (1, 1)
+plt.xlabel("x")
+plt.ylabel("derivada")
+plt.title("Error relativo de la derivada de cos(x)")
+plt.legend()
+plt.tight_layout()
+plt.show()
 
-# Pérdida: Error cuadrático medio
-perdida = 0.5 * np.sum((y_pred - y_real) ** 2)
+# --- Errores L2 ---
+def error_L2(a, b):
+    return np.sqrt(np.mean((a - b)**2))
 
-# ----- Paso hacia atrás (backward) -----
-# dJ/dy_pred
-dJ_dy_pred = y_pred - y_real  # (1, 1)
+print("Error L2 comparado con -sin(x):")
+print(f"  Diferencias finitas : {error_L2(df_fd, df_real):.3e}")
+print(f"  Autodiff (JAX)      : {error_L2(df_ad, df_real):.3e}")
+```
 
-# Gradientes de la capa de salida
-# y_pred = z3
-dJ_dz3 = dJ_dy_pred           # (1, 1)
-dJ_dW3 = dJ_dz3 @ a2.T        # (1, 2)
-dJ_db3 = dJ_dz3               # (1, 1)
+¿Qué pasa cuando tenemos una función más complicada? En ese caso usamos la regla de la cadena. Por ejemplo, si tenemos una función $f(w(x), v(x))$ y queremos calcular la derivada respecto a $x$ hacemos
 
-# Segunda capa oculta
-da2_dz2 = drelu(z2)           # (2, 1)
-dJ_da2 = W3.T @ dJ_dz3        # (2, 1)
-dJ_dz2 = dJ_da2 * da2_dz2     # (2, 1)
-dJ_dW2 = dJ_dz2 @ a1.T        # (2, 2)
-dJ_db2 = dJ_dz2               # (2, 1)
+$$
+\frac{d}{dx}f = \frac{\partial f}{\partial w}\frac{dw}{dx} + \frac{\partial f}{\partial v}\frac{dv}{dx}\,.
+$$
 
-# Primera capa oculta
-da1_dz1 = drelu(z1)           # (2, 1)
-dJ_da1 = W2.T @ dJ_dz2        # (2, 1)
-dJ_dz1 = dJ_da1 * da1_dz1     # (2, 1)
-dJ_dW1 = dJ_dz1 @ x.T         # (2, 1)
-dJ_db1 = dJ_dz1               # (2, 1)
+Para poner un ejemplo más concreto, si queremos derivar $f(x) = \cos(x)e^x + \sin(x)$, usamos
 
-# Ahora dJ_dW1, dJ_db1, dJ_dW2, dJ_db2, dJ_dW3, dJ_db3 son los gradientes para todos los parámetros
-print("dJ/dW1:", dJ_dW1)
-print("dJ/db1:", dJ_db1)
-print("dJ/dW2:", dJ_dW2)
-print("dJ/db2:", dJ_db2)
-print("dJ/dW3:", dJ_dW3)
-print("dJ/db3:", dJ_db3)
-``` 
+$$
+\frac{d}{dx} (f + g) = \frac{d}{dx} f + \frac{d}{dx} g\,,
+$$
+
+$$
+\frac{d}{dx}(fg) = f \frac{d}{dx} g + g \frac{d}{dx} f\,,
+$$
+
+$$
+\frac{d}{dx}\cos(x) = -\sin(x)\,,\quad \frac{d}{dx}\sin(x) = \cos(x)\,,\quad \frac{d}{dx}e^x = e^x\,.
+$$
+
+Entonces
+
+$$
+\frac{d}{dx}((\cos(x)e^x) + \sin(x)) = \frac{d}{dx}(\cos(x)e^x) + \frac{d}{dx}(\sin(x))\,,
+$$
+
+Ahora seguimos aplicando la regla de la cadena
+
+$$
+\frac{d}{dx}(\cos(x)e^x + \sin(x)) = \cos(x)\frac{d}{dx}e^x + e^x\frac{d}{dx}\cos(x) + \cos(x) = e^x\cos(x) - \sin(x)e^x + \cos(x)\,,
+$$
+
+## Autodiferenciación en modo directo 
+
+La autodiferenciación se usa cuando tenemos que calcular un gran número de derivadas. Esto ocurre por ejemplo en la solución numérica de ecuaciones diferenciales parciales, o en el aprendizaje automático donde se toma el gradiente de una función de costo respecto a miles de millones de parámetros.
+
+En general, estos problemas se reducen a tomar la derivada del vector $\vec{f} = (f_1, f_2, \ldots, f_n)$ con respecto a muchos parámetros $\vec{x} = (x_1, x_2, \ldots, x_m)$, esto es
+
+$$
+\frac{\partial \vec{f}}{\partial \vec{x}} = \begin{pmatrix}
+\frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \ldots & \frac{\partial f_1}{\partial x_m}\\
+\frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \ldots & \frac{\partial f_2}{\partial x_m}\\
+\vdots & \vdots & \ddots & \vdots\\
+\frac{\partial f_n}{\partial x_1} & \frac{\partial f_n}{\partial x_2} & \ldots & \frac{\partial f_n}{\partial x_m}
+\end{pmatrix}\,.
+$$
+
+Esta $f$ puede ser por ejemplo una red neuronal. En general, esta es una función complicada que se expresa como la composición de varias funciones simples, por ejemplo $\vec{f}(w_1(\vec{x}), w_2(\vec{x}), \ldots, w_\ell(\vec{x}))$. Entonces nuestra derivada toma la forma
+
+$$
+\frac{\partial f_i}{\partial x_j} = \sum_k\frac{\partial f_i}{\partial w_k}\frac{\partial w_k}{\partial x_j}\,.
+$$
+
+Esta no es otra que una multiplicación de matrices. En general
+
+$$
+\frac{\partial \vec{f}}{\partial \vec{x}} = \frac{\partial \vec{f}}{\partial \vec{w}^{(1)}}\frac{\partial \vec{w}^{(1)}}{\partial \vec{w}^{(2)}}\ldots\frac{\partial \vec{w}^{(s)}}{\partial \vec{x}}\,.
+$$
+
+Esto parece un ejemplo artificial, pero algo así puede ocurrir en ecuaciones diferenciales. Por ejemplo supongamos que queremos modelar algunas características de un fluido $\vec{f}$ (presión, temperatura, etc) que a su vez van a depender de una serie de variables termodinámicas $\vec{w}$, que a su vez dependen de la posición del elemento de fluido $\vec{x}$ que depende del tiempo $t$. Por simplicidad tomemos $\vec{f}, \vec{w}$ y $\vec{x}$ como vectores de dimensión 3. Queremos calcular la derivada
+
+$$
+\frac{d\vec{f}}{dt} =
+\underbrace{\frac{\partial \vec{f}}{\partial \vec{w}}}_{3\times 3}
+\;\underbrace{\frac{\partial \vec{w}}{\partial \vec{x}}}_{3\times 3}
+\;\underbrace{\frac{d\vec{x}}{dt}}_{3\times 1}
+$$
+
+Como estamos estudiando métodos numéricos, queremos minimizar la cantidad de operaciones. Cada fila por columna de una multiplicación matricial son $3$ multiplicaciones y $3$ sumas. 
+
+La manera más eficiente sería multiplicar primero la matriz por el vector a la derecha. De esta forma tenemos un nuevo vector para multiplicar por la matriz restante. El total de operaciones es $3\times 6 + 3\times 6 = 36$. En cambio si empezamos por multiplicar las dos matrices de la izquierda, el total de operaciones sería $3\times 3\times 6 + 3\times 6 = 72$. La diferencia es más pronunciada aún si aumentamos el número de variables o dimensiones.
+
+Empezar por la derecha se llama "autodiferenciación en modo directo" (forward mode autodiff). Es el modo más eficiente si tenemos una función de muchos componentes ($\vec{f}$ en nuestro caso) que depende de pocos parámetros ($t$ en nuestro caso). Además usa menos RAM que el modo inverso.
+
+## Autodiferenciación en modo inverso
+
+En aprendizaje automático tenemos usualmente lo contrario: Una función de pocas componentes que depende de muchos parámetros. En este caso es más eficiente multiplicar desde la derecha, lo que se llama autodiferenciación en modo inverso (reverse mode autodiff). Para un ejemplo sencillo, supongamos que $f$ (con una sola componente) depende de tres cantidades $\vec{w}^{(1)}$ que a su vez dependen de otras tres cantidades $\vec{w}^{(2)}$ que a su vez dependen de tres entradas $\vec{x}$
+
+$$
+\frac{\partial f}{\partial\vec{x}} = 
+\underbrace{\frac{\partial f}{\partial\vec{w}^{(1)}}}_{1\times 3}
+\underbrace{\frac{\partial\vec{w}^{(1)}}{\partial\vec{w}^{(2)}}}_{3\times 3}
+\underbrace{\frac{\partial\vec{w}^{(2)}}{\partial\vec{x}}}_{3\times 3}\,.
+$$
+
+Vemos que en este caso es más eficiente ultipicar primero por la derecha, obteniendo $36$ operaciones en vez de $72$. Cuando aumenta el número de variables y parámetros la diferencia es aún mayor. La autodiferenciación en modo inverso es más eficiente cuando tenemos una función de pocos componentes que depende de muchas variables o parámetros. Por ejemplo en redes neuronales pueden ser miles de millones de parámetros tal que aplicar el modo inverso es crucial.
+
+Sin embargo hay una dificultad. Para entenderla, consideremos la función compuesta $f(g(h(x)))$. Cuando la queremos evaluar empezamos desde la derecha, es decir evaluamos primero $z = h(x)$, luego $y = g(z)$ y finalmente $f(y)$. Es decir, evualuamos la función desde la derecha.
+
+Para derivar aplicamos la regla de la cadena
+
+$$
+\frac{d}{dx} f(g(h(x))) = f'(g(h(x)))\times g'(h(x))\times h'(x)\,.
+$$
+
+Vemos que si queremos efectuar diferenciación en modo incerso, necesitamos primero calcular $f'(g(h(x)))$, para lo cual necesitamos $g(h(x))$. Después debemos calcular $g'(h(x))$ para lo cual necesitamos saber $h(x)$, y así sucesivamente. En pocas palabras, necesitamos los pasos intermedios de la evaluación de la función compuesta.
+
+Para lograrlo, primero hacemos un paso hacia adelante ("forward pass") donde evaluamos $f(g(h(x)))$. En este, guatdamos en memoria todos los resultados intermedios ($g(h(x)), h(x),$) en la memoria (en una estructura llamada "tape"). Luego hacemos un paso hacia atrás ("reverse pass") donde evaluamos $f'(g(h(x)))$ usando los resultados guardados en la memoria.
 
 *(Nota: Librerías modernas como PyTorch, TensorFlow y JAX implementan AD de forma automática. El usuario define el paso hacia adelante (la estructura del modelo y el cálculo), y la librería se encarga de calcular los gradientes eficientemente usando backpropagation.)*
 
-# Inicialización de parámetros
+## Inicialización de parámetros
 
 La forma en que inicializamos los pesos ($W$) y sesgos ($b$) de una red neuronal es sorprendentemente importante, sobre todo en redes profundas (con muchas capas). Una mala inicialización puede impedir que la red aprenda.
 
 No podemos inicializar todos los pesos y sesgos a cero, ya que permanecerán iguales a lo largo del entrenamiento. En cambio inicializamos todos los sesgos a cero y los pesos de forma aleatoria. Pero esto tiene una sutileza.
 
-## El problema de la varianza grande o pequeña
+### El problema de la varianza grande o pequeña
 
 La clave está en controlar la **varianza** de las salidas de cada capa (activaciones) y de los gradientes que fluyen hacia atrás. Aquí, $D_\ell$ representa el **'fan-in'** de la capa $\ell$, es decir, el número de neuronas en la capa anterior que alimentan a una neurona de la capa $\ell$.
 
@@ -689,7 +736,7 @@ $$
 
 :::
 
-## Inicialización para el forward pass: $\sigma_\ell^2 = 2/D_\ell$
+### Inicialización para el forward pass: $\sigma_\ell^2 = 2/D_\ell$
 
 Para asegurar que la varianza de las activaciones $a^{(\ell)}$ se mantenga aproximadamente constante durante el *forward pass* (al pasar de la capa $\ell$ a $\ell+1$) cuando se usa la activación **ReLU**, Kaiming He et al. propusieron inicializar los pesos $W^{(\ell)}$ muestreando de una distribución con media 0 y varianza:
 
@@ -699,7 +746,7 @@ $$
 
 donde $D_\ell$ es el fan-in de la capa $\ell$. Si reemplazamos esto en la @eq_varianza_z obtenemos $\sigma_{z^{(\ell)}}^2 = \sigma_{z^{(\ell - 1)}}^2$, tal que la varianza es estable.
 
-## Inicialización para el backward pass: $\sigma^2 = 2/D_{\ell+1}$
+### Inicialización para el backward pass: $\sigma^2 = 2/D_{\ell+1}$
 
 De forma análoga, si analizamos el *backward pass*, para que la varianza de los gradientes $\frac{\partial \mathcal{J}}{\partial z^{(\ell)}}$ se mantenga estable al retropropagar desde la capa $\ell+1$ a la capa $\ell$ (asumiendo activación ReLU), la condición requiere una varianza basada en el **'fan-out'**:
 
@@ -711,7 +758,7 @@ Notamos que la condición ideal para el forward pass (usa $D_h$) y para el backw
 
 *Nota:* Cuando la activación es tanh o sigmoide, la derivación de la relación entre las varianzas sugiere usar $\sigma_\ell^2 = \frac{1}{D_h}$, que se llama inicialización de Xavier/Glorot.
 
-# Ejemplo de código de entrenamiento
+## Ejemplo de código de entrenamiento
 
 Existen librerías que implementan todos los pasos de este entrenamiento. La más popular es tal vez `PyTorch`. Este curso no está enfocado en implementar el código ya que este cambia constantemente, y el simple uso de librerías se puede lograr leyendo la documentación, pidiendo ayuda en foros como StackOverflow o preguntándole a una IA. Sin embargo, damos algunos ejemplos, empezando por un ejemplo de cómo se implementaría lo visto hasta ahora usando `PyTorch`.
 
@@ -774,7 +821,7 @@ for epoch in range(100):
 
 ```
 
-# Ejemplo aplicado de una red neuronal
+## Ejemplo aplicado de una red neuronal
 
 En el libro hay un ejemplo para un problema de clasificación con 40 características. Recomiendo leerlo.
 

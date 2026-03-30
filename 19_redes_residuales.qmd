@@ -7,9 +7,9 @@ Comentamos en la clase anterior que las diferentes capas de una red neuronal apr
 
 ![Errores de entrenamiento y prueba para redes de diferente profundidad. Tomado de He, K., et. al. (2016a).](figs/he_et_al_too_deep.png){#fig-he-et-al-too-deep}
 
-# Problemas de Optimización en Redes Profundas
+## Problemas de Optimización en Redes Profundas
 
-## Gradientes fragmentados (shattered gradients)
+### Gradientes fragmentados (shattered gradients)
 
 Parece que este fenómeno aún no se entiende del todo bien. Una hipótesis es que los gradientes respecto a los parámetros de las primeras capas cambian muy rápidamente. Como el entrenamiento usa una aproximación que asume que los gradientes son suaves, esto induce un error grande. 
 
@@ -152,7 +152,7 @@ $$
 \frac{\partial \mathbf{y}}{\partial \mathbf{f_1}} = \frac{\partial \mathbf{y}}{\partial \mathbf{f}_3} \frac{\partial \mathbf{f}_3}{\partial \mathbf{f}_2} \frac{\partial \mathbf{f}_2}{\partial \mathbf{f}_1}
 $$
 
-# Aprendizaje Residual (Residual Learning)
+## Aprendizaje Residual (Residual Learning)
 
 La solución fue hacer que cada nueva capa aprendiera la diferencia entre la entrada y la salida esperada. Esto se llama aprendizaje residual. Para lograrlo, se guarda la entrada a la capa y se suma con la salida.
 
@@ -186,7 +186,7 @@ Otra ventaja es que si la identidad es la transformación óptima para una parte
 
 Las redes residuales permiten entrenar redes más profundas. Pero se observa que los gradientes explotan cuando son demasiado grandes. Más abajo vemos cómo atacar ese problema.
 
-## Orden de las Operaciones: Pre-activación
+### Orden de las Operaciones: Pre-activación
 
 En las redes residuales, aplicar la activación después de la transformación lineal hace que la salida $f(x)$ sea cero cuando la pre-activación es negativa. Esto hace que el bloque no modifique la entrada. 
 
@@ -197,7 +197,7 @@ Para no perder flexibilidad de esa manera, se suele invertir el orden de las ope
 
 Este orden (ReLU antes de la convolución) puede parecer contraintuitivo desde el punto de vista de una red tradicional (que aplicaría primero la transformación lineal y luego la no linealidad), pero en redes residuales puede ayudar a mejorar el flujo del gradiente y evitar la desaparición de información. También se ha explorado el orden inverso (lineal seguido de ReLU), y la elección puede depender de detalles específicos de la arquitectura o del problema.
 
-# Crecimiento de varianza en redes residuales
+## Crecimiento de varianza en redes residuales
 
 Cuando vimos inicialización de parámetros, vimos que debemos escoger la varianza de la inicialización aleatoria para que la composición de capas no haga que los gradientes crezcan exponencialmente. 
 
@@ -206,7 +206,7 @@ En las redes residuales eso sigue siendo válido, pero surge un nuevo efecto. Si
 Una posible solución es reescalar las activaciones de las neuronas para reducir este factor. Basta multiplicar todas las salidas por $1/\sqrt{2}$. Sin embargo en la práctica se usa una técnica llamada *Batch Normalization* que tiene el mismo efecto.
 
 
-# Batch Normalization
+## Batch Normalization
 
 La Batch Normalization es una técnica que normaliza las activaciones de una capa para que tengan varianza 1. Esto se hace dividiendo las activaciones por la varianza de la capa y multiplicando por la desviación estándar. 
 
@@ -355,6 +355,6 @@ En el libro se encuentran descripciones de redes residuales usadas para problema
 
 El estado del arte usa además arquitecturas de transformadores. Esto lo veremos la próxima clase.
 
-# Ejercicios Sugeridos
+## Ejercicios Sugeridos
 
 11.1, 11.2, 11.6, 11.7

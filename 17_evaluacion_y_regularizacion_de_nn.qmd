@@ -3,13 +3,13 @@ title: "Evaluación de modelos y regularización"
 lang: es
 ---
 
-# Evaluación de modelos
+## Evaluación de modelos
 
 Hemos visto cómo entrenar una red neuronal para que aprenda a predecir. Ahora vamos a repasar cómo evaluar el rendimiento de una red neuronal. Usaremos las mismas técnicas que vimos para evaluar el rendimiento de cualquier modelo de aprendizaje supervisado. Sin embargo, las redes neuronales tienen un par de particularidades, como el llamado "descenso doble" (double descent).
 
 Luego veremos cómo regularizar las redes neuronales para evitar el sobreajuste y mejorar su generalización. De nuevo empezaremos con un repaso de lo visto para cualquier modelo de aprendizaje supervisado. En el sentido estricto, la regularización se refiere a métodos para restringir el espacio de búsqueda de modelos, es decir, para limitar la complejidad del modelo. Sin embargo, en la práctica, la regularización suele referirse a métodos que reducen el error de generalización. Veremos algunos de esos métodos al final de estas notas.
 
-## Repaso de varianza, sesgo y error irreducible
+### Repaso de varianza, sesgo y error irreducible
 
 Recordemos que el error de generalización consiste en el error que comete un modelo entrenado con un conjunto de datos al intentar predecir el valor de una nueva observación. Este error viene de tres fuentes:
 
@@ -17,7 +17,7 @@ Recordemos que el error de generalización consiste en el error que comete un mo
 2. **Sesgo**: Mide el error sistemático del modelo.
 3. **Error irreducible**: Mide el error que no puede ser reducido por el modelo.
 
-### Intuición
+#### Intuición
 
 Primero repasemos de manera intuitiva cada una de estas fuentes de error.
 
@@ -27,7 +27,7 @@ Primero repasemos de manera intuitiva cada una de estas fuentes de error.
 
 - **Error irreducible**: Mide el error que no puede ser reducido por el modelo. Es decir, el error que existiría incluso si tuviéramos acceso a un conjunto de datos infinito. Este error es intrínseco al problema que estamos modelando. Este puede venir por errores en las mediciones de las variables, o porque la respuesta que queremos predecir depende de variables no observadas, o tiene una naturaleza estocástica.
 
-### Formulación matemática
+#### Formulación matemática
 
 
 Veamos matemáticamente cómo aparecen estas tres fuentes de error.
@@ -49,7 +49,7 @@ $$
 
 El primer término representa la fluctuación de la predicción del modelo alrededor de su valor esperado. Es decir, mide la varianza del modelo o cuánto cambia la predicción del modelo al cambiar el conjunto de datos de entrenamiento. El segundo término representa el error sistemático del modelo, es decir, cuánto se desvía la predicción del modelo de la verdadera relación entre las variables. Este representa el sesgo del modelo.
 
-### Tensión entre sesgo y varianza
+#### Tensión entre sesgo y varianza
 
 Podemos intentar reducir el error debido al sesgo y la varianza. Para obtener un mejor sesgo, podemos usar un modelo más complejo. Sin embargo, un modelo más complejo tiende a ajustarse a las particularidades del conjunto de datos de entrenamiento, lo que aumenta la varianza. La manera de resolver este problema es mediante el uso de modelos más sencillos que no sobreajusten, o mediante el uso de técnicas de regularización que amortigüen el efecto de los muchos parámetros libres de los modelos más complejos. 
 
@@ -57,11 +57,13 @@ Una alternativa que reduce la varianza es aumentar el conjunto de datos de entre
 
 Recientemente se ha observado un fenómeno conocido como "descenso doble" (double descent), en el cual el modelo tiene un menor error de generalización para algunos modelos extremadamente complejos. Se cree que esto se debe a una regularización implícita, como discutimos en la siguiente sección.
 
-## Descenso doble (Double descent)
+### Descenso doble (Double descent)
 
 Para las redes neuronales, la tensión entre sesgo y varianza tiene un aspecto interesante. Lo que dice el aprendizaje automático clásico es que al aumentar el número de parámetros del modelo, éste se ajusta más al ruido y por lo tanto el error de generalización aumenta. Esto podría ser un problema para las redes neuronales que tienen un número enorme de parámetros, a veces mucho mayor que el número de observaciones de entrenamiento. 
 
-Sin embargo, se ha observado que para ciertos modelos, el error de generalización puede disminuir con el aumento del número de parámetros. Esto se llama "descenso doble" (double descent). Es decir, el error de generalización tiene tres regiones:
+![Error de generalización para el ajuste de un polinomio de Legendre en función del grado.](figs/double_descent_polynomial.png){#fig-double-descent-polynomial width=50%}
+
+Sin embargo, se ha observado que para ciertos modelos, el error de generalización puede disminuir con el aumento del número de parámetros. Un ejemplo se puede ver en la figura @fig-double-descent-polynomial, donde he graficado el error de prueba para el ajuste de un polinomio de Legendre en función del grado (sacado de mi solución a uno de los [proyectos](proyectos)). Esto se llama "descenso doble" (double descent). Es decir, el error de generalización tiene tres regiones:
 
 - Cuando la red tiene muy pocos parámetros, el error de generalización es alto debido a que el modelo no tiene suficiente libertad para ajustarse a los datos. El modelo tiene un alto sesgo. A medida que se aumentan el número de parámetros, el sesgo baja y el error de generalización disminuye hasta un mínimo. 
 
@@ -77,7 +79,7 @@ El origen de este fenómeno no se entiende del todo bien. Se cree que es una mez
 
 La figura 8.10 del libro ilustra el fenómeno de descenso doble.
 
-## Búsqueda de hiperparámetros
+### Búsqueda de hiperparámetros
 
 Las redes neuronales que hemos visto tienen varios hiperparámetros: Número de capas escondidas, número de neuronas por cada capa, tasa de aprendizaje y otros dependiendo del algoritmo de descenso de gradiente. Además veremos muchas otras arquitecturas que pueden ser usadas para diferentes problemas. Entonces necesitamos alguna manera de escoger la arquitectura y los hiperparámetros adecuados para cada caso. 
 
@@ -91,13 +93,13 @@ Otra forma de explorar el espacio de parámetros es el *hiberbanda*. En este, aj
 
 Existen librerías que implementan ambos métodos.
 
-# Regularización
+## Regularización
 
 Cuando estudiamos la regresión lineal, vimos que podemos restringir los valores de los parámetros usando un término de regularización en la función de pérdida. Esto tiene el efecto de disminuir la libertad del modelo a pesar de tener un número grande de hiperparámetros. Eso reduce el sobreajuste.
 
 Podemos aplicar la misma estrategia a las redes neuronales. Resulta que además se ha demostrado que estas ya están regularizadas de forma natural, lo que se llama regularización implícita. El término regularización se ha ampliado para incluír varias estrategias que reducen el sobreajuste.
 
-## Regularización explícita
+### Regularización explícita
 
 La regularización explícita consiste en agregarle términos a la función de pérdida que penalicen los parámetros que se salen de un cierto rango. Por ejemplo, vimos la regularización L2. En redes neuronales, es frecuente usar la pérdida modificadoa
 $$
@@ -108,11 +110,11 @@ Esto hace que la red prefiera pesos pequeños. Es decir, el modelo tiene un rang
 Matemáticamente la regularización se puede ver como una probabilidad previa para los parámetros. Es decir, nuestra verosimilitud ahora consiste en $e^{-\mathcal{J}}P(W)$, donde $P(W)$ es la distribución previa de los pesos (gaussiana en el caso de L2).
 
 
-## Regularización implícita
+### Regularización implícita
 
 Para las redes neuronales se cree que además hay una regularización implícita. Es decir, la red aprende a regularizar los pesos en el sentido discutido en la sección de doble descenso. Además, el método de descenso de gradiente también contribuye a esta regularización.
 
-### Regularización por descenso de gradiente
+#### Regularización por descenso de gradiente
 
 Recordemos que el descenso de gradiente consiste en seguir la dirección de máximo descenso en el espacio de parámetros. Estrictamente esto es resolver la ecuación diferencial 
 $$
@@ -181,7 +183,7 @@ Finalmente, si entrenamos usando mini-lotes, esto introducirá una varianza en l
 
 :::
 
-## Métodos para reducir el error de generalización
+### Métodos para reducir el error de generalización
 
 El término regularización se ha extendido para referirse a técnicas que reducen el error de generalización. Algunas de las más usadas son:
 
@@ -209,6 +211,6 @@ Este método implica añadir pequeñas perturbaciones aleatorias a los pesos de 
 
 El transfer learning consiste en utilizar un modelo pre-entrenado en una tarea similar y ajustarlo para la tarea específica, aprovechando así el conocimiento adquirido previamente. El multi-task learning implica entrenar un modelo para realizar múltiples tareas simultáneamente, lo que puede mejorar la generalización al forzar al modelo a aprender representaciones más generales y robustas. Veremos ejemplos de esto en clases posteriores.
 
-# Ejercicios sugeridos
+## Ejercicios sugeridos
 
 8.3, 8.4, 8.5, 9.1, 9.5
