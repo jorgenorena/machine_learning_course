@@ -19,3 +19,6 @@ dependencies = [
     "tqdm>=4.67.3",
     "xgboost>=3.1.2",
 ]
+
+[tool.basedpyright]
+typecheckingMode = "off"
