@@ -12,30 +12,29 @@ Este curso está diseñado específicamente para estudiantes de física que dese
 El curso se divide en tres partes principales:
 
 - Unidad 1: Fundamentos de Probabilidad y Estadística
-    - Nociones básicas: eventos, probabilidad, independencia
-    - Distribuciones de probabilidad
-	- Función generatriz, momentos, teorema central del límite.
-    - Verosimilitud y estimación
-    - Mínimos cuadrados e intervalos de confianza
-    - Testeo de hipótesis 
-	- Introducción a la teoría de la información
+    - Nociones básicas: eventos, probabilidad, independencia (19 de marzo)
+    - Distribuciones de probabilidad (23 de marzo)
+	- Función generatriz, momentos, teorema central del límite. (26 de marzo)
+    - Verosimilitud y estimación (31 de marzo)
+    - Mínimos cuadrados e intervalos de confianza (7 de abril)
+    - Testeo de hipótesis (8 de abril)
+	- Introducción a la teoría de la información (14 de abril)
 
 - Unidad 2: Aprendizaje Automático Clásico
-    - Aprendizaje Automático y Regresión lineal.
-    - Clasificación: Regresión logística y métricas.
-    - Selección de modelos: entrenamiento/validación/prueba, validación cruzada.
-    - Regularización: Ridge, Lasso y Elastic Net.
-    - Árboles de decisión, random forests y boosting
-    - Máquinas de vectores de soporte.
-    - Aprendizaje no supervisado: clustering y reducción de dimensionalidad
+    - Aprendizaje Automático y Regresión lineal. (15 de abril)
+    - Clasificación: Regresión logística y métricas. (22 de abril)
+    - Selección de modelos y regularización. (28 de abril)
+    - Árboles de decisión, random forests y boosting. (29 de abril)
+    - Máquinas de vectores de soporte. (5 de mayo)
+    - Aprendizaje no supervisado: clustering y reducción de dimensionalidad (6 de mayo)
 
 - Unidad 3: Redes Neuronales
-    - El perceptrón multicapa
-    - Entrenamiento: Descenso de gradiente (objetivo) y diferenciación automática (herramienta)
-    - Evaluación de modelos y regularización de redes neuronales
-    - Redes convolucionales
-    - Redes Residuales
-    - Transformadores y el mecanismo de atención
+    - El perceptrón multicapa (12 de mayo)
+    - Entrenamiento: Descenso de gradiente y diferenciación automática (19 de mayo)
+    - Evaluación de modelos y regularización de redes neuronales (20 de mayo)
+    - Redes convolucionales (26 de mayo)
+    - Redes Residuales (27 de mayo)
+    - Transformadores y el mecanismo de atención (2 de junio)
 
 ## Objetivos del Curso
 
@@ -90,6 +89,12 @@ Al final de la segunda unidad se presentará un proyecto sobre aprendizaje autom
 Al final de la tercera unidad se presentará un proyecto sobre redes neuronales con alguna aplicación a la física.
 
 Cada uno vale un tercio de la nota final.
+
+### Fechas de evaluaciones
+
+- Prueba primera unidad: 21 de Abril.
+- Proyecto aprendizaje automático: 13 de Mayo.
+- Proyecto redes neuronales: 3 de Junio.
 
 ## Ejercicios
 
