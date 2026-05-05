@@ -671,7 +671,7 @@ window.Quarto = {
 \]</span> Este último es el <strong>Error Cuadrático Medio (Mean Squared Error, MSE)</strong>.</p></li>
 </ul>
 <p>Podemos visualizar esta equivalencia fijando una observación <span class="math inline">\(y_i\)</span> y dejando variar la predicción <span class="math inline">\(\hat{y}_i\)</span>. En ese caso, la verosimilitud Gaussiana es máxima cuando <span class="math inline">\(\hat{y}_i = y_i\)</span>, mientras que la pérdida negativa log-verosimilitud es mínima exactamente en el mismo punto. La diferencia entre la NLL y el error cuadrático es sólo una constante aditiva y un factor multiplicativo si <span class="math inline">\(\sigma^2\)</span> es fija.</p>
-<div id="ede09d31" class="cell" data-execution_count="1">
+<div id="ede09d31" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -697,7 +697,7 @@ window.Quarto = {
   \]</span> Esta es la <strong>pérdida de entropía cruzada binaria</strong> para la muestra <span class="math inline">\(i\)</span>. La pérdida total es <span class="math inline">\(\mathcal{J}(\boldsymbol{W}, \boldsymbol{b}) = \sum_i \ell_i(\boldsymbol{W}, \boldsymbol{b})\)</span> (o el promedio).</li>
 </ul>
 <p>Podemos visualizar esta pérdida dejando fija la etiqueta verdadera <span class="math inline">\(y_i\)</span> y variando la probabilidad predicha <span class="math inline">\(\hat{y}_i = p(y_i = 1 \mid \mathbf{x}_i)\)</span>. Si <span class="math inline">\(y_i = 1\)</span>, la verosimilitud es simplemente <span class="math inline">\(\hat{y}_i\)</span>, por lo que conviene llevarla cerca de <span class="math inline">\(1\)</span>. Si <span class="math inline">\(y_i = 0\)</span>, la verosimilitud es <span class="math inline">\(1-\hat{y}_i\)</span>, por lo que conviene llevarla cerca de <span class="math inline">\(0\)</span>. La entropía cruzada penaliza con mucha fuerza las predicciones muy seguras pero incorrectas.</p>
-<div id="0efcb80f" class="cell" data-execution_count="2">
+<div id="0efcb80f" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

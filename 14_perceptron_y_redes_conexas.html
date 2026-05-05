@@ -779,7 +779,7 @@ R(d,H) = \sum_{k=0}^d \binom{H}{k}\,,
   \]</span> que se interpreta como la probabilidad de que el punto pertenezca a la clase <span class="math inline">\(k\)</span>.</li>
 </ul>
 <p>Gráficamente, representamos esta red como un conjunto de <span class="math inline">\(H\)</span> perceptrones, donde cada uno tiene <span class="math inline">\(d\)</span> conexiones de entrada y <span class="math inline">\(1\)</span> conexión de salida. Esas <span class="math inline">\(H\)</span> salidas van todas a un único perceptrón de salida, que tiene <span class="math inline">\(m\)</span> conexiones de entrada y <span class="math inline">\(1\)</span> conexión de salida.</p>
-<div id="cell-fig-mlp" class="cell" data-execution_count="1">
+<div id="cell-fig-mlp" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-mlp" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -796,7 +796,7 @@ Figura&nbsp;1: Arquitectura de una MLP con una capa oculta
 <p>El número total de parámetros (pesos y sesgos) en esta red es: <span class="math display">\[
 \#\text{parámetros} = \underbrace{(d \times H + H)}_{\text{Capa 1}} + \underbrace{(H \times m + m)}_{\text{Capa 2}}
 \]</span> La expresividad y capacidad de la red aumentan con el número de neuronas ocultas <span class="math inline">\(H\)</span>, a costa de un mayor número de parámetros a aprender.</p>
-<div id="cell-fig-decision-boundary" class="cell" data-execution_count="2">
+<div id="cell-fig-decision-boundary" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_moons</span>
@@ -911,7 +911,7 @@ Figura&nbsp;2: Regiones lineales para una red con una capa oculta de 3 neuronas.
   \]</span> donde la función de activación de la capa de salida <span class="math inline">\(\phi_{\text{salida}}\)</span> puede ser diferente a la de las capas ocultas (e.g., lineal para regresión, softmax para clasificación multiclase)</p></li>
 </ul>
 <p>La <strong>profundidad</strong> <span class="math inline">\(L\)</span> (número de capas computacionales) y los <strong>anchos</strong> <span class="math inline">\(n_1, \dots, n_L\)</span> definen la arquitectura de la red. Se cree que la profundidad permite a la red aprender representaciones jerárquicas de los datos, donde las capas iniciales detectan características simples y las capas posteriores las combinan en conceptos más complejos.</p>
-<div id="cell-fig-mlp-two-hidden" class="cell" data-execution_count="3">
+<div id="cell-fig-mlp-two-hidden" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div id="fig-mlp-two-hidden" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1034,7 +1034,7 @@ y = \mathbf{a}^{(3)} = \mathbf{z}^{(3)} = -8.5
 \left(\prod_{\ell=1}^L \left\lfloor\frac{n_\ell}{n_0}\right\rfloor^{(L-1)n_0} \right) \sum_{j=0}^{n_0} \binom{n_L}{j}
 \]</span></p></li>
 </ul>
-<div id="cell-fig-mlp-regions" class="cell" data-execution_count="4">
+<div id="cell-fig-mlp-regions" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>

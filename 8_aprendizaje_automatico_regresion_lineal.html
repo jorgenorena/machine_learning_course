@@ -716,13 +716,13 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="regresión-lineal">Regresión Lineal</h2>
 <p>Ilustraremos varios de los conceptos anteriores mediante la sencilla regresión lineal. Este tipo de regresión es muy sencilla, pero es computacionalmente barata y muy fácil de interpretar. Por ese motivo fue muy usada antes de la llegada de computadores suficientemente potentes. Nosotros lo estudiamos aquí porque es fácil y nos permite introducir varios conceptos sin el bagaje adicional de un modelo complicado.</p>
 <p>Nos ocuparemos de el siguiente ejemplo: Una compañía quiere saber cómo invertir el dinero de publicidad. Tenemos los datos de gasto publicitario en televisión, radio y periódicos para varios mercados junto con el número de unidades vendidas en cada uno.</p>
-<div id="766c8d62" class="cell" data-execution_count="1">
+<div id="766c8d62" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Importamos los datos</p>
-<div id="4da31db5" class="cell" data-execution_count="2">
+<div id="4da31db5" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>datos_publicidad <span class="op">=</span> pd.read_csv(<span class="st">"data/Advertising.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>datos_publicidad.describe()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -807,7 +807,7 @@ window.Quarto = {
 <p>Primero reducimos el problema a predecir el número de ventas basados en el gasto en televisión. Por lo tanto nuestro modelo es <span class="math display">\[
 f(X) = \beta_0 + \beta_1 X\,,
 \]</span> donde <span class="math inline">\(\beta_1\)</span> es el gasto en televisión. Ya vimos cómo estimar los coeficientes minimizando la suma de errores al cuadrado. Esto ya hace parte de muchas librerías en python.</p>
-<div id="274ee7c3" class="cell" data-execution_count="3">
+<div id="274ee7c3" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos </span></span>
@@ -842,7 +842,7 @@ f(X) = \beta_0 + \beta_1 X\,,
 <section id="determinando-la-precisión-de-los-coeficientes" class="level3">
 <h3 class="anchored" data-anchor-id="determinando-la-precisión-de-los-coeficientes">Determinando la precisión de los coeficientes</h3>
 <p>Al escribir el modelo nosotros <em>estimamos</em> los coeficientes. Como se calcularon a partir de los datos, tendrán una varianza. Para verlo repetimos el código de arriba pero usando un subconjunto de los datos.</p>
-<div id="9e42af6c" class="cell" data-execution_count="4">
+<div id="9e42af6c" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>datos_subconjunto_1 <span class="op">=</span> datos_publicidad.sample(frac<span class="op">=</span><span class="fl">0.2</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>datos_subconjunto_2 <span class="op">=</span> datos_publicidad.sample(frac<span class="op">=</span><span class="fl">0.2</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -901,7 +901,7 @@ R^2 = 1 - \frac{\text{RSS}}{\sum (y_i - \bar{y})^2}\,.
 <p>Ahora queremos ajustar un modelo que depende de varias variables de entrada. En nuestro caso son los presupuestos para los diferentes tipos de publicidad. <span class="math display">\[
 f(\vec{X}) = \beta_0 + \beta_1 X_1 + ... + \beta_q X_q\,.
 \]</span> El ajuste de mínimos cuadrados se logra por medio de la ecuación normal como antes. Para tener más control sobre las propiedades estadísticas usamos otra librería de python.</p>
-<div id="97ba7d7e" class="cell" data-execution_count="5">
+<div id="97ba7d7e" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> datos_publicidad.drop(<span class="st">"Sales"</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -963,7 +963,7 @@ f(x) = \beta_0 + \beta_1 x + \beta_2 x^2\,.
 \]</span> Más interesante aún, en el caso de varios predictores podemos incluir términos <strong>de interacción</strong>. En nuestro ejemplo podemos escribir <span class="math display">\[
 f(X) = \beta_0 + \beta_{\text{TV}}x_{\text{TV}} + \beta_{\text{radio}}x_{\text{radio}} + \beta_{\text{TV}\times\text{radio}}x_{\text{TV}}X_{\text{radio}}\,.
 \]</span> Lo que representa este término es que hay un efecto de sinergia entre los dos predictores. El efecto de invertir en televisión depende de si se invierte en radio o no. Veámoslo</p>
-<div id="5ea66375" class="cell" data-execution_count="6">
+<div id="5ea66375" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> datos_publicidad.drop([<span class="st">"Sales"</span>, <span class="st">"Newspaper"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>

@@ -753,7 +753,7 @@ M_x(t) = \langle e^{xt}\rangle = e^{t\mu + \sigma^2 t^2/2}\,.
 </section>
 <section id="ejemplo" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo">Ejemplo</h2>
-<div id="d064d64a" class="cell" data-execution_count="1">
+<div id="d064d64a" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -798,7 +798,7 @@ M_x(t) = \langle e^{xt}\rangle = e^{t\mu + \sigma^2 t^2/2}\,.
 \rho(\chi^2) \propto \rho(\chi) \frac{d\chi}{d\chi^2} = \chi^{N-2}e^{-\chi^2/2}
 \]</span> Sin embargo al ajustar <span class="math inline">\(m\)</span> parámetros imponemos <span class="math inline">\(m\)</span> condiciones sobre la región considerada, una por cada derivada parcial que fijamos a cero, tal que <span class="math inline">\(N\)</span> debe ser en realidad el <em>número de grados de libertad</em> dado por <strong>el número de datos menos el número de parámetros</strong>.</p>
 <p>Nos falta solo una normalización para que la integral sea uno. Los expertos reconocerán la función gama.</p>
-<div id="4ef0c6d1" class="cell" data-execution_count="2">
+<div id="4ef0c6d1" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chi2(x, n):</span>
@@ -830,7 +830,7 @@ u = \frac{\bar{x} - \mu}{\sigma}\,,
 \]</span> esta sigue una distribución Gaussiana con media cero y varianza uno. Si estimamos la varianza, escribimos <span class="math display">\[
 t = \frac{\bar{x} - \mu}{\hat{\sigma}/\sqrt{N}}\,.
 \]</span> Para <span class="math inline">\(N\)</span> grande, <span class="math inline">\(t\)</span> resulta que también sigue una Gaussiana. Pero para <span class="math inline">\(N\)</span> pequeño sigue otra distribución llamada de Student. Usando lo que hemos visto podemos deducir la distribución, pero no lo haremos aquí. La derivación y forma están en el libro.</p>
-<div id="23dce08b" class="cell" data-execution_count="3">
+<div id="23dce08b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Código producido por ChatGPT 4o con el siguiente prompt:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "Produce una serie de gráficos en python usando la distribución t de Student </span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y comparándola con la distribución normal. Comentarios y nombres de variables</span></span>

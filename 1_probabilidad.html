@@ -677,7 +677,7 @@ window.Quarto = {
 <section id="visualización-de-los-datos" class="level2">
 <h2 class="anchored" data-anchor-id="visualización-de-los-datos">Visualización de los datos</h2>
 <p>Cuando la medición nos da un solo número real, una manera útil de graficarla es mediante un <em>histograma</em>. Es decir, dividimos el intervalo de valores de la variable en un cierto número de subintervalos. El histograma nos dice cuántas veces obtuvimos una medición en el intervalo</p>
-<div id="439264b1" class="cell" data-execution_count="1">
+<div id="439264b1" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -695,7 +695,7 @@ window.Quarto = {
 </div>
 <p>En este gráfico cada barra es el número de datos que cae en el subintervalo. El gráfico nos da una idea de cómo se distribuyen los datos.</p>
 <p>Veamos qué pasa si variamos la cantidad de subintervalos</p>
-<div id="c855a529" class="cell" data-execution_count="2">
+<div id="c855a529" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Número de subintervalos para el histograma </span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>bin_counts <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">50</span>]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -721,7 +721,7 @@ window.Quarto = {
 </div>
 <p>Si aumentamos la cantidad de subintervalos usados, el gráfico se hace ruidoso, varía mucho el valor de cada intervalo. Si tenemos pocos subintervalos, es difícil intuir la distribución.</p>
 <p>En varias dimensiones, es común describir los datos mediante gráficos de dispersión (scatterplots). Estos nos pueden decir dónde se concentran los resultados y si hay correlación entre variables.</p>
-<div id="66825ce5" class="cell" data-execution_count="3">
+<div id="66825ce5" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -789,7 +789,7 @@ Advertencia
 \text{cov}\,(x,y) = \frac{1}{N}\sum_{i=1}^N(x_i - \bar{x})(y_i - \bar{y})\,.
 \]</span></p>
 <p>Ilustremos esto mediante una figura</p>
-<div id="ca88e5b8" class="cell" data-execution_count="4">
+<div id="ca88e5b8" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>

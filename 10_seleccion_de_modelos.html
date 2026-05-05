@@ -677,7 +677,7 @@ window.Quarto = {
 <p>Por otro lado si tiene poca libertad no logrará capturar los patrones en los datos, lo que se llama <strong>poca expresividad</strong> del modelo, y cometerá un error grande al predecir (gran sesgo).</p>
 <p>En esta clase veremos cómo hacer para evaluar modelos buscando el equilibrio entre la complejidad del modelo y el error de generalización. En otras palabras el equilibrio entre sesgo y varianza.</p>
 <p>Cuando el número de parámetros es grande (dada una cantidad de datos), podemos intenar reducir su varianza. Esto se llama <strong>regularización</strong> que será muy importante cuando estudiemos redes neuronales. Introduciremos por ahora un par de métodos de regularización.</p>
-<div id="cell-fig-mse" class="cell" data-execution_count="2">
+<div id="cell-fig-mse" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -686,47 +686,49 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Semilla para reproducibilidad</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>n_muestras <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>n_total_variables <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>variables_reales <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]  <span class="co"># Solo las cuatro primeras variables influyen en la respuesta</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar una matriz de covarianza para producir predictores correlacionados.</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="fl">0.1</span>  <span class="co"># alto grado de correlación entre predictores</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> np.full((n_total_variables, n_total_variables), rho)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>np.fill_diagonal(cov, <span class="fl">1.2</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar predictores correlacionados a partir de una distribución normal multivariada.</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.multivariate_normal(mean<span class="op">=</span>np.zeros(n_total_variables), cov<span class="op">=</span>cov, size<span class="op">=</span>n_muestras)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar variable dependiente con solo dos predictores reales</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>coeficientes_reales <span class="op">=</span> np.zeros(n_total_variables)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>coeficientes_reales[variables_reales] <span class="op">=</span> [<span class="fl">3.0</span>, <span class="op">-</span><span class="fl">0.8</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>]</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> X <span class="op">@</span> coeficientes_reales <span class="op">+</span> np.random.randn(n_muestras) <span class="op">*</span> <span class="fl">0.5</span>  <span class="co"># Agregar ruido</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular el error cuadrático medio (ECM) al incluir más predictores</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>lista_ecm <span class="op">=</span> []</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_vars <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_total_variables <span class="op">+</span> <span class="dv">1</span>):</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    modelo <span class="op">=</span> LinearRegression()</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    modelo.fit(X[:, :n_vars], y)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> modelo.predict(X[:, :n_vars])</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    ecm <span class="op">=</span> mean_squared_error(y, y_pred)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    lista_ecm.append(ecm)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar los resultados</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, n_total_variables <span class="op">+</span> <span class="dv">1</span>), lista_ecm, marker<span class="op">=</span><span class="st">'o'</span>)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">"log"</span>)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span><span class="bu">len</span>(variables_reales), color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'Complejidad real del modelo'</span>)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Número de predictores incluidos'</span>)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Error cuadrático medio (ECM)'</span>)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'ECM vs. Número de predictores en regresión lineal'</span>)</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Esta realización fue elegida porque muestra una fluctuación pedagógicamente útil:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># AIC tiene un mínimo espurio cerca de 10 predictores, casi degenerado con el modelo verdadero.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>n_muestras <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>n_total_variables <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>variables_reales <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]  <span class="co"># Solo las cuatro primeras variables influyen en la respuesta</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar una matriz de covarianza para producir predictores correlacionados.</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="fl">0.1</span>  <span class="co"># alto grado de correlación entre predictores</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> np.full((n_total_variables, n_total_variables), rho)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>np.fill_diagonal(cov, <span class="fl">1.2</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar predictores correlacionados a partir de una distribución normal multivariada.</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.multivariate_normal(mean<span class="op">=</span>np.zeros(n_total_variables), cov<span class="op">=</span>cov, size<span class="op">=</span>n_muestras)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar variable dependiente con solo dos predictores reales</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>coeficientes_reales <span class="op">=</span> np.zeros(n_total_variables)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>coeficientes_reales[variables_reales] <span class="op">=</span> [<span class="fl">3.0</span>, <span class="op">-</span><span class="fl">0.8</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>]</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> X <span class="op">@</span> coeficientes_reales <span class="op">+</span> np.random.randn(n_muestras) <span class="op">*</span> <span class="fl">0.5</span>  <span class="co"># Agregar ruido</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular el error cuadrático medio (ECM) al incluir más predictores</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>lista_ecm <span class="op">=</span> []</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_vars <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_total_variables <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    modelo <span class="op">=</span> LinearRegression()</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    modelo.fit(X[:, :n_vars], y)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> modelo.predict(X[:, :n_vars])</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    ecm <span class="op">=</span> mean_squared_error(y, y_pred)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    lista_ecm.append(ecm)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar los resultados</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, n_total_variables <span class="op">+</span> <span class="dv">1</span>), lista_ecm, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">"log"</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span><span class="bu">len</span>(variables_reales), color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'Complejidad real del modelo'</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Número de predictores incluidos'</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Error cuadrático medio (ECM)'</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'ECM vs. Número de predictores en regresión lineal'</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-mse" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -782,7 +784,7 @@ AIC = -2\log\hat{L} + 2k\,.
 \]</span></p>
 <p>Este factor de <span class="math inline">\(2\)</span> no viene de la definición de la divergencia de Kullback-Leibler. Es una convención de escala. Más precisamente, como <span class="math inline">\(\ell_D\)</span> suma las contribuciones de <span class="math inline">\(n\)</span> datos, el <span class="math inline">\(AIC\)</span> estima <span class="math inline">\(2nD_{\rm KL}\)</span> salvo una constante aditiva independiente del modelo y correcciones subdominantes. Como las constantes aditivas y los factores positivos comunes no cambian qué modelo minimiza la pérdida, se escoge el modelo con menor <span class="math inline">\(AIC\)</span>.</p>
 <p>El valor absoluto del <span class="math inline">\(AIC\)</span> no es importante; lo importante son las diferencias entre modelos. En general una diferencia <span class="math inline">\(\Delta AIC \lesssim 2\)</span> indica modelos difícilmente distinguibles por este criterio. Una diferencia entre <span class="math inline">\(4\)</span> y <span class="math inline">\(7\)</span> es evidencia moderada contra el modelo con mayor <span class="math inline">\(AIC\)</span>. Una diferencia mayor que <span class="math inline">\(10\)</span> suele considerarse evidencia fuerte. En general <span class="math inline">\(\exp((AIC_{\min} - AIC)/2)\)</span> es proporcional al soporte relativo del modelo dentro del conjunto comparado.</p>
-<div id="cell-fig-aic" class="cell" data-execution_count="3">
+<div id="cell-fig-aic" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -841,7 +843,7 @@ Figura&nbsp;2: AIC para datos sintéticos generados a partir de cuatro predictor
 </div>
 </div>
 </div>
-<p>Si aplicamos este criterio a nuestro modelo de juguete, vemos que la cantidad <span class="math inline">\(AIC\)</span> tiene un mínimo justo en <span class="math inline">\(4\)</span> predictores, que es la complejidad usada para generar los datos.</p>
+<p>Si aplicamos este criterio a nuestro modelo de juguete, vemos una sutileza importante: para esta realización de los datos el <span class="math inline">\(AIC\)</span> tiene un mínimo alrededor de <span class="math inline">\(10\)</span> predictores, aunque la complejidad real usada para generar los datos fue <span class="math inline">\(4\)</span>. Esto no contradice el criterio. El <span class="math inline">\(AIC\)</span> es una estimación ruidosa de una cantidad esperada. En esta realización la diferencia entre <span class="math inline">\(4\)</span> y el mínimo espurio es pequeña, del orden de <span class="math inline">\(\Delta AIC \simeq 2\)</span>, por lo que no deberíamos interpretar la elección de <span class="math inline">\(10\)</span> predictores como una conclusión fuerte. El criterio sirve para comparar evidencia relativa, no para producir un oráculo infalible que sabe contar parámetros verdaderos.</p>
 </section>
 <section id="criterio-de-información-de-bayes" class="level4">
 <h4 class="anchored" data-anchor-id="criterio-de-información-de-bayes">Criterio de información de Bayes</h4>
@@ -876,7 +878,7 @@ P(D|M) \approx \int d^p\beta\,e^{\ln L(\boldsymbol{\beta})} \approx \int d^p\bet
 </div>
 </div>
 </div>
-<div id="cell-fig-bic" class="cell" data-execution_count="4">
+<div id="cell-fig-bic" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -935,6 +937,7 @@ Figura&nbsp;3: BIC para datos sintéticos generados a partir de cuatro predictor
 </div>
 </div>
 </div>
+<p>En esta misma realización el <span class="math inline">\(BIC\)</span> sí alcanza su mínimo en <span class="math inline">\(4\)</span> predictores. Aun así se observa una pequeña bajada local al agregar más variables. La diferencia importante es la escala: el mínimo espurio queda mucho más arriba que el mínimo real. Esa es la lección práctica: no hay que mirar sólo la posición del punto más bajo o la existencia de pequeñas ondulaciones, sino diferencias suficientemente grandes en el criterio.</p>
 </section>
 </section>
 <section id="evaluación-de-modelos-usando-subconjuntos-aleatorios" class="level3">
@@ -951,7 +954,7 @@ Figura&nbsp;3: BIC para datos sintéticos generados a partir de cuatro predictor
 <li>Evaluar el modelo en el conjunto de validación.</li>
 </ol>
 <p>En general, la estima del error de generalización obtenida de esta manera tendrá un sesgo porque usamos sólo un subconjunto de datos para entrenar el modelo. Un modelo entrenado en más datos funcionará mejor con un error menor generalización. En este sentido es una estima pesimista. Además tendrá una varianza ya que el subconjunto de validación es aleatorio.</p>
-<div id="cell-fig-val" class="cell" data-execution_count="5">
+<div id="cell-fig-val" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1029,7 +1032,7 @@ Figura&nbsp;4: Error con varios conjuntos de validación.
 <li>Repetir <span class="math inline">\(k\)</span> veces hasta usar todas las partes como validación.</li>
 </ol>
 <p>Esto nos permite promediar sobre los <span class="math inline">\(k\)</span> valores obtenidos para el error, esperando tener una varianza menor. A mayor <span class="math inline">\(k\)</span>, mayor será el conjunto de datos usado para entrenar y por lo tanto más cercano al modelo completo. Pero al aumentar <span class="math inline">\(k\)</span> los valores obtenidos para la estima del error estarán más correlacionados ya que los diferentes conjuntos usados para entrenar se parecerán más, lo que aumenta la varianza. En la práctica se usa <span class="math inline">\(k\)</span> entre <span class="math inline">\(3\)</span> y <span class="math inline">\(10\)</span>.</p>
-<div id="cell-fig-cv" class="cell" data-execution_count="6">
+<div id="cell-fig-cv" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reimportar bibliotecas necesarias tras el reinicio</span></span>
@@ -1146,7 +1149,7 @@ Figura&nbsp;5: Error con validación cruzada para varios valores de <span class=
 \mathcal{L} = \sum_{i=1}^n\left[y_i - \beta_0 - \sum_{j=1}^q\beta_j x_j\right]^2 + \alpha\sum_{j=0}^q\beta_j^2\,.
 \]</span> Aquí <span class="math inline">\(\alpha\)</span> es un hiperparámetro que controla cuánto paga el modelo por encender coeficientes. Para <span class="math inline">\(\alpha\)</span> que tiende a infinito todos los coeficientes tenderán cero, para <span class="math inline">\(\alpha\)</span> cero regresamos al ajuste lineal de antes. Tomamos los cuadrados porque nos interesa que los coeficientes poco importantes sean cercanos a cero.</p>
 <p>Para escoger <span class="math inline">\(\alpha\)</span> podemos usar validación cruzada.</p>
-<div id="cell-fig-ridge" class="cell" data-execution_count="7">
+<div id="cell-fig-ridge" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
@@ -1207,7 +1210,7 @@ Figura&nbsp;6: Error de validación cruzada con <span class="math inline">\(k = 
 </div>
 </div>
 <p>En la <a href="#fig-ridge" class="quarto-xref">Figura&nbsp;6</a> vemos que el error decrece inicialmente al aumentar <span class="math inline">\(\alpha\)</span> ya que los coeficientes de las variables poco importantes son suprimidos. Luego alcanza un valor mínimo a partir del cual vuelve a crecer porque el modelo pierde expresividad.</p>
-<div id="cell-fig-ridge-coeffs" class="cell" data-execution_count="8">
+<div id="cell-fig-ridge-coeffs" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nuevos valores de alpha en escala logarítmica, extendidos hasta valores grandes</span></span>
@@ -1260,7 +1263,7 @@ Figura&nbsp;7: Coeficientes en función de <span class="math inline">\(\alpha\)<
 <p>Una alternativa es usar la suma de valores absolutos <span class="math display">\[
 \mathcal{L} = \sum_{i=1}^n\left[y_i - \beta_0 - \sum_{j=1}^q\beta_j x_j\right]^2 + \alpha\sum_{j=0}^q|\beta_j|\,.
 \]</span></p>
-<div id="cell-fig-lasso" class="cell" data-execution_count="9">
+<div id="cell-fig-lasso" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
@@ -1317,7 +1320,7 @@ Figura&nbsp;8: Error de validación cruzada con <span class="math inline">\(k = 
 </div>
 </div>
 </div>
-<div id="cell-fig-lasso-coeffs" class="cell" data-execution_count="10">
+<div id="cell-fig-lasso-coeffs" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nuevos valores de alpha en escala logarítmica, extendidos hasta valores grandes</span></span>
