@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Proyectos propuestos – Aprendizaje Automático para Físicos</title>
+<title>Proyecto: PINNs y oscilador no lineal – Aprendizaje Automático para Físicos</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -374,7 +403,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./proyectos.html">Evaluacion</a></li><li class="breadcrumb-item"><a href="./proyectos.html">Proyectos</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Proyecto: PINNs y oscilador no lineal</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -550,7 +579,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./proyectos.html" class="sidebar-item-text sidebar-link active">
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Proyectos</span></a>
   </div>
 </li>
@@ -566,8 +595,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#unidad-2-aprendizaje-automático-clásico" id="toc-unidad-2-aprendizaje-automático-clásico" class="nav-link active" data-scroll-target="#unidad-2-aprendizaje-automático-clásico">Unidad 2: Aprendizaje Automático Clásico</a></li>
-  <li><a href="#unidad-3-redes-neuronales" id="toc-unidad-3-redes-neuronales" class="nav-link" data-scroll-target="#unidad-3-redes-neuronales">Unidad 3: Redes neuronales</a></li>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
+  <li><a href="#formulación-del-problema" id="toc-formulación-del-problema" class="nav-link" data-scroll-target="#formulación-del-problema">Formulación del problema</a></li>
+  <li><a href="#método-1-pinn-usual" id="toc-método-1-pinn-usual" class="nav-link" data-scroll-target="#método-1-pinn-usual">Método 1: PINN usual</a></li>
+  <li><a href="#método-2-formulación-variacional" id="toc-método-2-formulación-variacional" class="nav-link" data-scroll-target="#método-2-formulación-variacional">Método 2: formulación variacional</a></li>
+  <li><a href="#qué-deben-estudiar" id="toc-qué-deben-estudiar" class="nav-link" data-scroll-target="#qué-deben-estudiar">Qué deben estudiar</a></li>
   </ul>
 </nav>
     </div>
@@ -575,9 +607,9 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./proyectos.html">Evaluacion</a></li><li class="breadcrumb-item"><a href="./proyectos.html">Proyectos</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Proyectos propuestos</h1>
+<h1 class="title">Proyecto: PINNs y oscilador no lineal</h1>
 </div>
 
 
@@ -594,24 +626,50 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="unidad-2-aprendizaje-automático-clásico" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-2-aprendizaje-automático-clásico">Unidad 2: Aprendizaje Automático Clásico</h2>
-<ul>
-<li>Proyecto 1: <a href="./proyecto_1_espectro_potencias_y_arboles.html">Espectro de potencias en cosmología y contenido de información</a></li>
-<li>Proyecto 2: <a href="./proyecto_2_descenso_doble_en_polinomios.html">Descenso doble en polinomios</a></li>
-<li>Proyecto 3: <a href="./proyecto_3_busqueda_bayesiana_de_hiperparametros.html">Búsqueda bayesiana de hiperparámetros</a></li>
-<li>Proyecto 4: <a href="./proyecto_4_sesgo_varianza_en_clasificacion.html">Sesgo, varianza y riesgo en problemas de clasificación</a></li>
-</ul>
+<section id="objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo">Objetivo</h2>
+<p>Comparar dos maneras de incorporar física en una red neuronal: imponer localmente la ecuación de movimiento, o imponer globalmente un principio variacional.</p>
+<p>El sistema será un oscilador no lineal conservativo,</p>
+<p><span class="math display">\[
+\ddot x(t)+\omega_0^2 x(t)+\lambda x(t)^3=0,
+\]</span></p>
+<p>con potencial</p>
+<p><span class="math display">\[
+V(x)=\frac{1}{2}\omega_0^2 x^2+\frac{\lambda}{4}x^4.
+\]</span></p>
+<p>Usen un intervalo finito <span class="math inline">\(t\in[0,T]\)</span>. Generen una trayectoria de referencia resolviendo numéricamente la ecuación diferencial. Luego construyan pocos datos observados, posiblemente con ruido.</p>
 </section>
-<section id="unidad-3-redes-neuronales" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-3-redes-neuronales">Unidad 3: Redes neuronales</h2>
-<ul>
-<li>Proyecto 1: <a href="./proyecto_pinn_oscilador.html">Redes para resolver ecuaciones diferenciales</a></li>
-<li>Proyecto 2: <a href="./proyecto_sbi_langevin.html">Inferencia basada en simulaciones</a></li>
-<li>Proyecto 3: <a href="./proyecto_optimizacion_recuperacion_de_fases.html">Optimizadores en otros problemas</a></li>
-<li>Proyecto 4: <a href="./proyecto_simetria_fuerzas.html">Incorporación de simetría en la red</a></li>
-<li>Proyecto 5: <a href="./proyecto_redundancias_sesgo_implicito.html">Redundancias y sesgo implícito</a></li>
-</ul>
+<section id="formulación-del-problema" class="level2">
+<h2 class="anchored" data-anchor-id="formulación-del-problema">Formulación del problema</h2>
+<p>Representen la trayectoria desconocida mediante una red neuronal <span class="math inline">\(x_\theta(t)\)</span>.</p>
+<p>El problema debe plantearse como un problema de frontera, por ejemplo fijando <span class="math inline">\(x(0)\)</span> y <span class="math inline">\(x(T)\)</span>. Esto hace que la comparación con el principio variacional sea más natural que un problema puramente de condiciones iniciales.</p>
+</section>
+<section id="método-1-pinn-usual" class="level2">
+<h2 class="anchored" data-anchor-id="método-1-pinn-usual">Método 1: PINN usual</h2>
+<p>Entrenen <span class="math inline">\(x_\theta(t)\)</span> penalizando el residuo local</p>
+<p><span class="math display">\[
+R_\theta(t)=\ddot x_\theta(t)+\omega_0^2x_\theta(t)+\lambda x_\theta(t)^3.
+\]</span></p>
+<p>La minimización de este tipo de funciones de pérdida para resolver una ecuación diferencial se llama “physics informed neural network” o PINN.</p>
+<p>La función de pérdida debe combinar, según su propio criterio, el error en los datos, las condiciones de borde y el residuo dinámico.</p>
+</section>
+<section id="método-2-formulación-variacional" class="level2">
+<h2 class="anchored" data-anchor-id="método-2-formulación-variacional">Método 2: formulación variacional</h2>
+<p>Usen la acción</p>
+<p><span class="math display">\[
+S[x]=\int_0^T dt\,\left[\frac{1}{2}\dot x^2 - V(x)\right].
+\]</span></p>
+<p>Entrenen una red <span class="math inline">\(x_\theta(t)\)</span> buscando una trayectoria compatible con las condiciones de borde y estacionaria respecto a esta acción.</p>
+<p>Cuidado: la trayectoria física no minimiza necesariamente la acción. La hace estacionaria. Parte del proyecto es decidir cómo traducir esa afirmación en una pérdida entrenable y justificar su decisión.</p>
+</section>
+<section id="qué-deben-estudiar" class="level2">
+<h2 class="anchored" data-anchor-id="qué-deben-estudiar">Qué deben estudiar</h2>
+<p>Comparen ambos enfoques en situaciones con pocos datos y con datos ruidosos. No basta con reportar cuál tiene menor error. Discutan qué método respeta mejor la dinámica, cuál es más sensible a las condiciones de borde, y qué dificultades de optimización aparecen.</p>
+<p>La pregunta central es:</p>
+<blockquote class="blockquote">
+<p>¿Qué cambia cuando la física se impone localmente mediante la ecuación diferencial, versus globalmente mediante un principio variacional?</p>
+</blockquote>
+<p>El resultado esperado no es un notebook perfecto, sino una comparación razonada entre dos formas distintas de usar una red neuronal como aproximación de una trayectoria física.</p>
 
 
 </section>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Proyectos propuestos – Aprendizaje Automático para Físicos</title>
+<title>Proyecto: Simetrías, energía y fuerzas – Aprendizaje Automático para Físicos</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -374,7 +403,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./proyectos.html">Evaluacion</a></li><li class="breadcrumb-item"><a href="./proyectos.html">Proyectos</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Proyecto: Simetrías, energía y fuerzas</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -550,7 +579,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./proyectos.html" class="sidebar-item-text sidebar-link active">
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Proyectos</span></a>
   </div>
 </li>
@@ -566,8 +595,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#unidad-2-aprendizaje-automático-clásico" id="toc-unidad-2-aprendizaje-automático-clásico" class="nav-link active" data-scroll-target="#unidad-2-aprendizaje-automático-clásico">Unidad 2: Aprendizaje Automático Clásico</a></li>
-  <li><a href="#unidad-3-redes-neuronales" id="toc-unidad-3-redes-neuronales" class="nav-link" data-scroll-target="#unidad-3-redes-neuronales">Unidad 3: Redes neuronales</a></li>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
+  <li><a href="#preparación" id="toc-preparación" class="nav-link" data-scroll-target="#preparación">Preparación</a></li>
+  <li><a href="#tarea" id="toc-tarea" class="nav-link" data-scroll-target="#tarea">Tarea</a></li>
+  <li><a href="#qué-deben-estudiar" id="toc-qué-deben-estudiar" class="nav-link" data-scroll-target="#qué-deben-estudiar">Qué deben estudiar</a></li>
   </ul>
 </nav>
     </div>
@@ -575,9 +606,9 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./proyectos.html">Evaluacion</a></li><li class="breadcrumb-item"><a href="./proyectos.html">Proyectos</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Proyectos propuestos</h1>
+<h1 class="title">Proyecto: Simetrías, energía y fuerzas</h1>
 </div>
 
 
@@ -594,24 +625,54 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="unidad-2-aprendizaje-automático-clásico" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-2-aprendizaje-automático-clásico">Unidad 2: Aprendizaje Automático Clásico</h2>
-<ul>
-<li>Proyecto 1: <a href="./proyecto_1_espectro_potencias_y_arboles.html">Espectro de potencias en cosmología y contenido de información</a></li>
-<li>Proyecto 2: <a href="./proyecto_2_descenso_doble_en_polinomios.html">Descenso doble en polinomios</a></li>
-<li>Proyecto 3: <a href="./proyecto_3_busqueda_bayesiana_de_hiperparametros.html">Búsqueda bayesiana de hiperparámetros</a></li>
-<li>Proyecto 4: <a href="./proyecto_4_sesgo_varianza_en_clasificacion.html">Sesgo, varianza y riesgo en problemas de clasificación</a></li>
-</ul>
+<section id="objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo">Objetivo</h2>
+<p>Estudiar cómo las simetrías físicas pueden incorporarse en una red neuronal y cómo esto afecta el aprendizaje de energías y fuerzas.</p>
+<p>Consideren un sistema de <span class="math inline">\(N\)</span> partículas idénticas en dos dimensiones,</p>
+<p><span class="math display">\[
+X=\{\mathbf r_1,\ldots,\mathbf r_N\},
+\qquad \mathbf r_i\in\mathbb R^2.
+\]</span></p>
+<p>La energía verdadera será generada por un potencial de pares,</p>
+<p><span class="math display">\[
+U(X)=\sum_{i&lt;j} V(|\mathbf r_i-\mathbf r_j|).
+\]</span></p>
+<p>Pueden escoger un potencial radial suave, por ejemplo una versión regularizada de Lennard-Jones, Morse, o una combinación simple de Gaussianas.</p>
 </section>
-<section id="unidad-3-redes-neuronales" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-3-redes-neuronales">Unidad 3: Redes neuronales</h2>
-<ul>
-<li>Proyecto 1: <a href="./proyecto_pinn_oscilador.html">Redes para resolver ecuaciones diferenciales</a></li>
-<li>Proyecto 2: <a href="./proyecto_sbi_langevin.html">Inferencia basada en simulaciones</a></li>
-<li>Proyecto 3: <a href="./proyecto_optimizacion_recuperacion_de_fases.html">Optimizadores en otros problemas</a></li>
-<li>Proyecto 4: <a href="./proyecto_simetria_fuerzas.html">Incorporación de simetría en la red</a></li>
-<li>Proyecto 5: <a href="./proyecto_redundancias_sesgo_implicito.html">Redundancias y sesgo implícito</a></li>
-</ul>
+<section id="preparación" class="level2">
+<h2 class="anchored" data-anchor-id="preparación">Preparación</h2>
+<p>Generen configuraciones aleatorias de partículas y calculen la energía <span class="math inline">\(U(X)\)</span> y las fuerzas</p>
+<p><span class="math display">\[
+\mathbf F_i(X)=-\nabla_{\mathbf r_i}U(X).
+\]</span></p>
+<p>Los datos pueden ser pares <span class="math inline">\((X,U)\)</span>, pares <span class="math inline">\((X,\{\mathbf F_i\})\)</span>, o ambos.</p>
+<p>El punto central es que la energía no es una función arbitraria de las coordenadas. Debe ser invariante bajo traslaciones, rotaciones y permutaciones de partículas idénticas. Las fuerzas no son invariantes: son equivariantes. Si se rota la configuración, las fuerzas deben rotar del mismo modo.</p>
+</section>
+<section id="tarea" class="level2">
+<h2 class="anchored" data-anchor-id="tarea">Tarea</h2>
+<p>Comparen al menos dos modelos:</p>
+<ol type="1">
+<li>Una red ingenua que recibe las coordenadas cartesianas de todas las partículas.</li>
+<li>Una red que usa variables con simetría incorporada, por ejemplo distancias entre pares.</li>
+</ol>
+<p>Opcionalmente, comparen también:</p>
+<ol type="1">
+<li>Una red que predice fuerzas directamente.</li>
+<li>Una red que predice energía y obtiene fuerzas mediante diferenciación automática,</li>
+</ol>
+<p><span class="math display">\[
+\hat{\mathbf F}_i=-\nabla_{\mathbf r_i}\hat U_\theta(X).
+\]</span></p>
+</section>
+<section id="qué-deben-estudiar" class="level2">
+<h2 class="anchored" data-anchor-id="qué-deben-estudiar">Qué deben estudiar</h2>
+<p>La pregunta central es:</p>
+<blockquote class="blockquote">
+<p>¿Qué se gana al imponer simetrías físicas en la representación o en la arquitectura del modelo?</p>
+</blockquote>
+<p>No basta con comparar errores promedio. Estudien si el modelo respeta traslaciones, rotaciones y permutaciones. Analicen también si generaliza mejor cuando se rota o traslada una configuración, o cuando cambia la región del espacio donde viven las partículas.</p>
+<p>Si estudian fuerzas, distingan entre ajustar bien los datos y producir un campo de fuerzas físicamente consistente. Una red que predice fuerzas directamente puede no ser conservativa. Una red que predice una energía y luego deriva las fuerzas tiene esa estructura incorporada.</p>
+<p>Un buen proyecto debe dejar claro qué parte del aprendizaje viene de los datos y qué parte viene de haber eliminado redundancias no físicas desde el comienzo.</p>
 
 
 </section>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Proyectos propuestos – Aprendizaje Automático para Físicos</title>
+<title>Proyecto: Redundancias y sesgo implícito – Aprendizaje Automático para Físicos</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -374,7 +403,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./proyectos.html">Evaluacion</a></li><li class="breadcrumb-item"><a href="./proyectos.html">Proyectos</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Proyecto: Redundancias y sesgo implícito</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -550,7 +579,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./proyectos.html" class="sidebar-item-text sidebar-link active">
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Proyectos</span></a>
   </div>
 </li>
@@ -566,8 +595,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#unidad-2-aprendizaje-automático-clásico" id="toc-unidad-2-aprendizaje-automático-clásico" class="nav-link active" data-scroll-target="#unidad-2-aprendizaje-automático-clásico">Unidad 2: Aprendizaje Automático Clásico</a></li>
-  <li><a href="#unidad-3-redes-neuronales" id="toc-unidad-3-redes-neuronales" class="nav-link" data-scroll-target="#unidad-3-redes-neuronales">Unidad 3: Redes neuronales</a></li>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
+  <li><a href="#modelo-mínimo" id="toc-modelo-mínimo" class="nav-link" data-scroll-target="#modelo-mínimo">Modelo mínimo</a></li>
+  <li><a href="#tarea" id="toc-tarea" class="nav-link" data-scroll-target="#tarea">Tarea</a></li>
+  <li><a href="#qué-deben-estudiar" id="toc-qué-deben-estudiar" class="nav-link" data-scroll-target="#qué-deben-estudiar">Qué deben estudiar</a></li>
+  <li><a href="#lectura-sugerida" id="toc-lectura-sugerida" class="nav-link" data-scroll-target="#lectura-sugerida">Lectura sugerida</a></li>
   </ul>
 </nav>
     </div>
@@ -575,9 +607,9 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./proyectos.html">Evaluacion</a></li><li class="breadcrumb-item"><a href="./proyectos.html">Proyectos</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Proyectos propuestos</h1>
+<h1 class="title">Proyecto: Redundancias y sesgo implícito</h1>
 </div>
 
 
@@ -594,24 +626,64 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="unidad-2-aprendizaje-automático-clásico" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-2-aprendizaje-automático-clásico">Unidad 2: Aprendizaje Automático Clásico</h2>
-<ul>
-<li>Proyecto 1: <a href="./proyecto_1_espectro_potencias_y_arboles.html">Espectro de potencias en cosmología y contenido de información</a></li>
-<li>Proyecto 2: <a href="./proyecto_2_descenso_doble_en_polinomios.html">Descenso doble en polinomios</a></li>
-<li>Proyecto 3: <a href="./proyecto_3_busqueda_bayesiana_de_hiperparametros.html">Búsqueda bayesiana de hiperparámetros</a></li>
-<li>Proyecto 4: <a href="./proyecto_4_sesgo_varianza_en_clasificacion.html">Sesgo, varianza y riesgo en problemas de clasificación</a></li>
-</ul>
+<section id="objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo">Objetivo</h2>
+<p>Estudiar qué ocurre cuando una red neuronal tiene más parámetros que grados de libertad físicos. En ese caso muchas parametrizaciones distintas representan la misma función, pero el optimizador no necesariamente las trata de la misma manera.</p>
+<p>La pregunta central es:</p>
+<blockquote class="blockquote">
+<p>Si muchas elecciones de parámetros describen el mismo modelo, ¿cómo escoge una de ellas el entrenamiento?</p>
+</blockquote>
 </section>
-<section id="unidad-3-redes-neuronales" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-3-redes-neuronales">Unidad 3: Redes neuronales</h2>
+<section id="modelo-mínimo" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-mínimo">Modelo mínimo</h2>
+<p>Consideren primero el modelo escalar</p>
+<p><span class="math display">\[
+f_{a,b}(x)=abx.
+\]</span></p>
+<p>La predicción depende sólo de</p>
+<p><span class="math display">\[
+w=ab,
+\]</span></p>
+<p>pero los parámetros <span class="math inline">\((a,b)\)</span> no son únicos. La transformación</p>
+<p><span class="math display">\[
+a\to ca, \qquad b\to b/c
+\]</span></p>
+<p>deja <span class="math inline">\(w\)</span> invariante. Esta redundancia es la analogía simple con una simetría gauge: distintas coordenadas en el espacio de parámetros representan la misma función observable.</p>
+<p>Para un dato simple, por ejemplo <span class="math inline">\(x=1\)</span>, <span class="math inline">\(y=m\)</span>, usen la pérdida</p>
+<p><span class="math display">\[
+L(a,b)=\frac{1}{2}(ab-m)^2.
+\]</span></p>
+<p>Deriven las ecuaciones de descenso de gradiente continuo y estudien qué cantidades se conservan durante el entrenamiento. En particular, investiguen qué ocurre con</p>
+<p><span class="math display">\[
+a^2-b^2.
+\]</span></p>
+</section>
+<section id="tarea" class="level2">
+<h2 class="anchored" data-anchor-id="tarea">Tarea</h2>
+<p>Combinen una parte analítica y una parte numérica.</p>
+<p>Analíticamente, identifiquen la redundancia del modelo y deriven cómo se mueve el sistema bajo descenso de gradiente. Numéricamente, entrenen el modelo desde muchas inicializaciones distintas y verifiquen si todas convergen al mismo predictor <span class="math inline">\(w=ab\)</span>, aunque terminen en distintos puntos del espacio <span class="math inline">\((a,b)\)</span>.</p>
+<p>Como extensión, pueden estudiar una red lineal de dos capas,</p>
+<p><span class="math display">\[
+f(x)=W_2W_1x,
+\]</span></p>
+<p>donde la función depende del producto <span class="math inline">\(W_2W_1\)</span>, pero no de la factorización particular. Comparen esta parametrización redundante con un modelo lineal directo.</p>
+</section>
+<section id="qué-deben-estudiar" class="level2">
+<h2 class="anchored" data-anchor-id="qué-deben-estudiar">Qué deben estudiar</h2>
+<p>No basta con decir que el modelo ajusta los datos. Deben distinguir entre el espacio de parámetros y el espacio de funciones.</p>
+<p>Algunas preguntas naturales son:</p>
 <ul>
-<li>Proyecto 1: <a href="./proyecto_pinn_oscilador.html">Redes para resolver ecuaciones diferenciales</a></li>
-<li>Proyecto 2: <a href="./proyecto_sbi_langevin.html">Inferencia basada en simulaciones</a></li>
-<li>Proyecto 3: <a href="./proyecto_optimizacion_recuperacion_de_fases.html">Optimizadores en otros problemas</a></li>
-<li>Proyecto 4: <a href="./proyecto_simetria_fuerzas.html">Incorporación de simetría en la red</a></li>
-<li>Proyecto 5: <a href="./proyecto_redundancias_sesgo_implicito.html">Redundancias y sesgo implícito</a></li>
+<li>¿Qué parte de la solución final queda determinada por los datos?</li>
+<li>¿Qué parte queda determinada por la inicialización?</li>
+<li>¿El optimizador escoge representantes especiales entre parametrizaciones equivalentes?</li>
+<li>¿Qué cambia al agregar ruido, mini-batches o regularización?</li>
+<li>¿Cómo se relaciona esto con el sesgo implícito del entrenamiento?</li>
 </ul>
+<p>Un buen proyecto debe explicar con claridad qué significa aquí la palabra “redundancia”. La analogía con teorías gauge sólo es útil si se identifica primero cuál es la cantidad observable y cuáles son las variables redundantes.</p>
+</section>
+<section id="lectura-sugerida" class="level2">
+<h2 class="anchored" data-anchor-id="lectura-sugerida">Lectura sugerida</h2>
+<p>Pueden usar como motivación el artículo de Aladrah, Ballarin, Biagetti, Ansuini, d’Onofrio y Anselmi, <em>Implicit bias as a Gauge correction: Theory and Inverse Design</em>. No es necesario reproducir su formalismo completo; basta con conectar sus ideas con los modelos simples estudiados aquí.</p>
 
 
 </section>

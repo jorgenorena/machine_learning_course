@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Proyectos propuestos – Aprendizaje Automático para Físicos</title>
+<title>Proyecto: Autodiff, optimización y recuperación de fase – Aprendizaje Automático para Físicos</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,6 +75,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -374,7 +403,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./proyectos.html">Evaluacion</a></li><li class="breadcrumb-item"><a href="./proyectos.html">Proyectos</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Proyecto: Autodiff, optimización y recuperación de fase</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -550,7 +579,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./proyectos.html" class="sidebar-item-text sidebar-link active">
+  <a href="./proyectos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Proyectos</span></a>
   </div>
 </li>
@@ -566,8 +595,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#unidad-2-aprendizaje-automático-clásico" id="toc-unidad-2-aprendizaje-automático-clásico" class="nav-link active" data-scroll-target="#unidad-2-aprendizaje-automático-clásico">Unidad 2: Aprendizaje Automático Clásico</a></li>
-  <li><a href="#unidad-3-redes-neuronales" id="toc-unidad-3-redes-neuronales" class="nav-link" data-scroll-target="#unidad-3-redes-neuronales">Unidad 3: Redes neuronales</a></li>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
+  <li><a href="#preparación" id="toc-preparación" class="nav-link" data-scroll-target="#preparación">Preparación</a></li>
+  <li><a href="#tarea" id="toc-tarea" class="nav-link" data-scroll-target="#tarea">Tarea</a></li>
+  <li><a href="#qué-deben-estudiar" id="toc-qué-deben-estudiar" class="nav-link" data-scroll-target="#qué-deben-estudiar">Qué deben estudiar</a></li>
   </ul>
 </nav>
     </div>
@@ -575,9 +606,9 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./proyectos.html">Evaluacion</a></li><li class="breadcrumb-item"><a href="./proyectos.html">Proyectos</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Proyectos propuestos</h1>
+<h1 class="title">Proyecto: Autodiff, optimización y recuperación de fase</h1>
 </div>
 
 
@@ -594,24 +625,38 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="unidad-2-aprendizaje-automático-clásico" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-2-aprendizaje-automático-clásico">Unidad 2: Aprendizaje Automático Clásico</h2>
-<ul>
-<li>Proyecto 1: <a href="./proyecto_1_espectro_potencias_y_arboles.html">Espectro de potencias en cosmología y contenido de información</a></li>
-<li>Proyecto 2: <a href="./proyecto_2_descenso_doble_en_polinomios.html">Descenso doble en polinomios</a></li>
-<li>Proyecto 3: <a href="./proyecto_3_busqueda_bayesiana_de_hiperparametros.html">Búsqueda bayesiana de hiperparámetros</a></li>
-<li>Proyecto 4: <a href="./proyecto_4_sesgo_varianza_en_clasificacion.html">Sesgo, varianza y riesgo en problemas de clasificación</a></li>
-</ul>
+<section id="objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo">Objetivo</h2>
+<p>Usar diferenciación automática y optimizadores modernos en un problema inverso que no consiste necesariamente en entrenar una red neuronal.</p>
+<p>El problema será reconstruir una señal unidimensional <span class="math inline">\(x_i\)</span> a partir de intensidades de Fourier,</p>
+<p><span class="math display">\[
+y_k = |\hat x_k|^2 + \text{ruido}.
+\]</span></p>
+<p>Este es un problema no lineal: se mide la magnitud de la transformada, pero se pierde la fase.</p>
 </section>
-<section id="unidad-3-redes-neuronales" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-3-redes-neuronales">Unidad 3: Redes neuronales</h2>
-<ul>
-<li>Proyecto 1: <a href="./proyecto_pinn_oscilador.html">Redes para resolver ecuaciones diferenciales</a></li>
-<li>Proyecto 2: <a href="./proyecto_sbi_langevin.html">Inferencia basada en simulaciones</a></li>
-<li>Proyecto 3: <a href="./proyecto_optimizacion_recuperacion_de_fases.html">Optimizadores en otros problemas</a></li>
-<li>Proyecto 4: <a href="./proyecto_simetria_fuerzas.html">Incorporación de simetría en la red</a></li>
-<li>Proyecto 5: <a href="./proyecto_redundancias_sesgo_implicito.html">Redundancias y sesgo implícito</a></li>
-</ul>
+<section id="preparación" class="level2">
+<h2 class="anchored" data-anchor-id="preparación">Preparación</h2>
+<p>Construyan una señal simple <span class="math inline">\(x_i\)</span> en una grilla unidimensional. Puede ser suave, localizada o escasa. Calculen <span class="math inline">\(\hat x_k\)</span> con una transformada discreta de Fourier y generen datos ruidosos <span class="math inline">\(y_k\)</span>.</p>
+<p>Luego intenten recuperar <span class="math inline">\(x_i\)</span> minimizando una pérdida diferenciable, por ejemplo</p>
+<p><span class="math display">\[
+L(x)=\sum_k \left(|\hat x_k|^2-y_k\right)^2+\lambda R(x).
+\]</span></p>
+<p>Aquí los parámetros optimizados pueden ser directamente los valores <span class="math inline">\(x_i\)</span>. No es obligatorio usar una red neuronal.</p>
+</section>
+<section id="tarea" class="level2">
+<h2 class="anchored" data-anchor-id="tarea">Tarea</h2>
+<p>Comparen al menos dos optimizadores, por ejemplo descenso de gradiente, momentum, Adam o L-BFGS.</p>
+<p>Comparen también al menos dos formas de incorporar información previa: por ejemplo regularización de norma, suavidad, esparsidad, o una parametrización más restringida de la señal.</p>
+<p>Opcionalmente, pueden representar la señal mediante una red <span class="math inline">\(x_\theta(t)\)</span> y comparar con la optimización directa de los <span class="math inline">\(x_i\)</span>.</p>
+</section>
+<section id="qué-deben-estudiar" class="level2">
+<h2 class="anchored" data-anchor-id="qué-deben-estudiar">Qué deben estudiar</h2>
+<p>La pregunta central es:</p>
+<blockquote class="blockquote">
+<p>¿Qué parte del fracaso o éxito viene del optimizador, y qué parte viene de la información perdida o de las suposiciones agregadas al problema?</p>
+</blockquote>
+<p>No basta con mostrar una reconstrucción bonita. Deben discutir ambigüedades intrínsecas, como traslaciones, reflexiones o signos globales, y distinguirlas de fallas puramente numéricas.</p>
+<p>Un buen proyecto debe mostrar que autodiff no es solamente una herramienta para entrenar redes neuronales, sino una manera general de estudiar problemas inversos diferenciables.</p>
 
 
 </section>
