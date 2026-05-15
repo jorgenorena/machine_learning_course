@@ -1,0 +1,46 @@
+---
+title: "Proyecto: Autodiff, optimización y recuperación de fase"
+lang: es
+---
+
+## Objetivo
+
+Usar diferenciación automática y optimizadores modernos en un problema inverso que no consiste necesariamente en entrenar una red neuronal.
+
+El problema será reconstruir una señal unidimensional $x_i$ a partir de intensidades de Fourier,
+
+$$
+y_k = |\hat x_k|^2 + \text{ruido}.
+$$
+
+Este es un problema no lineal: se mide la magnitud de la transformada, pero se pierde la fase.
+
+## Preparación
+
+Construyan una señal simple $x_i$ en una grilla unidimensional. Puede ser suave, localizada o escasa. Calculen $\hat x_k$ con una transformada discreta de Fourier y generen datos ruidosos $y_k$.
+
+Luego intenten recuperar $x_i$ minimizando una pérdida diferenciable, por ejemplo
+
+$$
+L(x)=\sum_k \left(|\hat x_k|^2-y_k\right)^2+\lambda R(x).
+$$
+
+Aquí los parámetros optimizados pueden ser directamente los valores $x_i$. No es obligatorio usar una red neuronal.
+
+## Tarea
+
+Comparen al menos dos optimizadores, por ejemplo descenso de gradiente, momentum, Adam o L-BFGS.
+
+Comparen también al menos dos formas de incorporar información previa: por ejemplo regularización de norma, suavidad, esparsidad, o una parametrización más restringida de la señal.
+
+Opcionalmente, pueden representar la señal mediante una red $x_\theta(t)$ y comparar con la optimización directa de los $x_i$.
+
+## Qué deben estudiar
+
+La pregunta central es:
+
+> ¿Qué parte del fracaso o éxito viene del optimizador, y qué parte viene de la información perdida o de las suposiciones agregadas al problema?
+
+No basta con mostrar una reconstrucción bonita. Deben discutir ambigüedades intrínsecas, como traslaciones, reflexiones o signos globales, y distinguirlas de fallas puramente numéricas.
+
+Un buen proyecto debe mostrar que autodiff no es solamente una herramienta para entrenar redes neuronales, sino una manera general de estudiar problemas inversos diferenciables.

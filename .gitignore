@@ -11,3 +11,5 @@ _publish.yml
 
 # Don't track figures!
 /figs
+
+**/*.quarto_ipynb

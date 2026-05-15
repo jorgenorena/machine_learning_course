@@ -1,0 +1,63 @@
+---
+title: "Proyecto: Simetrías, energía y fuerzas"
+lang: es
+---
+
+## Objetivo
+
+Estudiar cómo las simetrías físicas pueden incorporarse en una red neuronal y cómo esto afecta el aprendizaje de energías y fuerzas.
+
+Consideren un sistema de $N$ partículas idénticas en dos dimensiones,
+
+$$
+X=\{\mathbf r_1,\ldots,\mathbf r_N\},
+\qquad \mathbf r_i\in\mathbb R^2.
+$$
+
+La energía verdadera será generada por un potencial de pares,
+
+$$
+U(X)=\sum_{i<j} V(|\mathbf r_i-\mathbf r_j|).
+$$
+
+Pueden escoger un potencial radial suave, por ejemplo una versión regularizada de Lennard-Jones, Morse, o una combinación simple de Gaussianas.
+
+## Preparación
+
+Generen configuraciones aleatorias de partículas y calculen la energía $U(X)$ y las fuerzas
+
+$$
+\mathbf F_i(X)=-\nabla_{\mathbf r_i}U(X).
+$$
+
+Los datos pueden ser pares $(X,U)$, pares $(X,\{\mathbf F_i\})$, o ambos.
+
+El punto central es que la energía no es una función arbitraria de las coordenadas. Debe ser invariante bajo traslaciones, rotaciones y permutaciones de partículas idénticas. Las fuerzas no son invariantes: son equivariantes. Si se rota la configuración, las fuerzas deben rotar del mismo modo.
+
+## Tarea
+
+Comparen al menos dos modelos:
+
+1. Una red ingenua que recibe las coordenadas cartesianas de todas las partículas.
+2. Una red que usa variables con simetría incorporada, por ejemplo distancias entre pares.
+
+Opcionalmente, comparen también:
+
+1. Una red que predice fuerzas directamente.
+2. Una red que predice energía y obtiene fuerzas mediante diferenciación automática,
+
+$$
+\hat{\mathbf F}_i=-\nabla_{\mathbf r_i}\hat U_\theta(X).
+$$
+
+## Qué deben estudiar
+
+La pregunta central es:
+
+> ¿Qué se gana al imponer simetrías físicas en la representación o en la arquitectura del modelo?
+
+No basta con comparar errores promedio. Estudien si el modelo respeta traslaciones, rotaciones y permutaciones. Analicen también si generaliza mejor cuando se rota o traslada una configuración, o cuando cambia la región del espacio donde viven las partículas.
+
+Si estudian fuerzas, distingan entre ajustar bien los datos y producir un campo de fuerzas físicamente consistente. Una red que predice fuerzas directamente puede no ser conservativa. Una red que predice una energía y luego deriva las fuerzas tiene esa estructura incorporada.
+
+Un buen proyecto debe dejar claro qué parte del aprendizaje viene de los datos y qué parte viene de haber eliminado redundancias no físicas desde el comienzo.

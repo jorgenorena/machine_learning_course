@@ -1,0 +1,60 @@
+---
+title: "Proyecto: Inferencia basada en simulaciones"
+lang: es
+---
+
+## Objetivo
+
+Usar una red neuronal para inferir parámetros de un simulador estocástico sin escribir explícitamente la verosimilitud.
+
+La idea básica es generar muchos pares
+
+$$
+\theta \sim p(\theta), \qquad x \sim p(x|\theta),
+$$
+
+y entrenar una red que aprenda qué valores de $\theta$ son compatibles con una trayectoria observada $x$.
+
+## Simulador
+
+Consideren una partícula browniana sobreamortiguada en un potencial de doble pozo,
+
+$$
+V(x;b)=\frac{x^4}{4}-\frac{b x^2}{2}.
+$$
+
+Una discretización simple es
+
+$$
+x_{n+1}=x_n-\Delta t\, V'(x_n;b)+\sqrt{2D\Delta t}\,\epsilon_n,
+\qquad \epsilon_n\sim\mathcal{N}(0,1).
+$$
+
+Los parámetros desconocidos serán
+
+$$
+\theta=(b,D),
+$$
+
+donde $b$ controla la forma del potencial y $D$ la intensidad del ruido. Pueden agregar ruido de medición si lo consideran interesante.
+
+## Tarea
+
+Generen muchos valores de $\theta$, simulen trayectorias cortas $x(t_i)$, y entrenen una red neuronal para estimar $\theta$ a partir de la trayectoria.
+
+Comparen al menos dos enfoques:
+
+1. Una red que recibe la trayectoria completa.
+2. Un método basado en estadísticos simples, por ejemplo media, varianza, histograma, autocorrelación o número de cruces entre pozos.
+
+La arquitectura queda a su criterio: MLP, CNN, red residual o transformer. La elección debe estar justificada por la estructura de los datos.
+
+## Qué deben estudiar
+
+La pregunta central es:
+
+> ¿Qué información sobre el potencial y el ruido sobrevive en una trayectoria finita y ruidosa?
+
+No basta con reportar el error promedio. Estudien cuándo los parámetros son identificables y cuándo aparecen degeneraciones. En particular, analicen cómo cambian los resultados al variar la longitud de la trayectoria, el ruido, la condición inicial y el intervalo de muestreo.
+
+Un buen proyecto debe explicar no sólo cuándo la red funciona, sino también cuándo falla y por qué.

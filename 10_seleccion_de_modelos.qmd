@@ -22,7 +22,9 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
 # Semilla para reproducibilidad
-np.random.seed(1)
+# Esta realización fue elegida porque muestra una fluctuación pedagógicamente útil:
+# AIC tiene un mínimo espurio cerca de 10 predictores, casi degenerado con el modelo verdadero.
+np.random.seed(0)
 
 # Parámetros
 n_muestras = 100
@@ -178,7 +180,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-Si aplicamos este criterio a nuestro modelo de juguete, vemos que la cantidad $AIC$ tiene un mínimo justo en $4$ predictores, que es la complejidad usada para generar los datos.
+Si aplicamos este criterio a nuestro modelo de juguete, vemos una sutileza importante: para esta realización de los datos el $AIC$ tiene un mínimo alrededor de $10$ predictores, aunque la complejidad real usada para generar los datos fue $4$. Esto no contradice el criterio. El $AIC$ es una estimación ruidosa de una cantidad esperada. En esta realización la diferencia entre $4$ y el mínimo espurio es pequeña, del orden de $\Delta AIC \simeq 2$, por lo que no deberíamos interpretar la elección de $10$ predictores como una conclusión fuerte. El criterio sirve para comparar evidencia relativa, no para producir un oráculo infalible que sabe contar parámetros verdaderos.
 
 #### Criterio de información de Bayes
 
@@ -266,6 +268,8 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 ```
+
+En esta misma realización el $BIC$ sí alcanza su mínimo en $4$ predictores. Aun así se observa una pequeña bajada local al agregar más variables. La diferencia importante es la escala: el mínimo espurio queda mucho más arriba que el mínimo real. Esa es la lección práctica: no hay que mirar sólo la posición del punto más bajo o la existencia de pequeñas ondulaciones, sino diferencias suficientemente grandes en el criterio.
 
 ### Evaluación de modelos usando subconjuntos aleatorios
 

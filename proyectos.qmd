@@ -9,3 +9,11 @@ lang: es
 - Proyecto 2: [Descenso doble en polinomios](proyecto_2_descenso_doble_en_polinomios.qmd)
 - Proyecto 3: [Búsqueda bayesiana de hiperparámetros](proyecto_3_busqueda_bayesiana_de_hiperparametros.qmd)
 - Proyecto 4: [Sesgo, varianza y riesgo en problemas de clasificación](proyecto_4_sesgo_varianza_en_clasificacion.qmd)
+
+## Unidad 3: Redes neuronales
+
+- Proyecto 1: [Redes para resolver ecuaciones diferenciales](proyecto_pinn_oscilador.qmd)
+- Proyecto 2: [Inferencia basada en simulaciones](proyecto_sbi_langevin.qmd)
+- Proyecto 3: [Optimizadores en otros problemas](proyecto_optimizacion_recuperacion_de_fases.qmd)
+- Proyecto 4: [Incorporación de simetría en la red](proyecto_simetria_fuerzas.qmd)
+- Proyecto 5: [Redundancias y sesgo implícito](proyecto_redundancias_sesgo_implicito.qmd)

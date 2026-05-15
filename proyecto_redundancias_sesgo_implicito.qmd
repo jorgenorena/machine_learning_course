@@ -1,0 +1,78 @@
+---
+title: "Proyecto: Redundancias y sesgo implícito"
+lang: es
+---
+
+## Objetivo
+
+Estudiar qué ocurre cuando una red neuronal tiene más parámetros que grados de libertad físicos. En ese caso muchas parametrizaciones distintas representan la misma función, pero el optimizador no necesariamente las trata de la misma manera.
+
+La pregunta central es:
+
+> Si muchas elecciones de parámetros describen el mismo modelo, ¿cómo escoge una de ellas el entrenamiento?
+
+## Modelo mínimo
+
+Consideren primero el modelo escalar
+
+$$
+f_{a,b}(x)=abx.
+$$
+
+La predicción depende sólo de
+
+$$
+w=ab,
+$$
+
+pero los parámetros $(a,b)$ no son únicos. La transformación
+
+$$
+a\to ca, \qquad b\to b/c
+$$
+
+deja $w$ invariante. Esta redundancia es la analogía simple con una simetría gauge: distintas coordenadas en el espacio de parámetros representan la misma función observable.
+
+Para un dato simple, por ejemplo $x=1$, $y=m$, usen la pérdida
+
+$$
+L(a,b)=\frac{1}{2}(ab-m)^2.
+$$
+
+Deriven las ecuaciones de descenso de gradiente continuo y estudien qué cantidades se conservan durante el entrenamiento. En particular, investiguen qué ocurre con
+
+$$
+a^2-b^2.
+$$
+
+## Tarea
+
+Combinen una parte analítica y una parte numérica.
+
+Analíticamente, identifiquen la redundancia del modelo y deriven cómo se mueve el sistema bajo descenso de gradiente. Numéricamente, entrenen el modelo desde muchas inicializaciones distintas y verifiquen si todas convergen al mismo predictor $w=ab$, aunque terminen en distintos puntos del espacio $(a,b)$.
+
+Como extensión, pueden estudiar una red lineal de dos capas,
+
+$$
+f(x)=W_2W_1x,
+$$
+
+donde la función depende del producto $W_2W_1$, pero no de la factorización particular. Comparen esta parametrización redundante con un modelo lineal directo.
+
+## Qué deben estudiar
+
+No basta con decir que el modelo ajusta los datos. Deben distinguir entre el espacio de parámetros y el espacio de funciones.
+
+Algunas preguntas naturales son:
+
+- ¿Qué parte de la solución final queda determinada por los datos?
+- ¿Qué parte queda determinada por la inicialización?
+- ¿El optimizador escoge representantes especiales entre parametrizaciones equivalentes?
+- ¿Qué cambia al agregar ruido, mini-batches o regularización?
+- ¿Cómo se relaciona esto con el sesgo implícito del entrenamiento?
+
+Un buen proyecto debe explicar con claridad qué significa aquí la palabra "redundancia". La analogía con teorías gauge sólo es útil si se identifica primero cuál es la cantidad observable y cuáles son las variables redundantes.
+
+## Lectura sugerida
+
+Pueden usar como motivación el artículo de Aladrah, Ballarin, Biagetti, Ansuini, d'Onofrio y Anselmi, *Implicit bias as a Gauge correction: Theory and Inverse Design*. No es necesario reproducir su formalismo completo; basta con conectar sus ideas con los modelos simples estudiados aquí.

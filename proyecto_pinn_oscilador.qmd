@@ -1,0 +1,62 @@
+---
+title: "Proyecto: PINNs y oscilador no lineal"
+lang: es
+---
+
+## Objetivo
+
+Comparar dos maneras de incorporar física en una red neuronal: imponer localmente la ecuación de movimiento, o imponer globalmente un principio variacional.
+
+El sistema será un oscilador no lineal conservativo,
+
+$$
+\ddot x(t)+\omega_0^2 x(t)+\lambda x(t)^3=0,
+$$
+
+con potencial
+
+$$
+V(x)=\frac{1}{2}\omega_0^2 x^2+\frac{\lambda}{4}x^4.
+$$
+
+Usen un intervalo finito $t\in[0,T]$. Generen una trayectoria de referencia resolviendo numéricamente la ecuación diferencial. Luego construyan pocos datos observados, posiblemente con ruido.
+
+## Formulación del problema
+
+Representen la trayectoria desconocida mediante una red neuronal $x_\theta(t)$.
+
+El problema debe plantearse como un problema de frontera, por ejemplo fijando $x(0)$ y $x(T)$. Esto hace que la comparación con el principio variacional sea más natural que un problema puramente de condiciones iniciales.
+
+## Método 1: PINN usual
+
+Entrenen $x_\theta(t)$ penalizando el residuo local
+
+$$
+R_\theta(t)=\ddot x_\theta(t)+\omega_0^2x_\theta(t)+\lambda x_\theta(t)^3.
+$$
+
+La minimización de este tipo de funciones de pérdida para resolver una ecuación diferencial se llama "physics informed neural network" o PINN.
+
+La función de pérdida debe combinar, según su propio criterio, el error en los datos, las condiciones de borde y el residuo dinámico.
+
+## Método 2: formulación variacional
+
+Usen la acción
+
+$$
+S[x]=\int_0^T dt\,\left[\frac{1}{2}\dot x^2 - V(x)\right].
+$$
+
+Entrenen una red $x_\theta(t)$ buscando una trayectoria compatible con las condiciones de borde y estacionaria respecto a esta acción.
+
+Cuidado: la trayectoria física no minimiza necesariamente la acción. La hace estacionaria. Parte del proyecto es decidir cómo traducir esa afirmación en una pérdida entrenable y justificar su decisión.
+
+## Qué deben estudiar
+
+Comparen ambos enfoques en situaciones con pocos datos y con datos ruidosos. No basta con reportar cuál tiene menor error. Discutan qué método respeta mejor la dinámica, cuál es más sensible a las condiciones de borde, y qué dificultades de optimización aparecen.
+
+La pregunta central es:
+
+> ¿Qué cambia cuando la física se impone localmente mediante la ecuación diferencial, versus globalmente mediante un principio variacional?
+
+El resultado esperado no es un notebook perfecto, sino una comparación razonada entre dos formas distintas de usar una red neuronal como aproximación de una trayectoria física.
